@@ -1,21 +1,16 @@
 <template>
-  <div class="search_box">
-    <div class="search">
-      <i class="iconfont iconsearch icon_search" @click="clickFn"></i>
-      <input 
-        class="input" 
-        v-model="value" 
-        @input="changeFn" 
-        placeholder-style='color: #999999; font-weight: 500;' 
-        placeholder="请输入关键字搜索" type="text"
-      >
-    </div>
+  <div class="diy_search_box">
+    <uni-search-bar class="search" v-model="value" @cancel='changeFn' @input="changeFn" :maxlength='propertys.maxlength || ""' :radius="100">
+      <i slot='searchIcon' @click="clickFn" class="iconfont iconsearch icon_search"></i>
+    </uni-search-bar>
   </div>
 </template>
 
 <script>
+import { uniSearchBar } from '@dcloudio/uni-ui'
 export default {
   name: 'search',
+  components: { uniSearchBar },
   props:{
     propertys:{ // 为实现动态添加属性【小程序】， 后面有时间再研究  
       type:Object,
@@ -32,6 +27,7 @@ export default {
       this.$emit('change', this.value)
     },
     clickFn () {
+      console.log(1222,'click',value)
       this.$emit('click', this.value)
     }
   }
@@ -39,36 +35,15 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import url("/static/fonts/iconfont.css");
-@mixin font_1{
-  width: 345px;
-  height: 33px;
-  background: #F0F1F2;
-  border-radius: 17px;
-}
 
-$color:#B3B3B4;
-.search_box{
+$color:#999999;
+.diy_search_box{
   background: white;
-  padding: 16rpx 30rpx;
-  // width: 95%;
-  display: flex;
-  .search{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 66rpx;
-    background: #F0F1F2;
-    border-radius: 34rpx;
-    padding: 0 30rpx;
-  }
   .icon_search{
     position: relative;
     margin-right: 20rpx;
-    color: $color;
+    color: #999999;
     flex-grow: 0;
-  }
-  .input{
-    flex-grow: 1;
   }
 }
 </style>

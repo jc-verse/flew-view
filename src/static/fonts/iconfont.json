@@ -6,6 +6,20 @@
   "description": "uniapp",
   "glyphs": [
     {
+      "icon_id": "8474399",
+      "name": "user 个人",
+      "font_class": "user",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
+      "icon_id": "15023362",
+      "name": "主页",
+      "font_class": "zhuye",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
       "icon_id": "6486140",
       "name": "search",
       "font_class": "search",

@@ -40,7 +40,7 @@
 		{
 			"path": "pages/stem/stem",
 			"style": {
-				"navigationBarTitleText": "视界 | Reach",
+				"navigationBarTitleText": "STEM",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff",
 				"app-plus": {
@@ -99,6 +99,10 @@
 			{
 				"name": "STEM", //模式名称
 				"path": "pages/stem/stem" //启动页面，必选
+			},
+			{
+				"name": "组队竞赛", //组队竞赛
+				"path": "pages/competition/competition" //启动页面，必选
 			}
 		]
 	}

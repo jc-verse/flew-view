@@ -2,14 +2,13 @@
 <!-- 2.竞赛组队备份2 -->
   <div class="competition">
     <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
-    <diy-scroll>
+    <diy-scroll :styles='{ padding: "20rpx 30rpx" }'>
       <cartList @clickItem='clickItem'/>
     </diy-scroll>
   </div>
 </template>
 
 <script>
-import { list } from './const';
 import search from '@/components/search';
 import diyScroll from '@/components/diyScroll';
 import cartList from './cartList'
@@ -18,7 +17,7 @@ export default {
   components: { search, cartList, diyScroll },
   data() {
     return {
-      list
+      
     }
   },
   onLoad() {
@@ -40,20 +39,28 @@ export default {
     clickItem(item) {
       console.log(2,item)
     },
-    scroll(val) {
-      console.log(val)
-    }
+    search() {
+
+    },
+    input() {}
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+@import url("/static/fonts/iconfont.css");
+$color:#B3B3B4;
 .competition{
   overflow: hidden;
   height: calc(100vh - 88rpx);
   display: flex;
   flex-direction: column ;
   background: #F1F3F5;
+}
+.icon_search{
+  position: relative;
+  margin-right: 20rpx;
+  color: $color;
+  flex-grow: 0;
 }
 </style>

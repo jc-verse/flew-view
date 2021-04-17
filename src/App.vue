@@ -20,6 +20,25 @@
 	}
 </script>
 
-<style>
+<style lang='scss'>
 	/*每个页面公共css */
+
+/*搜索组件*/
+.diy_search_box .uni-searchbar{
+		padding: 4px 8px;
+		.uni-searchbar__box{
+			background-color: #F0F1F2 !important;
+			// justify-content: start !important;
+			border: none !important;
+			height: 66rpx;
+			.uni-input-input{
+				color: #999999;
+				font-size: 24rpx;
+			}
+		}
+		.uni-searchbar__cancel{
+			line-height: 66rpx;
+		}
+	}
+
 </style>

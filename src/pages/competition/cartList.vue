@@ -29,13 +29,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-@mixin img_box{
-  img{
-    max-width: 100%;
-    max-height: 100%;
-  }
-}
 @mixin font_1{
   font-size: 36rpx;
   font-family: PingFangSC-Medium, PingFang SC;
@@ -72,7 +65,7 @@ export default {
       position: absolute;
       right: 0;
       bottom: 0;
-      @include img_box;
+      @include img_fill;
     }
     .title_box{
       .title{
