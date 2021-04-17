@@ -1,0 +1,86 @@
+<template>
+  <div class="list">
+    <div class="item" v-for="(item, index) in list" :style='{ background: item.styles.background }' :key="index" @click='clickItem(item)'>
+      <div class="title_box">
+        <div class="title">{{ item.title }}</div>
+        <div class="subhead">{{ item.subhead }}</div>
+      </div>
+      <i class="item_icon">
+        <img :src="item.iconUrl" alt="">
+      </i>
+    </div>
+  </div>
+</template>
+
+<script>
+import { list } from './const';
+export default {
+  data() {
+    return {
+      list
+    }
+  },
+  methods: {
+    clickItem(item) {
+      this.$emit('clickItem', item)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+
+@mixin img_box{
+  img{
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+@mixin font_1{
+  font-size: 36rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 50rpx;
+}
+@mixin font_2 {
+  font-size: 24rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #FFFFFF;
+  line-height: 34rpx;
+}
+.list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .item{
+    flex-grow: 0;
+    width: 336rpx;
+    height: 310rpx;
+    background: #A89CF4;
+    box-shadow: 0px 0px 24rpx 0px rgba(21, 19, 47, 0.05);
+    border-radius: 30rpx;
+    position: relative;
+    box-sizing: border-box;
+    padding: 30rpx 10rpx 10rpx 30rpx;
+    margin-bottom: 20rpx;
+    .item_icon{
+      width:242rpx;
+      height: 188rpx;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      @include img_box;
+    }
+    .title_box{
+      .title{
+        @include font_1
+      }
+      .subhead{
+        @include font_2
+      }
+    }
+  }
+</style>
