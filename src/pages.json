@@ -57,6 +57,24 @@
 			}
 		},
 		{
+			"path": "pages/sage/sage",
+			"style": {
+				"navigationBarTitleText": "STEM",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "引导",
@@ -103,6 +121,10 @@
 			{
 				"name": "组队竞赛", //组队竞赛
 				"path": "pages/competition/competition" //启动页面，必选
+			},
+			{
+				"name": "sage", //组队竞赛
+				"path": "pages/sage/sage" //启动页面，必选
 			}
 		]
 	}

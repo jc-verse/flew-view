@@ -57,10 +57,4 @@ $color:#B3B3B4;
   flex-direction: column ;
   background: #F1F3F5;
 }
-.icon_search{
-  position: relative;
-  margin-right: 20rpx;
-  color: $color;
-  flex-grow: 0;
-}
 </style>

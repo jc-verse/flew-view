@@ -10,14 +10,5 @@ export const cardList = [
   { url: require('@/static/img1/poster.png'), title: '全球女性科技创新挑战赛比赛的名称', id: '1' },
   { url: require('@/static/img1/poster.png'), title: '美国计算机科学联盟编程大赛ACSL', id: '2' },
   { url: require('@/static/img1/poster.png'), title: '大数据竞赛Kaggle', id: '3' },
-  { url: require('@/static/img1/poster.png'), title: '全球女性科技创新挑战赛比赛的名称', id: '1' },
-  { url: require('@/static/img1/poster.png'), title: '美国计算机科学联盟编程大赛ACSL', id: '2' },
-  { url: require('@/static/img1/poster.png'), title: '大数据竞赛Kaggle', id: '3' },
-  { url: require('@/static/img1/poster.png'), title: '全球女性科技创新挑战赛比赛的名称', id: '1' },
-  { url: require('@/static/img1/poster.png'), title: '美国计算机科学联盟编程大赛ACSL', id: '2' },
-  { url: require('@/static/img1/poster.png'), title: '大数据竞赛Kaggle', id: '3' },
-  { url: require('@/static/img1/poster.png'), title: '全球女性科技创新挑战赛比赛的名称', id: '1' },
-  { url: require('@/static/img1/poster.png'), title: '美国计算机科学联盟编程大赛ACSL', id: '2' },
-  { url: require('@/static/img1/poster.png'), title: '大数据竞赛Kaggle', id: '3' },
-  
+
 ]
