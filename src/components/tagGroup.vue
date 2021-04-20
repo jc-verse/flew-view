@@ -2,17 +2,16 @@
   <div class="tag_group">
     <div class="tag_list">
       <div class="tag_item_box" v-for="(item, ind) in tagList" :key='ind'>
-        <div class="tag_item" @click="clickItem(item, ind)">
-          <span>{{item.label || ''}}</span>
-          <i class='iconfont iconsearch icon_item' :class="[index === ind ? 'icon_active': '']"></i>
-        </div>
+        <tag-item :list='tagList' :ind='ind' :item='item'/>
       </div>
     </div>
   </div>
 </template>
 <script>
+import tagItem from './tagItem'
 export default {
   name: 'tagGroup',
+  components: { tagItem },
   props: {
     list: {
       type: Array,
@@ -38,19 +37,16 @@ export default {
     clickItem(item, index) {
       this.index = index;
       this.$emit('clickItme', item)
-    }
+    },
+    bindPickerChange: function(e) {
+			this.index = e.detail.value;
+		}
   },
 }
 </script> 
 
 <style lang="scss" scoped>
-@import url("/static/fonts/iconfont.css");
-@mixin font_1 {
-  font-size: 14px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #666666;
-}
+
 .tag_group::-webkit-scrollbar{
   display: none;
 }
@@ -59,28 +55,13 @@ export default {
   box-sizing: border-box;
   overflow: scroll;
   padding: 24rpx 10rpx;
+  flex-shrink: 0;
   .tag_list{
     display: flex;
     box-sizing: border-box;
     .tag_item_box{
       padding: 0 10rpx;
-      .tag_item{
-        padding: 8rpx 36rpx;
-        flex-shrink: 0;
-        background: #ECECEC;
-        border-radius: 4px;
-        opacity: 0.56;
-        white-space: nowrap;
-        @include flex_center;
-        @include font_1;
-        .icon_item {
-          margin-left: 10rpx;
-          font-size: 24rpx;
-        }
-        .icon_active{
-          transform: rotate(-45deg);
-        }
-      }
+      
     }
     
   }

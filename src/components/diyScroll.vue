@@ -1,5 +1,12 @@
 <template>
-  <div class="scroll_box" :style="{ padding: styles.padding || '', background: styles.background || ''}">
+  <div class="scroll_box" 
+    :style="{ 
+      padding: styles.padding || '', 
+      background: styles.background || '',
+      display: styles.display || 'auto',
+      flexDirection:  styles.flexDirection || '',
+      height: styles.height || 'calc(100vh - 200rpx)'
+    }">
     <slot></slot>
   </div>
 </template>
@@ -26,7 +33,9 @@ export default {
   display:none;/*ChromeSafari*/
 }
 .scroll_box{
+  width: 100%;
   height: calc(100vh - 200rpx);
+  box-sizing: border-box;
   // background: #F1F3F5;
   overflow: scroll;
   flex-grow: 1;

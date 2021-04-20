@@ -1,33 +1,41 @@
 <template>
 <!-- 2.SAGE -->
-  <div class="page_box">
-    <tag-group ></tag-group>
-    <div class="content_box">
+  <div class="page_box" :style='{height: isH5 ? "calc(100vh - 88rpx)": "100vh" }'>
+    
+    <diy-scroll :styles='{ display:"flex",flexDirection: "column", height: isH5 ? "": "100vh" }'>
+      
+      <tag-group ></tag-group>
       <synopsis></synopsis>
       <div class="group_info_list">
-        <div class="group_info_item">
-          <div class="info_header">
-            
-          </div>
-        </div>
+        <group-item v-for="(item, ind) in 3" :key='ind'/>
       </div>
-    </div>
+    </diy-scroll>
+    <fab-group/>
   </div>
 </template>
 
 <script>
+import groupItem from './groupItem';
 import synopsis from './synopsis';
+import diyScroll from '@/components/diyScroll';
 import tagGroup from '@/components/tagGroup';
+import fabGroup from '@/components/fabGroup';
 export default {
   name:'sage',
-  components: { tagGroup, synopsis },
+  components: { tagGroup, synopsis, groupItem, diyScroll, fabGroup },
   data() {
     return {
-      show: false
+      show: false,
+      index: 0,
+      isH5: false
     }
   },
+  onLoad() {
+    // #ifdef H5
+      this.isH5 = true
+    // #endif
+  },
   methods : {
-
   },
 }
 </script>
@@ -37,7 +45,7 @@ export default {
 $color:#B3B3B4;
 .page_box{
   overflow: hidden;
-  height: calc(100vh - 88rpx);
+  height: 100vh;
   display: flex;
   flex-direction: column ;
   background: #F1F3F5;
@@ -51,13 +59,7 @@ $color:#B3B3B4;
   .group_info_list{
     padding: 0 20rpx;
     z-index: 1;
-    .group_info_item{
-      z-index: 2;
-      margin-top: -40rpx;
-      height: 330px;
-      background: #FFFFFF;
-      border-radius: 8px;
-    }
+    margin-top: -40rpx;
   }
 }
 </style>

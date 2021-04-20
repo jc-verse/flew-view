@@ -42,3 +42,9 @@
 	}
 
 </style>
+<style>
+@import "./static/fonts/iconfont.css";
+*{
+	box-sizing: border-box;
+}
+</style>

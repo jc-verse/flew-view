@@ -1,13 +1,38 @@
 /* 公共样式 */
+// 
 @mixin img_fill {
 	img{
 		width: 100%;
 		height: 100%;
 	}
 }
-
+// 居中
 @mixin flex_center{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+// 字体样式
+@mixin fontMixin($size:28rpx, $color: #131415, $wei:auto) {
+  font-size: $size;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: $wei;
+  color: $color;
+}
+// 悬浮手势
+@mixin pointer {
+	cursor:pointer
+}
+// 隐藏显示省略号
+@mixin ellipsis{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+@mixin img_bg ($img: '', $color:''){
+  background-color: $color;
+  background-image: url($img);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }

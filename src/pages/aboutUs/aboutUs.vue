@@ -1,0 +1,83 @@
+<template>
+  <div class="about_us">
+    <diy-scroll class="dS" :styles='{height: isH5 ?"calc(100vh - 100rpx)": "100vh"}'>
+      <div class="content">
+
+        <div class="header_img">
+          <img src="@/static/img1/about_bg.png" alt="">
+        </div>
+
+        <div class="text_box">
+          <div class="title">
+            <div class="title_bg"></div>
+            <div class="tit">关于我们</div>
+          </div>
+          <div class="text_msg" v-html="textMsg">
+          </div>
+        </div>
+      </div>
+      
+      <!-- 底部logo -->
+      <bottom-logo/>
+    </diy-scroll>
+  </div>
+</template>
+
+<script>
+import diyScroll from '@/components/diyScroll';
+import bottomLogo from "@/components/bottomLogo";
+import { textMsg } from './const';
+export default {
+  name:'about_us', 
+  components: { diyScroll, bottomLogo },
+  data () {
+    return {
+      textMsg,
+      isH5: false,
+    }
+  },
+  onLoad() {
+    // #ifdef H5
+      this.isH5 = true
+    // #endif
+  },
+  mounted() {
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.about_us{
+  .content{
+    .header_img{
+      height: 320rpx;
+      width: 100%;
+      @include img_fill;
+    }
+    .text_box{
+      padding: 30rpx;
+      .title{
+        display: inline-block;
+        position: relative;
+        height: 56rpx;
+        width: 160rpx;
+        .title_bg{
+          position: absolute;
+          bottom: 0;
+          height: 20rpx;
+          width: 100%;
+          background: rgba(255 ,155, 116 , .2);
+        }
+      }
+      .tit{
+        @include fontMixin(40rpx, #333333,bold);
+        position: absolute
+      }
+      .text_msg{
+        @include fontMixin(28rpx, #666666);
+        line-height: 26px;
+      }
+    }
+  }
+}
+</style>
