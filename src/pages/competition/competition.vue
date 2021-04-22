@@ -1,23 +1,25 @@
 <template>
 <!-- 2.竞赛组队备份2 -->
+<page-sj>
   <div class="competition">
-    <diy-scroll :styles='{ height: isH5 ?"calc(100vh - 400rpx)": "100vh" }'>
-      
-      <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
+    <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
+    <scroll-box >
       <div class="content">
         <cartList @clickItem='clickItem'/>
       </div>
-    </diy-scroll>
+    </scroll-box>
   </div>
+</page-sj>
 </template>
 
 <script>
 import search from '@/components/search';
-import diyScroll from '@/components/diyScroll';
+import scrollBox from '@/components/scrollBox';
+import pageSj from '@/components/pageSj';
 import cartList from './cartList'
 export default {
   name:'competition',
-  components: { search, cartList, diyScroll },
+  components: { search, cartList, scrollBox, pageSj },
   data() {
     return {
       isH5: false,
@@ -56,13 +58,11 @@ export default {
 @import url("/static/fonts/iconfont.css");
 $color:#B3B3B4;
 .competition{
-  overflow: hidden;
-  height:100vh;
   display: flex;
   flex-direction: column ;
   background: #F1F3F5;
   .content{
-    padding: 20rpx 30rpx
+    padding: 20rpx 30rpx 0
   }
 }
 </style>

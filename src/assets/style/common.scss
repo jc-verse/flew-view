@@ -29,10 +29,14 @@
   text-overflow:ellipsis;
   white-space: nowrap;
 }
-
+// 背景图片
 @mixin img_bg ($img: '', $color:''){
   background-color: $color;
   background-image: url($img);
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+
+.isH5{
+  height: calc(100vh - 88rpx );
 }

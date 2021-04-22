@@ -1,33 +1,37 @@
 <template>
 <!-- 2.竞赛组队备份2 -->
-  <div class="page_box">
-    <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
-    <div class="content_box">
-      <nav-tab :list="tabList"/>
-      <diy-scroll>
-        <div class="right_box">
-          <div class="card_item" v-for="(item, index) in cardList" :key='index' @click="clickCardItem(item)">
-            <div class="card_l">
-              <img :src="item.url" alt="">
+  <page-sj>
+    <div class="page_box">
+      <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
+      <div class="content_box">
+        <nav-tab :list="tabList"/>
+        <scroll-box>
+          <div class="right_box">
+            <div class="card_item" v-for="(item, index) in cardList" :key='index' @click="clickCardItem(item)">
+              <div class="card_l">
+                <img :src="item.url" alt="">
+              </div>
+              <div class="card_r">{{item.title || ''}}</div>
             </div>
-            <div class="card_r">{{item.title || ''}}</div>
           </div>
-        </div>
-      </diy-scroll>
+        </scroll-box>
+      </div>
+      <fab-group/>
     </div>
-    <fab-group/>
-  </div>
+  </page-sj>
 </template>
 
 <script>
 import search from '@/components/search';
-import diyScroll from '@/components/diyScroll';
+import scrollBox from '@/components/scrollBox';
+import pageSj from '@/components/pageSj';
+
 import navTab from '@/components/navTab';
 import fabGroup from '@/components/fabGroup';
 import { tabList, cardList } from './const'
 export default {
   name:'competition',
-  components: { search, diyScroll, navTab, fabGroup },
+  components: { search, navTab, fabGroup, scrollBox, pageSj },
   data() {
     return {
       tabList,
@@ -50,16 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@mixin font_1{
-  font-size: 15px;
-  font-family: PingFangSC-Medium, PingFang SC;
-  font-weight: 500;
-  color: #333333;
-  line-height: 21px;
-}
 .page_box{
-  overflow: hidden;
-  height: calc(100vh - 88rpx);
   display: flex;
   flex-direction: column ;
   background: #F1F3F5;
@@ -68,9 +63,8 @@ export default {
     margin-top: 2rpx;
     display: flex;
     .right_box{
-      // background: red;
       flex-grow: 1;
-      padding: 20rpx 20rpx 0;
+      padding: 20rpx;
       box-sizing: border-box;
       .card_item{
         width: 100%;
@@ -89,7 +83,7 @@ export default {
           @include img_fill;
         }
         .card_r{
-          @include font_1;
+          @include fontMixin(30rpx, #333333,bold);
           flex-grow: 1;
         }
       }

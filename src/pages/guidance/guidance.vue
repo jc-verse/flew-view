@@ -9,7 +9,7 @@
       <!-- 中间操作 -->
       <div class="bottom_box">
         <p class="font_1">欢迎来到 视界 | Reach</p>
-        <button type="default" class="btn" @click="clickBtn">进入</button>
+        <button type="default" open-type="getUserInfo" bindgetuserinfo='getuserinfo' class="btn" @click="clickBtn">进入</button>
       </div>
       <!-- 底部logo -->
       <bottom-logo/>

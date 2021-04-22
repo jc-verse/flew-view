@@ -1,89 +1,93 @@
 <template>
-  <div class="home_box" :style="{height: isH5 ? '93vh': '100vh'}">
-    <header class="header">
-      <info-head :iconFilter='iconFilter' headStyles='width: 80rpx;height: 80rpx;'>
-        <div slot='center' class="name">{{'我是你的用户名称'}}</div>
-        <i slot='right' @click="clickIcon" class='iconfont iconxiala icon_item'></i>
-      </info-head>
-    </header>
-    <diy-scroll class="dS" :styles="{height: 'calc(100vh - 88rpx)'}">
-      <div class="content">
-        <div class="top_box">
-          <!-- 1 -->
-          <div class="top_1" @click="clickCard(1)">
-            <div class="top" >
-              <div class="title_msg">
-                <div class="title">{{'竞赛组队'}}</div>
-                <div class="msg">{{'优选组队等你来'}}</div>
+  <page-sj>
+    <div class="home_box">
+      <header class="header">
+        <info-head :iconFilter='iconFilter' headStyles='width: 80rpx;height: 80rpx;'>
+          <div slot='center' class="name">{{'我是你的用户名称'}}</div>
+          <i slot='right' @click="clickIcon" class='iconfont iconxiala icon_item'></i>
+        </info-head>
+      </header>
+      <scroll-box class='dS'>
+        <div class="content">
+          <div class="top_box">
+            <!-- 1 -->
+            <div class="top_1" @click="clickCard(1)">
+              <div class="top" >
+                <div class="title_msg">
+                  <div class="title">{{'竞赛组队'}}</div>
+                  <div class="msg">{{'优选组队等你来'}}</div>
+                </div>
+              </div>
+              <div class="top_bg" >
+                <img src="@/static/img1/bg_1.png" alt="">
               </div>
             </div>
-            <div class="top_bg" >
-              <img src="@/static/img1/bg_1.png" alt="">
+          </div>
+          <div class="bottom_box">
+            <div class="left">
+              <!-- 2 -->
+              <div class="left_t" @click="clickCard(2)">
+                <div class="title_msg">
+                  <div class="title">{{'各院校信息'}}</div>
+                  <div class="msg">{{'优选组队都在这'}}</div>
+                </div>
+                <div class="left_t_bg">
+                  <img src="@/static/img1/bg_2.png" alt="">
+                </div>
+              </div>
+              <!-- 4 -->
+              <div class="left_b" @click="clickCard(4)">
+                <div class="title_msg">
+                  <div class="title">{{'关于我们'}}</div>
+                  <div class="msg">{{'优选组队都在这'}}</div>
+                </div>
+                <div class="left_b_bg">
+                  <img src="@/static/img1/bg_4.png" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="right">
+              <!-- 3 -->
+              <div class="right_t" @click="clickCard(3)">
+                <div class="title_msg">
+                  <div class="title">{{'学术帮助'}}</div>
+                  <div class="msg">{{'优选组队都在'}}</div>
+                </div>
+                <div class="right_t_bg">
+                  <img src="@/static/img1/bg_3.png" alt="">
+                </div>
+              </div>
+              <!-- 5 -->
+              <div class="right_b" @click="clickCard(5)">
+                <div class="title_msg">
+                  <div class="title">{{'加入我们'}}</div>
+                  <div class="msg">{{'欢迎加入我们的团队'}}</div>
+                </div>
+                <div class="right_b_bg">
+                  <img src="@/static/img1/bg_5.png" alt="">
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="bottom_box">
-          <div class="left">
-            <!-- 2 -->
-            <div class="left_t" @click="clickCard(2)">
-              <div class="title_msg">
-                <div class="title">{{'各院校信息'}}</div>
-                <div class="msg">{{'优选组队都在这'}}</div>
-              </div>
-              <div class="left_t_bg">
-                <img src="@/static/img1/bg_2.png" alt="">
-              </div>
-            </div>
-            <!-- 4 -->
-            <div class="left_b" @click="clickCard(4)">
-              <div class="title_msg">
-                <div class="title">{{'关于我们'}}</div>
-                <div class="msg">{{'优选组队都在这'}}</div>
-              </div>
-              <div class="left_b_bg">
-                <img src="@/static/img1/bg_4.png" alt="">
-              </div>
-            </div>
-          </div>
-          <div class="right">
-            <!-- 3 -->
-            <div class="right_t" @click="clickCard(3)">
-              <div class="title_msg">
-                <div class="title">{{'学术帮助'}}</div>
-                <div class="msg">{{'优选组队都在'}}</div>
-              </div>
-              <div class="right_t_bg">
-                <img src="@/static/img1/bg_3.png" alt="">
-              </div>
-            </div>
-            <!-- 5 -->
-            <div class="right_b" @click="clickCard(5)">
-              <div class="title_msg">
-                <div class="title">{{'加入我们'}}</div>
-                <div class="msg">{{'欢迎加入我们的团队'}}</div>
-              </div>
-              <div class="right_b_bg">
-                <img src="@/static/img1/bg_5.png" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 底部logo -->
-      <bottom-logo/>
-    </diy-scroll>
+        
+        <!-- 底部logo -->
+        <bottom-logo/>
+      </scroll-box>
 
-  </div>
+    </div>
+  </page-sj>
 </template>
 
 <script>
 import infoHead from '@/components/infoHead';
-import diyScroll from '@/components/diyScroll';
 import bottomLogo from "@/components/bottomLogo";
+import scrollBox from '@/components/scrollBox';
+import pageSj from '@/components/pageSj';
+
 export default {
   name: 'name',
-  components: { infoHead, diyScroll, bottomLogo },
+  components: { infoHead, bottomLogo, scrollBox, pageSj },
   data () {
     return {
       genders: {
@@ -145,8 +149,6 @@ export default {
   }
 }
 .home_box {
-  overflow: hidden;
-  height: calc(100vh- 88rpx);
   display: flex;
   align-items: center;
   flex-direction: column ;

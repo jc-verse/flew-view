@@ -1,6 +1,6 @@
 <template>
   <div class="nav_tab_box">
-    <diy-scroll>
+    <scroll-box>
       <div 
         class="tabItem_box " 
         :class="[index===ind? 'active_item': '' ]" 
@@ -11,14 +11,14 @@
           {{ item.label }}
         </div>
       </div>
-    </diy-scroll>
+    </scroll-box>
   </div>
 </template>
 <script>
-import diyScroll from '@/components/diyScroll'
+import scrollBox from '@/components/scrollBox'
 export default {
   name: 'navTab',
-  components: { diyScroll },
+  components: { scrollBox },
   props: {
     list: {
       type: Array,
@@ -53,11 +53,9 @@ export default {
 .nav_tab_box{
 
   background: #FFFFFF;
-  height: 90vh;
   width: 160rpx;
   flex-grow: 0;
   flex-shrink: 1;
-  overflow: scroll;
   .tabItem_box{
     width: 160rpx;
     padding: 12rpx 0;
@@ -76,5 +74,8 @@ export default {
       border-left-color: #676FDF;
     }
   }
+}
+.isH5{
+  height: calc(100vh - 88rpx);
 }
 </style>

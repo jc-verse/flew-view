@@ -23,8 +23,8 @@
 <style lang='scss'>
 	/*每个页面公共css */
 
-/*搜索组件*/
-.diy_search_box .uni-searchbar{
+	/*搜索组件*/
+	.diy_search_box .uni-searchbar{
 		padding: 4px 8px;
 		.uni-searchbar__box{
 			background-color: #F0F1F2 !important;
@@ -46,5 +46,13 @@
 @import "./static/fonts/iconfont.css";
 *{
 	box-sizing: border-box;
+}
+/* 滚动条隐藏 */
+::-webkit-scrollbar {  
+	display: none;  
+	width: 0 !important;  
+	height: 0 !important;  
+	-webkit-appearance: none;  
+	background: transparent;  
 }
 </style>

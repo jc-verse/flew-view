@@ -29,7 +29,7 @@ export default {
 .fab_group{
   position: fixed;
   right: 0;
-  bottom: 100rpx;
+  bottom: 120rpx;
   z-index: 10;
   .fab{
     width: 96rpx;

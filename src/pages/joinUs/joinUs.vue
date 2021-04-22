@@ -1,44 +1,47 @@
 <template>
-  <div class="about_us">
-    <diy-scroll class="dS" :styles='{height: isH5 ?"calc(100vh - 100rpx)": "100vh"}'>
-      <div class="content">
+  <page-sj>
+    <div class="about_us">
+      <scroll-box>
+        <div class="content">
 
-        <div class="header_img">
-          <img src="@/static/img1/join_bg.png" alt="">
-        </div>
-
-        <div class="text_box">
-          <div class="title">
-            <div class="title_bg"></div>
-            <div class="tit">关于我们</div>
+          <div class="header_img">
+            <img src="@/static/img1/join_bg.png" alt="">
           </div>
-          <div class="text_msg" v-html="textMsg">
-          </div>
-        </div>
 
-        <div class="QRCodes">
-          <div class="QRCode" v-for="(item, index) in QRList" :key="index">
-            <div class="code">
-              <img :src="item.code" alt="">
+          <div class="text_box">
+            <div class="title">
+              <div class="title_bg"></div>
+              <div class="tit">关于我们</div>
             </div>
-            <div class="text">{{item.title}}</div>
+            <div class="text_msg" v-html="textMsg">
+            </div>
+          </div>
+
+          <div class="QRCodes">
+            <div class="QRCode" v-for="(item, index) in QRList" :key="index">
+              <div class="code">
+                <img :src="item.code" alt="">
+              </div>
+              <div class="text">{{item.title}}</div>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <!-- 底部logo -->
-      <bottom-logo/>
-    </diy-scroll>
-  </div>
+        
+        <!-- 底部logo -->
+        <bottom-logo/>
+      </scroll-box>
+    </div>
+  </page-sj>
 </template>
 
 <script>
-import diyScroll from '@/components/diyScroll';
+import scrollBox from '@/components/scrollBox';
+import pageSj from '@/components/pageSj';
 import bottomLogo from "@/components/bottomLogo";
 import { textMsg } from './const';
 export default {
   name:'about_us', 
-  components: { diyScroll, bottomLogo },
+  components: { scrollBox, bottomLogo, pageSj },
   data () {
     return {
       textMsg,
@@ -48,11 +51,6 @@ export default {
         { code:require('@/static/img1/QR_code.png'), title: '长按识别二维码', id:2 },
       ]
     }
-  },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
   },
   mounted() {
   }

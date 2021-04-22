@@ -16,19 +16,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@mixin font_1{
-  font-size: 18px;
-  font-family: PingFangSC-Medium, PingFang SC;
-  font-weight: bold;
-  color: #000000;
-}
-@mixin font_2{
-  font-size: 14px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #333333;
-  line-height: 20px;
-}
 .synopsis{
   width:100%;
   height: 350rpx;
@@ -41,11 +28,11 @@ export default {
     text-align: center;
     z-index: 1;
     .title{
-      @include font_1;
+      @include fontMixin(36rpx, #000000, bold);
     }
     .title_en{
       margin-top: 18rpx;
-      @include font_2
+      @include fontMixin(28rpx, #333333, 400)
     }
   }
   .r_b{
