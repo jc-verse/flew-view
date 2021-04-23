@@ -38,6 +38,9 @@ export default {
     },
     clickItem(item) {
       console.log(2,item)
+      if (item.id === '5') {
+        uni.navigateTo({ url: '/pages/mine/index' })
+      }
     },
     search() {
 
