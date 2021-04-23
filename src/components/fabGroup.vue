@@ -30,6 +30,7 @@ export default {
   position: fixed;
   right: 0;
   bottom: 100rpx;
+  z-index: 10;
   .fab{
     width: 96rpx;
     height: 80rpx;
@@ -37,6 +38,7 @@ export default {
     border-radius:40rpx 0% 0% 40rpx;
     color: #5C7BC1;
     box-shadow: #5C7BC1;
+    @include pointer;
     @include flex_center;
     .icon_item{
       font-size: 48rpx;

@@ -15,7 +15,7 @@
         </div>
       </diy-scroll>
     </div>
-    <fab-group></fab-group>
+    <fab-group/>
   </div>
 </template>
 

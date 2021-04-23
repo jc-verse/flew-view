@@ -34,6 +34,7 @@ export default {
   height: 350rpx;
   background: #C8EDFF;
   position: relative;
+  flex-shrink: 0;
 
   @include flex_center;
   .head{

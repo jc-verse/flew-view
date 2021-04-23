@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-import bottomLogo from "@/components/bottomLogo.vue";
+import bottomLogo from "@/components/bottomLogo";
 export default {
   name:'guidance',
   components:{ bottomLogo },

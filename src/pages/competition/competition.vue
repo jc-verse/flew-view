@@ -1,9 +1,12 @@
 <template>
 <!-- 2.竞赛组队备份2 -->
   <div class="competition">
-    <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
-    <diy-scroll :styles='{ padding: "20rpx 30rpx" }'>
-      <cartList @clickItem='clickItem'/>
+    <diy-scroll :styles='{ height: isH5 ?"calc(100vh - 400rpx)": "100vh" }'>
+      
+      <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
+      <div class="content">
+        <cartList @clickItem='clickItem'/>
+      </div>
     </diy-scroll>
   </div>
 </template>
@@ -17,11 +20,13 @@ export default {
   components: { search, cartList, diyScroll },
   data() {
     return {
-      
+      isH5: false,
     }
   },
   onLoad() {
-    
+    // #ifdef H5
+      this.isH5 = true
+    // #endif
   },
   onShow() {
     uni.hideTabBar({
@@ -55,9 +60,12 @@ export default {
 $color:#B3B3B4;
 .competition{
   overflow: hidden;
-  height: calc(100vh - 88rpx);
+  height:100vh;
   display: flex;
   flex-direction: column ;
   background: #F1F3F5;
+  .content{
+    padding: 20rpx 30rpx
+  }
 }
 </style>

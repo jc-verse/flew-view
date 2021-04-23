@@ -96,14 +96,74 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"navigationBarBackgroundColor": "#5965FF",
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "视界 | Reach",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
+		},{
+			"path": "pages/aboutUs/aboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
 				"app-plus": {
 					"bounce": "vertical",
 					"titleNView": {
 						"buttons": [{
 							"text": "\ue534",
-							"fontSrc": "/static/uni.ttf",
 							"fontSize": "22px",
-							"color": "#FFFFFF"
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
+		},{
+			"path": "pages/joinUs/joinUs",
+			"style": {
+				"navigationBarTitleText": "加入我们",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
+		},{
+			"path": "pages/consult/consult",
+			"style": {
+				"navigationBarTitleText": "加入我们",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
 						}]
 					}
 				}
@@ -143,6 +203,23 @@
 			{
 				"name": "sage", //组队竞赛
 				"path": "pages/sage/sage" //启动页面，必选
+			},
+			{
+				"name": "首页", //首页
+				"path": "pages/home/home" //启动页面，必选
+			},
+			{
+				"name": "关于我们", //首页
+				"path": "pages/aboutUs/aboutUs" //启动页面，必选
+			},
+			{
+				"name": "加入我们", //首页
+				"path": "pages/joinUs/joinUs" //启动页面，必选
+			}
+			,
+			{
+				"name": "各院校信息咨询", //首页
+				"path": "pages/consult/consult" //启动页面，必选
 			}
 		]
 	}
