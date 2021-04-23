@@ -29,6 +29,7 @@ import pageSj from '@/components/pageSj';
 import navTab from '@/components/navTab';
 import fabGroup from '@/components/fabGroup';
 import { tabList, cardList } from './const'
+import { joinUrl } from '@/common/utils';
 export default {
   name:'competition',
   components: { search, navTab, fabGroup, scrollBox, pageSj },
@@ -47,7 +48,7 @@ export default {
       console.log(1,value)
     },
     clickCardItem(item){
-      console.log(item)
+      uni.navigateTo({ url: joinUrl('/pages/sage/index',item) })
     }
   }
 }

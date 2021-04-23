@@ -1,10 +1,9 @@
 <template>
-  <scroll-box> 
+  <page-sj> 
     <div class="consult">
       <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
       <tag-group ></tag-group>
       <scroll-box>
-
         <div class="group_info_list">
           <div class='list_tip'>搜索到3个关于“包玉刚”的信息</div>
           <group-item v-for="(item, ind) in 3" :key='ind'/>
@@ -13,13 +12,14 @@
       <fab-group/>
     </div>
 
-  </scroll-box>
+  </page-sj>
 </template>
 
 <script>
 import groupItem from './groupItem';
 import search from '@/components/search';
 import scrollBox from '@/components/scrollBox';
+import pageSj from '@/components/pageSj';
 import tagGroup from '@/components/tagGroup';
 import fabGroup from '@/components/fabGroup';
 export default {
@@ -29,7 +29,8 @@ export default {
     scrollBox, 
     fabGroup, 
     search, 
-    groupItem
+    groupItem,
+    pageSj
   },
   data() {
     return {
@@ -50,8 +51,6 @@ export default {
 
 <style lang="scss" scoped>
 .consult{
-  overflow: hidden;
-  height: 100vh;
   display: flex;
   flex-direction: column ;
   background: #F1F3F5;

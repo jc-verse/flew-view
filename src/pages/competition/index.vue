@@ -17,6 +17,7 @@ import search from '@/components/search';
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSj';
 import cartList from './cartList'
+import { joinUrl } from '@/common/utils'
 export default {
   name:'competition',
   components: { search, cartList, scrollBox, pageSj },
@@ -45,8 +46,36 @@ export default {
     },
     clickItem(item) {
       console.log(2,item)
-      if (item.id === '5') {
-        uni.navigateTo({ url: '/pages/mine/index' })
+      if (item.id === 5) {
+        uni.navigateTo({ url: joinUrl('/pages/mine/index',item) })
+      }
+      switch (item.id) {
+        case 1:
+          uni.navigateTo({ url: joinUrl('/pages/stem/index',item), })
+          break;
+        case 2:
+          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
+          break;
+        case 3:
+          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
+          break;
+        case 4:
+          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
+          break;
+        case 5:
+          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
+          break;
+        case 6:
+          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
+          break;
+        case 7:
+          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
+          break;
+        case 8:
+          uni.navigateTo({ url: joinUrl('/pages/autonomously/index',item) })
+          break;
+        default:
+          break;
       }
     },
     search() {

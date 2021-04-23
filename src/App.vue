@@ -1,4 +1,5 @@
 <script>
+// import { joinUrl } from '@/common/utils'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
@@ -16,7 +17,10 @@
 		},
 		onHide: function() {
 			console.log('App Hide')
-		}
+		},
+		// methods: {
+		// 	joinUrl
+		// }
 	}
 </script>
 

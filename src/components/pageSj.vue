@@ -1,12 +1,12 @@
 <template>
-  <div class="page_cd" id="page_cd" :style="{height: customBarH}">
+  <div class="page_sj" id="page_sj" :style="{height: customBarH}">
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  name:'page_cd',
+  name:'page_sj',
   data () {
     return {
       topNum: 0
@@ -37,12 +37,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page_cd{
+.page_sj{
   width: 100%;
   height: 100vh;
   overflow: scroll;
 }
-.page_cd::-webkit-scrollbar{
+.page_sj::-webkit-scrollbar{
   display: none;
 }
 </style>

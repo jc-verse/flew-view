@@ -1,6 +1,6 @@
 <template>
 <!-- 1.引导 -->
-  <div>
+  <page-sj>
     <div class="content_box">
       <!-- 顶部海报 -->
       <div class="top_box" >
@@ -14,13 +14,14 @@
       <!-- 底部logo -->
       <bottom-logo/>
     </div>
-  </div>
+  </page-sj>
 </template>
 <script>
 import bottomLogo from "@/components/bottomLogo";
+import pageSj from '@/components/pageSj';
 export default {
   name:'guidance',
-  components:{ bottomLogo },
+  components:{ bottomLogo, pageSj },
   data() {
     return {}
   },
@@ -35,30 +36,26 @@ export default {
   },
   methods: {
     clickBtn() {
-      uni.navigateTo({ url: '/pages/competition/competition' })
+      uni.navigateTo({ url: '/pages/home/index' })
     }
   }
 }
 </script>
 <style lang='scss' scoped>
 .font_1{
-  font-size: 21px;
-  font-family: PingFangSC-Medium, PingFang SC;
-  font-weight: 500;
-  color: #4E2B2D;
-  line-height: 29px;
+  @include fontMixin(42rpx, #4E2B2D, bold)
 }
 .content_box{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  height: 93vh;
+  height: 100%;
   .top_box{
     width: 100%;
-    img{
-      width:100%
-    }
+    height: 704rpx;
+    flex-grow: 0;
+    @include img_fill;
   }
   .btn{
     margin-top: 70rpx;

@@ -1,10 +1,10 @@
 <template>
   <page-sj>
     <div class="home_box">
-      <header class="header">
+      <header class="header" >
         <info-head :iconFilter='iconFilter' headStyles='width: 80rpx;height: 80rpx;'>
           <div slot='center' class="name">{{'我是你的用户名称'}}</div>
-          <i slot='right' @click="clickIcon" class='iconfont iconxiala icon_item'></i>
+          <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>
         </info-head>
       </header>
       <scroll-box class='dS'>
@@ -109,11 +109,30 @@ export default {
   },
   methods: {
     clickIcon() {
-      console.log(122)
+      uni.navigateTo({ url: '/pages/mine/index' })
     },
     
     clickCard(val) {
       console.log(val)
+      switch (val) {
+        case 1:
+          uni.navigateTo({ url: '/pages/competition/index' })
+          break;
+        case 2:
+          uni.navigateTo({ url: '/pages/consult/index' })
+          break;
+        case 3:
+          uni.navigateTo({ url: '/pages/acaHelp/index' })
+          break;
+        case 4:
+          uni.navigateTo({ url: '/pages/aboutUs/index' })
+          break;
+        case 5:
+          uni.navigateTo({ url: '/pages/joinUs/index' })
+          break;
+        default:
+          break;
+      }
     }
   }
 }
@@ -164,8 +183,8 @@ export default {
     }
   }
   .icon_item{
-    display: inline-block;
-    transform: rotate(-90deg);
+    // display: inline-block;
+    // transform: rotate(-90deg);
     font-size: 40rpx;
   }
   .dS{
@@ -194,7 +213,7 @@ export default {
           border-radius: 12px;
           padding: 15% 0 0 40rpx;
           box-sizing: border-box;
-          @include img_bg('@/static/img1/bg_6.png');
+          // @include img_bg('@/static/img1/bg_6.png');
           .title_msg{
             .title{
               @include fontMixin(36rpx, #ffffff);
