@@ -2,14 +2,16 @@
   <div class="courseSystem">
     <div class="header">
       <div class="title">课程体系：</div>
-      <div class="add"> <span class='add_icon'>+</span><span>请选择</span> </div>
+      <div class="add"> <i class="iconfont iconjiahao add_icon"></i> <span>请选择</span> </div>
     </div>
 
     <div class="content">
       <diyTable :heads='tableHead' :datas='tableDatas' @change='tableChange'/>
     </div>
     
-    <div class="add_item" @click="addTableItem">+ 更多成绩</div>
+    <div class="add_item" @click="addTableItem">
+      <i class="iconfont iconjiahao"></i>
+      更多成绩</div>
   </div>
 </template>
 
@@ -21,14 +23,15 @@ export default {
   data () {
     return {
       tableHead: [
-        { label: '科目', code: 'km', id: '', onlyCode: '', type:'select' },
-        { label: '分数', code: 'fs', id: '', onlyCode: '', type:'input' },
-        { label: '咨询', code: 'zx', id: '', onlyCode: '', type:'checkbox' },
-        { label: '帮助', code: 'bz', id: '', onlyCode: '', type:'checkbox' },
+        { label: '科目', code: 'km', id: '', onlyCode: '', type:'select' ,pro : '2.5'},
+        { label: '分数', code: 'fs', id: '', onlyCode: '', type:'input' ,pro :'2'},
+        { label: '咨询', code: 'zx', id: '', onlyCode: '', type:'checkbox' ,pro : '1'},
+        { label: '帮助', code: 'bz', id: '', onlyCode: '', type:'checkbox' ,pro : '1'},
+        { label: '帮助', code: 'bz', id: '', onlyCode: '', type:'checkbox' ,pro : '1'},
         // { label: '操作', code: 'cz', id: '', onlyCode: '', type:'edit' },
       ],
       tableDatas: [
-        { km:'',fs: '2',zx: true,bz: true},
+        { km:'',fs: '2',zx: true,bz: true,},
       //   { km:'1',fs:'21',zx: false,bz: true},
       //   { km:'2',fs:'22',zx: false,bz: true},
       //   { km:'3',fs:'24',zx: true,bz: true},
@@ -68,7 +71,7 @@ export default {
       display: flex;
       align-items: center;
       margin-left: 10rpx;
-      @include fontMixin(32rpx, #676FDF, bold);
+      @include fontMixin(32rpx, #676FDF);
     }
     .add_icon{
       display: inline-block;
@@ -77,6 +80,7 @@ export default {
       line-height: 48rpx;
       border-radius: 50%;
       background: rgba(103, 111, 223,.2);
+      margin-right: 10rpx;
       @include flex_center;
     }
   }

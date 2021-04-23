@@ -12,13 +12,13 @@
         <join-list title='个人留言' :value='`我是留言文案文案文案文案文案文案文案文案文案文案`' type='text'/>
       </div>
       <!-- 团队成员 -->
-      <!-- <div class="group_infos">
+      <div class="group_infos">
         <div class="team_member" @click="showInfo=!showInfo">
           <div class="left">团队成员：某某某/某某某/某某某/某某某/某某某/某某某</div>
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
         <crew-info :info='{ iconFilter, topList }' v-for="ite in 2" :key='ite' v-show="showInfo"/>
-      </div> -->
+      </div>
     </div>
 
     <div class="buoy" @click="clickBuoy"> 申请服务 </div>

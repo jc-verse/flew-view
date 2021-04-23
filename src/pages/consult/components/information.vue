@@ -3,8 +3,7 @@
     <div class="top_item" v-for="(item, ind) in topList" :key="ind">
       <div v-if="item.code !=='rate' ">{{`${item.title}:${item.val}`}}</div>
 
-      <div class="rate" v-else>{{`${item.title}:`}}
-        <!-- <uni-rate :size="18" :value="5" :max="10"></uni-rate> -->
+      <div class="rate" v-else>{{`${item.title}:`}}<rate :size="18" :value="5" :max="5"></rate>
       </div>
     </div>
   </div>
@@ -13,10 +12,11 @@
 
 <script>
 // import {uniRate} from '@dcloudio/uni-ui'
-import UniRate from '@dcloudio/uni-ui/lib/uni-rate/uni-rate.vue'
+import rate from '@/components/rate';
+import uniRate from '@dcloudio/uni-ui/lib/uni-rate/uni-rate.vue'
 export default {
   name: 'information',
-  // components: { uniRate },
+  components: { rate },
   props: {
     topList: {
       type: Array,
@@ -37,6 +37,10 @@ export default {
     min-width: 50%;
     flex-grow: 1;
     margin-bottom: 20rpx;
+  }
+  .rate{
+    display: flex;
+    align-items: center;
   }
 }
 </style>
