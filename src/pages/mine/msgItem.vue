@@ -3,7 +3,7 @@
     <div class="msg_title">fsdfdfdfd的放水电费第三方sfdsfdfdsfj付了定金发了多少</div>
     <div class="head_wrap">
       <div class="left">
-        <img src="@/static/img1/msg_icon.png" alt="" class="head_icon">
+        <img src="@/static/img1/icon_8.png" alt="" class="head_icon">
         <div class="head_name">某某某</div>
         <div class="user_sex">
           <img v-if="msgContent.sex" :src="maleImg" alt="male">

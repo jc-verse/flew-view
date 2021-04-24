@@ -3,7 +3,7 @@
     <div class="header_wrap">
       <img class="bgs" src="@/static/img1/mine_bg.png" alt="">
       <div class="header">
-        <div class="back_icon iconfont iconarrow_right"></div>
+        <div @click="goToBack" class="back_icon iconfont iconarrow_right"></div>
         <div class="title">我的</div>
         <div class="msg_icon" @click="jumpToMsg" ><img src="@/static/img1/msg_icon.png" alt=""></div>
       </div>
@@ -73,8 +73,10 @@ export default {
       uni.navigateTo({ url: '/pages/personalInfo/index' })
     },
     jumpToMsg() {
-      console.log('dddd')
       uni.navigateTo({ url: '/pages/messageBox/index' })
+    },
+    goToBack() {
+      uni.navigateBack({ delta: 1 })
     }
   }
 }

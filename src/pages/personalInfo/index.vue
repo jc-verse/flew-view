@@ -4,7 +4,7 @@
       <div class="person_info_wrap">
         <div class="user_img_bar item">
           <div class="label">头像</div>
-          <img class="user_img" src="@/static/img1/msg_icon.png" alt="">
+          <img class="user_img" src="@/static/img1/icon_8.png" alt="">
         </div>
         <div class="item _F" v-for="(item, idx) in userInfoInputList" :key="idx">
           <div class="label">{{item.label || ''}}</div>
