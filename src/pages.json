@@ -95,7 +95,8 @@
 			"path": "pages/mine/index",
 			"style": {
 				"navigationBarTitleText": "我的",
-				"navigationBarBackgroundColor": "#5965FF",
+				"navigationBarBackgroundColor": "#5965FF"
+			}
 		},
 		{
 			"path": "pages/home/home",

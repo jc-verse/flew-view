@@ -17,8 +17,8 @@
     <div class="nav_wrap">
       <div class="nav_title">我的申请</div>
       <div class="nav_list">
-        <div class="nav_item" v-for="item in navList">
-          <div :class="['item_content', item.id === actived ? 'actived' : '']">
+        <div class="nav_item" v-for="(item, idx) in navList" :key="idx">
+          <div @click="navClick(item)" :class="['item_content', item.id === actived ? 'actived' : '']">
             <img src="" :alt="item.label" class="img">
             <div class="item_label">{{item.label}}</div>
           </div>
@@ -51,6 +51,13 @@ export default {
         { label: '申请记录', id: '4' },
       ]
     }
+  },
+  methods: {
+    navClick(item) {
+      const { id } = item;
+      if (!id) return
+      this.actived = id
+    }
   }
 }
 </script>
@@ -60,6 +67,7 @@ export default {
   box-sizing: border-box;
   background: #F1F3F5;
   padding: 0 30rpx;
+  overflow: auto;
 
   .mine_title_wrap {
     height: 230rpx;
@@ -73,6 +81,7 @@ export default {
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20rpx;
 
     .nav_title {
       font-size: 16px;
@@ -119,6 +128,21 @@ export default {
           &.actived {
             background: #F1F3F5;
             border-radius: 8px 8px 0px 0px;
+            position: relative;
+
+
+            &::before {
+              display: block;
+              content: '';
+              position: absolute;
+              border-top: transparent 20rpx solid;
+              border-right: transparent 32rpx solid;
+              border-left: transparent 32rpx solid;
+              border-bottom: #fff 20rpx solid;
+              left: 50%;
+              bottom: -20rpx;
+              transform: translateX(-50%);
+            }
           }
         }
       }
@@ -128,6 +152,7 @@ export default {
   .content_wrap {
     background: #FFFFFF;
     border-radius: 16rpx;
+    padding: 40rpx 30rpx;
   }
 }
 </style>

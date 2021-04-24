@@ -10,39 +10,43 @@
           <img v-else :src="femaleImg" alt="female">
         </div>
       </div>
-      <div class="target_list"></div>
+      <div class="target_list">
+        <Wtarget types="0" direction="r" v-for="(item, idx) in 2" :key="item" />
+      </div>
     </div>
     <div class="school_info">
       <div class="left">
-        <div class="school_name">学校：世界联合学院</div>
+        <div class="school_name mb-7">学校：世界联合学院</div>
         <div class="source_target">标化：标化大幅度</div>
       </div>
       <div class="right">
-        <div class="class_level">年级：10</div>
+        <div class="class_level mb-7">年级：10</div>
         <div class="source_class">课程：ALEVEL</div>
       </div>
     </div>
     <div class="module_content">
       <div class="game_experience module">
         <div class="title">比赛经历</div>
-        <div class="contents">jfjsdlfjldfjlds</div>
+        <div class="contents">海戏剧学院是中国培养戏剧专门人才的高等艺术院校,前身是上海市市立实验戏剧学校,1945年12月1日由著</div>
       </div>
-      <div class="hopes">
+      <div class="hopes module">
         <div class="title">希望参加的比赛</div>
         <div class="contents">
-          <Wtarget />
+          <Wtarget v-for="(item, index) in 2" :key="item" :idx="index"/>
         </div>
       </div>
     </div>
+    <Wfooter text="你的申请被拒绝" />
   </div>
 </template>
 <script>
 import maleImg from '../../static/img1/male_sex.png'
 import femaleImg from '../../static/img1/female_sex.png'
 import Wtarget from './target.vue'
+import Wfooter from './footer.vue'
 
 export default {
-  components: { Wtarget },
+  components: { Wtarget, Wfooter },
   props: {
     msgContent: {
       type: Object,
@@ -65,8 +69,13 @@ export default {
   align-items: center;
 }
 
+.mb_7 {
+  margin-bottom: 14rpx;
+}
+
 .msg_item_wrap {
   padding: 30rpx 0 0 30rpx;
+  background-color: #fff7e8;
 
   .msg_title {
     font-size: 32rpx;
@@ -119,7 +128,12 @@ export default {
 
     .target_list {
       @extend .display_center;
+      justify-content: flex-end;
       flex: 1;
+
+      /deep/.w_target {
+        border: 1px solid red;
+      } 
     }
 
   }
@@ -128,6 +142,7 @@ export default {
     @extend .display_center;
     font-size: 28rpx;
     line-height: 40rpx;
+    padding-right: 30rpx;
     color: #333;
 
     .left {
@@ -140,7 +155,9 @@ export default {
   }
 
   .module_content {
-    padding: 16rpx 0 20rpx;
+    padding: 16rpx 30rpx 20rpx 0;
+    border-top: 1px solid #F7E7C9;
+    margin-top: 9px;
 
     .module {
       margin-bottom: 20rpx;
@@ -149,15 +166,18 @@ export default {
         font-size: 30rpx;
         line-height: 42rpx;
         margin-bottom: 12rpx;
+        font-weight: 500;
       }
 
       .contents {
-        // color: #fff7e8;
         font-size: 30rpx;
+        font-weight: 400;
         line-height: 42rpx;
+        color: #999;
+        // padding-bottom: 20rpx;
       }
 
-      &:first-child {
+      &:last-child {
         margin-bottom: 0;
       }
     }
