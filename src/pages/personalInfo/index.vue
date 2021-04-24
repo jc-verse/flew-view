@@ -4,11 +4,21 @@
       <div class="person_info_wrap">
         <div class="user_img_bar item">
           <div class="label">头像</div>
-          <img class="user_img" src="" alt="">
+          <img class="user_img" src="@/static/img1/msg_icon.png" alt="">
         </div>
         <div class="item _F" v-for="(item, idx) in userInfoInputList" :key="idx">
           <div class="label">{{item.label || ''}}</div>
-          <div class="item_content"></div>
+          <div class="item_content" >
+            <input v-if="item.type === 'input'" @keypress.stop="saveItemData(item)" type="text" v-model="item.text" />
+            <span class="text" v-else>
+              <picker v-if="item.id === 'sex'" @change="(e) => sexChange(e, item)" :value="item.text" :range="sexList">
+                {{sexList[item.text]}}
+              </picker>
+              <picker v-if="item.id === 'birthday'" mode="date" :value="item.text" @change="(e) => bindDateChange(e, item)">
+                {{item.text}}
+              </picker>
+            </span>
+          </div>
         </div>
       </div>
       <div class="person_card">
@@ -29,14 +39,33 @@ export default {
   components: { PageJS, ItemInfo },
   data() {
     return {
+      sexList: ['女', '男'],
       userInfoInputList: [
-        { label: '微信号' },
-        { label: '昵称' },
-        { label: '性别' },
-        { label: '生日' },
-        { label: '手机号' },
-        { label: '邮箱' },
+        { label: '微信号', id: 'weChat', type: 'input', status: '1', text: '请填写微信号' },
+        { label: '昵称', id: 'nick', type: 'input', status: '1', text: '我是用户名称' },
+        { label: '性别', id: 'sex', type: 'select', status: '1', text: 1 },
+        { label: '生日', id: 'birthday', type: 'select', status: '1', text: '请填写生日' },
+        { label: '手机号', id: 'phoneNum', type: 'input', status: '1', text: '请填写手机号' },
+        { label: '邮箱', id: 'eMail', type: 'input', status: '1', text: '请填写邮箱' },
       ]
+    }
+  },
+  methods: {
+    editClick(item) {
+      const { id } = item
+      console.log('---item: ', item, id)
+    },
+    saveItemData(item) {
+      const { text } = item
+      console.log('------回车保存', text)
+    },
+    sexChange(val, item) {
+      const { detail: { value } } = val
+      item.text = value
+    },
+    bindDateChange(val, item) {
+      const { detail: { value } } = val
+      item.text = value
     }
   }
 }
@@ -79,6 +108,19 @@ export default {
         color: #000000;
         line-height: 44rpx;
       }
+    
+      .item_content {
+        color: #888;
+
+        input {
+          text-align: right;
+        }
+
+        .text {
+          display: inline-block;
+          min-width: 60rpx;
+        }
+      }
     }
   }
 
@@ -102,7 +144,7 @@ export default {
         background-color: #fff;
 
       }
-      
+
       .module_content {
         margin-right: 30rpx;
       }

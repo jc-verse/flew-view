@@ -5,7 +5,7 @@
       <div class="header">
         <div class="back_icon iconfont iconarrow_right"></div>
         <div class="title">我的</div>
-        <div class="msg_icon"><img src="@/static/img1/msg_icon.png" alt=""></div>
+        <div class="msg_icon" @click="jumpToMsg" ><img src="@/static/img1/msg_icon.png" alt=""></div>
       </div>
       <div class="mine_title_wrap">
         <img @click="jumpTo" class="user_img" src="@/static/img1/icon_8.png" />
@@ -27,24 +27,27 @@
       <div class="nav_list">
         <div class="nav_item" v-for="(item, idx) in navList" :key="idx">
           <div @click="navClick(item)" :class="['item_content', item.id === actived ? 'actived' : '']">
-            <img src="" :alt="item.label" class="img">
+            <img src="" class="img">
             <div class="item_label">{{item.label}}</div>
           </div>
         </div>
       </div>
     </div>
     <div class="content_wrap">
-      <MsgItem />
+      <ScrollBox>
+        <MsgItem />
+      </ScrollBox>
     </div>
   </div>
 </template>
 <script>
 import MsgItem from './msgItem.vue'
-
+import ScrollBox from '@/components/scrollBox.vue'
 
 export default {
   components: {
-    MsgItem
+    MsgItem,
+    ScrollBox
   },
   data() {
     return {
@@ -67,8 +70,11 @@ export default {
       this.actived = id
     },
     jumpTo() {
-      console.log('jumpTo')
       uni.navigateTo({ url: '/pages/personalInfo/index' })
+    },
+    jumpToMsg() {
+      console.log('dddd')
+      uni.navigateTo({ url: '/pages/messageBox/index' })
     }
   }
 }

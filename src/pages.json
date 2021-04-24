@@ -287,6 +287,14 @@
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff"
 			}
+		},
+		{
+			"path": "pages/messageBox/index",
+			"style": {
+				"navigationBarTitleText": "消息中心",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff"
+			}
 		}
 	],
 	"subPackages": [],

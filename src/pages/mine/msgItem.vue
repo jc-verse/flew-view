@@ -3,7 +3,7 @@
     <div class="msg_title">fsdfdfdfd的放水电费第三方sfdsfdfdsfj付了定金发了多少</div>
     <div class="head_wrap">
       <div class="left">
-        <img src="" alt="" class="head_icon">
+        <img src="@/static/img1/msg_icon.png" alt="" class="head_icon">
         <div class="head_name">某某某</div>
         <div class="user_sex">
           <img v-if="msgContent.sex" :src="maleImg" alt="male">
@@ -102,7 +102,6 @@ export default {
         width: 80rpx;
         height: 80rpx;
         border-radius: 100%;
-        border: 1px solid red;
         margin-right: 20rpx;
       }
   
@@ -130,10 +129,6 @@ export default {
       @extend .display_center;
       justify-content: flex-end;
       flex: 1;
-
-      /deep/.w_target {
-        border: 1px solid red;
-      } 
     }
 
   }
