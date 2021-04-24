@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div @click="countFn">{{count}}</div>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {

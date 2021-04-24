@@ -19,6 +19,13 @@
   font-weight: $wei;
   color: $color;
 }
+// 字体样式2
+@mixin fontMixin2($size:28rpx, $color: #131415, $wei:auto) {
+  font-size: $size;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: $wei;
+  color: $color;
+}
 // 悬浮手势
 @mixin pointer {
 	cursor:pointer
@@ -29,10 +36,21 @@
   text-overflow:ellipsis;
   white-space: nowrap;
 }
-
+// 背景图片
 @mixin img_bg ($img: '', $color:''){
   background-color: $color;
   background-image: url($img);
   background-size: 100% 100%;
   background-repeat: no-repeat;
+}
+
+@mixin flex_($j:center,$a:center, $d: auto) {
+  display: flex;
+  justify-content: $j;
+  align-items: $a;
+  flex-direction: $d;
+}
+
+.isH5{
+  height: calc(100vh - 88rpx );
 }
