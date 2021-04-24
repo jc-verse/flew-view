@@ -16,6 +16,13 @@
 					}
 				}
 			}
+		},
+		{
+			"path": "pages/personalInfo/index",
+			"style": {
+				"navigationBarTitleText": "个人资料",
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"subPackages": [],

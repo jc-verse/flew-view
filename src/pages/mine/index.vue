@@ -1,16 +1,24 @@
 <template>
   <div class="page_mine">
-    <div class="mine_title_wrap">
-      <div class="user_img"></div>
-      <div class="user_info">
-        <div class="user_name_level">
-          <span class="name">我是用户名称</span>
-          <span class="level">{{userLevel}}</span>
-        </div>
-        <div class="vip_num">
-          <span class="text">会员号：</span>
-          <span class="num">{{vipNum}}</span>
-          <span class="desc">(已认证)</span>
+    <div class="header_wrap">
+      <img class="bgs" src="@/static/img1/mine_bg.png" alt="">
+      <div class="header">
+        <div class="back_icon iconfont iconarrow_right"></div>
+        <div class="title">我的</div>
+        <div class="msg_icon"><img src="@/static/img1/msg_icon.png" alt=""></div>
+      </div>
+      <div class="mine_title_wrap">
+        <img @click="jumpTo" class="user_img" src="@/static/img1/icon_8.png" />
+        <div class="user_info">
+          <div class="user_name_level">
+            <span class="name">我是用户名称</span>
+            <span class="level">{{userLevel}}</span>
+          </div>
+          <div class="vip_num">
+            <span class="text">会员号：</span>
+            <span class="num">{{vipNum}}</span>
+            <span class="desc">(已认证)</span>
+          </div>
         </div>
       </div>
     </div>
@@ -57,6 +65,10 @@ export default {
       const { id } = item;
       if (!id) return
       this.actived = id
+    },
+    jumpTo() {
+      console.log('jumpTo')
+      uni.navigateTo({ url: '/pages/personalInfo/index' })
     }
   }
 }
@@ -69,9 +81,88 @@ export default {
   padding: 0 30rpx;
   overflow: auto;
 
+  .header_wrap {
+    position: relative;
+    z-index: 5;
+    margin: 0 -30rpx;
+    padding: 0 30rpx;
+
+    .bgs {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+
+    .header {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+
+      .back_icon {
+        color: #fff;
+        font-size: 36rpx;
+        transform: rotateY(180deg);
+        padding-left: 20rpx;
+      }
+
+      .title {
+        flex: 1;
+        font-size: 38rpx;
+        font-weight: 500;
+        color: #fff;
+        text-align: center;
+      }
+
+      .msg_icon {
+        width: 48rpx;
+        height: 48rpx;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+
   .mine_title_wrap {
     height: 230rpx;
-    border: 1px solid red;
+    display: flex;
+    align-items: center;
+
+    .user_img {
+      width: 120rpx;
+      height: 120rpx;
+      margin-right: 20rpx;
+      border-radius: 100%;
+    }
+
+    .user_info {
+      .user_name_level {
+        height: 50rpx;
+        font-weight: 500;
+        font-size: 36rpx;
+        color: #fff;
+        margin-bottom: 12rpx;
+
+        .name {
+          margin-right: 24rpx;
+          font-family: PingFangSC-Medium;
+        }
+      }
+
+      .vip_num {
+        font-size: 28rpx;
+        line-height: 40rpx;
+        color: #fff;
+      }
+    }
   }
 
   .nav_wrap {
@@ -82,6 +173,9 @@ export default {
     display: flex;
     flex-direction: column;
     margin-bottom: 20rpx;
+    margin-top: -30rpx;
+    position: relative;
+    z-index: 10;
 
     .nav_title {
       font-size: 16px;

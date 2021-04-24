@@ -1,7 +1,7 @@
 <template>
   <page-sj>
     <div class="home_box">
-      <header class="header" >
+      <header class="header">
         <info-head :iconFilter='iconFilter' headStyles='width: 80rpx;height: 80rpx;'>
           <div slot='center' class="name">{{'我是你的用户名称'}}</div>
           <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>

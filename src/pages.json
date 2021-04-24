@@ -96,7 +96,8 @@
 			"path": "pages/mine/index",
 			"style": {
 				"navigationBarTitleText": "我的",
-				"navigationBarBackgroundColor": "#5965FF"
+				"navigationBarBackgroundColor": "#5965FF",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -277,6 +278,14 @@
 						}]
 					}
 				}
+			}
+		},
+		{
+			"path": "pages/personalInfo/index",
+			"style": {
+				"navigationBarTitleText": "个人资料",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff"
 			}
 		}
 	],
