@@ -1,12 +1,7 @@
 <template>
-  <div class="page_mine">
+  <PageJs class="page_mine">
     <div class="header_wrap">
       <img class="bgs" src="@/static/img1/mine_bg.png" alt="">
-      <div class="header">
-        <div @click="goToBack" class="back_icon iconfont iconarrow_right"></div>
-        <div class="title">我的</div>
-        <div class="msg_icon" @click="jumpToMsg" ><img src="@/static/img1/msg_icon.png" alt=""></div>
-      </div>
       <div class="mine_title_wrap">
         <img @click="jumpTo" class="user_img" src="@/static/img1/icon_8.png" />
         <div class="user_info">
@@ -19,6 +14,10 @@
             <span class="num">{{vipNum}}</span>
             <span class="desc">(已认证)</span>
           </div>
+        </div>
+        <div class="msg_icon" @click="jumpToMsg" >
+          <img src="@/static/img1/msg_icon.png" alt="">
+          <div class="target">1</div>
         </div>
       </div>
     </div>
@@ -35,18 +34,23 @@
     </div>
     <div class="content_wrap">
       <ScrollBox>
-        <MsgItem />
+        <!-- <MsgItem /> -->
+        <GroupItem v-for="(item, idx) in 3" :key="idx" />
       </ScrollBox>
     </div>
-  </div>
+  </PageJs>
 </template>
 <script>
+import PageJs from '../../components/pageSj.vue'
 import MsgItem from './msgItem.vue'
+import GroupItem from '../consult/groupItem.vue'
 import ScrollBox from '@/components/scrollBox.vue'
 
 export default {
   components: {
+    PageJs,
     MsgItem,
+    GroupItem,
     ScrollBox
   },
   data() {
@@ -83,11 +87,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page_mine {
-  height: 100vh;
+  // height: 100vh;
+  height: 100%;
   box-sizing: border-box;
   background: #F1F3F5;
   padding: 0 30rpx;
-  overflow: auto;
+  // overflow: auto;
+  overflow: hidden;
+  
 
   .header_wrap {
     position: relative;
@@ -105,44 +112,12 @@ export default {
       bottom: 0;
       z-index: -1;
     }
-
-    .header {
-      height: 58px;
-      display: flex;
-      align-items: center;
-      background-color: transparent;
-
-      .back_icon {
-        color: #fff;
-        font-size: 36rpx;
-        transform: rotateY(180deg);
-        padding-left: 20rpx;
-      }
-
-      .title {
-        flex: 1;
-        font-size: 38rpx;
-        font-weight: 500;
-        color: #fff;
-        text-align: center;
-      }
-
-      .msg_icon {
-        width: 48rpx;
-        height: 48rpx;
-
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
   }
 
   .mine_title_wrap {
-    height: 230rpx;
+    padding-top: 48rpx;
+    height: 268rpx;
     display: flex;
-    align-items: center;
 
     .user_img {
       width: 120rpx;
@@ -152,6 +127,9 @@ export default {
     }
 
     .user_info {
+      margin-top: 10rpx;
+      flex: 1;
+
       .user_name_level {
         height: 50rpx;
         font-weight: 500;
@@ -169,6 +147,34 @@ export default {
         font-size: 28rpx;
         line-height: 40rpx;
         color: #fff;
+      }
+    }
+
+    .msg_icon {
+      width: 44rpx;
+      height: 44rpx;
+      margin-top: 16rpx;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .target {
+        background: #E65A57;
+        height: 32rpx;
+        min-width: 32rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        font-size: 24rpx;
+        font-weight: 400;
+        color: #fff;
+        border-radius: 16rpx;
+        left: 19px;
+        top: -4px;
       }
     }
   }
@@ -212,6 +218,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
+          padding-top: 16rpx;
 
           .img {
             width: 56rpx;
@@ -231,7 +238,6 @@ export default {
             background: #F1F3F5;
             border-radius: 8px 8px 0px 0px;
             position: relative;
-
 
             &::before {
               display: block;
@@ -255,6 +261,11 @@ export default {
     background: #FFFFFF;
     border-radius: 16rpx;
     padding: 40rpx 30rpx;
+
+    .group_info_item {
+      margin-bottom: 20rpx;
+      background: #FFF7E8;
+    }
   }
 }
 </style>

@@ -140,10 +140,14 @@ export default {
       border-radius: 16rpx;
       overflow: hidden;
 
+      .w_target {
+        border: 1px solid red;
+      }
+
       .msg_item_wrap {
         background-color: #fff;
-
       }
+
 
       .module_content {
         margin-right: 30rpx;

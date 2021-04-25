@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="target_list">
-        <Wtarget types="0" direction="r" v-for="(item, idx) in 2" :key="item" />
+        <Wtarget types="0" direction="r" v-for="(item, idx) in 1" :key="item" />
       </div>
     </div>
     <div class="school_info">
