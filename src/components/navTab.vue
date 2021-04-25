@@ -80,7 +80,4 @@ export default {
     }
   }
 }
-.isH5{
-  height: calc(100vh - 88rpx);
-}
 </style>

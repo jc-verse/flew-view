@@ -28,7 +28,6 @@ export default {
   components: { pageSj },
   data() {
     return {
-      isH5: false,
       value: '',
       formHeads:[
         { label: '发起者', code:'name', id: '' ,required: false, ph: '获取微信名' },
@@ -44,11 +43,6 @@ export default {
       ],
       formData: {}
     }
-  },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
   },
   computed:{
     showBtn () {
@@ -115,8 +109,5 @@ export default {
   .btn_active{
     background: #676FDF;
   }
-}
-.isH5{
-  height: calc(100vh - 88rpx );
 }
 </style>

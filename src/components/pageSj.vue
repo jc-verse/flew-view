@@ -41,6 +41,7 @@ export default {
   width: 100%;
   height: 100vh;
   overflow: auto;
+  box-sizing: border-box;
 }
 .page_sj::-webkit-scrollbar{
   display: none;

@@ -1,5 +1,5 @@
 <template>
-  <page-sj>
+  <page-sj >
     <div class="home_box">
       <header class="header">
         <info-head :iconFilter='iconFilter' headStyles='width: 80rpx;height: 80rpx;'>
@@ -7,7 +7,7 @@
           <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>
         </info-head>
       </header>
-      <scroll-box>
+      <scroll-box style="width:100%">
         <div class="content">
           <div class="top_box">
             <!-- 1 -->
@@ -172,8 +172,8 @@ export default {
   align-items: center;
   flex-direction: column ;
   .header{
-    width: 100%;
-    padding: 0 0rpx 10rpx 30rpx;
+    width: 100vw;
+    padding: 0 20rpx 10rpx 30rpx;
     flex-grow: 0;
     flex-shrink: 0;
     box-sizing: border-box;
