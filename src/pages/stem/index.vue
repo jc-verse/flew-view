@@ -121,4 +121,8 @@ export default {
     }
   }
 }
+
+/deep/.uni-scroll-view-content{
+  display: block  ;
+}
 </style>

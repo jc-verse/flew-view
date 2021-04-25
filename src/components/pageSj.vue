@@ -43,7 +43,7 @@ export default {
   overflow: auto;
   box-sizing: border-box;
 }
-.page_sj::-webkit-scrollbar{
-  display: none;
-}
+// .page_sj::-webkit-scrollbar{
+//   display: none;
+// }
 </style>

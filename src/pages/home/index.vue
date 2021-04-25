@@ -83,7 +83,7 @@
 import infoHead from '@/components/infoHead';
 import bottomLogo from "@/components/bottomLogo";
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 
 export default {
   name: 'home',

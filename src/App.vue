@@ -29,7 +29,7 @@
 
 	/*搜索组件*/
 	.diy_search_box .uni-searchbar{
-		padding: 4px 8px;
+		padding: 8rpx 16rpx;
 		.uni-searchbar__box{
 			background-color: #F0F1F2 !important;
 			// justify-content: start !important;

@@ -23,7 +23,6 @@
 import joinList from '@/components/joinList';
 import infoHead from '@/components/infoHead';
 import information from './components/information';
-import crewInfo from './components/crewInfo';
 import { genders,topList,cList,tagList } from '@/components/const';
 export default {
   name: 'cardItem',
