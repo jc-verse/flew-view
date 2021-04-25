@@ -177,7 +177,6 @@ export default {
     flex-grow: 0;
     flex-shrink: 0;
     box-sizing: border-box;
-    
     .name{
       @include fontMixin(26rpx, #485B89, 500)
     }

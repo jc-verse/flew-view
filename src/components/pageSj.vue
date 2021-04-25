@@ -40,7 +40,7 @@ export default {
 .page_sj{
   width: 100%;
   height: 100vh;
-  overflow: scroll;
+  overflow: auto;
 }
 .page_sj::-webkit-scrollbar{
   display: none;

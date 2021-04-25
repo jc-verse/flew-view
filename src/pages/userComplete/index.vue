@@ -16,7 +16,12 @@
 
         <div class="bottom">
           <courseSystem title="课程体系" :tableHead='tableHead' :showBtn='false' class="tb_item">
-            <div class="add" slot='diy'> <i class="iconfont iconjiahao add_icon"></i> <span style="font-size:28rpx">请选择</span> </div>
+
+            <div class="add" slot='diy'> 
+              <i class="iconfont iconjiahao add_icon"></i> 
+              <span style="font-size:28rpx">请选择</span> 
+            </div>
+            
             <div class="right_h" slot='right'>
               <i class="iconfont icontupianshangchuan"></i>
               <span>上传认证</span>
