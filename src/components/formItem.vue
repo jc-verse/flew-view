@@ -37,7 +37,7 @@
       </div>
     </template>
 
-    <!-- custom -->
+    <!-- combox -->
     <template v-if="headInit.params.genre === 'combox'">
       <combox 
         v-model="formData[headInit.code]"

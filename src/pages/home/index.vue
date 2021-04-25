@@ -7,7 +7,7 @@
           <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>
         </info-head>
       </header>
-      <scroll-box class='dS'>
+      <scroll-box>
         <div class="content">
           <div class="top_box">
             <!-- 1 -->
@@ -15,7 +15,7 @@
               <div class="top" >
                 <div class="title_msg">
                   <div class="title">{{'竞赛组队'}}</div>
-                  <div class="msg">{{'优选组队等你来'}}</div>
+                  <div class="msg">{{'寻找志同道合的朋友'}}</div>
                 </div>
               </div>
               <div class="top_bg" >
@@ -28,8 +28,8 @@
               <!-- 2 -->
               <div class="left_t" @click="clickCard(2)">
                 <div class="title_msg">
-                  <div class="title">{{'各院校信息'}}</div>
-                  <div class="msg">{{'优选组队都在这'}}</div>
+                  <div class="title">{{'学校信息咨询'}}</div>
+                  <div class="msg">{{'在校学生一对一答疑'}}</div>
                 </div>
                 <div class="left_t_bg">
                   <img src="@/static/img1/bg_2.png" alt="">
@@ -39,7 +39,7 @@
               <div class="left_b" @click="clickCard(4)">
                 <div class="title_msg">
                   <div class="title">{{'关于我们'}}</div>
-                  <div class="msg">{{'优选组队都在这'}}</div>
+                  <div class="msg">{{'来看看我们能给你的帮助'}}</div>
                 </div>
                 <div class="left_b_bg">
                   <img src="@/static/img1/bg_4.png" alt="">
@@ -51,7 +51,7 @@
               <div class="right_t" @click="clickCard(3)">
                 <div class="title_msg">
                   <div class="title">{{'学术帮助'}}</div>
-                  <div class="msg">{{'优选组队都在'}}</div>
+                  <div class="msg">{{'学霸的学习方法与解题思路'}}</div>
                 </div>
                 <div class="right_t_bg">
                   <img src="@/static/img1/bg_3.png" alt="">
@@ -86,7 +86,7 @@ import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSj';
 
 export default {
-  name: 'name',
+  name: 'home',
   components: { infoHead, bottomLogo, scrollBox, pageSj },
   data () {
     return {
@@ -155,7 +155,7 @@ export default {
   justify-content: space-between;
 }
 @mixin tm($c1:#D1605D, $c2:#BF5C61) {
-  padding: 40rpx;
+  padding: 20rpx;
   box-sizing:border-box;
   .title_msg{
     .title{
@@ -211,7 +211,7 @@ export default {
           height: 100%;
           background: #8C97FF;
           border-radius: 12px;
-          padding: 15% 0 0 40rpx;
+          padding: 15% 0 0 20rpx;
           box-sizing: border-box;
           // @include img_bg('@/static/img1/bg_6.png');
           .title_msg{

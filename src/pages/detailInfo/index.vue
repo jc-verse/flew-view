@@ -4,7 +4,7 @@
     <scroll-box>
       <div class="content_box">
         <div class="top">
-          <infoHead :iconFilter='iconFilter'/>
+          <infoHead :iconFilter='iconFilter' :showGender='false'/>
           <!-- 个人信息 -->
           <information :topList='topList'/>
         </div>

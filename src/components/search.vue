@@ -15,6 +15,10 @@ export default {
     propertys:{ // 为实现动态添加属性【小程序】， 后面有时间再研究  
       type:Object,
       default: ()=>{}
+    },
+    pValue: {
+      type: String,
+      default: ''
     }
   },
   data() {  
@@ -29,6 +33,14 @@ export default {
     clickFn () {
       console.log(1222,'click',value)
       this.$emit('click', this.value)
+    }
+  },
+  watch: {
+    pValue :{
+      handler(newVal,oldVal) {
+        this.value = newVal
+      },
+      immediate: true
     }
   }
 }

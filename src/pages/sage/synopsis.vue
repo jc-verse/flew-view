@@ -1,5 +1,5 @@
 <template>
-  <div class="synopsis">
+  <div class="synopsis" :style='{ background: info.color || "#C8EDFF" }'>
     <div class="head">
       <div class="title">赛智全球中学生可持续发展创新大赛</div>
       <div class="title_en">Students for the Advancement of Global Entrepreneurship</div>
@@ -7,11 +7,22 @@
     <div class="r_b">
       <img src="/static/img1/icon_2.png" alt="">
     </div>
+
+    <slot></slot>
   </div>
 </template>
 <script>
 export default {
   name: 'synopsis',
+  props: { 
+    info: {
+      type: Object,
+      default: ()=> ({})
+    }
+  },
+  mounted() {
+    console.log(1923, this.info)
+  }
 }
 </script>
 

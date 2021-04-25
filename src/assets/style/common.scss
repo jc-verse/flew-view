@@ -54,3 +54,12 @@
 .isH5{
   height: calc(100vh - 88rpx );
 }
+
+.required::before{
+  content: '*';
+  position: absolute;
+  left: -20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  color: red;
+}

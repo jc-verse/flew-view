@@ -3,6 +3,7 @@
     <div class="header required">
       <div class="title">{{title}}：</div>
       <slot name='diy'></slot>
+      <slot name='right'></slot>
     </div>
 
     <div class="content">

@@ -1,7 +1,8 @@
 
+
 export const list = [
   { id: 1, iconUrl: require('@/static/img1/icon_1.png'), title: '经济与商业',    subhead: 'Economics and Business',  styles:{background: '#A89CF4'} },
-  { id: 2, iconUrl: require('@/static/img1/icon_2.png'), title: 'STEM ',        subhead: '',                        styles:{background: '#76AFE7'} },
+  { id: 2, iconUrl: require('@/static/img1/icon_2.png'), title: 'STEM ',        subhead: 'STEM',                    styles:{background: '#76AFE7'} },
   { id: 3, iconUrl: require('@/static/img1/icon_3.png'), title: '人文学科',      subhead: 'Humanities',              styles:{background: '#8ACFDC'} },
   { id: 4, iconUrl: require('@/static/img1/icon_4.png'), title: '混合科学',      subhead: 'Integration',             styles:{background: '#89CDBD'} },
   { id: 5, iconUrl: require('@/static/img1/icon_5.png'), title: '辩论与演讲',    subhead: 'Debate and Speech',       styles:{background: '#79A6E9'} },

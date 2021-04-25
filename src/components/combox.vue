@@ -134,7 +134,7 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		height: 40px;
+		// height: 40px;1
 		flex-direction: row;
 		align-items: center;
 		width: 100%;

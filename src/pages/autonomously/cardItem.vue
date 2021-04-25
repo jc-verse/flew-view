@@ -45,8 +45,8 @@ export default {
       this.down = !this.down
     },
     clickFag() {
-      console.log(19923)
-      this.$emit("clickBtn")
+      console.log(19923);
+      this.$emit("clickBtn");
     }
   }
 }

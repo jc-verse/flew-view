@@ -2,11 +2,15 @@
   <page-sj>
     <div class='autonomously'>
       <div class="content_box">
-        <nav-tab :list="tabList"/>
+        <nav-tab :list="tabList">
+          <div class="diy" slot='diy' @click="clickOpen">
+            <img src="@/static/img1/open_active1.png" alt="">
+          </div>
+        </nav-tab>
         <scroll-box style='width:100%'>
           <div class="right_box" >
             <div v-for='(ite,ind) in 3' :key='ind'>
-              <cardItem  />
+              <cardItem  @clickBtn='clickBtn'/>
             </div>
           </div>
         </scroll-box>
@@ -23,6 +27,7 @@ import navTab from '@/components/navTab';
 import fabGroup from '@/components/fabGroup';
 import cardItem from './cardItem';
 import { tabList, cardList } from '@/components/const'
+import NavTab from '../../components/navTab.vue';
 export default {
   name: 'autonomously',
   components: { scrollBox, navTab, fabGroup, cardItem, pageSj },
@@ -30,15 +35,16 @@ export default {
     return {
       tabList,
       cardList,
-      isH5: false
     }
   },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
-  },
-
+  methods: {
+    clickOpen() {
+      uni.navigateTo({ url: '/pages/initiateProcess/index' })
+    },
+    clickBtn() {
+      uni.navigateTo({ url: '/pages/detailGroup/index' })
+    }
+  }
 }
 </script>
 
@@ -61,9 +67,13 @@ export default {
         margin-top: 20rpx;
       }
     }
+    .diy{
+      width: 160rpx;
+      height: 160rpx;
+      @include flex_center;
+      @include img_fill;
+
+    }
   }
-}
-.isH5{
-  height: calc(100vh - 88rpx) ;
 }
 </style>

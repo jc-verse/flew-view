@@ -279,6 +279,24 @@
 					}
 				}
 			}
+		},{
+			"path": "pages/userComplete/index",
+			"style": {
+				"navigationBarTitleText": "完善个人信息",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
 		},
 		{
 			"path": "pages/personalInfo/index",
@@ -383,6 +401,10 @@
 			{
 				"name": "学术帮助", //模式名称
 				"path": "pages/acaHelp/index"
+			},
+			{
+				"name": "学术帮助", //模式名称
+				"path": "pages/userComplete/index"
 			}
 		]
 	}

@@ -2,16 +2,11 @@
   <div class="diyTable" ref="diyTable" id="diyTable">
     <div class="table_box">
       <div class="tb_box">
-        <div 
-          :class="['th', 'tb_item', item.disabled ?'disabled': '']" 
-          v-for="(item,index) in tableHeadList" 
-          :style="{ flexGrow: item.pro }" 
-          :key='index'
-        >{{item.label}}</div>
+        <div class="th tb_item" v-for="(item,index) in tableHeadList" :style="{flexGrow: item.pro}" :key='index'>{{item.label}}</div>
       </div>
       <div class="tr_box" v-for='(ite,ind) in tableDataList' :key='ind'>
         <div class="tb_box">
-          <div class="td tb_item" v-for="(item,index) in tableHeadList" :style="{flexGrow: item.pro}" :key='index' :class="[item.disabled ?'disabled': '']" >
+          <div class="td tb_item" v-for="(item,index) in tableHeadList" :style="{flexGrow: item.pro}" :key='index'>
             
             <template v-if='!item.type || item=== "text"'>
               {{ite[item.code]}}
@@ -22,8 +17,8 @@
             </div>
 
             <div v-if='item.type === "checkbox"'>
-              <checkbox-group @change='change($event, ind, "checkout", item.code)'  v-model='ite[item.code]'>
-                <checkbox :value="item.code" :checked="ite[item.code]"  :disabled='item.disabled'/>
+              <checkbox-group @change='change($event, ind, "checkout", item.code)' v-model='ite[item.code]'>
+                <checkbox :value="item.code" :checked="ite[item.code]" />
               </checkbox-group>
             </div>
 
@@ -141,16 +136,10 @@ export default {
     .tb_box{
       @include flex_diy;
     }
-    .disabled{
-      background: rgba(158, 158, 158, .1);
-    }
     >.tb_box:first-child{
       background: rgba(103, 111, 223, .05);
       .th{
         @include fontMixin(26rpx, #333333,bold)
-      }
-      .disabled{
-        color: rgba(158, 158, 158, 1);
       }
     }
   }

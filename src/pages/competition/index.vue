@@ -32,42 +32,27 @@ export default {
     // #endif
   },
   onShow() {
-    uni.hideTabBar({
-      //这里是为了不那么唐突
-      animation:true,
-      success() {
-        console.debug('隐藏成功')
-      }
-    })
+    // uni.hideTabBar({
+    //   //这里是为了不那么唐突
+    //   animation:true,
+    //   success() {
+    //     console.debug('隐藏成功')
+    //   }
+    // })
   },
   methods: {
     changeVal(value) {
       console.log(1,value)
     },
     clickItem(item) {
-      console.log(2,item)
-      if (item.id === 5) {
-        uni.navigateTo({ url: joinUrl('/pages/mine/index',item) })
-      }
+      console.log(193, item)
       switch (item.id) {
         case 1:
-          uni.navigateTo({ url: joinUrl('/pages/stem/index',item), })
-          break;
         case 2:
-          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
-          break;
         case 3:
-          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
-          break;
         case 4:
-          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
-          break;
         case 5:
-          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
-          break;
         case 6:
-          uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
-          break;
         case 7:
           uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
           break;

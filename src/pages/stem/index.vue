@@ -2,16 +2,16 @@
 <!-- 2.竞赛组队备份2 -->
   <page-sj>
     <div class="page_box">
-      <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
+      <search @change='search' :propertys="{'maxlength':'10'}"/>
       <div class="content_box">
-        <nav-tab :list="tabList"/>
+        <nav-tab :list="newMemu" :index='tabIndex' @clickItme="clickItme"/>
         <scroll-box>
           <div class="right_box">
-            <div class="card_item" v-for="(item, index) in cardList" :key='index' @click="clickCardItem(item)">
+            <div class="card_item" v-for="(item, index) in newMemu[tabIndex].list" :key='index' @click="clickCardItem(item)">
               <div class="card_l">
-                <img :src="item.url" alt="">
+                <img :src="item.url || defalutImg" alt="">
               </div>
-              <div class="card_r">{{item.title || ''}}</div>
+              <div class="card_r">{{item.msg || ''}}</div>
             </div>
           </div>
         </scroll-box>
@@ -28,8 +28,8 @@ import pageSj from '@/components/pageSj';
 
 import navTab from '@/components/navTab';
 import fabGroup from '@/components/fabGroup';
-import { tabList, cardList } from './const'
-import { joinUrl } from '@/common/utils';
+import { tabList, cardList, memus  } from './const';
+import { joinUrl, getCurPage } from '@/common/utils';
 export default {
   name:'competition',
   components: { search, navTab, fabGroup, scrollBox, pageSj },
@@ -37,18 +37,42 @@ export default {
     return {
       tabList,
       cardList,
+      defalutImg:require('@/static/img1/poster.png'),
+
+      menuType: '1',
+      title: '',
+      tabIndex: 0
     }
   },
-  onLoad() {
-    
+  computed: {
+    newMemu () {
+      const memu = memus[this.menuType];
+      return memu
+    }
   },
-  onShow() {},
+  mounted () {
+    /*获取当前路由*/
+    let curPage = getCurPage();
+    let curParam = curPage.options || curPage.$route.query;
+
+    const { id, title } = curParam
+    this.menuType = id || 0;
+    this.title = title || '';
+      uni.setNavigationBarTitle({ title: this.title })
+  },
   methods: {
-    changeVal(value) {
+    search(value) {
       console.log(1,value)
     },
+    // 点击右侧卡片
     clickCardItem(item){
-      uni.navigateTo({ url: joinUrl('/pages/sage/index',item) })
+      const { title, menuType } = this;
+      const query = { ...item, title, id: menuType }
+      uni.navigateTo({ url: joinUrl('/pages/sage/index', query) })
+    },
+    // 点击memu
+    clickItme (item , index) {
+      this.tabIndex = index;
     }
   }
 }
@@ -71,7 +95,7 @@ export default {
         width: 100%;
         background: #FFFFFF;
         border-radius: 8px;
-        padding: 40rpx 20rpx;
+        padding: 30rpx 20rpx;
         box-sizing: border-box;
         display: flex;
         align-items: center;
@@ -80,11 +104,14 @@ export default {
           width: 100rpx;
           height: 100rpx;
           flex-shrink: 0;
+          border-radius: 50%;
+          overflow: hidden;
+          margin-right: 6rpx;
           @include flex_center;
           @include img_fill;
         }
         .card_r{
-          @include fontMixin(30rpx, #333333,bold);
+          @include fontMixin(24rpx, #333333, bold);
           flex-grow: 1;
         }
       }

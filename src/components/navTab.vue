@@ -11,6 +11,7 @@
           {{ item.label }}
         </div>
       </div>
+      <slot name='diy'></slot>
     </scroll-box>
   </div>
 </template>
@@ -23,17 +24,21 @@ export default {
     list: {
       type: Array,
       default:() => []
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },  
   data () {
     return {
-      index: 0
+      // index: 0
     }
   },
   methods:{
     clickItem(item, index) {
-      this.index = index;
-      this.$emit('clickItme', item)
+      console.log(1222354)
+      this.$emit('clickItme', item, index)
     }
   },
 }

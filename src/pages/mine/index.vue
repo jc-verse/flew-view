@@ -27,7 +27,7 @@
       <div class="nav_list">
         <div class="nav_item" v-for="(item, idx) in navList" :key="idx">
           <div @click="navClick(item)" :class="['item_content', item.id === actived ? 'actived' : '']">
-            <img src="" class="img">
+            <img :src="item.icon" class="img">
             <div class="item_label">{{item.label}}</div>
           </div>
         </div>
@@ -56,10 +56,10 @@ export default {
       userLevel: '3',
       actived: '1',
       navList: [
-        { label: '进行中', id: '1' },
-        { label: '被申请', id: '2' },
-        { label: '发起中', id: '3' },
-        { label: '申请记录', id: '4' },
+        { label: '进行中', id: '1', icon: require('@/static/img1/order_1.png') },
+        { label: '被申请', id: '2', icon: require('@/static/img1/order_4.png') },
+        { label: '发起中', id: '3', icon: require('@/static/img1/order_2.png') },
+        { label: '申请记录', id: '4', icon: require('@/static/img1/order_3.png') },
       ]
     }
   },

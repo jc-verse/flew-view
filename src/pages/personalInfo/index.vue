@@ -98,7 +98,7 @@ export default {
       }
       
       &._F {
-        border-top: 2rpx solid rgba(0, 0, 0, .5);
+        border-top: 2rpx solid rgba(0, 0, 0, .1);
       }
 
       .label {

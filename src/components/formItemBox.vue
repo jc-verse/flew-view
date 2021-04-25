@@ -1,9 +1,12 @@
 <template>
-<div  :class="[ 'formItemBox', showB?'no_border':'']">
-  <div class="left" :class="[ite.required?'required': '']">{{ ite.label }}</div>
-  <div class="right">
-    <slot></slot>
+<div  :class="[ 'formItemBox', showB?'no_border':'' ]">
+  <div class="top">
+    <div class="left" :class="[ite.required ? 'required' : '']">{{ ite.label }}</div>
+    <div class="right">
+      <slot></slot>
+    </div>
   </div>
+  <slot name='diy'></slot>
 </div>
 </template>
 
@@ -37,10 +40,12 @@ export default {
 
 <style lang="scss" scoped>
 .formItemBox{
-  @include flex_(space-between);
   border-bottom: 2rpx solid rgba(0,0,0,.05);
   padding: 20rpx 0;
-  position: relative;
+  .top{
+    @include flex_(space-between);
+    position: relative;
+  }
   .required::before{
     content: '*';
     position: absolute;
@@ -50,10 +55,11 @@ export default {
     color: red;
   }
   .left{
-    max-width: 30%;
+    max-width: 36%;
+    @include fontMixin(32rpx,#333333)
   }
   .right{
-    max-width: 70%;
+    max-width: 64%;
     flex-grow: 1;
     .input{
       text-align: end;

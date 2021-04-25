@@ -9,12 +9,24 @@ export const joinUrl = (url, data = {}) => {
 
   const newUrl = keys.reduce((url, key)=> {
     let u = url
-    if (/\?/.test(url)) {
-        u += `&${key}:${data[key]}`
-    } else {
-      u += `?${key}:${data[key]}`
+    if (!data[key]) {
+      return u
     }
-    return u
+    const flag = data[key] instanceof Object
+    if (/\?/.test(url)) {
+      u += `&${key}=${ flag ? JSON.stringify(data[key]) : data[key]}`
+      return u
+    } else {
+      u += `?${key}=${flag ? JSON.stringify(data[key]) : data[key]}`
+      return  u;
+    }
   }, url)
   return newUrl
+}
+
+// 获取当前页面路由信息
+export const  getCurPage = () =>{
+  let pages = getCurrentPages();
+  let curPage = pages[pages.length-1];
+  return curPage
 }

@@ -4,12 +4,10 @@
       <div class="user_head" :style="headStyles">
         <img src="@/static/img1/icon_8.png" alt="">
       </div>
-      <slot name='center'>
-        <div class="title" :style='styles'> {{iconFilter.name || ''}} </div>
-        <div :class='["gender", iconFilter.value]' :style='styles' v-if="showGender">
-          <i :class="['iconfont', 'icon_item', iconFilter.icon ]"></i>
-        </div>
-      </slot>
+      <div class="title" :style='styles'> {{iconFilter.name || ''}} </div>
+      <div :class='["gender", iconFilter.value]' :style='styles'>
+        <i :class="['iconfont', 'icon_item', iconFilter.icon ]"></i>
+      </div>
     </div>
 
     <div class="right">
@@ -33,11 +31,8 @@ export default {
     styles: {
       type: String,
       default: ''
-    },
-    showGender: {
-      type: Boolean,
-      default: true
-    }
+    } 
+
   }
 }
 </script>
@@ -70,9 +65,7 @@ export default {
     @include img_fill;
   }
   .title{
-    max-width: 200rpx;
     @include font_1;
-    @include ellipsis;
   }
   .gender{
     .icon_item{

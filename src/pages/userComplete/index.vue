@@ -17,6 +17,10 @@
         <div class="bottom">
           <courseSystem title="课程体系" :tableHead='tableHead' :showBtn='false' class="tb_item">
             <div class="add" slot='diy'> <i class="iconfont iconjiahao add_icon"></i> <span style="font-size:28rpx">请选择</span> </div>
+            <div class="right_h" slot='right'>
+              <i class="iconfont icontupianshangchuan"></i>
+              <span>上传认证</span>
+            </div>
           </courseSystem> 
 
           <courseSystem title="标化成绩" :tableHead='tableHead2' class="tb_item" /> 
@@ -24,8 +28,10 @@
           <form-item-box v-for='(ite, ind) in bottomHeads' :key='ind' :ite='ite' :show-b='ind+1 === bottomHeads.length' >
               <template v-if='ite.params.genre === "custom"'>
                 <div class="custom add"  @click="addAut">
-                  上传认证
-                  <!-- <i class="iconfont iconjiahao add_icon"></i> -->
+                  <div class="right_h" slot='right'>
+                    <i class="iconfont icontupianshangchuan"></i>
+                    <span>上传认证</span>
+                  </div>
                 </div>
                 <div class="g_list" slot='diy'>
                   <template v-if="autList.length && shows.aut">
@@ -49,6 +55,12 @@
               
               </template>
             <form-item :info='ite' :headInit='ite' v-else></form-item>
+          </form-item-box>
+        </div>
+
+        <div class="center">
+          <form-item-box v-for='(ite, ind) in lastHeads' :key='ind' :ite='ite' :show-b='ind+1 === lastHeads.length' >
+            <form-item :info='ite' :headInit='ite'></form-item>
           </form-item-box>
         </div>
 
@@ -96,6 +108,11 @@ export default {
       bottomHeads:[
         { label: '比赛经历', code:'nameL', id: '' ,required: false,  params: { ph: '亮出你比赛经历吧',  genre:'custom', type: 'text', max: 20 }},
         { label: '希望参加的比赛', code:'nameS', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'input', type: 'text', max: 20 }},
+      ],
+      lastHeads: [
+        { label: '专业方向', code:'name1', id: '' ,required: false, params: { ph: '请填写',  genre:'input', type: 'text', max: 20 } },
+        { label: '个人留言', code:'name2', id: '' ,required: false, params: { ph: '请填写',  genre:'input', type: 'text', max: 20 } },
+        { label: '录取大学', code:'name3', id: '' ,required: false, params: { ph: '确认录取后请填写',  genre:'input', type: 'text', max: 20 } },
       ],
       formData: {},
       tableHead: [
@@ -175,7 +192,8 @@ export default {
     }
     .custom{
       justify-content: flex-end;
-      @include fontMixin(28rpx, #676FDF)
+      @include fontMixin(28rpx, #676FDF);
+      position: relative;
     }
     .g_list{
       padding: 20rpx 0 0;
@@ -229,6 +247,15 @@ export default {
       margin-right: 10rpx;
       @include flex_center;
     }
+  }
+  .right_h{
+    position: absolute;
+    right: 0;
+    @include flex_center;
+    @include fontMixin(24rpx, #676FDF);
+    border: 2rpx dotted #676FDF;
+    padding: 0 8rpx;
+    line-height: 40rpx;
   }
 }
 </style>

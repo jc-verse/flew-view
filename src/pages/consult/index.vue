@@ -45,6 +45,9 @@ export default {
     // #endif
   },
   methods : {
+    changeVal(value) {
+      console.log(1,value)
+    },
   },
 }
 </script>

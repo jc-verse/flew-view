@@ -1,6 +1,6 @@
 <template>
   <div class="fab_group">
-    <div class="user fab" v-for="(item, ind) in list" :key="ind" @click="clickFn(ind, item)">
+    <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click="clickFn(ind, item)">
       <i @click="clickFn" :class="['iconfont','icon_item', item.icon ]"></i>
     </div>
   </div>
@@ -9,6 +9,12 @@
 import { uniFab } from '@dcloudio/uni-ui'
 export default {
   components:{uniFab},
+  props: {
+    shows: {
+      type: Array,
+      default: ()=> [1,2]
+    },
+  },
   data() {
     return {
       list : [
@@ -17,9 +23,24 @@ export default {
       ]
     }
   },
+  computed : {
+    newList () {
+      const shows = this.shows;
+      console.log(122, shows)
+      return this.list.filter(item=> shows.includes(item.id))
+    }
+  },
   methods: {
     clickFn(ind, item) {
       this.$emit('clickItem', item)
+      switch (item.id) {
+        case 1:
+          uni.navigateTo({ url: '/pages/mine/index' })
+          break;
+        case 2:
+          uni.navigateTo({ url: '/pages/home/index' })
+          break;
+      }
     }
   }
 }
