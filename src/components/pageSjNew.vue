@@ -1,6 +1,6 @@
 <template>
     <scroll-view 
-      :style="{height : customBarH}" 
+      :style="{height : customBarH, background:styles.background}" 
       class="pageSjNew" 
       id='pageSjNew' 
       :scroll-y="true" 
@@ -22,6 +22,12 @@ export default {
       topNum: 0,
       scrollTop: 0,
       old: { scrollTop: 0 }
+    }
+  },
+  props: {
+    styles: {
+      type: Object,
+      default: ()=>({background:''})
     }
   },
   computed: {

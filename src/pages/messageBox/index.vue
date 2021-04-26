@@ -1,5 +1,5 @@
 <template>
-  <PageJS class="">
+  <PageJS  :styles="{background:'#F1F3F5'}">
     <div class="msg_center_wrap">
       <div class="sigle_msg_item" v-for="(item, idx) in msgList" :key="idx">
         <div class="time">{{item.time}}</div>
@@ -39,6 +39,7 @@ export default {
 .msg_center_wrap {
   background: #F1F3F5;
   padding: 20rpx 30rpx 0;
+  box-sizing: border-box;
 
   .sigle_msg_item {
     .time {
