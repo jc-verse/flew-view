@@ -1,5 +1,5 @@
 <template>
-  <PageJs class="page_mine">
+  <div class="page_mine">
     <div class="header_wrap">
       <img class="bgs" src="@/static/img1/mine_bg.png" alt="">
       <div class="mine_title_wrap">
@@ -38,7 +38,7 @@
         <GroupItem v-for="(item, idx) in 3" :key="idx" />
       </ScrollBox>
     </div>
-  </PageJs>
+  </div>
 </template>
 <script>
 import PageJs from '../../components/pageSj.vue'
@@ -87,12 +87,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page_mine {
-  // height: 100vh;
-  height: 100%;
+  height: 100vh;
   box-sizing: border-box;
   background: #F1F3F5;
   padding: 0 30rpx;
-  // overflow: auto;
   overflow: hidden;
   
 
@@ -262,7 +260,7 @@ export default {
     border-radius: 16rpx;
     padding: 40rpx 30rpx;
 
-    .group_info_item {
+    /deep/ .group_info_item {
       margin-bottom: 20rpx;
       background: #FFF7E8;
     }
