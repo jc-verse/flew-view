@@ -3,7 +3,7 @@
   
     <infoHead :iconFilter='iconFilter'/>
 
-    <div class="content">
+    <div class="info_content">
       <!-- 个人信息 -->
       <information :topList='topList'/>
       <!-- 经历 -->
@@ -81,7 +81,7 @@ export default {
   margin-bottom: 20rpx;
   position: relative;
 
-  .content>div:not(:last-child){
+  .info_content>div:not(:last-child){
     border-bottom: 2rpx solid #ECEEF6;
   }
   .team_member{
@@ -119,7 +119,6 @@ export default {
     padding: 10rpx 20rpx;
     @include fontMixin(28rpx, #EF8E17 ,bold);
   }
-  
 }
 
 </style>

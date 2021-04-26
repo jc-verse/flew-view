@@ -1,9 +1,9 @@
 <template>
   <page-sj> 
-    <div class="consult">
+    <div class="consult" style="overflow: hidden;">
       <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
       <tag-group ></tag-group>
-      <scroll-box>
+      <scroll-box :num='2'>
         <div class="group_info_list">
           <div class='list_tip'>搜索到3个关于“包玉刚”的信息</div>
           <group-item v-for="(item, ind) in 3" :key='ind'/>
@@ -19,7 +19,7 @@
 import groupItem from './groupItem';
 import search from '@/components/search';
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/tagGroup';
 import fabGroup from '@/components/fabGroup';
 export default {
@@ -57,6 +57,7 @@ export default {
   display: flex;
   flex-direction: column ;
   background: #F1F3F5;
+  overflow: hidden;
   .group_info_list{
     position: relative;
     display: flex;

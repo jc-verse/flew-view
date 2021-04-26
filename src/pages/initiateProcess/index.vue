@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import pageSj from '@/components/pageSj'
+import pageSj from '@/components/pageSjNew'
 export default {
   name: 'initiateProcess',
   components: { pageSj },

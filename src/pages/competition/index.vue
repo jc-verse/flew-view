@@ -15,7 +15,7 @@
 <script>
 import search from '@/components/search';
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 import cartList from './cartList'
 import { joinUrl } from '@/common/utils'
 export default {

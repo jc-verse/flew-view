@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import PageJs from '../../components/pageSj.vue'
+import PageJs from '../../components/pageSjNew.vue'
 import MsgItem from './msgItem.vue'
 import GroupItem from '../consult/groupItem.vue'
 import ScrollBox from '@/components/scrollBox.vue'

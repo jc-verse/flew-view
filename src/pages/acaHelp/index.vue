@@ -1,9 +1,9 @@
 <template>
   <page-sj> 
-    <div class="consult">
+    <div class="acaHelp">
       <search @change='changeVal' :pValue='searchVal' :propertys="{'maxlength':'10'}"/>
       <tag-group ></tag-group>
-      <scroll-box>
+      <scroll-box :num='2'>
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
           <template v-if="!searchVal">
@@ -25,7 +25,7 @@ import groupItem from './groupItem';
 import searchItem from './searchItem';
 import search from '@/components/search';
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/tagGroup';
 import fabGroup from '@/components/fabGroup';
 export default {
@@ -58,15 +58,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.consult{
+.acaHelp{
   display: flex;
   flex-direction: column ;
   background: #F1F3F5;
+  overflow: hidden;
   .group_info_list{
     position: relative;
     display: flex;
     flex-direction: column;
     padding: 20rpx 30rpx;
+    box-sizing: border-box;
     .list_tip{
       padding-bottom: 20rpx;
       @include fontMixin(24rpx, #6d6c6c)

@@ -1,13 +1,15 @@
 <template>
-  <PageJS class="msg_center_wrap">
-    <div class="sigle_msg_item" v-for="(item, idx) in msgList" :key="idx">
-      <div class="time">{{item.time}}</div>
-      <MessageItem :msg="subItem" v-for="(subItem, subIdx) in item.list" :key="subIdx" />
+  <PageJS class="">
+    <div class="msg_center_wrap">
+      <div class="sigle_msg_item" v-for="(item, idx) in msgList" :key="idx">
+        <div class="time">{{item.time}}</div>
+        <MessageItem :msg="subItem" v-for="(subItem, subIdx) in item.list" :key="subIdx" />
+      </div>
     </div>
   </PageJS>
 </template>
 <script>
-import PageJS from '../../components/pageSj.vue';
+import PageJS from '../../components/pageSjNew.vue';
 import MessageItem from './messageItem.vue'
 
 export default {

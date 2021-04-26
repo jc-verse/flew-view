@@ -27,7 +27,8 @@ export default {
   computed: {
     customBarH () {
       const { topNum } = this;
-      return topNum ? `calc(100vh - ${topNum * 2}rpx)` : '100vh';
+
+      return topNum ? `calc(100vh - ${topNum * 2 + 8}rpx)` : '100vh';
     }
   },
   mounted () {

@@ -31,7 +31,7 @@
   </PageJS>
 </template>
 <script>
-import PageJS from '../../components/pageSj.vue';
+import PageJS from '../../components/pageSjNew.vue';
 import ItemInfo from '@/pages/mine/msgItem.vue'
 
 export default {

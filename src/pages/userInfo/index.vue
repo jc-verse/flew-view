@@ -62,7 +62,7 @@
 <script>
 
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 import courseSystem from './courseSystem';
 import formItem from '@/components/formItem';
 import formItemBox from '@/components/formItemBox';

@@ -99,8 +99,11 @@ export default {
   justify-content: flex-end;
   .input,/deep/.uni-combox__input{
     border: none;
-    text-align: end;
+    // text-align: end;
     outline: none;
+  }
+  input {
+    text-align: right !important;
   }
   .custom, .select{
     @include fontMixin(26rpx, #808080)

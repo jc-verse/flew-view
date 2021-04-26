@@ -39,7 +39,7 @@
 
 <script>
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/tagGroup';
 import fabGroup from '@/components/fabGroup';
 import bottomLogo from "@/components/bottomLogo";

@@ -51,6 +51,8 @@ export default {
 $color:#999999;
 .diy_search_box{
   background: white;
+  line-height: 62rpx;
+  height: 90rpx;
   .icon_search{
     position: relative;
     margin-right: 20rpx;

@@ -9,7 +9,8 @@
       <!-- 中间操作 -->
       <div class="bottom_box">
         <p class="font_1">欢迎来到 视界 | Reach</p>
-        <button type="default" open-type="getUserInfo" bindgetuserinfo='getuserinfo' class="btn" @click="clickBtn">进入</button>
+        <!-- open-type="getUserInfo" bindgetuserinfo='getuserinfo' -->
+        <button type="default"  class="btn" @click="clickBtn">进入</button>
       </div>
       <!-- 底部logo -->
       <bottom-logo/>
@@ -18,7 +19,7 @@
 </template>
 <script>
 import bottomLogo from "@/components/bottomLogo";
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 export default {
   name:'guidance',
   components:{ bottomLogo, pageSj },

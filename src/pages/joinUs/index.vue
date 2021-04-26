@@ -36,7 +36,7 @@
 
 <script>
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 import bottomLogo from "@/components/bottomLogo";
 import { textMsg } from './const';
 export default {

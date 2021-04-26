@@ -54,7 +54,7 @@ export default {
   background: #ffffff;
   box-sizing: border-box;
   overflow: scroll;
-  padding: 24rpx 10rpx;
+  padding: 16rpx 10rpx;
   flex-shrink: 0;
   .tag_list{
     display: flex;

@@ -24,7 +24,7 @@
 <script>
 import search from '@/components/search';
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSj';
+import pageSj from '@/components/pageSjNew';
 
 import navTab from '@/components/navTab';
 import fabGroup from '@/components/fabGroup';

@@ -405,6 +405,10 @@
 			{
 				"name": "学术帮助", //模式名称
 				"path": "pages/userComplete/index"
+			},
+			{
+				"name": "消息中心", //模式名称
+				"path": "pages/messageBox/index"
 			}
 		]
 	}
