@@ -55,6 +55,7 @@
         <div class="btn" :class='[showBtn?"btn_active":""]' @click='submit'> 确定 </div>
       </div>
     </scroll-box>
+    <FabGroup/>
   </page-sj>
   
 </template>
@@ -66,27 +67,28 @@ import pageSj from '@/components/pageSjNew';
 import courseSystem from './courseSystem';
 import formItem from '@/components/formItem';
 import formItemBox from '@/components/formItemBox';
+import FabGroup from '@/components/fabGroup';
 const arr = [
   { label: '男', id: 0 },
   { label: '女', id: 1 }
 ]
 export default {
   name: 'userInfo',
-  components:{ scrollBox, courseSystem, pageSj, formItem, formItemBox },
+  components:{ scrollBox, courseSystem, pageSj, formItem, formItemBox, FabGroup },
   data() {
     return {
       isH5: false,
       value: '',
       formHeads:[
         { label: '昵称',   code:'name',       id: '' ,required: false, params: { ph: '获取微信名',    genre:'text', type: 'text', max: 20} },
-        { label: '微信号', code:'activeName', id: '' ,required: true,  params: { ph: '请填写微信号',  genre:'input', type: 'text', max: 20 }},
+        { label: '微信号', code:'activeName', id: '' ,required: false,  params: { ph: '请填写微信号',  genre:'input', type: 'text', max: 20 }},
         { label: '姓名',   code:'type',       id: '' ,required: true,  params: { ph: '请填写真实姓名',genre:'input', type: 'text', max: 20 } },
         { label: '手机',   code:'startTime',  id: '' ,required: true,  params: { ph: '请填写电话',    genre:'input', type: 'number', max: 20 } },
         { label: '学校',   code:'city',    id: '' ,required: true,  params: { ph: '请填写学校',    genre:'combox', type: 'text', max: 20 ,candidates:['1','12','13','8',15,16,17]} },
         { label: '年级',   code:'site',       id: '' ,required: true,  params: { ph: '请填写年级',    genre:'input', type: 'text', max: 20 } },
         { label: '性别',   code:'info',       id: '' ,required: false,  params: { ph: '请选择性别',    genre:'select', list: arr } },
         { label: '邮箱',   code:'number',     id: '' ,required: true,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
-        { label: '邮箱',   code:'number',     id: '' ,required: true,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
+        // { label: '邮箱',   code:'number',     id: '' ,required: true,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
         // { label: '邮箱1',   code:'che',     id: '' ,required: true,  params: { ph: '请填写邮箱1',    genre:'checkbox' , max: 20} },
         // { label: '邮箱2',   code:'che2',     id: '' ,required: true,  params: { ph: '请填写邮箱1',    genre:'custom' , max: 20} },
       ],

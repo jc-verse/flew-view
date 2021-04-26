@@ -2,7 +2,7 @@
 <page-sj>
   <div class="initiateProcess">
     <div class="content">
-      <div class="item_box" v-for='(ite, ind) in formHeads' :key='ind'>
+      <!-- <div class="item_box" v-for='(ite, ind) in formHeads' :key='ind'>
         <div class="left">{{ ite.label }}</div>
         <div class="right">
           <input type="text" 
@@ -13,7 +13,10 @@
             :curser="value.length"
           >
         </div>
-      </div>
+      </div> -->
+      <form-item-box v-for='(ite, ind) in formHeads' :key='ind' :ite='ite' :show-b='ind+1 === formHeads.length' >
+        <form-item :info='ite' :headInit='ite'></form-item>
+      </form-item-box>
     </div>
     <div class="btn" :class='[showBtn?"btn_active":""]' @click='submit'> 确定 </div>
   </div>
@@ -22,24 +25,27 @@
 </template>
 
 <script>
-import pageSj from '@/components/pageSjNew'
+import pageSj from '@/components/pageSjNew';
+
+import formItem from '@/components/formItem';
+import formItemBox from '@/components/formItemBox';
 export default {
   name: 'initiateProcess',
-  components: { pageSj },
+  components: { pageSj, formItem, formItemBox },
   data() {
     return {
       value: '',
       formHeads:[
-        { label: '发起者', code:'name', id: '' ,required: false, ph: '获取微信名' },
-        { label: '活动名称', code:'activeName', id: '' ,required: true, ph: '请填写' },
-        { label: '活动类型', code:'type', id: '' ,required: true, ph: '选填' },
-        { label: '开始时间', code:'startTime', id: '' ,required: true, ph: '请选择' },
-        { label: '结束时间', code:'endTime', id: '' ,required: true, ph: '请选择' },
-        { label: '地点', code:'site', id: '' ,required: true, ph: '请填写' },
-        { label: '活动信息', code:'info', id: '' ,required: true, ph: '请填写' },
-        { label: '参与人数', code:'number', id: '' ,required: true, ph: '请填写' },
-        { label: '招募要求', code:'require', id: '' ,required: true, ph: '请填写' },
-        { label: '备注', code:'remark', id: '' ,required: true, ph: '请填写' },
+        { label: '发起者', code:'name', id: '' ,required: false, params: { ph: '获取微信名',    genre:'text', type: 'text', max: 20} },
+        { label: '活动名称', code:'activeName', id: '' ,required: true, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
+        { label: '活动类型', code:'type', id: '' ,required: true, params: { ph: '选填',    genre:'select', type: 'text', max: 20} },
+        { label: '开始时间', code:'startTime', id: '' ,required: true, params: { ph: '请选择',    genre:'date', type: 'text', max: 20} },
+        { label: '结束时间', code:'endTime', id: '' ,required: true, params: { ph: '请选择',    genre:'date', type: 'text', max: 20} },
+        { label: '地点',    code:'site', id: '' ,required: true, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
+        { label: '活动信息', code:'info', id: '' ,required: true, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
+        { label: '参与人数', code:'number', id: '' ,required: true, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
+        { label: '招募要求', code:'require', id: '' ,required: false, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
+        { label: '备注',    code:'remark', id: '' ,required: false, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
       ],
       formData: {}
     }

@@ -174,7 +174,7 @@
 		},{
 			"path": "pages/consult/index",
 			"style": {
-				"navigationBarTitleText": "各院校信息咨询",
+				"navigationBarTitleText": "学校信息咨询",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff",
 				"app-plus": {

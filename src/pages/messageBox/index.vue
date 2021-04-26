@@ -6,15 +6,17 @@
         <MessageItem :msg="subItem" v-for="(subItem, subIdx) in item.list" :key="subIdx" />
       </div>
     </div>
+    <FabGroup/>
   </PageJS>
 </template>
 <script>
 import PageJS from '../../components/pageSjNew.vue';
 import MessageItem from './messageItem.vue'
 
+import FabGroup from '@/components/fabGroup';
 export default {
   name: 'message-center',
-  components: { PageJS, MessageItem },
+  components: { PageJS, MessageItem, FabGroup },
   data() {
     return {
       msgList: [

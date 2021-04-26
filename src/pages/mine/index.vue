@@ -1,5 +1,6 @@
 <template>
-  <div class="page_mine">
+  <PageJs :styles="{background: '#F1F3F5'}">
+    <div class="page_mine">
     <div class="header_wrap">
       <img class="bgs" src="@/static/img1/mine_bg.png" alt="">
       <div class="mine_title_wrap">
@@ -33,12 +34,14 @@
       </div>
     </div>
     <div class="content_wrap">
-      <ScrollBox>
+      <ScrollBox :num='60'>
         <!-- <MsgItem /> -->
         <GroupItem v-for="(item, idx) in 3" :key="idx" />
       </ScrollBox>
     </div>
   </div>
+  <FabGroup :shows='[2]'/>
+  </PageJs>
 </template>
 <script>
 import PageJs from '../../components/pageSjNew.vue'
@@ -46,12 +49,15 @@ import MsgItem from './msgItem.vue'
 import GroupItem from '../consult/groupItem.vue'
 import ScrollBox from '@/components/scrollBox.vue'
 
+import FabGroup from '@/components/fabGroup';
+
 export default {
   components: {
     PageJs,
     MsgItem,
     GroupItem,
-    ScrollBox
+    ScrollBox,
+    FabGroup
   },
   data() {
     return {
@@ -87,7 +93,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page_mine {
-  height: 100vh;
+  // height: 100vh;
   box-sizing: border-box;
   background: #F1F3F5;
   padding: 0 30rpx;

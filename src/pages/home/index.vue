@@ -76,6 +76,7 @@
       </scroll-box>
 
     </div>
+    <FabGroup :shows='[1]'/>
   </page-sj>
 </template>
 
@@ -85,9 +86,11 @@ import bottomLogo from "@/components/bottomLogo";
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 
+import FabGroup from '@/components/fabGroup';
+
 export default {
   name: 'home',
-  components: { infoHead, bottomLogo, scrollBox, pageSj },
+  components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup },
   data () {
     return {
       genders: {

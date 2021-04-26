@@ -42,9 +42,9 @@ export default {
       },
       topList: [
         { title: '学校', val: '世界联合学院', id: 1 }, 
-        { title: '年纪', val: '10', id: 2 }, 
-        { title: '标化', val: '我是标化成绩范围18字符', id: 3 }, 
         { title: '课程', val: 'ALEVEL', id: 4 }, 
+        { title: '标化', val: '我是标化成绩范围18字符', id: 3 }, 
+        { title: '年级', val: '10', id: 2 }, 
       ],
       cList: [ '2020 NSDA最佳辩手', '2020 NSHDLC 全程最佳辩手', '2020 AIME 全球前百分之一' ],
       tagList: [ 'NECIEO', 'AIME',  ],

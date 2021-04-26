@@ -28,15 +28,17 @@
         </div>
       </div>
     </div>
+    <FabGroup/>
   </PageJS>
 </template>
 <script>
 import PageJS from '../../components/pageSjNew.vue';
 import ItemInfo from '@/pages/mine/msgItem.vue'
 
+import FabGroup from '@/components/fabGroup';
 export default {
   name: 'personalInfo',
-  components: { PageJS, ItemInfo },
+  components: { PageJS, ItemInfo, FabGroup },
   data() {
     return {
       sexList: ['女', '男'],

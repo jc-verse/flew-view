@@ -1,6 +1,6 @@
 <template>
   <div class="information">
-    <div class="top_item" v-for="(item, ind) in topList" :key="ind">
+    <div class="top_item" v-for="(item, ind) in topList" :key="ind" :style='{width: item.width || ""}'>
       <div v-if="item.code !=='rate' ">{{`${item.title}：${item.val}`}}</div>
 
       <div class="rate" v-else>{{`${item.title}：`}}<rate :size="18" :value="5" :max="5"></rate>
@@ -33,6 +33,9 @@ export default {
   flex-wrap: wrap;
   @include fontMixin(28rpx, #333333 ,400);
   margin-top:20rpx;
+  >.top_item:first-child{
+    width: 100%;
+  }
   .top_item{
     min-width: 50%;
     flex-grow: 1;

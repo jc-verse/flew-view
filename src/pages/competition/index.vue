@@ -9,6 +9,7 @@
       </div>
     </scroll-box>
   </div>
+  <FabGroup/>
 </page-sj>
 </template>
 
@@ -18,9 +19,10 @@ import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 import cartList from './cartList'
 import { joinUrl } from '@/common/utils'
+import FabGroup from '@/components/fabGroup';
 export default {
   name:'competition',
-  components: { search, cartList, scrollBox, pageSj },
+  components: { search, cartList, scrollBox, pageSj, FabGroup },
   data() {
     return {
       isH5: false,

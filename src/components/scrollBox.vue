@@ -24,11 +24,17 @@ export default {
       old: { scrollTop: 0 }
     }
   },
+  props: {
+    num: {
+      type: Number,
+      default: 0
+    }
+  },
   computed: {
     customBarH () {
-      const { topNum } = this;
+      const { topNum, num } = this;
 
-      return topNum ? `calc(100vh - ${topNum * 2 + 8}rpx)` : '100vh';
+      return topNum ? `calc(100vh - ${topNum * 2 + 8 + num}rpx)` : '100vh';
     }
   },
   mounted () {

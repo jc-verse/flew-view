@@ -31,6 +31,7 @@
         <bottom-logo/>
       </scroll-box>
     </div>
+    <FabGroup/>
   </page-sj>
 </template>
 
@@ -39,9 +40,11 @@ import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 import bottomLogo from "@/components/bottomLogo";
 import { textMsg } from './const';
+
+import FabGroup from '@/components/fabGroup';
 export default {
   name:'about_us', 
-  components: { scrollBox, bottomLogo, pageSj },
+  components: { scrollBox, bottomLogo, pageSj, FabGroup },
   data () {
     return {
       textMsg,

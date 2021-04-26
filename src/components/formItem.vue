@@ -23,6 +23,15 @@
       </picker>
     </template>
 
+    
+    <!-- select -->
+    <template v-if="headInit.params.genre === 'date'">
+      <picker  range-key='label' mode = date :value="formData[headInit.code]" @change="change($event, 'select', headInit.code)" :range="headInit.params.list">
+        <view class="select"  v-if='formData[headInit.code]'>{{headInit.params.list[formData[headInit.code]].label}}</view>
+        <view v-else style='color:#808080'>请选择</view>
+      </picker>
+    </template>
+
     <!-- checkbox -->
     <template v-if="headInit.params.genre === 'checkbox'">
       <checkbox-group @change='change($event, "checkout", headInit.code)' v-model='formData[headInit.code]'>
@@ -99,7 +108,7 @@ export default {
   justify-content: flex-end;
   .input,/deep/.uni-combox__input{
     border: none;
-    // text-align: end;
+    text-align: end;
     outline: none;
   }
   input {
