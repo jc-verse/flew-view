@@ -20,6 +20,7 @@
 <script>
 import bottomLogo from "@/components/bottomLogo";
 import pageSj from '@/components/pageSjNew';
+import { jscode2session, login } from '@/common/api.js'
 export default {
   name:'guidance',
   components:{ bottomLogo, pageSj },
@@ -35,9 +36,16 @@ export default {
       }
     })
   },
+  // onLaunch
   methods: {
     clickBtn() {
       uni.navigateTo({ url: '/pages/home/index' })
+    },
+    login () {
+      const params = {}
+      jscode2session(params).then(res => {
+        console.log('jscode2session', res)
+      })
     }
   }
 }
