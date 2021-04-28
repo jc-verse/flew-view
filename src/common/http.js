@@ -1,20 +1,21 @@
 
-const baseUrl = '';
+export const baseUrl = 'http://47.101.54.170:8111/server';
 
 const headerOptions = {
-  'GET': {
-      'content-type': 'application/json; vjstdry=UTF-8',
-      'Accept': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest'
-    },
   'POST': {
-    'content-type': 'application/x-www-form-urlencoded',
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+      // 'X-Requested-With': 'XMLHttpRequest'
+    },
+  'GET': {
+    'Accept': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
   }
 }
 
 // 当配置项中不含有三种回调函数时，将以promise返回数据
 
-const http =  ( url, options) => {
+export const httpAPI =  ( url, options) => {
   const { data, header = {}, method  } = options;
   let htttpDefaultOpts = {
     url: baseUrl + url,
@@ -23,10 +24,6 @@ const http =  ( url, options) => {
     withCredentials: true,
     method: method || 'POST',
   };
-  
   return uni.request(htttpDefaultOpts);
 }
-export default {
-  http,
-  baseUrl
-};
+

@@ -1,6 +1,6 @@
 {
     "name" : "hello uni-app",
-    "appid" : "",
+    "appid" : "wx8adf1952deaa14ea",
     "description" : "应用描述",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -99,7 +99,7 @@
     },
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx8adf1952deaa14ea",
         "setting" : {
             "urlCheck" : false
         },
