@@ -1,6 +1,7 @@
 
 
-export const list = [
+
+export const colorList = [
   { id: 1, iconUrl: require('@/static/img1/icon_1.png'), title: '经济与商业',    subhead: 'Economics and Business',  styles:{background: '#A89CF4'} },
   { id: 2, iconUrl: require('@/static/img1/icon_2.png'), title: 'STEM ',        subhead: 'STEM',                    styles:{background: '#76AFE7'} },
   { id: 3, iconUrl: require('@/static/img1/icon_3.png'), title: '人文学科',      subhead: 'Humanities',              styles:{background: '#8ACFDC'} },

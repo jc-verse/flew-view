@@ -4,27 +4,17 @@
       <div class="person_info_wrap">
         <div class="user_img_bar item">
           <div class="label">头像</div>
-          <img class="user_img" src="@/static/img1/icon_8.png" alt="">
+          <img class="user_img" :src="formData.avatar || ''" alt="">
         </div>
-        <div class="item _F" v-for="(item, idx) in userInfoInputList" :key="idx">
-          <div class="label">{{item.label || ''}}</div>
-          <div class="item_content" >
-            <input v-if="item.type === 'input'" @keypress.stop="saveItemData(item)" type="text" v-model="item.text" />
-            <span class="text" v-else>
-              <picker v-if="item.id === 'sex'" @change="(e) => sexChange(e, item)" :value="item.text" :range="sexList">
-                {{sexList[item.text]}}
-              </picker>
-              <picker v-if="item.id === 'birthday'" mode="date" :value="item.text" @change="(e) => bindDateChange(e, item)">
-                {{item.text}}
-              </picker>
-            </span>
-          </div>
-        </div>
+        <FormItemBox :ite ='ite' :formData='formData' :show-b='ind + 1 === formHeads.length' v-for='(ite, ind) in formHeads' :key='ind' >
+          <FormItem :headInit='ite' :formData='formData' @change="changeFn"/>
+        </FormItemBox>
       </div>
       <div class="person_card">
         <div class="title">我的名片卡</div>
         <div class="card_content">
-          <ItemInfo />
+          <GroupItem @clickBuoy='clickBuoy' :infoData='formData'></GroupItem>
+          <!-- <ItemInfo /> -->
         </div>
       </div>
     </div>
@@ -33,26 +23,70 @@
 </template>
 <script>
 import PageJS from '../../components/pageSjNew.vue';
-import ItemInfo from '@/pages/mine/msgItem.vue'
+import ItemInfo from '@/pages/mine/msgItem.vue';
+import FormItem from '@/components/formItem';
+import FormItemBox from '@/components/formItemBox';
+import { userCardInfo } from '@/common/api';
+import { sexs } from '@/common/enum';
+import { joinUrl, getCurPage } from '@/common/utils';
+import GroupItem from './groupItem'
+
 
 import FabGroup from '@/components/fabGroup';
 export default {
   name: 'personalInfo',
-  components: { PageJS, ItemInfo, FabGroup },
+  components: { PageJS, ItemInfo, FabGroup, FormItem, FormItemBox, GroupItem },
   data() {
     return {
-      sexList: ['女', '男'],
-      userInfoInputList: [
-        { label: '微信号', id: 'weChat', type: 'input', status: '1', text: '请填写微信号' },
-        { label: '昵称', id: 'nick', type: 'input', status: '1', text: '我是用户名称' },
-        { label: '性别', id: 'sex', type: 'select', status: '1', text: 1 },
-        { label: '生日', id: 'birthday', type: 'select', status: '1', text: '请填写生日' },
-        { label: '手机号', id: 'phoneNum', type: 'input', status: '1', text: '请填写手机号' },
-        { label: '邮箱', id: 'eMail', type: 'input', status: '1', text: '请填写邮箱' },
-      ]
+      formHeads: [
+        { label: '昵称',   code:'nikeName',  id: '',disabled:true ,required: false, params: { ph: '获取微信名',    genre:'text', type: 'text', max: 20} },
+        { label: '微信号', code:'wxNum',    id: '' ,disabled:true ,required: false,  params: { ph: '请填写微信号',  genre:'input', type: 'text', max: 20 }},
+        // { label: '生日',   code: 'birthday', id: '', required: false, params: { ph: '请填写生日',  genre:'date', type: 'text', max: 20 } },
+        { label: '年级',   code:'grade',     id: '' ,disabled:true ,required: false,  params: { ph: '请填写年级',    genre:'input', type: 'text', max: 20 } },
+        { label: '性别',   code:'sex',       id: '' ,disabled:true ,required: false,  params: { ph: '请选择性别',    genre:'select', list: sexs } },
+        { label: '邮箱',   code:'email',     id: '' ,disabled:true ,required: false,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
+      ],
+      formData: {},
+      headImg: '',
     }
   },
+  mounted() {
+    this.getInfo();
+
+    uni.getStorage({key: 'avatarUrl',
+      success:(res)=>{
+        const {data, errMsg} = res;
+        if (/ok/.test(errMsg)) {
+          this.headImg = data;
+        }
+      }
+    })
+  },
   methods: {
+    // 获取信息
+    getInfo() {
+      userCardInfo().then(res=> {
+        const { data:nData } = res[1];
+        const { data, code } = nData;
+        if (code === 200) {
+          data.avatar = this.headImg || ''
+          this.formData = data || {};
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 改变表单
+    changeFn({data,code}) {
+      this.formData[code] = data;
+      console.log(1, this.formData)
+    },
+
+    clickBuoy(val) {
+      console.log(val)
+      uni.navigateTo({
+        url: joinUrl('/pages/userInfo/index', { type:'edit' })
+      })
+    },
+
     editClick(item) {
       const { id } = item
       console.log('---item: ', item, id)

@@ -24,14 +24,9 @@ export default {
   },
   data () {
     return {
-      formData: {
-        info: '0',
-        name: '小明'
-      }
     }
   },
   mounted() {
-    console.log(111,this.ite)
   },
   methods: {
   }

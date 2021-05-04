@@ -44,10 +44,7 @@ export default {
   },
   mounted () {
     /*获取当前路由*/
-    let curPage = getCurPage();
-    let curParam = curPage.options || curPage.$route.query;
-
-    const { id, title } = curParam
+    const { id, title } = getCurPage();
     this.menuType = id || 0;
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
@@ -84,5 +81,6 @@ $color:#B3B3B4;
   border-radius: 10rpx;
   padding: 10rpx;
   color: #fff;
+  font-family: HYQH-505;
 }
 </style>

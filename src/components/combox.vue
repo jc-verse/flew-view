@@ -185,7 +185,7 @@
 		background-color: #ECECEC;
 		border-radius: 6px;
 		// box-shadow: #DDDDDD 4px 4px 8px, #DDDDDD -4px -4px 8px;
-		z-index: 2;
+		z-index: 4;
 	}
 
 	.uni-combox__selector-scroll {

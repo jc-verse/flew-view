@@ -5,9 +5,9 @@
       <search @change='search' :propertys="{'maxlength':'10'}"/>
       <div class="content_box">
         <nav-tab :list="newMemu" :index='tabIndex' @clickItme="clickItme"/>
-        <scroll-box>
+        <scroll-box style="width: 100%;">
           <div class="right_box">
-            <div class="card_item" v-for="(item, index) in newMemu[tabIndex].list" :key='index' @click="clickCardItem(item)">
+            <div class="card_item" v-for="(item, index) in newCards" :key='index' @click="clickCardItem(item)">
               <div class="card_l">
                 <img :src="item.url || defalutImg" alt="">
               </div>
@@ -30,6 +30,9 @@ import navTab from '@/components/navTab';
 import fabGroup from '@/components/fabGroup';
 import { tabList, cardList, memus  } from './const';
 import { joinUrl, getCurPage } from '@/common/utils';
+
+import { teamTypeBranchList, teamTypeCompetition } from '@/common/api';
+import { imgUrl } from '@/common/http';
 export default {
   name:'competition',
   components: { search, navTab, fabGroup, scrollBox, pageSj },
@@ -41,13 +44,29 @@ export default {
 
       menuType: '1',
       title: '',
-      tabIndex: 0
+      tabIndex: 0,
+      tabs: [],
+      cards: [],
+
+      size: 10,
+      current: 1,
+      total: 0
     }
   },
   computed: {
     newMemu () {
-      const memu = memus[this.menuType];
-      return memu
+      const memu = this.tabs.map(item => ({...item, label: item.sonName}));
+      return memu;
+    },
+    newCards () {
+      const cards = this.cards.map(item => {
+        return  {
+          ...item,
+          msg: item.matchName,
+          url: imgUrl +  item.icon
+        }
+      })
+      return cards
     }
   },
   mounted () {
@@ -58,9 +77,39 @@ export default {
     const { id, title } = curParam
     this.menuType = id || 0;
     this.title = title || '';
-      uni.setNavigationBarTitle({ title: this.title })
+    uni.setNavigationBarTitle({ title: this.title })
+    this.getList(this.menuType);
   },
   methods: {
+    getList (organizeTypeId) {
+      teamTypeBranchList({organizeTypeId}).then(res => {
+        const { data:nData } = res[1];
+        const { data, code } = nData || {};
+        if (code === 200) {
+          this.tabs = data;
+          this.tabIndex = 0;
+          this.getCardList()
+        }
+      }).catch(err => {console.log(err)})
+    },
+    getCardList (id) {
+      const { current, size, tabIndex, tabs  } = this;
+      if (!tabs.length) {return}
+      const params = {
+        current,
+        organizeTypeSonId: id || tabs[tabIndex].id,
+        size
+      }
+      teamTypeCompetition(params).then(res=> {
+        const { data:nData } = res[1];
+        const { data, code } = nData || {};
+        if (code === 200) {
+          const { size, total, pages, records } = data;
+          this.cards = records;
+          console.log(1099,this.cards)
+        }
+      }).catch(err => {console.log(err)})
+    },
     search(value) {
       console.log(1,value)
     },
@@ -73,6 +122,7 @@ export default {
     // 点击memu
     clickItme (item , index) {
       this.tabIndex = index;
+      this.getCardList();
     }
   }
 }

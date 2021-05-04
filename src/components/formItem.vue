@@ -2,23 +2,25 @@
   <div class="formItem">
     <!-- 文本 -->
     <template v-if="headInit.params.genre === 'text'">
-      {{  formData[headInit.code] }}
+      {{  formData[headInit.code] || '' }}
     </template>
     <!-- input -->
     <template v-if="headInit.params.genre === 'input'">
       <input class='input'
+        :disabled='!!headInit.disabled'
         v-model='formData[headInit.code]'
         :maxlength='headInit.params.max || 20'
         :type='headInit.params.type' 
         :placeholder='headInit.params.ph' 
         placeholder-class='placeH' 
+        @input="change($event, 'input', headInit.code)"
       >
     </template>
 
     <!-- select -->
-    <template v-if="headInit.params.genre === 'select'">
-      <picker  range-key='label' :value="formData[headInit.code]" @change="change($event, 'select', headInit.code)" :range="headInit.params.list">
-        <view class="select" v-if='formData[headInit.code]'>{{headInit.params.list[formData[headInit.code]].label}}</view>
+    <template v-if="headInit.params.genre === 'select'" >
+      <picker  range-key='label' :value="formData[headInit.code]" :disabled='!!headInit.disabled'  @change="change($event, 'select', headInit.code)" :range="headInit.params.list">
+        <view class="select" v-if='formData[headInit.code]'>{{formData[headInit.code] | findIndex(headInit.params.list)}}</view>
         <view v-else style='color:#808080'>请选择</view>
       </picker>
     </template>
@@ -26,7 +28,7 @@
     
     <!-- select -->
     <template v-if="headInit.params.genre === 'date'">
-      <picker  range-key='label' mode = date :value="formData[headInit.code]" @change="change($event, 'select', headInit.code)" :range="headInit.params.list">
+      <picker  range-key='label' mode='date' :disabled='!!headInit.disabled' :value="formData[headInit.code]" @change="change($event, 'select', headInit.code)" :range="headInit.params.list">
         <view class="select"  v-if='formData[headInit.code]'>{{headInit.params.list[formData[headInit.code]].label}}</view>
         <view v-else style='color:#808080'>请选择</view>
       </picker>
@@ -34,9 +36,18 @@
 
     <!-- checkbox -->
     <template v-if="headInit.params.genre === 'checkbox'">
-      <checkbox-group @change='change($event, "checkout", headInit.code)' v-model='formData[headInit.code]'>
+      <checkbox-group @change='change($event, "checkout", headInit.code)' :disabled='!!headInit.disabled' v-model='formData[headInit.code]'>
         <checkbox :value="headInit.code" :checked="formData[headInit.code]" />
       </checkbox-group>
+    </template>
+
+    <!-- upload -->
+    <template v-if="headInit.params.genre === 'upload'">
+      <UploadImg @uploadImg='change($event, "upload", headInit.code)' :statu='1'>
+        <slot name='upload'>
+          <i class="iconfont icontupianshangchuan " style="color:#676FDF;font-size:50rpx"></i>
+        </slot>
+      </UploadImg>
     </template>
 
     <!-- custom -->
@@ -64,39 +75,53 @@
 </template>
 
 <script>
+import UploadImg from "./upload";
 import combox  from './combox';
 export default {
   name:'formItem',
-  components: { combox },
+  components: { combox, UploadImg },
   data () {
     return {
-      formData: {
-        info: '0',
-        name: '小明',
-        city:'这里'
-      }
     }
   },
   props: {
-    info: { type: Object, default: ()=> ({}) },
-    headInit: { type: Object, default: ()=> ({}) }
+    headInit: { type: Object, default: ()=> ({}) },
+    formData: { type: Object, default: ()=> ({}) }
+  },
+  computed: {
+  },
+  filters: {
+    findIndex (val, arr) {
+      const item =  arr.find(item=> {
+        return item.id === val
+      }) || {}
+      return item.label || ''
+    }
   },
   methods: {
     comboxFn() {},
     change(e, type, code){
-      const { value } = e.target
+      const { value } = e.target || {}
+      let val = value || ''
       switch (type) {
         case 'checkout':
-          this.formData[code] = !!value.length;
+          val = !!value.length;
           break;
         case 'input':
+          val = value;
+          break;
+        case 'upload':
+          val = e.link || '';
+          break;
         case 'select':
-          this.formData[code] = value;
+          const {list} = this.headInit.params || {}
+          const ite = list.find((item, index) => index == value) || {}
+          val = ite.id;
           break;
         default:
           break;
       }
-      this.$emit('change', this.datas)
+      this.$emit('change', {data : val , code} )
     }
   }
 }

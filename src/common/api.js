@@ -40,3 +40,13 @@ export const updateCardInfo = (data) => {
 export const userCardInfo = (data) => {
   return  httpAPI('/app/user-info/user-business-card-info', { data })
 }
+
+//图片上传
+export const ossUploadImg = (data) => {
+  return  httpAPI('/app/oss/upload', { data })
+}
+
+//带下级的组队类型
+export const totalTeamTypeList = (data) => {
+  return  httpAPI('/app/team-up/total-team-type-list', { data })
+}

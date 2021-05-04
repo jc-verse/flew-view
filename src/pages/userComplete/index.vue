@@ -3,63 +3,106 @@
     <scroll-box>
       <div class="userInfo">
         <div class="top">
-          <form-item-box v-for='(ite, ind) in formHeads' :key='ind' :ite='ite' :show-b='ind+1 === formHeads.length' >
-            <form-item :info='ite' :headInit='ite'></form-item>
+          <form-item-box 
+            v-for='(ite, ind) in formHeads' 
+            :key='ind' 
+            :ite ='ite' 
+            :show-b='ind + 1 === formHeads.length'
+            :formData='formData'
+          >
+            <form-item :headInit='ite' :formData='formData' @change="changeFn"></form-item>
           </form-item-box>
         </div>
 
         <div class="center">
-          <form-item-box v-for='(ite, ind) in centerHeads' :key='ind' :ite='ite' :show-b='ind+1 === centerHeads.length' >
-            <form-item :info='ite' :headInit='ite'></form-item>
+          <form-item-box  :ite='centerHeads' :show-b='true' >
+            <form-item  :headInit='centerHeads' :formData='formData' @change="changeFn"></form-item>
           </form-item-box>
         </div>
 
         <div class="bottom">
-          <courseSystem title="课程体系" :tableHead='tableHead' :showBtn='false' class="tb_item">
-
-            <div class="add" slot='diy'> 
+          <CourseSystem 
+            title="课程体系" 
+            :tableHead='tableHead_sy' 
+            :tableData='formData["curriculumSystem"]' 
+            className='curriculumSystem'  
+            class="tb_item"
+            @changeTable='changeFn'
+          >
+            <div class="add" slot='diy'>
               <i class="iconfont iconjiahao add_icon"></i> 
-              <span style="font-size:28rpx">请选择</span> 
+              <form-item  :headInit='systems' :formData='formData' @change="changeFn"></form-item> 
             </div>
+          </CourseSystem> 
+
+          <CourseSystem 
+            title="标化成绩" 
+            :tableHead='tableHead_bh' 
+            class="tb_item" 
+            :tableData='formData["standardizedPerformance"]' 
+            className='standardizedPerformance'
+            @changeTable='changeFn'
+          >
             
-            <div class="right_h" slot='right'>
-              <i class="iconfont icontupianshangchuan"></i>
-              <span>上传认证</span>
-            </div>
-          </courseSystem> 
-
-          <courseSystem title="标化成绩" :tableHead='tableHead2' class="tb_item" /> 
-
-          <form-item-box v-for='(ite, ind) in bottomHeads' :key='ind' :ite='ite' :show-b='ind+1 === bottomHeads.length' >
-              <template v-if='ite.params.genre === "custom"'>
-                <div class="custom add"  @click="addAut">
-                  <div class="right_h" slot='right'>
-                    <i class="iconfont icontupianshangchuan"></i>
-                    <span>上传认证</span>
-                  </div>
+            <div class="g_list" slot='list'>
+              <template v-for='(items,ind) in formData["standardizedPerformance"]' >
+                <div class="g_item" :key="ind" v-if="items.img">
+                  <div class="text">{{`${ind + 1}. ${items.img}`}}</div>
+                  <div class="delete" @click='deleteSta(ind)'>删除</div>
                 </div>
-                <div class="g_list" slot='diy'>
-                  <template v-if="autList.length && shows.aut">
-                    <div class="g_item" v-for='(ite,ind) in autList' :key="ind">
-                      <div class="text">{{`${ite.url}${ind+1}.png`}}</div>
-                      <div class="delete" @click='deleteAut(ind)'>删除</div>
-                    </div>
-                    <div class="noList" @click='showFn("aut")'>
-                      <i class="iconfont iconxiala packUp"></i>
-                    </div>
-                  </template>
-                  <template v-else-if='autList.length && !shows.aut'>
-                    <div class="noList" @click='showFn("aut")'>
-                      <i class="iconfont iconxiala"></i>
-                    </div>
-                  </template>
-                  <template v-else>
-                    <div class="noList">亮出你比赛经历吧</div>
-                  </template>
-                </div>
-              
               </template>
-            <form-item :info='ite' :headInit='ite' v-else></form-item>
+            </div>
+          </CourseSystem> 
+
+          <form-item-box v-for='(option, ind) in bottomHeads' :key='ind' :ite='option' :show-b='ind+1 === bottomHeads.length' >
+            <template v-if='option.code === "competitionExperience"'>
+              <EditGame className='competitionExperience' @editGameFn='changeFn'>
+                <div class="custom add"  >
+                  亮出你比赛经历吧
+                  <i class="iconfont iconjiahao add_icon"></i>
+                </div>
+              </EditGame>
+              <div class="g_list" slot='diy'>
+                <template v-if="formData.competitionExperience.length && shows.aut">
+                  <div class="g_item" v-for='(items,ind) in formData.competitionExperience' :key="ind">
+                    <div class="text">{{`${items.name}`}}</div>
+                    <div class="delete" @click='deleteAut(ind)'>删除</div>
+                  </div>
+                  <div class="noList" @click='showFn("aut")'>
+                    <i class="iconfont iconxiala packUp"></i>
+                  </div>
+                </template>
+                <template v-else-if='formData.competitionExperience.length && !shows.aut'>
+                  <div class="noList" @click='showFn("aut")'>
+                    <i class="iconfont iconxiala"></i>
+                  </div>
+                </template>
+              </div>
+            
+            </template>
+
+            <template v-if='option.code === "match"'>
+              <DiyPicker  :datas='totalList'  popup-title="希望参加的比赛" @addList='changeFn'>
+                <div  class="" style='color:#999999; display: flex; align-items: center; justify-content: flex-end;'>请选择你希望参加的比赛</div>
+              </DiyPicker>
+              <div class="g_list" slot='diy'>
+                <template v-if="matchList.length && shows.match">
+                  <div class="g_item" v-for='(items,ind) in matchList' :key="ind">
+                    <div class="text">{{`${items[2].label}`}}</div>
+                    <div class="delete" @click='deleteMatch(ind)'>删除</div>
+                  </div>
+                  <div class="noList" @click='showFn("match")'>
+                    <i class="iconfont iconxiala packUp"></i>
+                  </div>
+                </template>
+                <template v-else-if='matchList.length && !shows.match'>
+                  <div class="noList" @click='showFn("match")'>
+                    <i class="iconfont iconxiala"></i>
+                  </div>
+                </template>
+              </div>
+            </template>
+
           </form-item-box>
         </div>
 
@@ -68,10 +111,11 @@
             <form-item :info='ite' :headInit='ite'></form-item>
           </form-item-box>
         </div>
-
-        <div class="btn" :class='[showBtn?"btn_active":""]' @click='submit'> 确定 </div>
+        <div class="btn btn_active" v-if="!showBtn.length"  @click='save'> 确定 </div>
+        <div class="btn" v-else  @click='save'> 确定 </div>
       </div>
     </scroll-box>
+    <FabGroup/>
   </page-sj>
   
 </template>
@@ -80,97 +124,253 @@
 
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
-import courseSystem from './courseSystem';
+import CourseSystem from '../userInfo/courseSystem';
 import formItem from '@/components/formItem';
 import formItemBox from '@/components/formItemBox';
-const arr = [
-  { label: '男', id: 0 },
-  { label: '女', id: 1 }
-]
+import FabGroup from '@/components/fabGroup';
+import DiyPicker from '../userInfo/diyPicker'
+import EditGame from '../userInfo/editGame'
+import DiyPopup from '@/components/diyPopup'
+import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, deepChange, formData, lastHeads } from './const';
+import { joinUrl, getCurPage } from '@/common/utils';
+
+import { 
+  subjectList, 
+  teamTypeCompetition, 
+  teamTypeBranchList, 
+  teamTypeList, 
+  updateCardInfo,
+  userCardInfo,
+  totalTeamTypeList
+} from '@/common/api';
 export default {
   name: 'userInfo',
-  components:{ scrollBox, courseSystem, pageSj, formItem, formItemBox },
+  components:{ 
+    scrollBox, 
+    CourseSystem, 
+    pageSj, 
+    formItem, 
+    formItemBox, 
+    FabGroup, 
+    DiyPicker,
+    DiyPopup,
+    EditGame
+  },
   data() {
     return {
-      isH5: false,
-      value: '',
-      formHeads:[
-        { label: '昵称',   code:'name',       id: '' ,required: false, params: { ph: '获取微信名',    genre:'text', type: 'text', max: 20} },
-        { label: '微信号', code:'activeName', id: '' ,required: true,  params: { ph: '请填写微信号',  genre:'input', type: 'text', max: 20 }},
-        { label: '姓名',   code:'type',       id: '' ,required: true,  params: { ph: '请填写真实姓名',genre:'input', type: 'text', max: 20 } },
-        { label: '手机',   code:'startTime',  id: '' ,required: true,  params: { ph: '请填写电话',    genre:'input', type: 'number', max: 20 } },
-        { label: '学校',   code:'city',    id: '' ,required: true,  params: { ph: '请填写学校',    genre:'combox', type: 'text', max: 20 ,candidates:['1','12','13','8',15,16,17]} },
-        { label: '年级',   code:'site',       id: '' ,required: true,  params: { ph: '请填写年级',    genre:'input', type: 'text', max: 20 } },
-        { label: '性别',   code:'info',       id: '' ,required: false,  params: { ph: '请选择性别',    genre:'select', list: arr } },
-        { label: '邮箱',   code:'number',     id: '' ,required: true,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
-        { label: '邮箱',   code:'number',     id: '' ,required: true,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
-        // { label: '邮箱1',   code:'che',     id: '' ,required: true,  params: { ph: '请填写邮箱1',    genre:'checkbox' , max: 20} },
-        // { label: '邮箱2',   code:'che2',     id: '' ,required: true,  params: { ph: '请填写邮箱1',    genre:'custom' , max: 20} },
-      ],
-      centerHeads: [
-        { label: '校内成绩', code:'nameN', id: '' ,required: true,  params: { ph: '例：45/45 ，4/4，A*A*A*A*',  genre:'input', type: 'text', max: 20 }},
-      ],
-      bottomHeads:[
-        { label: '比赛经历', code:'nameL', id: '' ,required: false,  params: { ph: '亮出你比赛经历吧',  genre:'custom', type: 'text', max: 20 }},
-        { label: '希望参加的比赛', code:'nameS', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'input', type: 'text', max: 20 }},
-      ],
-      lastHeads: [
-        { label: '专业方向', code:'name1', id: '' ,required: false, params: { ph: '请填写',  genre:'input', type: 'text', max: 20 } },
-        { label: '个人留言', code:'name2', id: '' ,required: false, params: { ph: '请填写',  genre:'input', type: 'text', max: 20 } },
-        { label: '录取大学', code:'name3', id: '' ,required: false, params: { ph: '确认录取后请填写',  genre:'input', type: 'text', max: 20 } },
-      ],
-      formData: {},
-      tableHead: [
-        { label: '学科', code: 'km', id: '', onlyCode: '',disabled:false, type:'select' ,pro : '2.5'},
-        { label: '分数', code: 'fs', id: '', onlyCode: '',disabled:false, type:'input' ,pro :'2'},
-        { label: '咨询', code: 'zx', id: '', onlyCode: '',disabled:true, type:'checkbox' ,pro : '1'},
-        { label: '帮助', code: 'bz', id: '', onlyCode: '',disabled:true, type:'checkbox' ,pro : '1'},
-      ],
-      tableHead2: [
-        { label: '科目', code: 'km', id: '', onlyCode: '',disabled:false, type:'select' ,pro : '2.5'},
-        { label: '分数', code: 'fs', id: '', onlyCode: '',disabled:false, type:'input' ,pro :'2'},
-        { label: '咨询', code: 'zx', id: '', onlyCode: '',disabled:false, type:'checkbox' ,pro : '1'},
-        { label: '帮助', code: 'bz', id: '', onlyCode: '',disabled:false, type:'checkbox' ,pro : '1'},
-      ],
-      autList: [
-        { label: '小明', url: '小明比赛认证' },
-      ],
+      formHeads, centerHeads, bottomHeads, tableHead, lastHeads,formData,
+      autList: [],
       shows: {
-        aut: false
-      }
+        aut: false,
+        match: false
+      },
+      subjectList: [],  // 科目list  
+      systemList: [], //  课程体系list
+      totalList:[],
+      matchList:[],
     }
-  },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
   },
   computed:{
+    // 校验 
     showBtn () {
-      const arr = this.formHeads.find(item=>{
-        return !this.formData[item.code]
-      }) || [];
-      return  arr.length === 0
+      const { formHeads, bottomHeads,  centerHeads, formData } = this;
+      const rates = [...formHeads, ...bottomHeads,centerHeads ];
+      const errList = []
+      rates.forEach(item => {
+        if (item.required && !formData[item.code]) {
+          errList.push(`${item.label}不能为空`);
+        }
+      })
+      formData['curriculumSystem'].forEach(item => {
+        if (!item.subject) {
+          errList.push(`学科不能为空`);
+        }
+      })
+      formData['standardizedPerformance'].forEach(item => {
+        if (!item.subject) {
+          errList.push(`科目不能为空`);
+        }
+      })
+      return  errList;
+    },
+    // 科目下拉
+    subjects () {
+      return this.subjectList.map(item => ({...item ,label: item.subjectName }))
+    },
+    // 体系下拉
+    systems () {
+      const list = this.systemList.map(item => ({...item ,label: item.subjectName })) || [];
+      return { 
+        label: '课程体系', code:'curriculumSystemType', id: '' , required: true,
+        params: {  ph: '请选择', genre:'select',  list: list }
+      }
+    },
+    // 体系表头
+    tableHead_sy () {
+      const arr =  tableHead.map(item => {
+        const obj = {...item} || {}
+        if (obj.code === 'subject') {
+          obj.list = this.subjects;
+        }
+        return obj;
+      })
+      return arr;
+    },
+    // 标化表头
+    tableHead_bh () {
+      const arr =  tableHead2.map(item => {
+        const obj = {...item} || {}
+        if (obj.code === 'subject') {
+          obj.list = this.subjects;
+        }
+        return obj;
+      })
+      return arr;
+    },
+  },
+  mounted() {
+    this.getDownList(1);  //科目
+    this.getDownList(2);  //体系
+
+    /*获取当前路由*/
+    const { type = '' } = getCurPage();
+    if (type === 'edit') {
+      this.getInfo();
     }
+
+    uni.getStorage({ key: 'nickName', success:(res)=>{
+      const { errMsg = '', data } = res;
+      if (errMsg && errMsg.includes('ok')) {
+        this.formData.nikeName = data;
+      }
+    },fail:(err) =>{console.log(19001,err)}})
+    this.totalTeamTypeList()
   },
   methods:{
-    submit() {
+    // 获取希望参加的list
+    totalTeamTypeList () {
+      totalTeamTypeList().then(res => {
+        const {data: nData} = res[1];
+        const { data, code } = nData;
+        if (code === 200) {
+          this.totalList = deepChange(data || [])
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 获取信息
+    getInfo() {
+      userCardInfo().then(res=> {
+        const { data:nData } = res[1];
+        const { data, code } = nData;
+        if (code === 200) {
+          data.curriculumSystem = data.curriculumSystemList
+          data.standardizedPerformance = data.standardizedPerformanceList;
+          data.wxCode = data.wxNum;
+          data.name = data.userName;
+          this.formData = data || {};
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 获取科目/课程体系  list
+    getDownList (type = 1) { //  type: 1 科目   /  2 课程体系
+      subjectList({ type }).then(res => {
+        const {data: nData} = res[1];
+        const { code, data } = nData;
+        if (code === 200) {
+          const obj = { '1': 'subjectList', '2': 'systemList' };
+          this[obj[type]] = data || [];
+        }
+      })
+    },
+    // 改变表单
+    changeFn({data, code, type}) {
+      if (type === 'add') {
+        this.formData[code].push(data);
+      } else if (type === 'join') {
+        let arr = []
+        const { matchList } = this
+        data.forEach(item => {
+          let flag;
+          matchList.forEach(ite =>{
+            const [i, c] = [item[2], ite[2]];
+            flag = i.label === c.label && i.id === c.id
+          })
+          if (!flag) {
+            arr.push(item)
+          }
+        })
+        this.matchList = matchList.concat(arr);
+      } else {
+        this.formData[code] = data;
+      }
       console.log(1, this.formData)
     },
-    addAut() {
-      this.autList.push({ label: '小明', url: '小明比赛认证' })
-    },
+    // 删除比赛经历
     deleteAut (index) {
-      this.autList= this.autList.filter((ite,ind) => {
+      this.formData.competitionExperience= this.formData.competitionExperience.filter((item,ind) => {
         return ind !== index;
       })
     },
+    deleteMatch(index) {
+      this.matchList = this.matchList.filter((item,ind) =>ind !==index )
+    },
+    // 展示列表
     showFn(name){
       this.shows[name] = !this.shows[name]
+    },
+    // 保存
+    save () {
+      const { autList, formData, showBtn, matchList } = this;
+      if (showBtn.length) { // 校验
+        uni.showToast({ title: showBtn[0],icon:'none' });
+        return;
+      }
+      if (!matchList.length) {
+        uni.showToast({ title: '希望参加的比赛不能为空',icon:'none' });
+        return;
+      }
+      
+      matchList.forEach((item, index)=>{
+        const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id,item[1].id,item[2].id]
+        this.formData.match[index] =  { organizeTypeId , organizeTypeSon , organizeTypeSonMatchId }
+      })
+      // const autStr = autList.reduce((ite, next)=>{
+      //   return ite + next.url;
+      // }, '')
+      const params = {
+        ...formData,
+        // 'competitionExperience': autStr
+      }
+      updateCardInfo(params).then(res => {
+        const { data: nData } = res[1];
+        const { data, code, msg } = nData;
+        if (code === 200) {
+          uni.showToast({ title: msg || '' })
+        }
+      })
+    },
+    // 上传图片
+    uploadImg (data, statu) {
+      switch (statu) {
+        case 1:
+          const { link, name } = data;
+          this.showFn("aut")
+          this.autList.push({ label: name, url : link })
+          break;
+      
+        default:
+          break;
+      }
+    },
+    deleteSta (index) {
+      this.formData.standardizedPerformance.map((item, ind) => {
+        if (ind === index) {
+          item.img = ''
+        }
+        return item;
+      })
     }
-  }
-
-
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -190,15 +390,14 @@ export default {
     padding: 30rpx;
     box-sizing: border-box;
   }
-  .bottom{
+  .bottom,.center{
     > div:not(:first-child) ,
-    > courseSystem:not(:first-child){
-      margin-top: 20rpx;
-    }
+    // > CourseSystem:not(:first-child){
+    //   margin-top: 20rpx;
+    // }
     .custom{
       justify-content: flex-end;
-      @include fontMixin(28rpx, #676FDF);
-      position: relative;
+      @include fontMixin(28rpx, #999999)
     }
     .g_list{
       padding: 20rpx 0 0;
@@ -223,6 +422,13 @@ export default {
       }
     }
   }
+  .matchList {
+    @include ellipsis;
+    max-width: 300rpx;
+    color:#999999;
+    display: flex;
+    align-items: center; justify-content: flex-end;
+  }
 
   .btn{
     width: 100%;
@@ -236,7 +442,6 @@ export default {
   .btn_active{
     background: #676FDF;
   }
-  // add Icon
   .add {
     display: flex;
     align-items: center;
@@ -250,17 +455,10 @@ export default {
       border-radius: 50%;
       background: rgba(103, 111, 223,.2);
       margin-right: 10rpx;
+      margin-left: 10rpx;
+      color: #676FDF;
       @include flex_center;
     }
-  }
-  .right_h{
-    position: absolute;
-    right: 0;
-    @include flex_center;
-    @include fontMixin(24rpx, #676FDF);
-    border: 2rpx dotted #676FDF;
-    padding: 0 8rpx;
-    line-height: 40rpx;
   }
 }
 </style>

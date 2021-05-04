@@ -2,12 +2,12 @@
   <div class="info_head" :style='styles'>
     <div class="left">
       <div class="user_head" :style="headStyles">
-        <img src="@/static/img1/icon_8.png" alt="">
+        <img :src="infoData.avatar" alt="">
       </div>
       <slot name='center'>
-        <div class="title" :style='styles'> {{iconFilter.name || ''}} </div>
-        <div :class='["gender", iconFilter.value]' :style='styles' v-if="showGender">
-          <i :class="['iconfont', 'icon_item', iconFilter.icon ]"></i>
+        <div class="title" :style='styles'> {{infoData.nikeName || ''}} </div>
+        <div :class='["gender", infoData.sex ==2 ? "nv" : "" ]' :style='styles' v-if="showSex">
+          <i :class="['iconfont', 'icon_item', icon  ]"></i>
         </div>
       </slot>
     </div>
@@ -22,7 +22,7 @@
 export default {
   name:'info_head',
   props: {
-    iconFilter: {
+    infoData: {
       type: Object,
       default: ()=>({})
     },
@@ -37,6 +37,20 @@ export default {
     showGender: {
       type: Boolean,
       default: true
+    }
+  },
+  computed: {
+    showSex(){
+      return this.infoData.sex != 3 && this.showGender
+    },
+    icon() {
+      const {infoData} = this;
+      const arr = ['iconxingbie-nan', 'iconxingbie-nv', '']
+      return arr[infoData.sex-1]
+    }
+  },
+  data () {
+    return {
     }
   }
 }

@@ -5,7 +5,7 @@
     <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
     <scroll-box >
       <div class="content">
-        <cartList @clickItem='clickItem'/>
+        <cartList @clickItem='clickItem' :list='list'/>
       </div>
     </scroll-box>
   </div>
@@ -20,29 +20,31 @@ import pageSj from '@/components/pageSjNew';
 import cartList from './cartList'
 import { joinUrl } from '@/common/utils'
 import FabGroup from '@/components/fabGroup';
+
+import { teamTypeList } from '@/common/api';
+
 export default {
   name:'competition',
   components: { search, cartList, scrollBox, pageSj, FabGroup },
   data() {
     return {
-      isH5: false,
+      list : [],
     }
   },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
-  },
-  onShow() {
-    // uni.hideTabBar({
-    //   //这里是为了不那么唐突
-    //   animation:true,
-    //   success() {
-    //     console.debug('隐藏成功')
-    //   }
-    // })
+  mounted() {
+    this.getList()
   },
   methods: {
+    // 获取list
+    getList () {
+      teamTypeList().then(res=>{
+        const { data:nData } = res[1];
+        const { code, data } = nData;
+        if (code === 200 ) {
+          this.list = data || [];
+        }
+      }).catch(err => {console.log(err)})
+    },
     changeVal(value) {
       console.log(1,value)
     },

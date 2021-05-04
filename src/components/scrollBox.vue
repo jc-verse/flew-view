@@ -58,10 +58,10 @@ export default {
   },
   methods: {
     upper (e) {
-      console.log(e)
+      // console.log(e)
     },
     lower (e) {
-      console.log(e)
+      // console.log(e)
     },
     scroll (e) {
       this.$emit('scroll', e);

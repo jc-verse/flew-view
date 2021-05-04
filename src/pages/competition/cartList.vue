@@ -1,23 +1,44 @@
 <template>
   <div class="list">
-    <div class="item" v-for="(item, index) in list" :style='{ background: item.styles.background }' :key="index" @click='clickItem(item)'>
+    <div class="item" v-for="(item, index) in newList" :style='{ background: item.styles.background }' :key="index" @click='clickItem(item)'>
       <div class="title_box">
-        <div class="title">{{ item.title }}</div>
-        <div class="subhead">{{ item.subhead }}</div>
+        <div class="title">{{ item.name }}</div>
+        <div class="subhead">{{ item.asName }}</div>
       </div>
       <i class="item_icon">
-        <img :src="item.iconUrl" alt="">
+        <img :src="item.iconU" alt="">
       </i>
     </div>
   </div>
 </template>
 
 <script>
-import { list } from './const';
+import { imgUrl } from '@/common/http';
+import { colorList } from './const'
 export default {
   data() {
     return {
-      list
+      // list
+    }
+  },
+  props: {
+    list: {
+      type: Array,
+      default: ()=> []
+    }
+  },
+  computed:{
+    newList () {
+      const newArr = this.list.map((item, index)=>{
+        const cIndex = colorList.findIndex(ite => ite.id === item.id);
+        const obj = {
+          ...colorList[cIndex],
+          ...item,
+          iconU: imgUrl + item.backgroundImg  // 拼接图片路径
+          }
+        return obj
+      })
+      return newArr;
     }
   },
   methods: {

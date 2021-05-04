@@ -4,7 +4,7 @@
       <div class="tb_box">
         <div 
           :class="['th', 'tb_item', item.disabled ?'disabled': '']" 
-          v-for="(item,index) in tableHeadList" 
+          v-for="(item,index) in heads" 
           :style="{ flexGrow: item.pro }" 
           :key='index'
         >{{item.label}}</div>
@@ -18,20 +18,29 @@
             </template>
 
             <div v-if='item.type === "input"'>
-              <input placeholder='请填写' @change='change($event, ind, "input", item.code)' v-model='ite[item.code]' type="text"/>
+              <input :placeholder="item.ph || '请填写'" @input='change($event, ind, "input", item.code)' v-model='ite[item.code]' type="text"/>
             </div>
 
             <div v-if='item.type === "checkbox"'>
               <checkbox-group @change='change($event, ind, "checkout", item.code)'  v-model='ite[item.code]'>
-                <checkbox :value="item.code" :checked="ite[item.code]"  :disabled='item.disabled'/>
+                <checkbox :value="item.code" :checked="ite[item.code]===1"  :disabled='item.disabled'/>
               </checkbox-group>
             </div>
 
-            <div v-if='item.type === "select"'>
-              <picker placeholder='请选择' @change='change($event, ind, "select", item.code)' range-key='label' :value="ite[item.code]" :range="array">
-                <view class="uni-input" v-if='ite[item.code]'>{{array[ite[item.code]].label}}</view>
+            <div v-if='item.type === "select"' >
+              <picker placeholder='请选择' @change='change($event, ind, "select", item.code)' range-key='label' :value="ite[item.code]" :range="item.list">
+                <view class="uni-input" v-if='ite[item.code]'>
+                  {{item.list[ite[item.code]].label || ''}}
+                  <i class="iconfont iconxiala1" style='color:#808080;margin-left: 10rpx'></i>
+                </view>
                 <view v-else style='color:#808080'>请选择</view>
               </picker>
+            </div>
+
+            <div v-if='item.type === "upload"' >
+              <UploadImage @uploadImg='change($event, ind, "upload", item.code)' :statu='1'>
+                <i class="iconfont icontupianshangchuan" style="font-size:44rpx;color:#676FDF"></i>
+              </UploadImage>
             </div>
           </div>
         </div>
@@ -41,77 +50,42 @@
 </template>
 
 <script>
-import formItem from '@/components/formItem';
+import UploadImage from '@/components/upload'
 export default {
   name: 'diyTable',
-  components:{ formItem },
+  components: { UploadImage },
   props: {
-    heads: {
-      type:Array,
-      default: ()=>[]
-    },
-    datas: {
-      type:Array,
-      default: ()=>[]
-    },
-    
-    thStyle:{
-      type: Object,
-      default: ()=>({})
-    },
-    tbStyle:{
-      type: Object,
-      default: ()=>({})
-    }
+    heads: { type:Array, default: ()=>[] },
+    datas: { type:Array, default: ()=>[] },
   },
   computed : {
     tableHeadList () {
       const list = this.heads;
-      console.log(1,list, this.heads, this.aaa )
       return list
     },
     tableDataList () {
       const list = this.datas;
-      console.log(12,list, this.datas)
       return list
     },
-    de() {
-      const num = `${1/this.tableHeadList.length*100}%`
-      return num;
-    }
   },
   mounted() {
-  }
-  
-  ,
-  onLoad() {
-    console.log(1991,);
-  },
-  onShow(){
-    console.log(1,this.datas, this.heads)
-    
-    
   },
   data () {
-    return {
-      array: [
-        { label: '科目1', id:'0' },
-        { label: '科目2', id:'1' },
-        { label: '科目3', id:'2' },
-        { label: '科目4', id:'3' },
-      ]
-    }
+    return { }
   },
   methods:{
     change(e,index, type, code){
-      const { value } = e.target
+      const { value } = e.target || {}
       switch (type) {
         case 'checkout':
-          this.datas[index][code] = !!value.length;
+          this.datas[index][code] = !!value.length ? 1 :2;
           break;
         case 'input':
         case 'select':
           this.datas[index][code] = value;
+          break;
+        case 'upload':
+          this.datas[index][code] = e.link;
           break;
         default:
           break;
@@ -128,6 +102,9 @@ export default {
   >div{
     flex-basis: 10px;
   }
+}
+.uni-input{
+  @include flex_center;
 }
 .diyTable{
   .table_box{

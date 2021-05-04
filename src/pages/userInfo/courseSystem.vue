@@ -6,8 +6,9 @@
     </div>
 
     <div class="content">
-      <diyTable :heads='tableHead' :datas='tableDatas' @change='tableChange'/>
+      <diyTable :heads='tableHead' :datas='tableData' @change='tableChange'/>
     </div>
+    <slot name='list'></slot>
     <slot>
       <div v-if="showBtn" class="add_item" @click="addTableItem">
         <i class="iconfont iconjiahao"></i>
@@ -28,6 +29,14 @@ export default {
       type:  String,
       default: '标题'
     },
+    className: {
+      type: String,
+      default: ''
+    },
+    tableData: {
+      type: Array,
+      default: ()=>[]
+    },
     
     tableHead: {
       type: Array,
@@ -38,27 +47,23 @@ export default {
       default: true
     }
   },
-  data () {
-    return {
-      tableDatas: [
-        { km:'',fs: '2',zx: false,bz: false,},
-      ],
-    }
-  },
   methods: {
+    // 抛出修改
     tableChange (data) {
-      console.log(193, data)
+      this.$emit('changeTable', {data, code :this.className || ''})
     },
+    // 新增表格数据模板
     addTableItem () {
       const obj = {};
       this.tableHead.forEach(item => {
         if (item.type === 'checkbox') {
-          obj[item.code] = false
+          obj[item.code] = 2
         } else {
           obj[item.code] = ''
         }
       })
-      this.tableDatas.push(obj)
+      this.tableData.push(obj);
+      this.tableChange(this.tableData);
     }
   }
 }
@@ -66,6 +71,7 @@ export default {
 
 <style lang="scss" scoped>
 .courseSystem{
+  margin-bottom:20rpx;
   >div:not(:first-child){
     margin-top: 20rpx;
   }
