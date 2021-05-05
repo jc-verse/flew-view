@@ -2,7 +2,6 @@ import { httpAPI } from './http'
 
 // 登录注册
 export const login = (data) => {
-  console.log(12313)
   return  httpAPI('/app/auth/login', { data })
 }
 

@@ -45,7 +45,6 @@ function interceptor (code , msg) {
       uni.showToast({ title: '登陆已过期', duration: 1000 })
       break;
     case 1015: //是填写标准信息
-      console.log(123123)
       uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
       // uni.showToast({ title: msg, duration: 1000 })
       break;

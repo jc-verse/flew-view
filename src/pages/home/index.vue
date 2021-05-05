@@ -115,7 +115,6 @@ export default {
     },
     
     clickCard(val) {
-      console.log(val)
       switch (val) {
         case 1:
           uni.navigateTo({ url: '/pages/competition/index' })

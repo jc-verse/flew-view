@@ -27,8 +27,7 @@ export const joinUrl = (url, data = {}) => {
 // 获取当前页面路由信息
 export const  getCurPage = () =>{
   let pages = getCurrentPages();
-  let curPage = pages[pages.length-1];
-  console.log(123,curPage)
+  let curPage = pages[pages.length-1]
   let curParam = curPage.options || (curPage.$route || {}).query;
   return curParam
 }

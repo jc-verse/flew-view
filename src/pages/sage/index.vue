@@ -70,7 +70,6 @@ export default {
   mounted () {
     /*获取当前路由*/
     const { id, title } = getCurPage();
-    console.log(1923, getCurPage())
     this.menuType = id || 0;
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
@@ -90,7 +89,6 @@ export default {
         const { data: nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
-          console.log(12313, data)
           const { current, pages,records,searchCount, total  } = data;
           this.cardList = records.length ? records :demoData ;
           this.total = total;
@@ -172,7 +170,7 @@ $color:#B3B3B4;
     font-weight: bold;
     width: 100%;
     text-align: center;
-    border-bottom: 1px solid #f5f5f5;
+    // border-bottom: 1px solid #f5f5f5;
   }
   .msg{
     padding: 10rpx;

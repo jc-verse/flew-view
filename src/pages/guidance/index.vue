@@ -36,7 +36,6 @@ export default {
     }
   },
   mounted () {
-    console.log(100084)
     // this.login();
     uni.getStorage({ 
       key: 'token', 
@@ -103,7 +102,6 @@ export default {
                     setStorage(nData)
                     _this.token = nData.token;
                     const keys = Object.keys(_this.userInfo)
-                    console.log(966, keys)
                     if (keys.length) {
                       uni.redirectTo({ 
                         url: '/pages/home/index', 

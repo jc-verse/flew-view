@@ -105,13 +105,7 @@ export default {
           }
         })
       })
-      console.log(123123, arr)
       return arr
-      // "match":[{
-      //     "organizeTypeId":6,
-      //     "organizeTypeSon":17,
-      //     "organizeTypeSonMatchId":74
-      //   }],
     }
   },
   methods:{

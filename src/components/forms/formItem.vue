@@ -121,7 +121,6 @@ export default {
         default:
           break;
       }
-      console.log(199, this.formData, this.headInit.code)
       this.$emit('change', {data : val , code} )
     }
   }

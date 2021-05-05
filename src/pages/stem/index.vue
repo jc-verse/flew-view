@@ -111,7 +111,6 @@ export default {
           } else {
             this.noConcat = true;
           }
-          console.log(1099,this.cards)
         }
       }).catch(err => {console.log(err)})
     },

@@ -104,7 +104,6 @@
 				if (ind === 2 && !flag) {
 					const arr = [...this.checkList]
 					this.checkItems.push(arr)
-					console.log(6445,this.checkItems)
 				}
 			},
 			deleteItem(ind) {

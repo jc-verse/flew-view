@@ -31,7 +31,6 @@ export default {
       this.$emit('change', this.value)
     },
     clickFn () {
-      console.log(1222,'click',value)
       this.$emit('click', this.value)
     }
   },

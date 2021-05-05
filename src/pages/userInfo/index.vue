@@ -34,10 +34,10 @@
               <i class="iconfont iconjiahao add_icon"></i> 
               <form-item  :headInit='systems' :formData='formData' @change="changeFn"></form-item> 
             </div>
-            <div class="right" slot='right'>
+            <div class="right" slot='right' v-if='formData.curriculumSystemType'>
               <form-item  :headInit='right' :formData='formData' @change="changeFn">
                 <template slot='upload'>
-                  <div class="right_box">
+                  <div class="right_box required">
                     {{`上传认证`}}<i class="iconfont icontupianshangchuan icon"></i>
                   </div>
                 </template>
@@ -137,11 +137,9 @@ import formItem from '@/components/forms/formItem';
 import formItemBox from '@/components/forms/formItemBox';
 import FabGroup from '@/components/fabGroup';
 import DiyPopup from '@/components/diyPopup'
-
 import DiyPicker from './diyPicker';
 import EditGame from './editGame';
 import DiyInpSel from './diyInputSelect';
-
 import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, deepChange, formData } from './const';
 import { joinUrl, getCurPage, analysisFn } from '@/common/utils';
 
@@ -152,7 +150,7 @@ import {
   teamTypeList, 
   updateCardInfo,
   userCardInfo,
-  totalTeamTypeList,
+  totalTeamTypeList
 } from '@/common/api';
 export default {
   name: 'userInfo',
@@ -179,7 +177,7 @@ export default {
       },
       subjectList: [],  // 科目list  
       systemList: [], //  课程体系list
-      totalList: [],
+      totalList: [], // 希望参加的比赛list
       matchList: [],
       right: { label: '体系认证', code:'curriculumSystemAuthUrl', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'upload', type: 'text', max: 20 }},
     }
@@ -187,8 +185,8 @@ export default {
   computed:{
     // 校验 
     showBtn () {
-      const { formHeads, bottomHeads,  centerHeads, formData } = this;
-      const rates = [...formHeads, ...bottomHeads,centerHeads ];
+      const { formHeads, bottomHeads,  centerHeads, formData, right } = this;
+      const rates = [...formHeads, ...bottomHeads,centerHeads, right ];
       const errList = []
       rates.forEach(item => {
         if (item.required && !formData[item.code]) {
@@ -320,7 +318,6 @@ export default {
       } else {
         this.formData[code] = data;
       }
-      console.log(1, this.formData)
     },
     // 删除比赛经历
     deleteAut (index) {
@@ -354,9 +351,7 @@ export default {
         const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id,item[1].id,item[2].id]
         this.formData.match[index] =  { organizeTypeId , organizeTypeSon , organizeTypeSonMatchId }
       })
-      const params = {
-        ...formData
-      }
+      const params = { ...formData }
       updateCardInfo(params).then(res => {
         const { data: nData } = res[1];
         const { data, code, msg } = nData;
@@ -364,9 +359,13 @@ export default {
           uni.showToast({ 
             title: msg || '',
             success: (res)=>{
-              uni.navigateBack({delta:1})
+              setTimeout(function () {
+                uni.navigateBack({delta:1})
+              }, 1000);
             } 
           })
+        }else {
+          uni.showToast({ title: msg ,icon:'none' });
         }
       })
     },
@@ -382,7 +381,6 @@ export default {
         default:
           break;
       }
-    
     }
   },
 
@@ -397,7 +395,6 @@ export default {
         })
         this.matchList = list
       }
-      console.log(97877,val)
     }
   }
 }
@@ -444,7 +441,7 @@ export default {
     }
     .g_list{
       padding: 20rpx 0 0;
-      
+
       .packUp{
         display: inline-block;
         transform: rotate(180deg)

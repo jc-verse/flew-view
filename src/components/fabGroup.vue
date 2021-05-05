@@ -26,7 +26,6 @@ export default {
   computed : {
     newList () {
       const shows = this.shows;
-      // console.log(122, shows)
       return this.list.filter(item=> shows.includes(item.id))
     }
   },

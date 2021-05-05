@@ -28,7 +28,7 @@
             </div>
 
             <div v-if='item.type === "select"' >
-              <picker placeholder='请选择' @change='change($event, ind, "select", item.code)' range-key='label' :value="ite[item.code]" :range="item.list">
+              <picker placeholder='请选择' @change='change($event, ind, "select", item.code, item.list)' range-key='label' :value="ite[item.code]" :range="item.list">
                 <view class="uni-input" v-if='ite[item.code]'>
                   {{item.list[ite[item.code]].label || ''}}
                   <i class="iconfont iconxiala1" style='color:#808080;margin-left: 10rpx'></i>
@@ -74,15 +74,19 @@ export default {
     return { }
   },
   methods:{
-    change(e,index, type, code){
+    change(e,index, type, code, list){
       const { value } = e.target || {}
+      console.log(10293, e)
       switch (type) {
         case 'checkout':
           this.datas[index][code] = !!value.length ? 1 :2;
           break;
         case 'input':
-        case 'select':
           this.datas[index][code] = value;
+          break;
+        case 'select':
+          const val = list.find((item, ind) => ind == value) || {}
+          this.datas[index][code] = val.id;
           break;
         case 'upload':
           this.datas[index][code] = e.link;

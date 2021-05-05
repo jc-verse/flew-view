@@ -37,7 +37,6 @@ export default {
   },
   methods:{
     clickItem(item, index) {
-      console.log(1222354)
       this.$emit('clickItme', item, index)
     }
   },

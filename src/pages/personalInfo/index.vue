@@ -13,7 +13,7 @@
       <div class="person_card">
         <div class="title">我的名片卡</div>
         <div class="card_content">
-          <GroupItem @clickBuoy='clickBuoy' :infoData='formData'></GroupItem>
+          <GroupItem @clickBuoy='clickBuoy' :infoData='newFormData'></GroupItem>
           <!-- <ItemInfo /> -->
         </div>
       </div>
@@ -26,7 +26,7 @@ import PageJS from '../../components/pageSjNew.vue';
 import ItemInfo from '@/pages/mine/msgItem.vue';
 import FormItem from '@/components/forms/formItem';
 import FormItemBox from '@/components/forms/formItemBox';
-import { userCardInfo } from '@/common/api';
+import { userCardInfo, subjectList } from '@/common/api';
 import { sexs } from '@/common/enum';
 import { joinUrl, getCurPage } from '@/common/utils';
 import GroupItem from './groupItem'
@@ -48,11 +48,12 @@ export default {
       ],
       formData: {},
       headImg: '',
+      systemList: []
     }
   },
   mounted() {
     this.getInfo();
-
+    this.getDownList();
     uni.getStorage({key: 'avatarUrl',
       success:(res)=>{
         const {data, errMsg} = res;
@@ -62,7 +63,30 @@ export default {
       }
     })
   },
+  computed :{
+    newFormData () {
+      const { formData, systemList} = this;
+      const obj = {...formData};
+      if (systemList.length) {
+        const item = systemList.find(ite => ite.id == obj.curriculumSystem) || {}
+        obj.curriculumSystem = item.subjectName || obj.curriculumSystem
+      }
+      return obj;
+    }
+  },
   methods: {
+    // 获取科目/课程体系  list
+    getDownList () { //  type: 1 科目   /  2 课程体系
+      subjectList({ type: 2 }).then(res => {
+        const {data: nData} = res[1];
+        const { code, data } = nData;
+        if (code === 200) {
+          // const obj = { '1': 'subjectList', '2': 'systemList' };
+          this.systemList = data || [];
+          
+        }
+      })
+    },
     // 获取信息
     getInfo() {
       userCardInfo().then(res=> {
@@ -77,7 +101,6 @@ export default {
     // 改变表单
     changeFn({data,code}) {
       this.formData[code] = data;
-      console.log(1, this.formData)
     },
 
     clickBuoy(val) {
