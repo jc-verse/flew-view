@@ -28,6 +28,7 @@ export const joinUrl = (url, data = {}) => {
 export const  getCurPage = () =>{
   let pages = getCurrentPages();
   let curPage = pages[pages.length-1];
+  console.log(123,curPage)
   let curParam = curPage.options || curPage.$route.query;
   return curParam
 }

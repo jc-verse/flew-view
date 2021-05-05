@@ -5,7 +5,8 @@
       id='scrollBox' 
       :scroll-y="true" 
       :show-scrollbar='false'
-      :scroll-top="scrollTop"  
+      :scroll-top="scrollTop"
+      :lower-threshold='50'  
       @scrolltoupper="upper" 
       @scrolltolower="lower"
       @scroll="scroll"
@@ -61,7 +62,7 @@ export default {
       // console.log(e)
     },
     lower (e) {
-      // console.log(e)
+      this.$emit('lower')
     },
     scroll (e) {
       this.$emit('scroll', e);

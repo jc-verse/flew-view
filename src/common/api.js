@@ -50,3 +50,8 @@ export const ossUploadImg = (data) => {
 export const totalTeamTypeList = (data) => {
   return  httpAPI('/app/team-up/total-team-type-list', { data })
 }
+
+// 希望参与比赛的用户 - SAGE
+export const branchCompetitionUser = (data) => {
+  return  httpAPI('/app/team-up/branch-competition-user', { data })
+}

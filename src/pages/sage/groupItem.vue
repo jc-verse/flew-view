@@ -1,15 +1,15 @@
 <template>
   <div class="group_info_item">
   
-    <infoHead :iconFilter='iconFilter'/>
+    <infoHead :infoData='infoData'/>
 
     <div class="content">
       <!-- 个人信息 -->
-      <information :topList='topList'/>
+      <information :topList='tops'/>
       <!-- 经历 -->
       <div class="center">
-        <join-list title='比赛经历' :list='cList'/>
-        <join-list title='希望参加的比赛' :list='tagList' type='tag'/>
+        <join-list title='比赛经历' :list='bList'/>
+        <join-list title='希望参加的比赛' :list='tags' type='tag'/>
       </div>
       <!-- 团队成员 -->
       <div class="group_infos">
@@ -18,7 +18,7 @@
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
         <!-- 团队成员信息 -->
-        <crew-info :info='{ iconFilter, topList }' v-for="ite in 2" :key='ite' v-show="showInfo"/>
+        <CrewInfo :info='{ iconFilter, topList }' v-for="ite in 2" :key='ite' v-show="showInfo"/>
       </div>
     </div>
 
@@ -29,11 +29,21 @@
 <script>
 import joinList from './components/joinList';
 import infoHead from '@/components/infoHead';
-import information from './components/information';
-import crewInfo from './components/crewInfo';
+import information from '@/components/information';
+import CrewInfo from './components/crewInfo';
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, crewInfo },
+  components: { infoHead, information, joinList, CrewInfo },
+  props: {
+    infoData: {
+      type: Object,
+      default: () => ({})
+    },
+    totalList:{
+      type: Array,
+      default: ()=>[]
+    }
+  },
   data () {
     return {
       genders: {
@@ -56,6 +66,52 @@ export default {
   computed : {
     iconFilter () {
       return this.genders[this.info || 'nv']
+    },
+    tops() {
+      const { infoData } = this;
+      const arr = [
+        { title: '学校',    val: infoData.admission || '', id: 1 }, 
+        { title: '年级',    val: infoData.grade || '',          id: 2 }, 
+        { title: '课程体系', val: infoData.curriculumSystem || '', id: 4 }, 
+        { title: '标化成绩', val: infoData.standardizedPerformance || '',           id: 3 }, 
+        { title: '专业方向', val: infoData.professionalDirection || '', id: 4 }, 
+        { title: '校内成绩', val: infoData.schoolRecord || '',         id: 3 }, 
+        { title: '星级评价', val: infoData.star  || 0,           id: 5 , code: 'rate', readonly:true}, 
+      ]
+      return arr
+    },
+    bList() {
+      const { competitionExperienceList  } = this.infoData;
+      const arr = (competitionExperienceList || []).map(item => item.name);
+      return arr
+    },
+    tags() {
+      const { totalList, infoData } = this;
+      const { match } = infoData || {};
+      const arr = [];
+      match.forEach(item =>{
+        const { organizeTypeId: a, organizeTypeSon: b, organizeTypeSonMatchId: c } = item;
+        totalList.forEach(items => {
+          if(items.id == a ) {
+            items && items.children.forEach(ite =>{
+              if (ite.id == b) {
+                ite.children.forEach(i =>{
+                  if (i.id == c) {
+                    arr.push(i.abbreviation)
+                  }
+                })
+              }
+            })
+          }
+        })
+      })
+      console.log(123123, arr)
+      return arr
+      // "match":[{
+      //     "organizeTypeId":6,
+      //     "organizeTypeSon":17,
+      //     "organizeTypeSonMatchId":74
+      //   }],
     }
   },
   methods:{

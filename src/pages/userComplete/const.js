@@ -38,9 +38,9 @@ export const tableHead2 = [
   { label: '认证', code: 'img', id: '', onlyCode: '',disabled: false, type:'upload' ,pro : '1'},
 ]
 export const lastHeads = [
-  { label: '专业方向', code:'name1', id: '' ,required: false, params: { ph: '请填写',  genre:'input', type: 'text', max: 20 } },
-  { label: '个人留言', code:'name2', id: '' ,required: false, params: { ph: '请填写',  genre:'input', type: 'text', max: 20 } },
-  { label: '录取大学', code:'name3', id: '' ,required: false, params: { ph: '确认录取后请填写',  genre:'input', type: 'text', max: 20 } },
+  { label: '专业方向', code:'professionalDirection', id: '' ,required: false, params: { ph: '请填写',  genre:'input', type: 'text', max: 20 } },
+  { label: '个人留言', code:'personalMessage', id: '' ,required: false, params: { ph: '请填写',  genre:'input', type: 'text', max: 20 } },
+  { label: '录取大学', code:'admission', id: '' ,required: false, params: { ph: '确认录取后请填写',  genre:'input', type: 'text', max: 20 } },
 ]
 
 export const formData = {

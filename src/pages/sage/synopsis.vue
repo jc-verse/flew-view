@@ -1,8 +1,8 @@
 <template>
   <div class="synopsis" :style='{ background: info.color || "#C8EDFF" }'>
     <div class="head">
-      <div class="title">赛智全球中学生可持续发展创新大赛</div>
-      <div class="title_en">Students for the Advancement of Global Entrepreneurship</div>
+      <div class="title" v-if="info.title">{{info.title || '' }}</div>
+      <div class="title_en" v-if="info.eTitle">{{info.eTitle || ''}}</div>
     </div>
     <div class="r_b">
       <img src="/static/img1/icon_2.png" alt="">

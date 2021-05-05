@@ -24,7 +24,7 @@
           <CourseSystem 
             title="课程体系" 
             :tableHead='tableHead_sy' 
-            :tableData='formData["curriculumSystem"]' 
+            :tableData='formData["curriculumSystem"]'
             className='curriculumSystem'  
             :showBtn='false' 
             class="tb_item"
@@ -34,7 +34,24 @@
               <i class="iconfont iconjiahao add_icon"></i> 
               <form-item  :headInit='systems' :formData='formData' @change="changeFn"></form-item> 
             </div>
-          </CourseSystem> 
+            <div class="right" slot='right'>
+              <form-item  :headInit='right' :formData='formData' @change="changeFn">
+                <template slot='upload'>
+                  <div class="right_box">
+                    {{`上传认证`}}<i class="iconfont icontupianshangchuan icon"></i>
+                  </div>
+                </template>
+              </form-item>
+            </div>
+            <div slot='right_list'>
+              <template v-if="formData.curriculumSystemAuthUrl">
+                <div class="g_item" style='margin-top: 10rpx'>
+                  <div class="text">{{`${formData.curriculumSystemAuthUrl}`}}</div>
+                  <div class="delete" @click='deleteUrl(ind)'>删除</div>
+                </div>
+              </template>
+            </div>
+          </CourseSystem>
 
           <CourseSystem 
             title="标化成绩" 
@@ -116,6 +133,8 @@ import formItemBox from '@/components/formItemBox';
 import FabGroup from '@/components/fabGroup';
 import DiyPicker from './diyPicker';
 import EditGame from './editGame';
+
+import UploadImg from '@/components/upload';
 import DiyPopup from '@/components/diyPopup'
 import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, deepChange, formData } from './const';
 import { joinUrl, getCurPage } from '@/common/utils';
@@ -140,7 +159,7 @@ export default {
     FabGroup, 
     DiyPicker,
     DiyPopup,
-    EditGame
+    EditGame,
   },
   data() {
     return {
@@ -154,6 +173,7 @@ export default {
       systemList: [], //  课程体系list
       totalList: [],
       matchList: [],
+      right: { label: '体系认证', code:'curriculumSystemAuthUrl', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'upload', type: 'text', max: 20 }},
     }
   },
   computed:{
@@ -167,11 +187,11 @@ export default {
           errList.push(`${item.label}不能为空`);
         }
       })
-      formData['curriculumSystem'].forEach(item => {
-        if (!item.subject) {
-          errList.push(`学科不能为空`);
-        }
-      })
+      // formData['curriculumSystem'].forEach(item => {
+      //   if (!item.subject) {
+      //     errList.push(`学科不能为空`);
+      //   }
+      // })
       formData['standardizedPerformance'].forEach(item => {
         if (!item.subject) {
           errList.push(`科目不能为空`);
@@ -229,7 +249,7 @@ export default {
       if (errMsg && errMsg.includes('ok')) {
         this.formData.nikeName = data;
       }
-    },fail:(err)=>{console.log(19888,err)}})
+    },fail:(err)=>{console.log(err)}})
     this.totalTeamTypeList()
   },
   methods:{
@@ -249,8 +269,12 @@ export default {
         const { data:nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
-          data.competitionExperience= data.competitionExperienceList;
-          data.curriculumSystem = data.curriculumSystemList
+          data.competitionExperience = data.competitionExperienceList;
+          // const { id } = this.systemList.find(item => {
+          //   console.log(item.subjectName, data.curriculumSystem)
+          //   return item.subjectName === data.curriculumSystem
+          // });
+          data.curriculumSystem = '';
           data.standardizedPerformance = data.standardizedPerformanceList;
           data.wxCode = data.wxNum;
           data.name = data.userName;
@@ -272,7 +296,6 @@ export default {
     // 改变表单
     changeFn({data, code, type}) {
       if (type === 'add') {
-        console.log(1283, this.formData, code)
         this.formData[code].push(data);
       } else if (type === 'join') {
         let arr = []
@@ -301,6 +324,9 @@ export default {
     },
     deleteMatch(index) {
       this.matchList = this.matchList.filter((item,ind) =>ind !==index )
+    },
+    deleteUrl() {
+      this.formData.curriculumSystemAuthUrl = ''
     },
     // 展示列表
     showFn(name){
@@ -345,6 +371,7 @@ export default {
         default:
           break;
       }
+    
     }
   },
 }
@@ -367,6 +394,20 @@ export default {
     box-sizing: border-box;
   }
   .bottom,.center{
+    .right{
+      position: absolute;
+      right: 0;
+      .right_box{
+        display: flex;
+        align-items: center;
+        font-size: 28rpx;
+        color:#676FDF;
+        .icon{
+          margin-left:10rpx;
+          font-size:50rpx
+        }
+      }
+    }
     > div:not(:first-child) ,
     // > CourseSystem:not(:first-child){
     //   margin-top: 20rpx;
@@ -377,17 +418,7 @@ export default {
     }
     .g_list{
       padding: 20rpx 0 0;
-      .g_item{
-        @include flex_(space-between, center);
-        .text{
-          max-width: 80%;
-          @include ellipsis;
-          @include fontMixin(28rpx, #676FDF)
-        }
-        .delete{
-          @include fontMixin(28rpx)
-        }
-      }
+      
       .packUp{
         display: inline-block;
         transform: rotate(180deg)
@@ -435,6 +466,17 @@ export default {
       color: #676FDF;
       @include flex_center;
     }
+  }
+}
+.g_item{
+  @include flex_(space-between, center);
+  .text{
+    max-width: 80%;
+    @include ellipsis;
+    @include fontMixin(28rpx, #676FDF)
+  }
+  .delete{
+    @include fontMixin(28rpx)
   }
 }
 </style>

@@ -2,10 +2,16 @@
   <div class="info_head" :style='styles'>
     <div class="left">
       <div class="user_head" :style="headStyles">
-        <img :src="infoData.avatar" alt="">
+        <img :src="headImg" alt="" v-if="!isUser">
+        <open-data type="userAvatarUrl" v-else></open-data>
       </div>
       <slot name='center'>
-        <div class="title" :style='styles'> {{infoData.nikeName || ''}} </div>
+        <div class="title" :style='styles'> 
+          <template v-if="!isUser">
+            {{infoData.nikeName || ''}}
+          </template>
+          <open-data type="userNickName" v-else></open-data>
+        </div>
         <div :class='["gender", infoData.sex ==2 ? "nv" : "" ]' :style='styles' v-if="showSex">
           <i :class="['iconfont', 'icon_item', icon  ]"></i>
         </div>
@@ -37,22 +43,30 @@ export default {
     showGender: {
       type: Boolean,
       default: true
+    },
+    isUser:{
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     showSex(){
-      return this.infoData.sex != 3 && this.showGender
+      const { sex } = this.infoData
+      return sex && sex != 3 && this.showGender
     },
     icon() {
       const {infoData} = this;
       const arr = ['iconxingbie-nan', 'iconxingbie-nv', '']
       return arr[infoData.sex-1]
+    },
+    headImg () {
+      let url = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
+      if (/(http|https)/.test(this.infoData.avatar)) {
+        url = this.infoData.avatar || ''
+      }
+      return url
     }
   },
-  data () {
-    return {
-    }
-  }
 }
 </script>
 

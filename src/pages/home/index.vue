@@ -2,8 +2,7 @@
   <page-sj >
     <div class="home_box">
       <header class="header">
-        <info-head :iconFilter='iconFilter' headStyles='width: 80rpx;height: 80rpx;'>
-          <div slot='center' class="name">{{'我是你的用户名称'}}</div>
+        <info-head  headStyles='width: 80rpx;height: 80rpx;' :isUser='true'>
           <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>
         </info-head>
       </header>
@@ -93,22 +92,22 @@ export default {
   components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup },
   data () {
     return {
-      genders: {
-        'nan':{ icon:'iconxingbie-nan', id: '1', name:'某某男', value: '' },
-        'nv': { icon:'iconxingbie-nv', id: '2', name:'某某女' , value: 'nv'}
-      },
-      isH5: false
     }
   },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
-  },
-  computed : {
-    iconFilter () {
-      return this.genders[this.info || 'nv']
-    },
+  created() {
+    // 登录鉴权
+    uni.getStorage({ 
+      key: 'token', 
+      success:(res) =>{
+        const {errMsg, data} = res;
+        if (!/ok/.test(errMsg) || !data) {
+          uni.navigateTo({ url: '/pages/guidance/index' })
+        }
+      },
+      fail: (err)=>{
+        uni.navigateTo({ url: '/pages/guidance/index' })
+      }
+    })
   },
   methods: {
     clickIcon() {

@@ -1,5 +1,5 @@
 <template>
-  <PageJS>
+  <PageJS :styles='{background: "#F1F3F5"}'>
     <div class="person_info_page">
       <div class="person_info_wrap">
         <div class="user_img_bar item">

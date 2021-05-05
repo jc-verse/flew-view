@@ -4,24 +4,27 @@
 			<slot :options="options" :data="inputSelected" :error="errorMessage"></slot>
 		</view>
     <!-- 遮罩层 -->
-		<view class="uni-data-tree-cover" v-if="isOpened" @click="handleClose"></view>
+		<view class="uni-data-tree-cover" v-if="isOpened" @click="handleClose">
+			<slot name='tip'></slot>
+		</view>
     <!-- 内容区域 -->
-		<view class="uni-data-tree-dialog" :style='{top: styles.top}' v-if="isOpened">
+		
+		<view class="uni-data-tree-dialog" :style='{top: styles.top}' v-if="isOpened && !noUp">
       
-			<view class="dialog-caption">
-				<view class="title-area">
-					<text class="dialog-title">{{popupTitle}}</text>
+				<view class="dialog-caption">
+					<view class="title-area">
+						<text class="dialog-title">{{popupTitle}}</text>
+					</view>
+					<!-- 左侧关闭 -->
+					<view class="dialog-close" @click="handleClose(false)">
+						<view class="dialog-close-plus" data-id="close"></view>
+						<view class="dialog-close-plus dialog-close-rotate" data-id="close"></view>
+					</view>
+					<!-- 右侧确定 -->
+					<view class="dialog-confirm" @click="handleClose(true)">确定</view>
 				</view>
-        <!-- 左侧关闭 -->
-				<view class="dialog-close" @click="handleClose(false)">
-					<view class="dialog-close-plus" data-id="close"></view>
-					<view class="dialog-close-plus dialog-close-rotate" data-id="close"></view>
-				</view>
-        <!-- 右侧确定 -->
-				<view class="dialog-confirm" @click="handleClose(true)">确定</view>
+				<slot name='content'></slot>
 			</view>
-      <slot name='content'></slot>
-    </view>
 	</view>
 </template>
 
@@ -52,6 +55,10 @@
 			styles: {
 				type:Object,
 				default: ()=>({})
+			},
+			noUp:{
+				type: Boolean,
+				default: false
 			}
 		},
 		data() {

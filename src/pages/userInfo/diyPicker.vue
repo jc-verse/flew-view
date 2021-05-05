@@ -44,7 +44,7 @@
 		},
 		data() {
 			return {
-				isOpened: true,
+				isOpened: false,
 				checks:['', '', ''], // 各级被选中的下标
 				checkList: [], // 备选项
 				checkItems: [] // 已选中的

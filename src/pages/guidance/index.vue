@@ -6,11 +6,11 @@
       <div class="top_box" >
         <img src="@/static/img1/poster.png" alt="">
       </div>
-      <!-- 中间操作 -->
+      <!-- 中间 -->
       <div class="bottom_box">
         <p class="font_1">欢迎来到 视界 | Reach</p>
         
-        <button type="default"  open-type="getUserInfo" @getuserinfo='getuserinfo' bindgetuserinfo='getuserinfo' class="btn" @click="clickBtn">进入</button>
+        <button class="btn" @click="clickBtn">进入</button>
       </div>
       <!-- 底部logo -->
       <bottom-logo/>
@@ -37,75 +37,86 @@ export default {
     }
   },
   mounted () {
-    uni.getStorage({ key: 'token' }).then(res => {
-      const {errMsg, data} = res
-      if (errMsg === 'getStorage:ok' || data) {
-        this.token = data;
-      }else {
+    console.log(100084)
+    // this.login();
+    uni.getStorage({ 
+      key: 'token', 
+      success:(res) =>{
+        const {errMsg, data} = res;
+        if (/ok/.test(errMsg) && data) {
+          this.token = data;
+        }else {
+          this.login();
+        }
+      },
+      fail: (err)=>{
         this.login();
       }
     })
-    
   },
   methods: {
     clickBtn() {
-      if (this.token) {
-        uni.navigateTo({ url: '/pages/home/index', success(res) {console.log(res)}, fail(err){console.log(err)} })
-      } 
+      // const _this = this;
+      uni.getUserProfile({
+        desc:'登录',
+        success: (res) => {
+          this.userInfo = res.userInfo;
+          setStorage (res.userInfo)
+          console.log(988, this.userInfo)
+          if (!this.token) {
+            this.login()
+          } else {
+            uni.navigateTo({ 
+              url: '/pages/home/index', 
+              success(res) {console.log(res)}, 
+              fail(err){console.log(err)} 
+            })
+          }
+        },
+        fail: (err) => {
+          console.log("未授权",err);
+        }
+      })
       
     },
     login () {
       const _this = this;
-        uni.getProvider({
-          service: 'oauth',
-          success(res) {
-            // 判断平台
-            if (res.provider.includes('weixin')) {
-              uni.login({
-                success(loginRes){
-                  const { code } = loginRes;
-                  if (code) {
-                    // 获取openid
-                    jscode2session({jsCode: code}).then(wxRes=>{
-                      console.log('wxRes', wxRes)
-                      const { data, statusCode } = wxRes[1];
-                      const { openid, session_key } = data;
-                      if (statusCode === 200) {
-                        setStorage(data)
-                        // 获取token
-                        login({ openId: openid }).then(logiRes => {
-                          console.log('logiRes',logiRes)
-                          const { data } = logiRes[1];
-                          const { code, data: nData } = data;
-                          if (code === 200) {
-                            _this.getuserinfo();
-                            setStorage(nData)
-                            _this.token = nData.token
-                          }
-                        })
-                      }
-                    })
+      uni.login({
+        success(loginRes){
+          const { code } = loginRes;
+          if (code) {
+            // 获取openid
+            jscode2session({jsCode: code}).then(wxRes=>{
+              console.log('wxRes', wxRes)
+              const { data, statusCode } = wxRes[1];
+              const { openid, session_key } = data;
+              if (statusCode === 200) {
+                setStorage(data)
+                // 获取token
+                login({ openId: openid }).then(logiRes => {
+                  console.log('logiRes',logiRes)
+                  const { data } = logiRes[1];
+                  const { code, data: nData } = data;
+                  if (code === 200) {
+                    setStorage(nData)
+                    _this.token = nData.token;
+                    const keys = Object.keys(_this.userInfo)
+                    console.log(966, keys)
+                    if (keys.length) {
+                      uni.navigateTo({ 
+                        url: '/pages/home/index', 
+                        success(res) {console.log(res)}, 
+                        fail(err){console.log(err)} 
+                      })
+                    }
                   }
-                }
-              })
-            }
+                })
+              }
+            })
           }
         }
-      )
-    },
-    getuserinfo(e) {
-      uni.getUserInfo({
-        success: (res) => {
-          this.userInfo = res.userInfo;
-          setStorage (res.userInfo)
-          console.log(this.userInfo);
-        },
-        fail: () => {
-          console.log("未授权");
-        }
       })
-      console.log(999, e)
-    }
+    },
   }
 }
 </script>

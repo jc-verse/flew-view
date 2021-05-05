@@ -71,15 +71,12 @@ export default {
         const _this = this;
         const createTime = new Date().getTime()
         const { forms, className } = this;
-        uni.getStorage({key:'openid',success(res) {
-          const { data: uid } = res
-          _this.$emit('editGameFn', { 
-            data: { ...forms, uid, createTime },
-            code: className ,
-            type:'add'
-            }
-          )
-        }})
+        this.$emit('editGameFn', { 
+          data: { ...forms, uid: '', createTime },
+          code: className ,
+          type:'add'
+          }
+        )
       }
     }
   }

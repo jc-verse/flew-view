@@ -4,10 +4,12 @@
     <div class="header_wrap">
       <img class="bgs" src="@/static/img1/mine_bg.png" alt="">
       <div class="mine_title_wrap">
-        <img @click="jumpTo" class="user_img" src="@/static/img1/icon_8.png" />
+        <div class="user_img"><open-data type="userAvatarUrl" ></open-data></div>
         <div class="user_info">
           <div class="user_name_level">
-            <span class="name">我是用户名称</span>
+            <span class="name">
+              <open-data type="userNickName" ></open-data>
+            </span>
             <span class="level">{{userLevel}}</span>
           </div>
           <div class="vip_num">
@@ -128,6 +130,7 @@ export default {
       height: 120rpx;
       margin-right: 20rpx;
       border-radius: 100%;
+      overflow: hidden;
     }
 
     .user_info {

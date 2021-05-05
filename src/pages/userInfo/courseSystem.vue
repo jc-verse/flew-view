@@ -3,8 +3,9 @@
     <div class="header required">
       <div class="title">{{title}}：</div>
       <slot name='diy'></slot>
+      <slot name='right'></slot>
     </div>
-
+    <slot name='right_list'></slot>
     <div class="content">
       <diyTable :heads='tableHead' :datas='tableData' @change='tableChange'/>
     </div>
@@ -47,6 +48,10 @@ export default {
       default: true
     }
   },
+  data() {
+    return {
+    }
+  },
   methods: {
     // 抛出修改
     tableChange (data) {
@@ -64,7 +69,7 @@ export default {
       })
       this.tableData.push(obj);
       this.tableChange(this.tableData);
-    }
+    },
   }
 }
 </script>
@@ -81,8 +86,22 @@ export default {
     .title{
       font-weight: bold;
     }
-  }
-  .content{
+    .right{
+      position: absolute;
+      right: 0;
+      display: flex;
+      align-items: center;
+      
+      .right_box{
+        display: flex;
+        font-size: 28rpx;
+        color: #676FDF;
+        .icon{
+          margin-left: 10rpx;
+          font-size: 40rpx;
+        }
+      }
+    }
   }
   
   .add_item{

@@ -1,6 +1,6 @@
 <template>
   <div class="information">
-    <div class="top_item" v-for="(item, ind) in topList" :key="ind" :style='{width: item.width || ""}'>
+    <div class="top_item" v-for="(item, ind) in tops" :key="ind" :style='{width: item.width || ""}'>
       <div v-if="item.code !=='rate' ">{{`${item.title}：${item.val}`}}</div>
 
       <div class="rate" v-else>
@@ -23,6 +23,11 @@ export default {
     topList: {
       type: Array,
       default: ()=> []
+    }
+  },
+  computed: {
+    tops () {
+      return this.topList.filter(item => !!item.val)
     }
   }
 }

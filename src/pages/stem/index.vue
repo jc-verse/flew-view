@@ -5,7 +5,7 @@
       <search @change='search' :propertys="{'maxlength':'10'}"/>
       <div class="content_box">
         <nav-tab :list="newMemu" :index='tabIndex' @clickItme="clickItme"/>
-        <scroll-box style="width: 100%;">
+        <scroll-box style="width: 100%;" @lower='lower'>
           <div class="right_box">
             <div class="card_item" v-for="(item, index) in newCards" :key='index' @click="clickCardItem(item)">
               <div class="card_l">
@@ -50,7 +50,8 @@ export default {
 
       size: 10,
       current: 1,
-      total: 0
+      total: 0,
+      noConcat: false
     }
   },
   computed: {
@@ -59,22 +60,20 @@ export default {
       return memu;
     },
     newCards () {
-      const cards = this.cards.map(item => {
+      let cards = this.cards.map(item => {
         return  {
           ...item,
           msg: item.matchName,
           url: imgUrl +  item.icon
         }
-      })
+      }) || []
       return cards
     }
   },
   mounted () {
     /*获取当前路由*/
-    let curPage = getCurPage();
-    let curParam = curPage.options || curPage.$route.query;
 
-    const { id, title } = curParam
+    const { id, title } = getCurPage()
     this.menuType = id || 0;
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
@@ -105,7 +104,13 @@ export default {
         const { data, code } = nData || {};
         if (code === 200) {
           const { size, total, pages, records } = data;
-          this.cards = records;
+          const { cards } = this;
+          this.cards = cards.concat(records || []);
+          if (total> cards.length) {
+            this.current += 1
+          } else {
+            this.noConcat = true;
+          }
           console.log(1099,this.cards)
         }
       }).catch(err => {console.log(err)})
@@ -121,8 +126,19 @@ export default {
     },
     // 点击memu
     clickItme (item , index) {
-      this.tabIndex = index;
-      this.getCardList();
+      if(this.tabIndex !== index) {
+        this.tabIndex = index;
+        this.cards = [];
+        this.current = 1;
+        this.noConcat = false
+        this.getCardList();
+      }
+    },
+    // 触底
+    lower() {
+      if (!this.noConcat) {
+        this.getCardList()
+      }
     }
   }
 }
