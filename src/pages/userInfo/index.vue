@@ -361,7 +361,12 @@ export default {
         const { data: nData } = res[1];
         const { data, code, msg } = nData;
         if (code === 200) {
-          uni.showToast({ title: msg || '' })
+          uni.showToast({ 
+            title: msg || '',
+            success: (res)=>{
+              uni.navigateBack({delta:1})
+            } 
+          })
         }
       })
     },
@@ -380,6 +385,7 @@ export default {
     
     }
   },
+
   watch: {
     totalList (val) {
       const { isEdit, formData } = this;

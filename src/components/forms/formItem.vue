@@ -111,7 +111,7 @@ export default {
           val = value;
           break;
         case 'upload':
-          val = e.link || '';
+          val = e.name || '';
           break;
         case 'select':
           const {list} = this.headInit.params || {}

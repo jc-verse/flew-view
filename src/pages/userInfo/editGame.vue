@@ -16,8 +16,8 @@
         <form-item :headInit='ite' :formData='formData' @change="changeFn">
           <template slot='upload'>
             
-            <div class="box" v-if="forms.img">
-              <img  :src="forms.img" alt="" style='width:100rpx;height:100rpx'>
+            <div class="box" v-if="forms.authUrl">
+              <img  :src="imgUrl" alt="" style='width:100rpx;height:100rpx'>
               <i @click.stop="deleteImg"  class="iconfont iconshanchu icon" style="color:#676FDF;font-size:50rpx"></i>
             </div>
             <i v-else class="iconfont icontupianshangchuan " style="color:#676FDF;font-size:50rpx"></i>
@@ -30,7 +30,8 @@
 <script>
 import formItem from '@/components/forms/formItem';
 import formItemBox from '@/components/forms/formItemBox';
-import DiyPopup from '@/components/diyPopup'
+import DiyPopup from '@/components/diyPopup';
+import { imgUrl } from '@/common/http';
 export default {
   name: 'editGame',
   props:{
@@ -59,12 +60,17 @@ export default {
       forms: { name: '', time: '', wonAwards: '', authUrl : '' }
     }
   },
+  computed:{
+    imgUrl () {
+      return `${imgUrl}${this.forms.authUrl}`
+    }
+  },
   methods:{
     changeFn({data,code}) {
       this.forms[code] = data;
     },
     deleteImg() {
-      this.forms.img = ''
+      this.forms.authUrl = ''
     },
     popupclosed(flag) {
       if (flag && !!this.forms.name) {

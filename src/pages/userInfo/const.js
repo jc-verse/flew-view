@@ -26,8 +26,8 @@ export const bottomHeads =[
 export const tableHead = [
   { label: '学科', code: 'subject', id: '', onlyCode: '',disabled: false, type:'input' ,pro : '2.7',ph: '例：西语LLHL'},
   { label: '分数', code: 'fraction', id: '', onlyCode: '',disabled: false, type:'input' ,pro :'1.8'},
-  { label: '咨询', code: 'isConsultingService', id: '', onlyCode: '',disabled: true, type:'checkbox' ,pro : '1'},
-  { label: '帮助', code: 'isHelp', id: '', onlyCode: '',disabled: true, type:'checkbox' ,pro : '1'},
+  { label: '咨询', code: 'isConsultingService', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
+  { label: '帮助', code: 'isHelp', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
 ]
 
 export const tableHead2 = [

@@ -31,7 +31,8 @@ export default {
   data() {
     return {
       token:'',
-      userInfo: {}
+      userInfo: {},
+      canLogin: true
     }
   },
   mounted () {
@@ -54,6 +55,8 @@ export default {
   },
   methods: {
     clickBtn() {
+      if (!this.canLogin) return;
+      this.canLogin = false;
       // const _this = this;
       uni.getUserProfile({
         desc:'登录',
@@ -72,6 +75,7 @@ export default {
           }
         },
         fail: (err) => {
+          this.canLogin = true;
           console.log("未授权",err);
         }
       })
@@ -106,6 +110,8 @@ export default {
                         success(res) {console.log(res)}, 
                         fail(err){console.log(err)} 
                       })
+                    } else {
+                      this.canLogin = true
                     }
                   }
                 })
