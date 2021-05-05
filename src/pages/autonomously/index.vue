@@ -3,9 +3,7 @@
     <div class='autonomously'>
       <div class="content_box">
         <nav-tab :list="tabList">
-          <div class="diy" slot='diy' @click="clickOpen">
-            <img src="@/static/img1/open_active1.png" alt="">
-          </div>
+          <div class="diy" slot='diy' @click="clickOpen"></div>
         </nav-tab>
         <scroll-box style='width:100%'>
           <div class="right_box" >
@@ -71,7 +69,7 @@ export default {
       width: 160rpx;
       height: 160rpx;
       @include flex_center;
-      @include img_fill;
+      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-23.png');
 
     }
   }

@@ -2,16 +2,16 @@
   <div class="tag_group">
     <div class="tag_list">
       <div class="tag_item_box" v-for="(item, ind) in tagList" :key='ind'>
-        <tag-item :list='tagList' :ind='ind' :item='item'/>
+        <TagItem :list='tagList' :ind='ind' :item='item'/>
       </div>
     </div>
   </div>
 </template>
 <script>
-import tagItem from './tagItem'
+import TagItem from './tagItem'
 export default {
-  name: 'tagGroup',
-  components: { tagItem },
+  name: 'TagItem',
+  components: { TagItem },
   props: {
     list: {
       type: Array,

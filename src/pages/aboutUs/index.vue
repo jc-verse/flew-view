@@ -4,9 +4,7 @@
       <scroll-box>
         <div class="content">
 
-          <div class="header_img">
-            <img src="@/static/img1/about_bg.png" alt="">
-          </div>
+          <div class="header_img"></div>
 
           <div class="text_box">
             <div class="title">
@@ -39,16 +37,8 @@ export default {
   data () {
     return {
       textMsg,
-      isH5: false,
     }
   },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
-  },
-  mounted() {
-  }
 }
 </script>
 
@@ -58,7 +48,7 @@ export default {
     .header_img{
       height: 320rpx;
       width: 100%;
-      @include img_fill;
+      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-16.png');
     }
     .text_box{
       padding: 30rpx;

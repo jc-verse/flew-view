@@ -27,8 +27,8 @@
 <script>
 import pageSj from '@/components/pageSjNew';
 
-import formItem from '@/components/formItem';
-import formItemBox from '@/components/formItemBox';
+import formItem from '@/components/forms/formItem';
+import formItemBox from '@/components/forms/formItemBox';
 export default {
   name: 'initiateProcess',
   components: { pageSj, formItem, formItemBox },

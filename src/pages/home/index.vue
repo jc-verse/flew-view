@@ -18,7 +18,7 @@
                 </div>
               </div>
               <div class="top_bg" >
-                <img src="@/static/img1/bg_1.png" alt="">
+                <!-- <img src="@/static/img1/bg_1.png" alt=""> -->
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@
                   <div class="msg">{{'在校学生一对一答疑'}}</div>
                 </div>
                 <div class="left_t_bg">
-                  <img src="@/static/img1/bg_2.png" alt="">
+                  <!-- <img src="@/static/img1/bg_2.png" alt=""> -->
                 </div>
               </div>
               <!-- 4 -->
@@ -41,7 +41,7 @@
                   <div class="msg">{{'来看看我们能给你的帮助'}}</div>
                 </div>
                 <div class="left_b_bg">
-                  <img src="@/static/img1/bg_4.png" alt="">
+                  <!-- <img src="@/static/img1/bg_4.png" alt=""> -->
                 </div>
               </div>
             </div>
@@ -53,7 +53,7 @@
                   <div class="msg">{{'学霸的学习方法与解题思路'}}</div>
                 </div>
                 <div class="right_t_bg">
-                  <img src="@/static/img1/bg_3.png" alt="">
+                  <!-- <img src="@/static/img1/bg_3.png" alt=""> -->
                 </div>
               </div>
               <!-- 5 -->
@@ -63,7 +63,7 @@
                   <div class="msg">{{'欢迎加入我们的团队'}}</div>
                 </div>
                 <div class="right_b_bg">
-                  <img src="@/static/img1/bg_5.png" alt="">
+                  <!-- <img src="@/static/img1/bg_5.png" alt=""> -->
                 </div>
               </div>
             </div>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import infoHead from '@/components/infoHead';
+import infoHead from '@/components/cards/infoHead';
 import bottomLogo from "@/components/bottomLogo";
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
@@ -101,11 +101,11 @@ export default {
       success:(res) =>{
         const {errMsg, data} = res;
         if (!/ok/.test(errMsg) || !data) {
-          uni.navigateTo({ url: '/pages/guidance/index' })
+          uni.redirectTo({ url: '/pages/guidance/index' })
         }
       },
       fail: (err)=>{
-        uni.navigateTo({ url: '/pages/guidance/index' })
+        uni.redirectTo({ url: '/pages/guidance/index' })
       }
     })
   },
@@ -214,6 +214,7 @@ export default {
           border-radius: 12px;
           padding: 15% 0 0 20rpx;
           box-sizing: border-box;
+          @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-6.png');
           // @include img_bg('@/static/img1/bg_6.png');
           .title_msg{
             .title{
@@ -231,7 +232,8 @@ export default {
           right: -10rpx;
           width: 566rpx;
           height: 400rpx;
-          @include img_fill
+          @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-1.png');
+          // @include img_fill
         }
       }
     }
@@ -257,7 +259,8 @@ export default {
             width: 100%;
             height:100%;
             @include abs_lb;
-            @include img_fill;
+            // @include img_fill;
+            @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-2.png');
           }
         }
         .left_b{
@@ -271,7 +274,8 @@ export default {
             height: 100%;
             width: 100%;
             @include abs_lb;
-            @include img_fill;
+            // @include img_fill;
+            @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-4.png');
           }
         }
       }
@@ -294,7 +298,8 @@ export default {
             width: 100%;
             height:100%;
             @include abs_rb;
-            @include img_fill;
+            @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-3.png');
+            // @include img_fill;
           }
         }
         .right_b{
@@ -308,7 +313,8 @@ export default {
             width: 100%;
             height:100%;
             @include abs_rb;
-            @include img_fill;
+            // @include img_fill;
+            @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-5.png');
           }
         }
       }

@@ -2,9 +2,8 @@
   <PageJs :styles="{background: '#F1F3F5'}">
     <div class="page_mine">
     <div class="header_wrap">
-      <img class="bgs" src="@/static/img1/mine_bg.png" alt="">
       <div class="mine_title_wrap">
-        <div class="user_img"><open-data type="userAvatarUrl" ></open-data></div>
+        <div @click="jumpTo" class="user_img"><open-data type="userAvatarUrl" ></open-data></div>
         <div class="user_info">
           <div class="user_name_level">
             <span class="name">
@@ -19,7 +18,6 @@
           </div>
         </div>
         <div class="msg_icon" @click="jumpToMsg" >
-          <img src="@/static/img1/msg_icon.png" alt="">
           <div class="target">1</div>
         </div>
       </div>
@@ -28,8 +26,11 @@
       <div class="nav_title">我的申请</div>
       <div class="nav_list">
         <div class="nav_item" v-for="(item, idx) in navList" :key="idx">
-          <div @click="navClick(item)" :class="['item_content', item.id === actived ? 'actived' : '']">
-            <img :src="item.icon" class="img">
+          <div @click="navClick(item)" :class="['item_content', item.id === actived ? 'actived' : '']" >
+            
+            <div class="img_box" :style='{ "background-image": `url(${item.icon})` }'>
+              <!-- <img :src="item.icon" class="img"> -->
+            </div>
             <div class="item_label">{{item.label}}</div>
           </div>
         </div>
@@ -68,10 +69,10 @@ export default {
       userLevel: '3',
       actived: '1',
       navList: [
-        { label: '进行中', id: '1', icon: require('@/static/img1/order_1.png') },
-        { label: '被申请', id: '2', icon: require('@/static/img1/order_4.png') },
-        { label: '发起中', id: '3', icon: require('@/static/img1/order_2.png') },
-        { label: '申请记录', id: '4', icon: require('@/static/img1/order_3.png') },
+        { label: '进行中', id: '1',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-18.png' },
+        { label: '被申请', id: '2',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
+        { label: '发起中', id: '3',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-19.png' },
+        { label: '申请记录', id: '4', icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-20.png' },
       ]
     }
   },
@@ -107,17 +108,7 @@ export default {
     z-index: 5;
     margin: 0 -30rpx;
     padding: 0 30rpx;
-
-    .bgs {
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      z-index: -1;
-    }
+    @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-25.png');
   }
 
   .mine_title_wrap {
@@ -162,11 +153,7 @@ export default {
       height: 44rpx;
       margin-top: 16rpx;
       position: relative;
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
+      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-24.png');
 
       .target {
         background: #E65A57;
@@ -227,18 +214,18 @@ export default {
           align-items: center;
           padding-top: 16rpx;
 
-          .img {
-            width: 56rpx;
-            height: 56rpx;
-            margin-bottom: 16rpx;
-          }
-
           .item_label {
             font-size: 12px;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
             color: #333333;
             line-height: 17px;
+          }
+          .img_box{
+            width: 56rpx;
+            height: 56rpx;
+            // @include img_fill;
+            @include img_bg;
           }
 
           &.actived {

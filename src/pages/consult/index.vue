@@ -17,10 +17,10 @@
 
 <script>
 import groupItem from './groupItem';
-import search from '@/components/search';
+import search from '@/components/forms/search';
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
-import tagGroup from '@/components/tagGroup';
+import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
 export default {
   name:'sage',

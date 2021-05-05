@@ -24,8 +24,8 @@
 <script>
 import PageJS from '../../components/pageSjNew.vue';
 import ItemInfo from '@/pages/mine/msgItem.vue';
-import FormItem from '@/components/formItem';
-import FormItemBox from '@/components/formItemBox';
+import FormItem from '@/components/forms/formItem';
+import FormItemBox from '@/components/forms/formItemBox';
 import { userCardInfo } from '@/common/api';
 import { sexs } from '@/common/enum';
 import { joinUrl, getCurPage } from '@/common/utils';

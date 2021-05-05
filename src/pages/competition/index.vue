@@ -2,10 +2,10 @@
 <!-- 2.竞赛组队备份2 -->
 <page-sj>
   <div class="competition">
-    <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
+    <Search @change='changeVal' :propertys="{'maxlength':'10'}"/>
     <scroll-box >
       <div class="content">
-        <cartList @clickItem='clickItem' :list='list'/>
+        <CartList @clickItem='clickItem' :list='list'/>
       </div>
     </scroll-box>
   </div>
@@ -14,18 +14,19 @@
 </template>
 
 <script>
-import search from '@/components/search';
+import Search from '@/components/forms/search';
 import scrollBox from '@/components/scrollBox';
-import pageSj from '@/components/pageSjNew';
-import cartList from './cartList'
-import { joinUrl } from '@/common/utils'
 import FabGroup from '@/components/fabGroup';
+import pageSj from '@/components/pageSjNew';
 
+import { joinUrl } from '@/common/utils';
 import { teamTypeList } from '@/common/api';
+
+import CartList from './cartList'
 
 export default {
   name:'competition',
-  components: { search, cartList, scrollBox, pageSj, FabGroup },
+  components: { Search, CartList, scrollBox, pageSj, FabGroup },
   data() {
     return {
       list : [],

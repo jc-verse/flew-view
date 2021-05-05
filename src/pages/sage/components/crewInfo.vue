@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import infoHead from './infoHead';
-import information from './information';
+import infoHead from '@/components/cards/infoHead';
+import information from '@/components/cards/information';
 export default {
   name: 'crew_info',
   components: { infoHead, information },

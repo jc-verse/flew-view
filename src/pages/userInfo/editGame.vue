@@ -28,8 +28,8 @@
   </DiyPopup>
 </template>
 <script>
-import formItem from '@/components/formItem';
-import formItemBox from '@/components/formItemBox';
+import formItem from '@/components/forms/formItem';
+import formItemBox from '@/components/forms/formItemBox';
 import DiyPopup from '@/components/diyPopup'
 export default {
   name: 'editGame',

@@ -12,7 +12,7 @@
 
 <script>
 // import {uniRate} from '@dcloudio/uni-ui'
-import rate from '@/components/rate';
+import rate from '@/components/cards/rate';
 import uniRate from '@dcloudio/uni-ui/lib/uni-rate/uni-rate.vue'
 export default {
   name: 'information',

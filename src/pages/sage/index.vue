@@ -28,15 +28,14 @@
 </template>
 
 <script>
-import { uniPopup } from '@dcloudio/uni-ui'
-import groupItem from './groupItem';
-import synopsis from './synopsis';
-import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 import DiyPopup from '@/components/diyPopup';
-
-import tagGroup from '@/components/tagGroup';
+import scrollBox from '@/components/scrollBox';
 import fabGroup from '@/components/fabGroup';
+import tagGroup from '@/components/forms/tagGroup' ;
+import groupItem from './groupItem';
+import synopsis from './synopsis';
+
 import { getCurPage, joinUrl } from '@/common/utils';
 import { branchCompetitionUser, totalTeamTypeList } from '@/common/api';
 import { bgColors, demoData, deepChange  } from './const';
@@ -44,7 +43,7 @@ import { bgColors, demoData, deepChange  } from './const';
 
 export default {
   name:'sage',
-  components: { tagGroup, synopsis, groupItem, fabGroup, scrollBox, pageSj, uniPopup, DiyPopup },
+  components: { tagGroup, synopsis, groupItem, fabGroup, scrollBox, pageSj, DiyPopup },
   data() {
     return {
       show: false,
@@ -59,18 +58,18 @@ export default {
   },
   computed: {
     newBg () {
-      const { englishName, matchName } = getCurPage()
+      const { englishName, matchName } = (getCurPage() || {})
       const data = {
         ...bgColors[this.menuType],
-        title: matchName,
-        eTitle: englishName
+        title: matchName || '',
+        eTitle: englishName || ''
       };
       return data;
     }
   },
   mounted () {
     /*获取当前路由*/
-    const { id, title, englishName, matchName } = getCurPage();
+    const { id, title } = getCurPage();
     console.log(1923, getCurPage())
     this.menuType = id || 0;
     this.title = title || '';

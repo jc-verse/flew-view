@@ -28,7 +28,7 @@
 
 <script>
 import joinList from './components/joinList';
-import infoHead from '@/components/infoHead';
+import infoHead from '@/components/cards/infoHead';
 import information from './components/information';
 import crewInfo from './components/crewInfo';
 export default {

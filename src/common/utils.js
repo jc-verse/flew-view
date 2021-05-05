@@ -29,6 +29,27 @@ export const  getCurPage = () =>{
   let pages = getCurrentPages();
   let curPage = pages[pages.length-1];
   console.log(123,curPage)
-  let curParam = curPage.options || curPage.$route.query;
+  let curParam = curPage.options || (curPage.$route || {}).query;
   return curParam
+}
+
+// 希望参加比赛的反向组成 - 定制
+export const analysisFn = (deepList, items) => {
+  const arr = []
+  arr[0] = deepList.find(item => {
+    const flag = item.id === items.organizeTypeId;
+    if (flag) {
+      arr[1] =item.children.find(ite => {
+        const fla = ite.id === items.organizeTypeSon;
+        if (fla) {
+          arr[2] = ite.children.find(i =>{
+            return i.id === items.organizeTypeSonMatchId;
+          })
+        }
+        return fla
+      })
+    }
+    return flag
+  })
+  return arr
 }

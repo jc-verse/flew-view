@@ -40,12 +40,12 @@
 <script>
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
-import tagGroup from '@/components/tagGroup';
+import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
 import bottomLogo from "@/components/bottomLogo";
-import infoHead from '@/components/infoHead';
-import information from '../sage/components/information';
-import joinList from '../consult/components/joinList';
+import infoHead from '@/components/cards/infoHead';
+import information from '@/components/cards/information';
+import joinList from '@/components/cards/joinList';
 export default {
   name:'detail_info',
   components: { 

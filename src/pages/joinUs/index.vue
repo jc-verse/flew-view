@@ -4,9 +4,7 @@
       <scroll-box>
         <div class="content">
 
-          <div class="header_img">
-            <img src="@/static/img1/join_bg.png" alt="">
-          </div>
+          <div class="header_img"></div>
 
           <div class="text_box">
             <div class="title">
@@ -66,7 +64,7 @@ export default {
     .header_img{
       height: 320rpx;
       width: 100%;
-      @include img_fill;
+      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-17.png');
     }
     .text_box{
       padding: 30rpx;

@@ -3,9 +3,7 @@
   <page-sj>
     <div class="content_box">
       <!-- 顶部海报 -->
-      <div class="top_box" >
-        <img src="@/static/img1/poster.png" alt="">
-      </div>
+      <div class="top_box" ></div>
       <!-- 中间 -->
       <div class="bottom_box">
         <p class="font_1">欢迎来到 视界 | Reach</p>
@@ -66,7 +64,7 @@ export default {
           if (!this.token) {
             this.login()
           } else {
-            uni.navigateTo({ 
+            uni.redirectTo({ 
               url: '/pages/home/index', 
               success(res) {console.log(res)}, 
               fail(err){console.log(err)} 
@@ -103,7 +101,7 @@ export default {
                     const keys = Object.keys(_this.userInfo)
                     console.log(966, keys)
                     if (keys.length) {
-                      uni.navigateTo({ 
+                      uni.redirectTo({ 
                         url: '/pages/home/index', 
                         success(res) {console.log(res)}, 
                         fail(err){console.log(err)} 
@@ -134,7 +132,7 @@ export default {
     width: 100%;
     height: 704rpx;
     flex-grow: 0;
-    @include img_fill;
+    @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-22.png');
   }
   .btn{
     margin-top: 70rpx;

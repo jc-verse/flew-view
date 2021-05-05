@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import joinList from '@/components/joinList';
-import infoHead from '@/components/infoHead';
+import joinList from '@/components/cards/joinList';
+import infoHead from '@/components/cards/infoHead';
 import information from './components/information';
 import { genders,topList,cList,tagList } from '@/components/const';
 export default {

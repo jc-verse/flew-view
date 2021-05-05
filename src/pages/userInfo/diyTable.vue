@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import UploadImage from '@/components/upload'
+import UploadImage from '@/components/forms/upload'
 export default {
   name: 'diyTable',
   components: { UploadImage },

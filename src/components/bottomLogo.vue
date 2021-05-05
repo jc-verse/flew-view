@@ -1,8 +1,6 @@
 <template>
   <div class="b_logo">
-    <div class="img_box">
-      <img src="@/static/img1/bottom_logo.png" alt="">
-    </div>
+    <div class="img_box"></div>
   </div>
 </template>
 
@@ -15,7 +13,7 @@
     .img_box{
       height: 70rpx;
       width: 358rpx;
-      @include img_fill;
+      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-7.png');
     }
   }
 </style>

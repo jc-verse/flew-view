@@ -113,6 +113,11 @@
             </template>
 
           </form-item-box>
+          <!-- <div class="bbbb">
+            <DiyInpSel  :datas='totalList'  popup-title="6666的比赛" @addList='changeFn'>
+                <div  class="" style='color:#999999; display: flex; align-items: center; justify-content: flex-end;'>请选择你希望参加的比赛</div>
+              </DiyInpSel>
+          </div> -->
         </div>
         <div class="btn btn_active" v-if="!showBtn.length"  @click='save'> 确定 </div>
         <div class="btn" v-else  @click='save'> 确定 </div>
@@ -128,16 +133,17 @@
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 import CourseSystem from './courseSystem';
-import formItem from '@/components/formItem';
-import formItemBox from '@/components/formItemBox';
+import formItem from '@/components/forms/formItem';
+import formItemBox from '@/components/forms/formItemBox';
 import FabGroup from '@/components/fabGroup';
+import DiyPopup from '@/components/diyPopup'
+
 import DiyPicker from './diyPicker';
 import EditGame from './editGame';
+import DiyInpSel from './diyInputSelect';
 
-import UploadImg from '@/components/upload';
-import DiyPopup from '@/components/diyPopup'
 import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, deepChange, formData } from './const';
-import { joinUrl, getCurPage } from '@/common/utils';
+import { joinUrl, getCurPage, analysisFn } from '@/common/utils';
 
 import { 
   subjectList, 
@@ -146,7 +152,7 @@ import {
   teamTypeList, 
   updateCardInfo,
   userCardInfo,
-  totalTeamTypeList
+  totalTeamTypeList,
 } from '@/common/api';
 export default {
   name: 'userInfo',
@@ -160,11 +166,13 @@ export default {
     DiyPicker,
     DiyPopup,
     EditGame,
+    DiyInpSel
   },
   data() {
     return {
       formHeads, centerHeads, bottomHeads, tableHead, formData,
       autList: [],
+      isEdit: false,
       shows: {
         aut: false,
         match: false
@@ -241,6 +249,7 @@ export default {
     /*获取当前路由*/
     const { type = '' } = getCurPage();
     if (type === 'edit') {
+      this.isEdit = true;
       this.getInfo();
     }
 
@@ -270,11 +279,8 @@ export default {
         const { data, code } = nData;
         if (code === 200) {
           data.competitionExperience = data.competitionExperienceList;
-          // const { id } = this.systemList.find(item => {
-          //   console.log(item.subjectName, data.curriculumSystem)
-          //   return item.subjectName === data.curriculumSystem
-          // });
-          data.curriculumSystem = '';
+          data.curriculumSystemType = Number(data.curriculumSystem)
+          data.curriculumSystem = data.curriculumSystemList;
           data.standardizedPerformance = data.standardizedPerformanceList;
           data.wxCode = data.wxNum;
           data.name = data.userName;
@@ -374,6 +380,20 @@ export default {
     
     }
   },
+  watch: {
+    totalList (val) {
+      const { isEdit, formData } = this;
+      if (isEdit) {
+        const list = []
+        formData.match.forEach(items => {
+          const arr = analysisFn(val, items) || [];
+          list.push(arr)
+        })
+        this.matchList = list
+      }
+      console.log(97877,val)
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

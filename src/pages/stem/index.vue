@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import search from '@/components/search';
+import search from '@/components/forms/search';
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 

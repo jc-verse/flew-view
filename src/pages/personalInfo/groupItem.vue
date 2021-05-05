@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import joinList from '@/components/joinList';
-import infoHead from '@/components/infoHead';
-import information from '@/components/information';
+import joinList from '@/components/cards/joinList';
+import infoHead from '@/components/cards/infoHead';
+import information from '@/components/cards/information';
 import crewInfo from '../sage/components/crewInfo';
 export default {
   name: 'group_item',

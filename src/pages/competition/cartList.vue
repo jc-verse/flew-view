@@ -3,10 +3,12 @@
     <div class="item" v-for="(item, index) in newList" :style='{ background: item.styles.background }' :key="index" @click='clickItem(item)'>
       <div class="title_box">
         <div class="title">{{ item.name }}</div>
-        <div class="subhead">{{ item.asName }}</div>
+        <div class="subhead">{{ item.asName || '' }}</div>
       </div>
-      <i class="item_icon">
-        <img :src="item.iconU" alt="">
+      <i class="item_icon" :style='{
+        "background-image": `url(${item.iconUrl})`
+      }'>
+        <!-- <img :src="item.iconU" alt=""> -->
       </i>
     </div>
   </div>
@@ -86,7 +88,8 @@ export default {
       position: absolute;
       right: 0;
       bottom: 0;
-      @include img_fill;
+      // @include img_fill;
+      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-1.png');
     }
     .title_box{
       .title{

@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import infoHead from '@/components/infoHead';
-import information from '../sage/components/information';
+import infoHead from '@/components/cards/infoHead';
+import information from '@/components/cards/information';
 export default {
   name: 'member',
   components: { infoHead, information },
