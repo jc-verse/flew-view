@@ -5,11 +5,7 @@
         <div class="title">{{ item.name }}</div>
         <div class="subhead">{{ item.asName || '' }}</div>
       </div>
-      <i class="item_icon" :style='{
-        "background-image": `url(${item.iconUrl})`
-      }'>
-        <!-- <img :src="item.iconU" alt=""> -->
-      </i>
+      <i class="item_icon" :style='{ "background-image": `url(${item.iconU})` }'></i>
     </div>
   </div>
 </template>
@@ -37,7 +33,7 @@ export default {
           ...colorList[cIndex],
           ...item,
           iconU: imgUrl + item.backgroundImg  // 拼接图片路径
-          }
+        }
         return obj
       })
       return newArr;

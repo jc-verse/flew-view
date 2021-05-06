@@ -16,7 +16,7 @@
   <DiyPopup ref='popup' :noUp='true'>
     <div class="tip_box" slot='tip' @click.stop>
       <div class="title">组队申请</div>
-      <div class="msg">是否确定</div>
+      <div class="msg">请完善个人信息后申请！</div>
       <div class="btns">
         <div class="no" @click.stop="close(false)">取消</div>
         <div class="yes" @click.stop="close(true)">确定</div>
@@ -39,21 +39,26 @@ import synopsis from './synopsis';
 import { getCurPage, joinUrl } from '@/common/utils';
 import { branchCompetitionUser, totalTeamTypeList } from '@/common/api';
 import { bgColors, demoData, deepChange  } from './const';
+import commonMixin from '@/common/mixins/commonMixin'
 
 
 export default {
   name:'sage',
   components: { tagGroup, synopsis, groupItem, fabGroup, scrollBox, pageSj, DiyPopup },
+  mixins:[commonMixin],
   data() {
     return {
       show: false,
       index: 0,
       menuType: '1',
       cardList: [],
+
       current: 1,
       total: 0,
+      noConcat:false,
+
       demoData,
-      totalList:[]
+      // totalList:[] //mixin 中
     }
   },
   computed: {
@@ -74,7 +79,6 @@ export default {
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
     this.getInfo();
-    this.totalTeamTypeList();
   },
   methods : {
     getInfo () {
@@ -89,32 +93,28 @@ export default {
         const { data: nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
-          const { current, pages,records,searchCount, total  } = data;
-          this.cardList = records.length ? records :demoData ;
-          this.total = total;
+          const { current, pages, records, searchCount, total  } = data;
+          if (records && records.length) {
+            this.cardList = records.length ? [ ...this.cardList , ...records] :demoData ;
+            this.current +=1
+          } else {
+            this.noConcat = true;
+          }
+          
         }
       })
-    },
-    // 获取希望参加的list
-    totalTeamTypeList () {
-      totalTeamTypeList().then(res => {
-        const {data: nData} = res[1];
-        const { data, code } = nData;
-        if (code === 200) {
-          this.totalList = deepChange(data || [])
-        }
-      }).catch(err => {console.log(err)})
     },
     clickBuoy (data) {
       this.open();
     },
     // 临时入口
     clickDemo () {
-      uni.navigateTo({ url: joinUrl('/pages/userComplete/index') })
+      uni.navigateTo({ url: joinUrl('/pages/userComplete/index', {type:'edit'}) })
     },
     // 触底
     lower() {
-      console.log(1992)
+      if (this.noConcat) return ;
+      this.getInfo();
     },
     open() {
       this.$refs.popup.show()

@@ -1,13 +1,13 @@
 <template>
-	<DiyPopup @popupclosed='popupclosed' popupTitle='1111的比赛'>
+	<DiyPopup @popupclosed='popupclosed' popupTitle='1111的比赛' ref="diyPopup" :styles='{top: "40%"}'>
 		<slot></slot>
 		<template slot='content'>
 			<scroll-view :scroll-x="true">	
-				<div class="confirm_box" v-if="checkItems.length">
-					<div class="confirm_item" v-for="(item, index) in checkItems" :key='index'>
-						{{ item[2].label}}
-						<i @click='deleteItem(index)'  class="iconfont iconshanchu icon" style="color:#676FDF;margin-left:10rpx"></i>
-					</div>
+				<div class="confirm_box" >
+					<!-- <div class="input_box"> -->
+						<input class="uni-input" focus placeholder="自动获得焦点" />
+						<div class="btn">搜索</div>
+					<!-- </div> -->
 				</div>
 			</scroll-view>
 			<!-- picker  集合 -->
@@ -54,19 +54,22 @@
 			lists() {
 				const { datas, checks } = this;
 				const [a, b, c] = checks ;
-				let arr = [ datas, [],  [] ]
-				if ((a || a===0) && datas[a]) {
-					arr[1]= datas[a].children
-				} else {
-					arr[1] = []
-				}
-				if ((b || b === 0) && datas[a] && datas[a].children && datas[a].children[b]) {
-					arr[2]= datas[a].children[b].children
-				} else {
-					arr[2] = []
-				}
+				let arr = [ datas ]
+				// if ((a || a===0) && datas[a]) {
+				// 	arr[1]= datas[a].children
+				// } else {
+				// 	arr[1] = []
+				// }
+				// if ((b || b === 0) && datas[a] && datas[a].children && datas[a].children[b]) {
+				// 	arr[2]= datas[a].children[b].children
+				// } else {
+				// 	arr[2] = []
+				// }
 				return arr
 			},
+		},
+		mounted(){
+			this.$refs.diyPopup.show();
 		},
 		methods: {
 			// 选中某一选项
@@ -135,19 +138,20 @@
     width:100%;
     padding: 10rpx 20rpx 0;
     display: flex;
-    border-bottom: 1px solid #f5f5f5;
-    .confirm_item{
-      margin-bottom: 5px;
-      margin-left: 5px;
-			padding: 10rpx 20rpx 10rpx 20rpx;
-			margin-bottom: 5px;
-			margin-left: 5px;
-			background: rgba(64, 145, 233, 0.5);
-			border-radius: 30rpx;
-			display: flex;
-			align-items: center;	
-			flex-shrink: 0;
-    }
+    border-bottom: 2rpx solid #f5f5f5;
+		input{
+			border: 2rpx solid #f5f5f5;
+			border-radius: 10rpx;
+			padding: 10rpx 20rpx;
+			width: 100%;
+		}
+		.btn{
+			width: 100px;
+			padding: 10rpx 20rpx;
+			border: 2rpx solid #f5f5f5;
+			text-align: center;
+			margin-left: 10rpx;
+		}
   }
 	
 		.list_box{
@@ -155,7 +159,7 @@
 			height: 100%;
 			display: flex;
 			overflow: hidden;
-			max-height: 65vh;
+			max-height: 50vh;
 			>.list_i:not(:first-child){
 				border-left: 2rpx solid #f5f5f5;
 			}
@@ -166,9 +170,7 @@
 				flex-basis: 20px;
 				
 				.list_item{
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
+					@include flex_center;
 					padding: 20rpx 0;
 				}
 				.left{}
@@ -179,6 +181,7 @@
 					border-top: 0;
 					height: 12px;
 					width: 6px;
+					text-align: center;
 					transform-origin: center;
 					/* #ifndef APP-NVUE */
 					transition: all 0.3s;

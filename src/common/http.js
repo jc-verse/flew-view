@@ -40,9 +40,10 @@ export const httpAPI =  ( url, options) => {
 function interceptor (code , msg) {
   switch(code) {
     case 20011: //是登陆已过期
-      uni.removeStroage({ key: 'token' })
-      uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
-      uni.showToast({ title: '登陆已过期', duration: 1000 })
+      wx.removeStorage({ key: 'token' })
+      uni.showToast({ title: '登陆已过期', duration: 1000, success: ()=> {
+        uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+      } })
       break;
     case 1015: //是填写标准信息
       uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });

@@ -152,6 +152,7 @@ import {
   userCardInfo,
   totalTeamTypeList
 } from '@/common/api';
+import commonMixin from '@/common/mixins/commonMixin'
 export default {
   name: 'userInfo',
   components:{ 
@@ -166,6 +167,7 @@ export default {
     EditGame,
     DiyInpSel
   },
+  mixins:[commonMixin],
   data() {
     return {
       formHeads, centerHeads, bottomHeads, tableHead, formData,
@@ -177,11 +179,19 @@ export default {
       },
       subjectList: [],  // 科目list  
       systemList: [], //  课程体系list
-      totalList: [], // 希望参加的比赛list
+      // totalList: [], // 希望参加的比赛list
       matchList: [],
       right: { label: '体系认证', code:'curriculumSystemAuthUrl', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'upload', type: 'text', max: 20 }},
     }
   },
+  // onShow() {
+  //   const { totalList } = getApp().globalData;
+  //   if (!this.totalList.length && totalList.length) {
+  //     this.totalList = [ ...totalList ]
+  //   } else if (!this.totalList.length && !totalList.length) {
+  //     this.totalTeamTypeList()
+  //   }
+  // },
   computed:{
     // 校验 
     showBtn () {
@@ -257,31 +267,32 @@ export default {
         this.formData.nikeName = data;
       }
     },fail:(err)=>{console.log(err)}})
-    this.totalTeamTypeList()
   },
   methods:{
     // 获取希望参加的list
-    totalTeamTypeList () {
-      totalTeamTypeList().then(res => {
-        const {data: nData} = res[1];
-        const { data, code } = nData;
-        if (code === 200) {
-          this.totalList = deepChange(data || [])
-        }
-      }).catch(err => {console.log(err)})
-    },
+    // totalTeamTypeList () {
+    //   totalTeamTypeList().then(res => {
+    //     const {data: nData} = res[1];
+    //     const { data, code } = nData;
+    //     if (code === 200) {
+    //       this.totalList = deepChange(data || [])
+
+    //       getApp().globalData.totalList = [...this.totalList];
+    //     }
+    //   }).catch(err => {console.log(err)})
+    // },
     // 获取信息
     getInfo() {
       userCardInfo().then(res=> {
         const { data:nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
-          data.competitionExperience = data.competitionExperienceList;
-          data.curriculumSystemType = Number(data.curriculumSystem)
-          data.curriculumSystem = data.curriculumSystemList;
-          data.standardizedPerformance = data.standardizedPerformanceList;
-          data.wxCode = data.wxNum;
-          data.name = data.userName;
+          data.competitionExperience = data.competitionExperienceList || [];
+          data.curriculumSystemType = Number(data.curriculumSystem) || '';
+          data.curriculumSystem = data.curriculumSystemList || [];
+          data.standardizedPerformance = data.standardizedPerformanceList || [];
+          data.wxCode = data.wxNum || '';
+          data.name = data.userName || '';
           this.formData = {...data} || {};
         }
       }).catch(err => {console.log(err)})
@@ -327,6 +338,7 @@ export default {
     },
     deleteMatch(index) {
       this.matchList = this.matchList.filter((item,ind) =>ind !==index )
+      console.log(1988, this.matchList)
     },
     deleteUrl() {
       this.formData.curriculumSystemAuthUrl = ''
@@ -347,10 +359,11 @@ export default {
         return;
       }
       
-      matchList.forEach((item, index)=>{
+      const matchs = matchList.map((item, index)=>{
         const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id,item[1].id,item[2].id]
-        this.formData.match[index] =  { organizeTypeId , organizeTypeSon , organizeTypeSonMatchId }
+        return  { organizeTypeId , organizeTypeSon , organizeTypeSonMatchId }
       })
+      formData.match = matchs || [];
       const params = { ...formData }
       updateCardInfo(params).then(res => {
         const { data: nData } = res[1];
@@ -393,7 +406,20 @@ export default {
           const arr = analysisFn(val, items) || [];
           list.push(arr)
         })
-        this.matchList = list
+        this.matchList = [...list]
+      }
+    },
+    'formData.match': {
+      handler(val) {
+        const { isEdit, totalList } = this;
+        if (isEdit && totalList.length) {
+          const list = []
+          val.forEach(items => {
+            const arr = analysisFn(totalList, items) || [];
+            list.push(arr)
+          })
+          this.matchList = [...list]
+        }
       }
     }
   }

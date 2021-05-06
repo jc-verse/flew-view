@@ -81,30 +81,32 @@ export default {
       return arr
     },
     bList() {
-      const { competitionExperienceList  } = this.infoData;
-      const arr = (competitionExperienceList || []).map(item => item.name);
+      const { competitionExperience  } = this.infoData;
+      const arr = (competitionExperience || []).map(item => item.name);
       return arr
     },
     tags() {
       const { totalList, infoData } = this;
-      const { match } = infoData || {};
-      const arr = [];
-      match.forEach(item =>{
-        const { organizeTypeId: a, organizeTypeSon: b, organizeTypeSonMatchId: c } = item;
-        totalList.forEach(items => {
-          if(items.id == a ) {
-            items && items.children.forEach(ite =>{
-              if (ite.id == b) {
-                ite.children.forEach(i =>{
-                  if (i.id == c) {
-                    arr.push(i.abbreviation)
-                  }
-                })
-              }
-            })
-          }
-        })
-      })
+      const { match, matchList } = infoData || {};
+      const arr = matchList.split(',');
+      // if (match && Array.isArray(match)) {
+      //   match.forEach(item =>{
+      //     const { organizeTypeId: a, organizeTypeSon: b, organizeTypeSonMatchId: c } = item;
+      //     totalList.forEach(items => {
+      //       if(items.id == a ) {
+      //         items && items.children.forEach(ite =>{
+      //           if (ite.id == b) {
+      //             ite.children.forEach(i =>{
+      //               if (i.id == c) {
+      //                 arr.push(i.abbreviation)
+      //               }
+      //             })
+      //           }
+      //         })
+      //       }
+      //     })
+      //   })
+      // }
       return arr
     }
   },

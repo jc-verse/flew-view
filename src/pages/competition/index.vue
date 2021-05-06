@@ -2,7 +2,7 @@
 <!-- 2.竞赛组队备份2 -->
 <page-sj>
   <div class="competition">
-    <Search @change='changeVal' :propertys="{'maxlength':'10'}"/>
+    <!-- <Search @change='changeVal' :propertys="{'maxlength':'10'}"/> -->
     <scroll-box >
       <div class="content">
         <CartList @clickItem='clickItem' :list='list'/>

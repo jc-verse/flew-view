@@ -2,19 +2,39 @@
 <!-- 2.竞赛组队备份2 -->
   <page-sj>
     <div class="page_box">
-      <search @change='search' :propertys="{'maxlength':'10'}"/>
+      <Search @change='search' ref='search' :propertys="{'maxlength':'10'}"/>
       <div class="content_box">
-        <nav-tab :list="newMemu" :index='tabIndex' @clickItme="clickItme"/>
-        <scroll-box style="width: 100%;" @lower='lower'>
-          <div class="right_box">
-            <div class="card_item" v-for="(item, index) in newCards" :key='index' @click="clickCardItem(item)">
-              <div class="card_l">
-                <img :src="item.url || defalutImg" alt="">
+        <template v-if="!searchValue">
+          <nav-tab :list="newMemu" :index='tabIndex' @clickItme="clickItme"/>
+          <scroll-box style="width: 100%;" @lower='lower'>
+            <div class="right_box">
+              <div class="card_item" v-for="(item, index) in newCards" :key='index' @click="clickCardItem(item)">
+                <div class="card_l">
+                  <img :src="item.url || defalutImg" alt="">
+                </div>
+                <div class="card_r">
+                  <div>{{item.label || ''}}</div>
+                  <div>{{item.englishName || ''}}</div>
+                </div>
               </div>
-              <div class="card_r">{{item.msg || ''}}</div>
             </div>
-          </div>
-        </scroll-box>
+          </scroll-box>
+        </template>
+        <template v-else>
+          <scroll-box style="width: 100%;">
+            <div class="right_box">
+              <div class="card_item" v-for="(item, index) in searchCards" :key='index' @click="clickCardItem(item)">
+                <div class="card_l">
+                  <img :src="item.url || defalutImg" alt="">
+                </div>
+                <div class="card_r">
+                  <div>{{item.label || ''}}</div>
+                  <div>{{item.englishName || ''}}</div>
+                </div>
+              </div>
+            </div>
+          </scroll-box>
+        </template>
       </div>
       <fab-group/>
     </div>
@@ -22,7 +42,7 @@
 </template>
 
 <script>
-import search from '@/components/forms/search';
+import Search from '@/components/forms/search';
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 
@@ -33,25 +53,30 @@ import { joinUrl, getCurPage } from '@/common/utils';
 
 import { teamTypeBranchList, teamTypeCompetition } from '@/common/api';
 import { imgUrl } from '@/common/http';
+import commonMixin from '@/common/mixins/commonMixin'
 export default {
   name:'competition',
-  components: { search, navTab, fabGroup, scrollBox, pageSj },
+  components: { Search, navTab, fabGroup, scrollBox, pageSj },
+  mixins:[commonMixin],
   data() {
     return {
       tabList,
       cardList,
-      defalutImg:require('@/static/img1/poster.png'),
+      defalutImg: require('@/static/img1/poster.png'),
 
       menuType: '1',
       title: '',
       tabIndex: 0,
       tabs: [],
       cards: [],
+      
+      // searchCards:[], //用于卡片搜索的集合
+      searchValue: '',
 
       size: 10,
       current: 1,
       total: 0,
-      noConcat: false
+      noConcat: false // 分页控制
     }
   },
   computed: {
@@ -63,11 +88,43 @@ export default {
       let cards = this.cards.map(item => {
         return  {
           ...item,
-          msg: item.matchName,
+          label: item.matchName,
           url: imgUrl +  item.icon
         }
       }) || []
       return cards
+    },
+    searchCards() {
+      const { searchValue, searchCardList } = this;
+      const arr = searchCardList.filter(item => item.label.includes(searchValue)).map(item => {
+        return {
+          ...item,
+          label: item.matchName,
+          url: item.icon ? imgUrl +  item.icon: ''
+        }
+      })
+      console.log(9238,arr )
+      return arr;
+    },
+    searchCardList () {//  当前大类下的所有三级菜单
+      const { totalList, menuType } = this;
+      console.log(99967, totalList, menuType)
+      let arr = []; // 获取二级菜单
+      let list = []; // 存放三级菜单
+      if (totalList.length) {
+        const obj = totalList.find(item => item.id == menuType) || {};
+        arr = obj.children || [];
+      }
+
+      if (arr.length) { // 整合三级菜单
+        arr.forEach(item => {
+          if (item.children && Array.isArray(item.children)) {
+            list = [...list, ...item.children];
+          }
+        })
+      }
+      console.log(111,list)
+      return list;
     }
   },
   mounted () {
@@ -115,12 +172,14 @@ export default {
       }).catch(err => {console.log(err)})
     },
     search(value) {
+      this.searchValue = value;
       console.log(1,value)
     },
     // 点击右侧卡片
     clickCardItem(item){
       const { title, menuType } = this;
-      const query = { ...item, title, id: menuType }
+      const query = { ...item, title  } //id: menuType
+      this.$refs.search.value = '';
       uni.navigateTo({ url: joinUrl('/pages/sage/index', query) })
     },
     // 点击memu

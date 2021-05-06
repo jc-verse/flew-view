@@ -17,9 +17,7 @@
                   <div class="msg">{{'寻找志同道合的朋友'}}</div>
                 </div>
               </div>
-              <div class="top_bg" >
-                <!-- <img src="@/static/img1/bg_1.png" alt=""> -->
-              </div>
+              <div class="top_bg" ></div>
             </div>
           </div>
           <div class="bottom_box">
@@ -30,9 +28,7 @@
                   <div class="title">{{'学校信息咨询'}}</div>
                   <div class="msg">{{'在校学生一对一答疑'}}</div>
                 </div>
-                <div class="left_t_bg">
-                  <!-- <img src="@/static/img1/bg_2.png" alt=""> -->
-                </div>
+                <div class="left_t_bg"></div>
               </div>
               <!-- 4 -->
               <div class="left_b" @click="clickCard(4)">
@@ -41,7 +37,6 @@
                   <div class="msg">{{'来看看我们能给你的帮助'}}</div>
                 </div>
                 <div class="left_b_bg">
-                  <!-- <img src="@/static/img1/bg_4.png" alt=""> -->
                 </div>
               </div>
             </div>
@@ -52,9 +47,7 @@
                   <div class="title">{{'学术帮助'}}</div>
                   <div class="msg">{{'学霸的学习方法与解题思路'}}</div>
                 </div>
-                <div class="right_t_bg">
-                  <!-- <img src="@/static/img1/bg_3.png" alt=""> -->
-                </div>
+                <div class="right_t_bg"></div>
               </div>
               <!-- 5 -->
               <div class="right_b" @click="clickCard(5)">
@@ -62,9 +55,7 @@
                   <div class="title">{{'加入我们'}}</div>
                   <div class="msg">{{'欢迎加入我们的团队'}}</div>
                 </div>
-                <div class="right_b_bg">
-                  <!-- <img src="@/static/img1/bg_5.png" alt=""> -->
-                </div>
+                <div class="right_b_bg"></div>
               </div>
             </div>
           </div>
@@ -111,25 +102,25 @@ export default {
   },
   methods: {
     clickIcon() {
-      uni.navigateTo({ url: '/pages/mine/index' })
+      uni.navigateTo({ url: '/pages/mine/index' }) // 我的
     },
     
     clickCard(val) {
       switch (val) {
         case 1:
-          uni.navigateTo({ url: '/pages/competition/index' })
+          uni.navigateTo({ url: '/pages/competition/index' }) // 竞赛组队
           break;
         case 2:
-          uni.navigateTo({ url: '/pages/consult/index' })
+          uni.navigateTo({ url: '/pages/consult/index' }) // 学校信息咨询
           break;
         case 3:
-          uni.navigateTo({ url: '/pages/acaHelp/index' })
+          uni.navigateTo({ url: '/pages/acaHelp/index' }) // 关于我们
           break;
         case 4:
-          uni.navigateTo({ url: '/pages/aboutUs/index' })
+          uni.navigateTo({ url: '/pages/aboutUs/index' }) // 学术帮助
           break;
         case 5:
-          uni.navigateTo({ url: '/pages/joinUs/index' })
+          uni.navigateTo({ url: '/pages/joinUs/index' }) // 加入我们
           break;
         default:
           break;

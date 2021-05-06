@@ -1,6 +1,11 @@
 <script>
 // import { joinUrl } from '@/common/utils'
 	export default {
+		globalData:{
+			userName:"白居易",
+			totalList: [],// 希望参加的比赛
+		},
+
 		onLaunch: function() {
 			console.log('App Launch');
 			

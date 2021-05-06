@@ -32,7 +32,7 @@ export default {
     return {
       token:'',
       userInfo: {},
-      canLogin: true
+      canLogin: true,
     }
   },
   mounted () {
@@ -56,15 +56,15 @@ export default {
     clickBtn() {
       if (!this.canLogin) return;
       this.canLogin = false;
-      // const _this = this;
+      const _this = this;
       uni.getUserProfile({
         desc:'登录',
         success: (res) => {
-          this.userInfo = res.userInfo;
+          _this.userInfo = res.userInfo;
           setStorage (res.userInfo)
-          console.log(988, this.userInfo)
-          if (!this.token) {
-            this.login()
+          console.log(988, _this.userInfo)
+          if (!_this.token) {
+            _this.login()
           } else {
             uni.redirectTo({ 
               url: '/pages/home/index', 
@@ -74,7 +74,7 @@ export default {
           }
         },
         fail: (err) => {
-          this.canLogin = true;
+          _this.canLogin = true;
           console.log("未授权",err);
         }
       })
@@ -109,7 +109,7 @@ export default {
                         fail(err){console.log(err)} 
                       })
                     } else {
-                      this.canLogin = true
+                      _this.canLogin = true
                     }
                   }
                 })

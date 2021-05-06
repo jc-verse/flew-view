@@ -10,18 +10,18 @@ export const joinUrl = (url, data = {}) => {
   const newUrl = keys.reduce((url, key)=> {
     let u = url
     if (!data[key]) {
-      return u
+      return u;
     }
     const flag = data[key] instanceof Object
     if (/\?/.test(url)) {
       u += `&${key}=${ flag ? JSON.stringify(data[key]) : data[key]}`
-      return u
+      return u;
     } else {
       u += `?${key}=${flag ? JSON.stringify(data[key]) : data[key]}`
-      return  u;
+      return u;
     }
   }, url)
-  return newUrl
+  return newUrl;
 }
 
 // 获取当前页面路由信息
@@ -34,7 +34,7 @@ export const  getCurPage = () =>{
 
 // 希望参加比赛的反向组成 - 定制
 export const analysisFn = (deepList, items) => {
-  const arr = []
+  const arr = [];
   arr[0] = deepList.find(item => {
     const flag = item.id === items.organizeTypeId;
     if (flag) {
@@ -45,10 +45,28 @@ export const analysisFn = (deepList, items) => {
             return i.id === items.organizeTypeSonMatchId;
           })
         }
-        return fla
+        return fla;
       })
     }
-    return flag
+    return flag;
   })
-  return arr
+  return arr;
+}
+// 改装数据方便联动select 使用
+export const  deepChange = (data) => {
+  return  data.map(item => {
+    const obj = {}
+    for (const key in item) {
+      if (Array.isArray(item[key])) {
+        obj['children'] = deepChange(item[key]);
+        // obj[key] = item[key]
+      } else{
+        obj[key] = item[key]
+        if (/(name|sonName|matchName)/.test(key)) {
+          obj['label'] = item[key]
+        }
+      }
+    }
+    return obj;
+  })
 }
