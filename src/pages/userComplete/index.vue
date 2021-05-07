@@ -30,8 +30,9 @@
             @changeTable='changeFn'
           >
             <div class="add" slot='diy'>
-              <i class="iconfont iconjiahao add_icon"></i> 
-              <form-item  :headInit='systems' :formData='formData' @change="changeFn"></form-item> 
+              <form-item  :headInit='systems' :formData='formData' @change="changeFn">
+                <text slot='select' class="iconfont iconjiahao add_icon"></text> 
+              </form-item> 
             </div>
             <div class="right" slot='right' v-if='formData.curriculumSystemType'>
               <form-item  :headInit='right' :formData='formData' @change="changeFn">
@@ -146,7 +147,7 @@ import FabGroup from '@/components/fabGroup';
 import DiyPopup from '@/components/diyPopup'
 import DiyPicker from '../userInfo/diyPicker';
 import EditGame from '../userInfo/editGame';
-import DiyInpSel from '../userInfo/diyInputSelect';
+import DiyInpSel from '@/components/forms/diyInputSelect';
 import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, deepChange, formData, lastHeads } from './const';
 import { joinUrl, getCurPage, analysisFn } from '@/common/utils';
 
@@ -159,7 +160,8 @@ import {
   userCardInfo,
   totalTeamTypeList
 } from '@/common/api';
-import commonMixin from '@/common/mixins/commonMixin'
+import commonMixin from '@/common/mixins/commonMixin';
+import userDataMixin from '@/common/mixins/userDataMixin';
 export default {
   name: 'userInfo',
   components:{ 
@@ -174,7 +176,7 @@ export default {
     EditGame,
     DiyInpSel
   },
-  mixins:[commonMixin],
+  mixins:[commonMixin, userDataMixin],
   data() {
     return {
       formHeads, centerHeads, bottomHeads, tableHead, formData,
@@ -249,6 +251,17 @@ export default {
       })
       return arr;
     },
+    newForm () {
+      const { userData } = this;
+      const obj = { ...userData,
+        competitionExperience : userData.competitionExperienceList || [],
+        curriculumSystemType : Number(userData.curriculumSystem) || '',
+        curriculumSystem : userData.curriculumSystemList || [],
+        standardizedPerformance : userData.standardizedPerformanceList || [],
+      };
+      this.formData = {...obj}
+      return obj
+    }
   },
   mounted() {
     this.getDownList(1);  //科目
@@ -258,7 +271,7 @@ export default {
     const { type = '' } = getCurPage();
     if (type === 'edit') {
       this.isEdit = true;
-      this.getInfo();
+      // this.getInfo();
     }
 
     uni.getStorage({ key: 'nickName', success:(res)=>{
@@ -269,22 +282,34 @@ export default {
     },fail:(err)=>{console.log(err)}})
   },
   methods:{
+    // 获取希望参加的list
+    // totalTeamTypeList () {
+    //   totalTeamTypeList().then(res => {
+    //     const {data: nData} = res[1];
+    //     const { data, code } = nData;
+    //     if (code === 200) {
+    //       this.totalList = deepChange(data || [])
+
+    //       getApp().globalData.totalList = [...this.totalList];
+    //     }
+    //   }).catch(err => {console.log(err)})
+    // },
     // 获取信息
-    getInfo() {
-      userCardInfo().then(res=> {
-        const { data:nData } = res[1];
-        const { data, code } = nData;
-        if (code === 200) {
-          data.competitionExperience = data.competitionExperienceList || [];
-          data.curriculumSystemType = Number(data.curriculumSystem) || '';
-          data.curriculumSystem = data.curriculumSystemList || [];
-          data.standardizedPerformance = data.standardizedPerformanceList || [];
-          data.wxCode = data.wxNum || '';
-          data.name = data.userName || '';
-          this.formData = {...data} || {};
-        }
-      }).catch(err => {console.log(err)})
-    },
+    // getInfo() {
+    //   userCardInfo().then(res=> {
+    //     const { data:nData } = res[1];
+    //     const { data, code } = nData;
+    //     if (code === 200) {
+    //       data.competitionExperience = data.competitionExperienceList || [];
+    //       data.curriculumSystemType = Number(data.curriculumSystem) || '';
+    //       data.curriculumSystem = data.curriculumSystemList || [];
+    //       data.standardizedPerformance = data.standardizedPerformanceList || [];
+    //       data.wxCode = data.wxNum || '';
+    //       data.name = data.userName || '';
+    //       this.formData = {...data} || {};
+    //     }
+    //   }).catch(err => {console.log(err)})
+    // },
     // 获取科目/课程体系  list
     getDownList (type = 1) { //  type: 1 科目   /  2 课程体系
       subjectList({ type }).then(res => {
@@ -320,7 +345,7 @@ export default {
     },
     // 删除比赛经历
     deleteAut (index) {
-      this.formData.competitionExperience= this.formData.competitionExperience.filter((item,ind) => {
+      this.formData.competitionExperience = this.formData.competitionExperience.filter((item,ind) => {
         return ind !== index;
       })
     },
@@ -337,6 +362,7 @@ export default {
     },
     // 保存
     save () {
+      const _this = this;
       const { autList, formData, showBtn, matchList } = this;
       if (showBtn.length) { // 校验
         uni.showToast({ title: showBtn[0],icon:'none' });
@@ -361,7 +387,9 @@ export default {
             title: msg || '',
             success: (res)=>{
               setTimeout(function () {
-                uni.navigateBack({delta:1})
+                uni.navigateBack({delta:1,success:()=>{
+                  _this.getUserInfo();
+                }})
               }, 1000);
             } 
           })
@@ -394,6 +422,7 @@ export default {
   },
 
   watch: {
+    // 希望参加的比赛回显
     totalList (val) {
       const { isEdit, formData } = this;
       if (isEdit) {
@@ -405,6 +434,7 @@ export default {
         this.matchList = [...list]
       }
     },
+    // 希望参加的比赛回显
     'formData.match': {
       handler(val) {
         const { isEdit, totalList } = this;

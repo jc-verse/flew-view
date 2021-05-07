@@ -4,10 +4,10 @@
       <div class="person_info_wrap">
         <div class="user_img_bar item">
           <div class="label">头像</div>
-          <img class="user_img" :src="formData.avatar || ''" alt="">
+          <img class="user_img" :src="userData.avatar || ''" alt="">
         </div>
-        <FormItemBox :ite ='ite' :formData='formData' :show-b='ind + 1 === formHeads.length' v-for='(ite, ind) in formHeads' :key='ind' >
-          <FormItem :headInit='ite' :formData='formData' @change="changeFn"/>
+        <FormItemBox :ite ='ite' :formData='userData' :show-b='ind + 1 === formHeads.length' v-for='(ite, ind) in formHeads' :key='ind' >
+          <FormItem :headInit='ite' :formData='userData' @change="changeFn"/>
         </FormItemBox>
       </div>
       <div class="person_card">
@@ -30,12 +30,14 @@ import { userCardInfo, subjectList } from '@/common/api';
 import { sexs } from '@/common/enum';
 import { joinUrl, getCurPage } from '@/common/utils';
 import GroupItem from './groupItem'
+import userDataMixin from '@/common/mixins/userDataMixin';
 
 
 import FabGroup from '@/components/fabGroup';
 export default {
   name: 'personalInfo',
   components: { PageJS, ItemInfo, FabGroup, FormItem, FormItemBox, GroupItem },
+  mixins:[userDataMixin],
   data() {
     return {
       formHeads: [
@@ -48,11 +50,13 @@ export default {
       ],
       formData: {},
       headImg: '',
-      systemList: []
+      systemList: [],
+      // userData: {}// mixin中
     }
   },
   mounted() {
-    this.getInfo();
+    // this.getInfo();
+    
     this.getDownList();
     uni.getStorage({key: 'avatarUrl',
       success:(res)=>{
@@ -63,16 +67,20 @@ export default {
       }
     })
   },
+  onShow(){
+
+  },
   computed :{
     newFormData () {
-      const { formData, systemList} = this;
-      const obj = {...formData};
+      const { formData, systemList, userData} = this;
+      const obj = {...userData};
       if (systemList.length) {
         const item = systemList.find(ite => ite.id == obj.curriculumSystem) || {}
         obj.curriculumSystem = item.subjectName || obj.curriculumSystem
       }
       return obj;
-    }
+    },
+    
   },
   methods: {
     // 获取科目/课程体系  list
@@ -81,26 +89,24 @@ export default {
         const {data: nData} = res[1];
         const { code, data } = nData;
         if (code === 200) {
-          // const obj = { '1': 'subjectList', '2': 'systemList' };
           this.systemList = data || [];
-          
         }
       })
     },
     // 获取信息
-    getInfo() {
-      userCardInfo().then(res=> {
-        const { data:nData } = res[1];
-        const { data, code } = nData;
-        if (code === 200) {
-          data.avatar = this.headImg || ''
-          this.formData = data || {};
-        }
-      }).catch(err => {console.log(err)})
-    },
+    // getInfo() {
+    //   userCardInfo().then(res=> {
+    //     const { data:nData } = res[1];
+    //     const { data, code } = nData;
+    //     if (code === 200) {
+    //       data.avatar = this.headImg || ''
+    //       this.formData = data || {};
+    //     }
+    //   }).catch(err => {console.log(err)})
+    // },
     // 改变表单
     changeFn({data,code}) {
-      this.formData[code] = data;
+      this.userData[code] = data;
     },
 
     clickBuoy(val) {

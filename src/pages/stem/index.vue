@@ -123,7 +123,6 @@ export default {
           }
         })
       }
-      console.log(111,list)
       return list;
     }
   },

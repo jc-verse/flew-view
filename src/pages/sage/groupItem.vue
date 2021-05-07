@@ -88,7 +88,7 @@ export default {
     tags() {
       const { totalList, infoData } = this;
       const { match, matchList } = infoData || {};
-      const arr = matchList.split(',');
+      const arr = (matchList || '').split(',');
       // if (match && Array.isArray(match)) {
       //   match.forEach(item =>{
       //     const { organizeTypeId: a, organizeTypeSon: b, organizeTypeSonMatchId: c } = item;

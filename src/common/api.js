@@ -54,3 +54,8 @@ export const totalTeamTypeList = (data) => {
 export const branchCompetitionUser = (data) => {
   return  httpAPI('/app/team-up/branch-competition-user', { data })
 }
+
+// 希望参与比赛的用户 - SAGE
+export const selectSchoolList = (data) => {
+  return  httpAPI('/app/user-info/select-school-list', { data })
+}

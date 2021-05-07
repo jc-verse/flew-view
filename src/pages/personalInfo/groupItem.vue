@@ -34,7 +34,6 @@ export default {
   },
   data () {
     return {
-      cList: [ '2020 NSDA最佳辩手', '2020 NSHDLC 全程最佳辩手', '2020 AIME 全球前百分之一' ],
     }
   },
   computed : {
@@ -54,7 +53,7 @@ export default {
     bList() {
       const { competitionExperienceList  } = this.infoData;
       const arr = (competitionExperienceList || []).map(item => item.name);
-      return 
+      return arr
     }
   },
   methods:{

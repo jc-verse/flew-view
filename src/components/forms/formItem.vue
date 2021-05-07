@@ -20,8 +20,11 @@
     <!-- select -->
     <template v-if="headInit.params.genre === 'select'" >
       <picker  range-key='label' :value="formData[headInit.code]" :disabled='!!headInit.disabled'  @change="change($event, 'select', headInit.code)" :range="headInit.params.list">
-        <view class="select" v-if='formData[headInit.code]'>{{formData[headInit.code] | findIndex(headInit.params.list)}}</view>
-        <view v-else style='color:#808080'>请选择</view>
+        <div class="box">
+          <view class="select" v-if='formData[headInit.code]'><slot name='select'></slot>{{formData[headInit.code] | findIndex(headInit.params.list)}}</view>
+          <view v-else style='color:#808080'>请选择</view>
+          <text v-if="showIcon || false" class="iconfont iconjiahao add_icon"></text> 
+        </div>
       </picker>
     </template>
 
@@ -57,6 +60,13 @@
       </div>
     </template>
 
+    <!-- inputSelect -->
+    <template v-if="headInit.params.genre === 'custom'">
+      <div class="custom">
+        <slot name='custom'></slot>
+      </div>
+    </template>
+
     <!-- combox -->
     <template v-if="headInit.params.genre === 'combox'">
       <combox 
@@ -77,16 +87,18 @@
 <script>
 import UploadImg from "./upload";
 import combox  from './combox';
+import DiyInpSel from './diyInputSelect';
 export default {
   name:'formItem',
-  components: { combox, UploadImg },
+  components: { combox, UploadImg, DiyInpSel },
   data () {
     return {
     }
   },
   props: {
     headInit: { type: Object, default: ()=> ({}) },
-    formData: { type: Object, default: ()=> ({}) }
+    formData: { type: Object, default: ()=> ({}) },
+    showIcon: { type: Boolean, default: false }
   },
   computed: {
   },
@@ -142,5 +154,22 @@ export default {
   .custom, .select{
     @include fontMixin(26rpx, #808080)
   }
+  .box{
+    display: flex;
+    align-items: center;
+  }
+  .add_icon{
+      display: inline-block;
+      height: 40rpx;
+      width: 40rpx;
+      line-height: 40rpx;
+      border-radius: 50%;
+      background: rgba(103, 111, 223,.2);
+      margin-right: 10rpx;
+      margin-left: 10rpx;
+      color: #676FDF;
+      @include fontMixin(22rpx,#676FDF);
+      @include flex_center;
+    }
 }
 </style>

@@ -7,9 +7,15 @@
       <synopsis :info='newBg'>
         <div class="demo" @click="clickDemo">完善个人设置临时入口</div>
       </synopsis>
-      <div class="group_info_list">
+      <div class="group_info_list" v-if="cardList.length">
         <group-item v-for="(item, ind) in cardList" :totalList='totalList' :infoData='item' :key='ind' @clickBuoy='clickBuoy'/>
       </div>
+      
+      <template v-else>
+        <div class="noList">
+          当前无队伍！
+        </div>
+      </template>
     </scroll-box>
     <fab-group/>
   </div>
@@ -95,12 +101,17 @@ export default {
         if (code === 200) {
           const { current, pages, records, searchCount, total  } = data;
           if (records && records.length) {
-            this.cardList = records.length ? [ ...this.cardList , ...records] :demoData ;
-            this.current +=1
-          } else {
+            this.cardList = [ ...this.cardList , ...records] ;
+            if (records.length < 10) {
+              this.noConcat = true;
+            }else {
+              this.current +=1;
+            }
+          } else  {
+            console.log(19992)
             this.noConcat = true;
+            // this.cardList = demoData ;
           }
-          
         }
       })
     },
@@ -140,6 +151,14 @@ $color:#B3B3B4;
     padding: 0 20rpx 20rpx;
     z-index: 1;
     margin-top: -40rpx;
+  }
+  .noList{
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(102,102,102 , 0.4);
+    font-size: 40rpx;
   }
 }
 .demo {

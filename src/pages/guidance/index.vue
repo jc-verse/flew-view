@@ -68,7 +68,9 @@ export default {
           } else {
             uni.redirectTo({ 
               url: '/pages/home/index', 
-              success(res) {console.log(res)}, 
+              success(res) {
+                console.log(res)
+              }, 
               fail(err){console.log(err)} 
             })
           }
@@ -103,11 +105,13 @@ export default {
                     _this.token = nData.token;
                     const keys = Object.keys(_this.userInfo)
                     if (keys.length) {
-                      uni.redirectTo({ 
-                        url: '/pages/home/index', 
-                        success(res) {console.log(res)}, 
-                        fail(err){console.log(err)} 
-                      })
+                      setTimeout(() => {
+                        uni.redirectTo({ 
+                          url: '/pages/home/index', 
+                          success(res) {console.log(res)}, 
+                          fail(err){console.log(err)} 
+                        })
+                      }, 1000);
                     } else {
                       _this.canLogin = true
                     }

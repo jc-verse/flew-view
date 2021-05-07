@@ -77,10 +77,12 @@ import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 
 import FabGroup from '@/components/fabGroup';
+import userDataMixin from '@/common/mixins/userDataMixin';
 
 export default {
   name: 'home',
   components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup },
+  mixins:[userDataMixin],
   data () {
     return {
     }

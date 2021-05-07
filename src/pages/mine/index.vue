@@ -3,17 +3,21 @@
     <div class="page_mine">
     <div class="header_wrap">
       <div class="mine_title_wrap">
-        <div @click="jumpTo" class="user_img"><open-data type="userAvatarUrl" ></open-data></div>
+        <div @click="jumpTo" class="user_img">
+          <open-data type="userAvatarUrl" ></open-data>
+        </div>
         <div class="user_info">
           <div class="user_name_level">
             <span class="name">
               <open-data type="userNickName" ></open-data>
             </span>
-            <span class="level">{{userLevel}}</span>
+            <span class="level">
+              <Rate :size="18" :value="userData.star  || 0" :max="5" :readonly='true'></Rate>
+            </span>
           </div>
           <div class="vip_num">
             <span class="text">会员号：</span>
-            <span class="num">{{vipNum}}</span>
+            <span class="num">{{userData.vipNum}}</span>
             <span class="desc">(已认证)</span>
           </div>
         </div>
@@ -50,7 +54,9 @@
 import PageJs from '../../components/pageSjNew.vue'
 import MsgItem from './msgItem.vue'
 import GroupItem from '../consult/groupItem.vue'
-import ScrollBox from '@/components/scrollBox.vue'
+import ScrollBox from '@/components/scrollBox.vue';
+import userDataMixin from '@/common/mixins/userDataMixin';
+import Rate from '@/components/cards/rate';
 
 import FabGroup from '@/components/fabGroup';
 
@@ -60,8 +66,10 @@ export default {
     MsgItem,
     GroupItem,
     ScrollBox,
-    FabGroup
+    FabGroup,
+    Rate
   },
+  mixins:[userDataMixin],
   data() {
     return {
       pageTitle: '我的页面',
@@ -134,17 +142,20 @@ export default {
         font-size: 36rpx;
         color: #fff;
         margin-bottom: 12rpx;
+        display: flex;
+        align-items: center;
 
         .name {
+          @include fontMixin(36rpx, #ffffff, bold);
           margin-right: 24rpx;
-          font-family: PingFangSC-Medium;
+          // font-family: PingFangSC-Medium;
         }
       }
 
       .vip_num {
         font-size: 28rpx;
         line-height: 40rpx;
-        color: #fff;
+        color: rgba(255,255,255 , .5);;
       }
     }
 
