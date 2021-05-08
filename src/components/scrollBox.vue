@@ -6,7 +6,7 @@
       :scroll-y="true" 
       :show-scrollbar='false'
       :scroll-top="scrollTop"
-      :lower-threshold='50'  
+      :lower-threshold='lowerNum'  
       @scrolltoupper="upper" 
       @scrolltolower="lower"
       @scroll="scroll"
@@ -29,13 +29,17 @@ export default {
     num: {
       type: Number,
       default: 0
+    },
+    lowerNum: {
+      type: Number,
+      default: 50
     }
   },
   computed: {
     customBarH () {
       const { topNum, num } = this;
 
-      return topNum ? `calc(100vh - ${topNum * 2 + 8 + num}rpx)` : '100vh';
+      return topNum ? `calc(100vh - ${topNum * 2 + 8 + num}rpx)` : `calc(100vh - ${num}rpx)`;
     }
   },
   mounted () {
@@ -62,6 +66,7 @@ export default {
       // console.log(e)
     },
     lower (e) {
+      console.log(12312300)
       this.$emit('lower')
     },
     scroll (e) {

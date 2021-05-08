@@ -1,20 +1,35 @@
 <template>
   <div class="message_item">
-    <div class="msg_title">{{msg.title}}</div>
+    <div class="msg_title" v-if="info.type">【{{ info.type | filterType}}】</div>
     <div class="msg_content">
-      {{msg.content}}
+      {{info.content || ''}}
     </div>
-    <div class="link">查看详情</div>
+    <div class="unRead" v-if="info.status == 1"></div>
+    <div class="link" @click="clickDetail">查看详情</div>
   </div>
 </template>
 <script>
 export default {
   props: {
-    msg: {
+    info: {
       type: Object,
-      default: function() {
-        return {}
+      default: ()=>({})
+    }
+  },
+  filters: {
+    filterType (val) {
+      const types = {
+        '1': '被申请',
+        '2': '申请中反馈',
+        '3': '发起中反馈',
+        '4': '申请组队被申请',
       }
+      return types[val] || ''
+    }
+  },
+  methods: {
+    clickDetail () {
+      console.log(985,this.info)
     }
   }
 }
@@ -25,33 +40,36 @@ export default {
   background: #FFFFFF;
   border-radius: 32rpx;
   margin-bottom: 20rpx;
+  position: relative;
   
   .msg_title {
-    height: 44rpx;
-    font-size: 32rpx;
-    font-family: PingFangSC-Regular, PingFang SC;
-    font-weight: 400;
-    color: #000000;
     line-height: 44rpx;
+    @include fontMixin2(32rpx, #000000, bold)
   }
 
   .msg_content {
     margin: 6rpx 0 12rpx;
     height: 40rpx;
-    font-size: 28rpx;
-    font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;
-    color: #666666;
     line-height: 40rpx;
+    @include fontMixin2(28rpx, #666666)
   }
 
   .link {
     height: 34rpx;
-    font-size: 24rpx;
     font-family: PingFangSC-Regular, PingFang SC;
-    font-weight: 400;
-    color: #676FDF;
     line-height: 34rpx;
+    @include fontMixin2(24rpx, #676FDF)
+  }
+  .unRead{
+    position: absolute;
+    top: 20rpx;
+    right: 20rpx;
+    width: 10rpx;
+    height: 10rpx;
+    background: red;
+    border-radius: 50%;
+
   }
 }
 </style>

@@ -55,7 +55,29 @@ export const branchCompetitionUser = (data) => {
   return  httpAPI('/app/team-up/branch-competition-user', { data })
 }
 
-// 希望参与比赛的用户 - SAGE
+// 获取学校列表
 export const selectSchoolList = (data) => {
   return  httpAPI('/app/user-info/select-school-list', { data })
+}
+
+
+// 申请组队
+export const teamUpranks = (data) => {
+  return  httpAPI('/app/team-up/ranks', { data })
+}
+
+
+// 点击已读
+export const userInfoClickRead = (data) => {
+  return  httpAPI('/app/user-info/click-read', { data })
+}
+
+// 我的消息
+export const userInfoMyMsgList = (data) => {
+  return  httpAPI('/app/user-info/my-msg-list', { data })
+}
+
+// 未读数量
+export const userInfoReadCount = (data) => {
+  return  httpAPI('/app/user-info/read-count', { data })
 }

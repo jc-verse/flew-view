@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="buoy" v-if='infoData.rank == 2' @click="clickBuoy(infoData.type)"> 申请组队 </div>
+    <div class="buoy" v-if='infoData.rank == 2' @click="clickBuoy(infoData)"> 申请组队 </div>
   </div>
 </template>
 

@@ -43,8 +43,8 @@ import groupItem from './groupItem';
 import synopsis from './synopsis';
 
 import { getCurPage, joinUrl } from '@/common/utils';
-import { branchCompetitionUser, totalTeamTypeList } from '@/common/api';
-import { bgColors, demoData, deepChange  } from './const';
+import { branchCompetitionUser, teamUpranks } from '@/common/api';
+import { bgColors } from './const';
 import commonMixin from '@/common/mixins/commonMixin'
 
 
@@ -65,7 +65,6 @@ export default {
       type: 1,
       headMsg: {},
 
-      demoData,
       // totalList:[] //mixin 中
     }
   },
@@ -77,21 +76,31 @@ export default {
     }
   },
   onShow() {
-    const { englishName, matchName } = (getCurPage() || {})
+    const { englishName, matchName, id, title } = (getCurPage() || {})
     this.headMsg ={
       title: matchName || '',
       eTitle: englishName || ''
     }
-  },
-  mounted () {
-    /*获取当前路由*/
-    const { id, title } = getCurPage();
     this.menuType = id || 0;
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
+    this.initInfo();
     this.getInfo();
   },
+  mounted () {
+    /*获取当前路由*/
+    // const { id, title } = getCurPage();
+    // this.menuType = id || 0;
+    // this.title = title || '';
+    // uni.setNavigationBarTitle({ title: this.title })
+    // this.getInfo();
+  },
   methods : {
+    initInfo () {
+      this.cardList = [];
+      this.noConcat = false;
+      this.current  = 1;
+    },
     getInfo () {
       const { menuType } = this;
       const params = {
@@ -113,16 +122,35 @@ export default {
               this.current +=1;
             }
           } else  {
-            console.log(19992)
             this.noConcat = true;
-            // this.cardList = demoData ;
           }
         }
       })
     },
-    clickBuoy (type) {
-      this.type = type || 1;
-      this.open();
+    teamUpranks (item) {
+      const { menuType,  } = this;
+      const params = {
+        "master": item.id,
+        "organizeTypeSonMatchId": menuType || 0
+      }
+      teamUpranks( params ).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, msg, success  } = nData;
+        if (code === 200) {
+          if (success) {
+            uni.showToast({ title: msg })
+          } else {
+            uni.showToast({ title: msg, icon: 'none' })
+          }
+        } else {
+          uni.showToast({ title: msg, icon: 'none' })
+        }
+      }).catch(err => {console.log(err)})
+    },
+    clickBuoy (item) {
+      // this.type = type || 1;
+      this.teamUpranks(item)
+      // this.open();
     },
     // 临时入口
     clickDemo () {

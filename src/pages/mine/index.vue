@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="msg_icon" @click="jumpToMsg" >
-          <div class="target">1</div>
+          <div class="target" v-if="ReadCount">{{ ReadCount }}</div>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="content_wrap">
-      <ScrollBox :num='60'>
+      <ScrollBox :num='80'>
         <!-- <MsgItem /> -->
         <GroupItem v-for="(item, idx) in 3" :key="idx" />
       </ScrollBox>
@@ -63,6 +63,8 @@ import Rate from '@/components/cards/rate';
 
 import FabGroup from '@/components/fabGroup';
 
+import { userInfoReadCount } from '@/common/api';
+
 export default {
   components: {
     PageJs,
@@ -79,6 +81,7 @@ export default {
       vipNum: 43434,
       userLevel: '3',
       actived: '1',
+      ReadCount: 0,
       navList: [
         { label: '进行中', id: '1',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-18.png' },
         { label: '被申请', id: '2',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
@@ -98,6 +101,9 @@ export default {
       return list[realInfo || 1]
     }
   },
+  onShow () {
+    this.userInfoReadCount() 
+  },
   methods: {
     navClick(item) {
       const { id } = item;
@@ -112,6 +118,16 @@ export default {
     },
     goToBack() {
       uni.navigateBack({ delta: 1 })
+    },
+    userInfoReadCount() {
+      userInfoReadCount().then(res => {
+        const { data: nData } = res[1];
+        const { code, data } = nData;
+        if (code === 200) {
+          console.log('123123', data)
+          this.ReadCount = data
+        }
+      }).catch(err => {console.log(err)})
     }
   }
 }
