@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="buoy" @click="clickBuoy"> 修改 </div>
+    <div class="buoy" @click="clickBuoy(infoData.type)"> 修改 </div>
   </div>
 </template>
 
@@ -57,8 +57,8 @@ export default {
     }
   },
   methods:{
-    clickBuoy () {
-      this.$emit('clickBuoy')
+    clickBuoy (type) {
+      this.$emit('clickBuoy', type)
     }
   }
 

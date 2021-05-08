@@ -12,17 +12,17 @@
         <join-list title='希望参加的比赛' :list='tags' type='tag'/>
       </div>
       <!-- 团队成员 -->
-      <div class="group_infos">
+      <div class="group_infos" v-if='slaveList.length'>
         <div class="team_member" @click="showInfo=!showInfo">
-          <div class="left">团队成员：某某某/某某某/某某某/某某某/某某某/某某某</div>
+          <div class="left">团队成员：{{slaveList}}</div>
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
         <!-- 团队成员信息 -->
-        <CrewInfo :info='{ iconFilter, topList }' v-for="ite in 2" :key='ite' v-show="showInfo"/>
+        <CrewInfo :info='ite' v-for="(ite, ind) in infoData.slave" :key='ind' v-show="showInfo"/>
       </div>
     </div>
 
-    <div class="buoy" @click="clickBuoy"> 申请组队 </div>
+    <div class="buoy" v-if='infoData.rank == 2' @click="clickBuoy(infoData.type)"> 申请组队 </div>
   </div>
 </template>
 
@@ -108,6 +108,12 @@ export default {
       //   })
       // }
       return arr
+    },
+    slaveList () {
+      const slave = this.infoData.slave || [];
+      return slave.reduce((i, j)=> {
+        return  i ? i +'/'+ j.nikeName : i + j.nikeName
+      }, '')
     }
   },
   methods:{
@@ -115,9 +121,9 @@ export default {
       this.showList = !this.showList
     },
     // 点击组队申请！
-    clickBuoy () {
+    clickBuoy (type) {
       console.log('点击组队申请！')
-      this.$emit('clickBuoy')
+      this.$emit('clickBuoy', type)
     }
   }
 
@@ -139,6 +145,7 @@ export default {
   .team_member{
     display: flex;
     @include flex_center;
+    justify-content: space-between;
     @include fontMixin(30rpx, #676FDF ,400);
     .left{
       overflow: hidden;

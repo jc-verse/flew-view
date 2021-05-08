@@ -1,7 +1,7 @@
 <template>
   <div class="crew_info" >
-    <infoHead :iconFilter='info.iconFilter' headStyles='width:64rpx;height: 64rpx' styles='font-size: 30rpx'/>
-    <information :topList='info.topList'/>
+    <infoHead :infoData='info' headStyles='width:64rpx;height: 64rpx' styles='font-size: 30rpx'/>
+    <information :topList='tops'/>
   </div>
 </template>
 
@@ -16,6 +16,18 @@ export default {
       type:Object,
       default: ()=> ({})
     }
+  },
+  computed: {
+    tops() {
+      const { info } = this;
+      const arr = [
+        { title: '学校', val: info.schoolName || '', id: 1 ,width:'50%'}, 
+        { title: '年级', val: info.grade || '',          id: 2,width:'50%' }, 
+        { title: '课程', val: info.curriculumSystem || '', id: 4 ,width:'50%'}, 
+        { title: '标化', val: info.standardizedPerformance || '', id: 3 ,width:'50%'}, 
+      ]
+      return arr
+    },
   }
 }
 </script>

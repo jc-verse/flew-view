@@ -4,7 +4,7 @@
       <div class="person_info_wrap">
         <div class="user_img_bar item">
           <div class="label">头像</div>
-          <img class="user_img" :src="userData.avatar || ''" alt="">
+          <img class="user_img" :src="headImg" alt="">
         </div>
         <FormItemBox :ite ='ite' :formData='userData' :show-b='ind + 1 === formHeads.length' v-for='(ite, ind) in formHeads' :key='ind' >
           <FormItem :headInit='ite' :formData='userData' @change="changeFn"/>
@@ -31,6 +31,7 @@ import { sexs } from '@/common/enum';
 import { joinUrl, getCurPage } from '@/common/utils';
 import GroupItem from './groupItem'
 import userDataMixin from '@/common/mixins/userDataMixin';
+import { imgUrl } from '@/common/http'
 
 
 import FabGroup from '@/components/fabGroup';
@@ -80,6 +81,10 @@ export default {
       }
       return obj;
     },
+    headImg () {
+      const { avatar } = this.userData;
+      return `${imgUrl}${avatar}`
+    }
     
   },
   methods: {
@@ -110,9 +115,19 @@ export default {
     },
 
     clickBuoy(val) {
-      console.log(val)
+      let url = 'userInfo'
+      switch (val) {
+        case 1:
+          url = 'userInfo'
+          break;
+        case 2 :
+          url = 'userComplete'
+          break;
+        default:
+          break;
+      }
       uni.navigateTo({
-        url: joinUrl('/pages/userInfo/index', { type:'edit' })
+        url: joinUrl(`/pages/${url}/index`, { type:'edit' })
       })
     },
 

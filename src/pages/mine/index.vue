@@ -4,7 +4,10 @@
     <div class="header_wrap">
       <div class="mine_title_wrap">
         <div @click="jumpTo" class="user_img">
-          <open-data type="userAvatarUrl" ></open-data>
+          <div class="user_img_box">
+            <open-data type="userAvatarUrl" style="border-radius: 50%;"></open-data>
+          </div>
+          <i class="iconfont iconrenzheng icon" :class="[realInfo.class]" v-if="realInfo.isReal"></i>
         </div>
         <div class="user_info">
           <div class="user_name_level">
@@ -18,7 +21,7 @@
           <div class="vip_num">
             <span class="text">会员号：</span>
             <span class="num">{{userData.vipNum}}</span>
-            <span class="desc">(已认证)</span>
+            <span class="desc" v-if="realInfo.id > 2">(已认证)</span>
           </div>
         </div>
         <div class="msg_icon" @click="jumpToMsg" >
@@ -84,6 +87,17 @@ export default {
       ]
     }
   },
+  computed:{
+    realInfo () {
+      const { realInfo } = this.userData;
+      const list = {
+        '1': { isReal: false, id: 1, class: '' },
+        '2': { isReal: true,  id: 2, class: '' },
+        '3': { isReal: true,  id: 3, class: 'icon_active' },
+      }
+      return list[realInfo || 1]
+    }
+  },
   methods: {
     navClick(item) {
       const { id } = item;
@@ -103,6 +117,21 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.icon{
+  color: rgba(0, 0, 0, 0.3);
+  background: white;
+  // width: 20rpx;
+  // height: 20rpx;
+  border-radius: 50%;
+  position: absolute;
+  right: 0rpx;
+  bottom: 0rpx;
+  border: 2rpx solid white;
+}
+.icon_active{
+  // background: #4D3B11;
+  color: #FFC847;
+}
 .page_mine {
   // height: 100vh;
   box-sizing: border-box;
@@ -129,7 +158,13 @@ export default {
       height: 120rpx;
       margin-right: 20rpx;
       border-radius: 100%;
-      overflow: hidden;
+      position: relative;
+      .user_img_box{
+        border-radius: 50%;
+        overflow: hidden;
+
+      }
+      // overflow: hidden;
     }
 
     .user_info {

@@ -62,6 +62,8 @@ export default {
       current: 1,
       total: 0,
       noConcat:false,
+      type: 1,
+      headMsg: {},
 
       demoData,
       // totalList:[] //mixin 中
@@ -69,13 +71,16 @@ export default {
   },
   computed: {
     newBg () {
-      const { englishName, matchName } = (getCurPage() || {})
-      const data = {
-        ...bgColors[this.menuType],
-        title: matchName || '',
-        eTitle: englishName || ''
-      };
+      const { menuType, headMsg } = this;
+      const data = { ...bgColors[menuType], ...headMsg };
       return data;
+    }
+  },
+  onShow() {
+    const { englishName, matchName } = (getCurPage() || {})
+    this.headMsg ={
+      title: matchName || '',
+      eTitle: englishName || ''
     }
   },
   mounted () {
@@ -115,7 +120,8 @@ export default {
         }
       })
     },
-    clickBuoy (data) {
+    clickBuoy (type) {
+      this.type = type || 1;
       this.open();
     },
     // 临时入口
@@ -133,7 +139,12 @@ export default {
     close(flag) {
       this.$refs.popup.hide()
       if (flag) {
-        uni.navigateTo({ url: joinUrl('/pages/userInfo/index',{type:'edit'}) })
+        if (this.type  == 1) {
+          uni.navigateTo({ url: joinUrl('/pages/userInfo/index',{type:'edit'}) })
+        } else {
+          uni.navigateTo({ url: joinUrl('/pages/userComplete/index',{type:'edit'}) })
+        }
+        
       }
     }
   },
