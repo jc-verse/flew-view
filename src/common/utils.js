@@ -29,7 +29,15 @@ export const  getCurPage = () =>{
   let pages = getCurrentPages();
   let curPage = pages[pages.length-1]
   let curParam = curPage.options || (curPage.$route || {}).query;
+  console.log(666,1,curPage)
   return curParam
+}
+
+// 获取当前页面路由
+export const  getCurPageRoute = () =>{
+  let pages = getCurrentPages();
+  let curPage = pages[pages.length-1]
+  return curPage.route
 }
 
 // 希望参加比赛的反向组成 - 定制

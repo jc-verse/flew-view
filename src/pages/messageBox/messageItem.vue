@@ -1,11 +1,11 @@
 <template>
   <div class="message_item">
     <div class="msg_title" v-if="info.type">【{{ info.type | filterType}}】</div>
-    <div class="msg_content">
+    <div class="msg_content" :class="[showDetail? '': 'ellipsis']">
       {{info.content || ''}}
     </div>
     <div class="unRead" v-if="info.status == 1"></div>
-    <div class="link" @click="clickDetail">查看详情</div>
+    <div class="link" v-if="info.content && info.content.length > 20 && !showDetail" @click="clickDetail">查看详情</div>
   </div>
 </template>
 <script>
@@ -14,6 +14,11 @@ export default {
     info: {
       type: Object,
       default: ()=>({})
+    }
+  },
+  data() {
+    return {
+      showDetail: false
     }
   },
   filters: {
@@ -29,7 +34,7 @@ export default {
   },
   methods: {
     clickDetail () {
-      console.log(985,this.info)
+      this.showDetail = !this.showDetail
     }
   }
 }
@@ -46,10 +51,13 @@ export default {
     line-height: 44rpx;
     @include fontMixin2(32rpx, #000000, bold)
   }
+  .ellipsis{
+    @include ellipsis;
+  }
 
   .msg_content {
     margin: 6rpx 0 12rpx;
-    height: 40rpx;
+    // height: 40rpx;
     font-weight: 400;
     line-height: 40rpx;
     @include fontMixin2(28rpx, #666666)

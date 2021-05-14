@@ -2,7 +2,7 @@
   <page-sj >
     <div class="home_box">
       <header class="header">
-        <info-head  headStyles='width: 80rpx;height: 80rpx;' :isUser='true'>
+        <info-head  headStyles='width: 80rpx;height: 80rpx;' :infoData='userData' :isUser='false'>
           <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>
         </info-head>
       </header>

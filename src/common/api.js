@@ -81,3 +81,47 @@ export const userInfoMyMsgList = (data) => {
 export const userInfoReadCount = (data) => {
   return  httpAPI('/app/user-info/read-count', { data })
 }
+
+// 被申请
+export const userInfoApply = (data) => {
+  return  httpAPI('/app/user-info/apply', { data })
+}
+
+// 申请中
+export const userInfoConduct = (data) => {
+  return  httpAPI('/app/user-info/conduct', { data })
+}
+
+// 进行中
+export const userInfoContinued = (data) => {
+  return  httpAPI('/app/user-info/continued', { data })
+}
+
+
+// 申请记录
+export const userInfoApplyRecord = (data) => {
+  return  httpAPI('/app/user-info/apply-record', { data })
+}
+
+
+
+// 取消申请
+export const userInfoCancelMatch = (data) => {
+  return  httpAPI('/app/user-info/cancel-match', { data })
+}
+
+// 接收、拒接
+export const userInfoPower = (data) => {
+  return  httpAPI('/app/user-info/power', { data })
+}
+
+
+// 队长方,完成 与 开启/关闭加入
+export const userInfoOperationMatch = (data) => {
+  return  httpAPI('/app/user-info/operation-match', { data })
+}
+
+// 申请人,退出组队
+export const userInfoExitTeam = (data) => {
+  return  httpAPI('/app/user-info/exit-team', { data })
+}

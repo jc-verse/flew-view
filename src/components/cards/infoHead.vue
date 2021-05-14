@@ -2,15 +2,15 @@
   <div class="info_head" :style='styles'>
     <div class="left">
       <div class="user_head" :style="headStyles">
-        <img :src="headImg" alt="" v-if="!isUser">
+        <img :src="headImg" alt="" v-if="headImg">
         <open-data type="userAvatarUrl" v-else></open-data>
       </div>
       <slot name='center'>
         <div class="title" :style='styles'> 
-          <template v-if="!isUser">
+          <!-- <template v-if="!isUser"> -->
             {{infoData.nikeName || ''}}
-          </template>
-          <open-data type="userNickName" v-else></open-data>
+          <!-- </template>
+          <open-data type="userNickName" v-else></open-data> -->
         </div>
         <div :class='["gender", infoData.sex ==2 ? "nv" : "" ]' :style='styles' v-if="showSex">
           <i :class="['iconfont', 'icon_item', icon  ]"></i>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import {imgUrl} from '@/common/http'
 export default {
   name:'info_head',
   props: {
@@ -60,9 +61,13 @@ export default {
       return arr[infoData.sex-1]
     },
     headImg () {
+      const { avatar } = this.infoData;
+      console.log(12312, avatar)
       let url = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
-      if (/(http|https)/.test(this.infoData.avatar)) {
-        url = this.infoData.avatar || ''
+      if (/(http|https)/.test(avatar)) {
+        url = avatar || ''
+      } else if (avatar && avatar !== 'default_img.png') {
+        url = imgUrl + avatar
       }
       return url
     }
@@ -95,6 +100,7 @@ export default {
     height: 100rpx;
     border-radius: 50%;
     overflow: hidden;
+    background: white;
     @include img_fill;
   }
   .title{

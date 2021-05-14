@@ -1,4 +1,4 @@
-import { joinUrl } from '@/common/utils'
+import { joinUrl, getCurPageRoute } from '@/common/utils'
 export const baseUrl = 'http://47.101.54.170:8111/server';
 export const imgUrl = 'http://qrw69n75w.hn-bkt.clouddn.com/';
 const headerOptions = {
@@ -38,20 +38,25 @@ export const httpAPI =  ( url, options) => {
 }
 //  拦截特殊状态 
 function interceptor (code , msg) {
+  const route = getCurPageRoute() || '';
   switch(code) {
     case 20011: //是登陆已过期
       wx.removeStorage({ key: 'token' })
       uni.showToast({ title: '登陆已过期', duration: 1000, success: ()=> {
-        uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+        if (!route.includes('guidance')) {
+          uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+        }
       } })
       break;
     case 1015: //是填写标准信息
-      uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
-      // uni.showToast({ title: msg, duration: 1000 })
+      if (!route.includes('userInfo')) {
+        uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
+      }
       break;
     case 1018: //是完善个人信息
-      uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
-      // uni.showToast({ title: msg, duration: 1000 })
+      if (!route.includes('userComplete')) {
+        uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
+      }
       break;
   }
 }

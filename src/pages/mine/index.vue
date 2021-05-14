@@ -3,9 +3,10 @@
     <div class="page_mine">
     <div class="header_wrap">
       <div class="mine_title_wrap">
-        <div @click="jumpTo" class="user_img">
+        <div @click="jumpTo(1)" class="user_img">
           <div class="user_img_box">
-            <open-data type="userAvatarUrl" style="border-radius: 50%;"></open-data>
+            <open-data type="userAvatarUrl" style="border-radius: 50%;" v-if="!headImg"></open-data>
+            <img v-else :src="headImg" alt="">
           </div>
           <i class="iconfont iconrenzheng icon" :class="[realInfo.class]" v-if="realInfo.isReal"></i>
         </div>
@@ -24,7 +25,7 @@
             <span class="desc" v-if="realInfo.id > 2">(已认证)</span>
           </div>
         </div>
-        <div class="msg_icon" @click="jumpToMsg" >
+        <div class="msg_icon" @click="jumpTo(2)" >
           <div class="target" v-if="ReadCount">{{ ReadCount }}</div>
         </div>
       </div>
@@ -35,9 +36,7 @@
         <div class="nav_item" v-for="(item, idx) in navList" :key="idx">
           <div @click="navClick(item)" :class="['item_content', item.id === actived ? 'actived' : '']" >
             
-            <div class="img_box" :style='{ "background-image": `url(${item.icon})` }'>
-              <!-- <img :src="item.icon" class="img"> -->
-            </div>
+            <div class="img_box" :style='{ "background-image": `url(${item.icon})` }'></div>
             <div class="item_label">{{item.label}}</div>
           </div>
         </div>
@@ -45,49 +44,107 @@
     </div>
     <div class="content_wrap">
       <ScrollBox :num='80'>
-        <!-- <MsgItem /> -->
-        <GroupItem v-for="(item, idx) in 3" :key="idx" />
+        <template v-if="!cardList.length">
+          <div class="nolist">
+            暂无记录
+          </div>
+        </template>
+        <template v-else>
+          <template v-if="actived == 1">
+            <GroupItemBsq v-for="(item, idx) in cardList" :infoData='item' :key="idx" @clickBtn='clickBtn'/>
+          </template>
+          <template v-if="actived == 2">
+            <GroupItemSqz v-for="(item, idx) in cardList" :infoData='item' :key="idx" @clickBtn='clickBtn'/>
+          </template>
+          <template v-else-if="actived == 3">
+            <GroupItemJxz v-for="(item, idx) in cardList" :infoData='item' :userId='userData.id' :key="idx" @clickBtn='clickBtn'/>
+          </template>
+          <template v-else-if="actived == 4">
+            <GroupItemFqz v-for="(item, idx) in cardList" :infoData='item' :userId='userData.id' :key="idx" @clickBtn='clickBtn'/>
+          </template>
+          <template v-else-if="actived == 5">
+            <GroupItemSqjl v-for="(item, idx) in cardList" :infoData='item' :userId='userData.id' :key="idx" @clickBtn='clickBtn'/>
+          </template>
+        </template>
       </ScrollBox>
     </div>
   </div>
   <FabGroup :shows='[2]'/>
+  <!-- <DiyPopup ref='popup' :noUp='true'>
+    <div class="tip_box" slot='tip' @click.stop>
+      <div class="title">取消申请</div>
+      <div class="msg">请完善个人信息后申请！</div>
+      <div class="btns">
+        <div class="no" @click.stop="close(false)">取消</div>
+        <div class="yes" @click.stop="close(true)">确定</div>
+      </div>
+    </div>
+  </DiyPopup> -->
+
   </PageJs>
 </template>
 <script>
 import PageJs from '../../components/pageSjNew.vue'
-import MsgItem from './msgItem.vue'
-import GroupItem from '../consult/groupItem.vue'
+
+import GroupItemSqz from './groupItem_sqz'
+import GroupItemJxz from './groupItem_jxz'
+import GroupItemBsq from './groupItem_bsq'
+import GroupItemSqjl from './groupItem_sqjl'
+import GroupItemFqz from './groupItem_fqz'
+
 import ScrollBox from '@/components/scrollBox.vue';
 import userDataMixin from '@/common/mixins/userDataMixin';
 import Rate from '@/components/cards/rate';
+import DiyPopup from '@/components/diyPopup';
 
 import FabGroup from '@/components/fabGroup';
+import {imgUrl} from '@/common/http'
 
-import { userInfoReadCount } from '@/common/api';
+import { 
+  userInfoReadCount, 
+  userInfoApply, // 申请中
+  userInfoConduct, // 申请中
+  userInfoContinued, // 进行中
+  userInfoApplyRecord,  // 申请记录
 
+  userInfoCancelMatch, // 取消申请
+  userInfoPower, // 接收、拒接
+  userInfoOperationMatch, //完成，和关闭组队
+  userInfoExitTeam, //退出组队
+} from '@/common/api';
+
+const requests = {
+  '1': userInfoApply, // 被申请 
+  '2': userInfoConduct, // 申请中
+  '3': userInfoContinued, // 进行中
+  '4': userInfoApplyRecord, // 发起中
+  '5': userInfoApplyRecord, // 申请记录
+
+}
 export default {
   components: {
-    PageJs,
-    MsgItem,
-    GroupItem,
-    ScrollBox,
-    FabGroup,
-    Rate
+    PageJs, ScrollBox, FabGroup, Rate, DiyPopup,
+    GroupItemSqz, GroupItemJxz, GroupItemBsq, GroupItemSqjl, GroupItemFqz,
   },
   mixins:[userDataMixin],
   data() {
     return {
-      pageTitle: '我的页面',
-      vipNum: 43434,
-      userLevel: '3',
-      actived: '1',
+      vipNum: 0,
+      actived: '5',
       ReadCount: 0,
       navList: [
-        { label: '进行中', id: '1',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-18.png' },
-        { label: '被申请', id: '2',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
-        { label: '发起中', id: '3',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-19.png' },
-        { label: '申请记录', id: '4', icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-20.png' },
-      ]
+        { label: '被申请', id: '1',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
+        { label: '申请中', id: '2',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
+        { label: '进行中', id: '3',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-18.png' },
+        { label: '发起中', id: '4',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-19.png' },
+        { label: '申请记录', id: '5', icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-20.png' },
+      ],
+
+      cardList: [],
+      pages: {
+        current: 1,
+        size: 10
+      }
     }
   },
   computed:{
@@ -99,26 +156,65 @@ export default {
         '3': { isReal: true,  id: 3, class: 'icon_active' },
       }
       return list[realInfo || 1]
+    },
+    headImg () {
+      const { avatar } = this.userData;
+      let url = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
+      if (/(http|https)/.test(avatar)) {
+        url = avatar || ''
+      } else if (avatar !== 'default_img.png' && avatar) {
+        url = imgUrl + avatar
+      }
+      return url
     }
   },
   onShow () {
-    this.userInfoReadCount() 
+    this.userInfoReadCount()
+    this.initForm();
   },
   methods: {
+    initForm (val) {
+      this.pages = {
+        current: 1,
+        size: 10
+      }
+      this.cardList= [];
+      this.getCards(val || '')
+    },
     navClick(item) {
       const { id } = item;
       if (!id) return
       this.actived = id
     },
-    jumpTo() {
-      uni.navigateTo({ url: '/pages/personalInfo/index' })
-    },
-    jumpToMsg() {
-      uni.navigateTo({ url: '/pages/messageBox/index' })
+    jumpTo(val) {
+      const urls = {
+        '1' : '/pages/personalInfo/index',
+        '2' : '/pages/messageBox/index'
+      }
+      uni.navigateTo({ url: urls[val] })
     },
     goToBack() {
       uni.navigateBack({ delta: 1 })
     },
+    getCards (val) {
+      const { actived, pages } = this;
+      const i = val || actived
+      requests[i](pages).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, msg  } = nData;
+        if (code === 200) {
+          const { records } = data
+          if (records && records.length) {
+            this.cardList = [...this.cardList, ...records]
+            console.log(JSON.stringify(this.cardList))
+            if (records.length === this.pages.size) {
+              this.current += 1
+            }
+          }
+        }
+      })
+    },
+    // 获取消息数量
     userInfoReadCount() {
       userInfoReadCount().then(res => {
         const { data: nData } = res[1];
@@ -128,6 +224,119 @@ export default {
           this.ReadCount = data
         }
       }).catch(err => {console.log(err)})
+    },
+    // 取消申请
+    userInfoCancelMatch(id) {
+      const params = {
+        userRelationshipId: id
+      }
+      userInfoCancelMatch(params).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success) {
+          uni.showToast({title: '取消成功！'})
+          this.initForm();
+        } else {
+          uni.showToast({title: '取消失败，请重试！',icon: 'none'  })
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 接受/拒绝申请
+    userInfoPower(type, id) {
+      const params = { type, userRelationshipId: id };
+      userInfoPower(params).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success) {
+          uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
+          this.initForm();
+        } else {
+          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 退出组队
+    userInfoExitTeam (id) {
+      const params = { userRelationshipId: id }
+      userInfoExitTeam(params).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success ) {
+          uni.showToast({title: '已退出组队',icon: 'none'})
+          this.initForm();
+        } else {
+          uni.showToast({title: '操作失败，请重试！',icon: 'none'})
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 开启/关闭加入组队 
+    userInfoOperationMatch (id, type, status) {
+      const params ={ status, type, userRelationshipId: id }
+      userInfoOperationMatch(params).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success) {
+          if (type == 1) {
+            uni.showToast({title: '完成！'})
+          } else {
+            uni.showToast({title: `${status == 1 ? '关闭组队' : '开启组队'}成功！`})
+          }
+          uni.showToast({title: '取消成功！'})
+          this.initForm();
+        } else {
+          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+        }
+      }).catch(err => {console.log(err)})
+    },
+    clickBtn(type, data) {
+      const { userRelationshipId  } = data;
+      switch (type) {
+        case 1: // 取消申请
+          console.log('取消申请',data)
+          this.userInfoCancelMatch(userRelationshipId);
+          break;
+        case 2: // 通过
+          console.log('通过',data)
+          this.userInfoPower(1, userRelationshipId)
+          break;
+        case 3: // 拒绝
+          console.log('拒绝',data)
+          this.userInfoPower(2, userRelationshipId)
+          break;
+        case 4: // 退出组队
+          console.log('退出组队',data)
+          this.userInfoExitTeam(userRelationshipId);
+          break;
+        case 5: // 完成
+          console.log('完成',data)
+          this.userInfoOperationMatch(userRelationshipId, 1, '')
+          break;
+        case 6: // 关闭组队
+          console.log('关闭组队',data)
+          this.userInfoOperationMatch(userRelationshipId, 2, 2)
+          break;
+        case 7: // 开启组队
+          console.log('开启组队',data)
+          this.userInfoOperationMatch(userRelationshipId, 2, 1);
+          break;
+
+        case 8: // 联系客服
+          console.log('联系客服',data)
+          // this.userInfoPower(1, userRelationshipId)
+          break;
+        case 9: // 评价
+          console.log('评价',data)
+          // this.userInfoOperationMatch(data, 1)
+          break;
+      
+        default:
+          break;
+      }
+    }
+  },
+  watch: {
+    actived(val) {
+      this.initForm(val);
     }
   }
 }
@@ -136,8 +345,6 @@ export default {
 .icon{
   color: rgba(0, 0, 0, 0.3);
   background: white;
-  // width: 20rpx;
-  // height: 20rpx;
   border-radius: 50%;
   position: absolute;
   right: 0rpx;
@@ -145,17 +352,13 @@ export default {
   border: 2rpx solid white;
 }
 .icon_active{
-  // background: #4D3B11;
   color: #FFC847;
 }
 .page_mine {
-  // height: 100vh;
   box-sizing: border-box;
   background: #F1F3F5;
   padding: 0 30rpx;
   overflow: hidden;
-  
-
   .header_wrap {
     position: relative;
     z-index: 5;
@@ -176,8 +379,12 @@ export default {
       border-radius: 100%;
       position: relative;
       .user_img_box{
+        height: 100%;
         border-radius: 50%;
         overflow: hidden;
+        border: 2rpx solid #fff;
+        background: white;
+        @include img_fill;
 
       }
       // overflow: hidden;
@@ -316,12 +523,16 @@ export default {
   .content_wrap {
     background: #FFFFFF;
     border-radius: 16rpx;
-    padding: 40rpx 30rpx;
+    padding: 30rpx 30rpx;
 
-    /deep/ .group_info_item {
-      margin-bottom: 20rpx;
-      background: #FFF7E8;
-    }
+    // /deep/ .group_info_item {
+    //   margin-bottom: 20rpx;
+    //   background: #FFF7E8;
+    // }
+  }
+  .nolist{
+    @include flex_center;
+    height: 100%;
   }
 }
 </style>
