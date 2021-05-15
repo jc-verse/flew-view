@@ -61,9 +61,9 @@
     </template>
 
     <!-- inputSelect -->
-    <template v-if="headInit.params.genre === 'custom'">
-      <div class="custom">
-        <slot name='custom'></slot>
+    <template v-if="headInit.params.genre === 'inputSelect'">
+      <div class="inputSelect">
+        <slot name='inputSelect'></slot>
       </div>
     </template>
 

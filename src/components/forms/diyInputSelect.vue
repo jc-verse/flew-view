@@ -1,5 +1,5 @@
 <template>
-	<DiyPopup @popupclosed='popupclosed' popupTitle='1111的比赛' ref="diyPopup" :styles='{top: "33%"}'>
+	<DiyPopup @popupclosed='popupclosed' popupTitle='比赛' ref="diyPopup" :styles='{top: "33%"}'>
 		<slot></slot>
 		<template slot='content'>
 			<scroll-view :scroll-x="true">	
@@ -24,7 +24,6 @@
 		</template>
 	</DiyPopup>
 </template>
-x`
 <script>
 	import DiyPopup from '@/components/diyPopup'
 	export default {

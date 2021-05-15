@@ -106,7 +106,7 @@ export default {
     },
     close (flag) {
       if (flag) {
-        this.$emit('clickBtn', 1, this.infoData)
+        this.$emit('clickBtn', 1, { data: this.infoData })
       }
       this.$refs.popup.hide()
     },

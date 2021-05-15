@@ -1,51 +1,45 @@
 <template>
 	<view>
-		<view
-		    ref="uni-rate"
-		    class="uni-rate"
-		>
+		<view ref="uni-rate" class="uni-rate" >
 			<view
-					v-if=""
-					class="uni-rate__icon"
-					:class="{'uni-cursor-not-allowed': disabled}"
-					:style="{ 'margin-right': margin + 'px' }"
-					v-for="(star, index) in stars"
-					:key="index"
-					@touchstart.stop="touchstart"
-					@touchmove.stop="touchmove"
-					@mousedown.stop="mousedown"
-					@mousemove.stop="mousemove"
-					@mouseleave="mouseleave"
+				class="uni-rate__icon"
+				:class="{'uni-cursor-not-allowed': disabled}"
+				:style="{ 'margin-right': margin + 'px' }"
+				v-for="(star, index) in stars"
+				:key="index"
+				@touchstart.stop="touchstart"
+				@touchmove.stop="touchmove"
+				@mousedown.stop="mousedown"
+				@mousemove.stop="mousemove"
+				@mouseleave="mouseleave"
 			>
 				<i
-            class='iconfont iconB-pingfen'
-            :style="{color}"
-				    :color="color"
-				    :size="size"
-				    :type="isFill ? 'star-filled' : 'star'"
+					class='iconfont iconB-pingfen'
+					:style="{color, fontSize: size + 'px'}"
+					:color="color"
+					:type="isFill ? 'star-filled' : 'star'"
 				/>
 				<!-- #ifdef APP-NVUE -->
 				<view
-				    :style="{ width: star.activeWitch.replace('%','')*size/100+'px'}"
-				    class="uni-rate__icon-on"
+					:style="{ width: star.activeWitch.replace('%','')*size/100+'px'}"
+					class="uni-rate__icon-on"
 				>
 					<i
-              class='iconfont iconB-pingfen'
-					    style="text-align: left;"
-              :style="{color: disabled?'#ccc':activeColor}"
-					    :size="size"
-					    type="star-filled"
+						class='iconfont iconB-pingfen'
+						style="text-align: left;"
+						:style="{color: disabled?'#ccc':activeColor, fontSize: size + 'px' }"
+						type="star-filled"
 					/>
 				</view>
 				<!-- #endif -->
 				<!-- #ifndef APP-NVUE -->
 				<view
-				    :style="{ width: star.activeWitch}"
-				    class="uni-rate__icon-on"
+					:style="{ width: star.activeWitch}"
+					class="uni-rate__icon-on"
 				>
 					<i class='iconfont iconB-pingfen' 
-            :style="{color: disabled?disabledColor:activeColor}"
-          :size="size" />
+            :style="{color: disabled?disabledColor:activeColor, fontSize: size + 'px'}"
+					/>
 				</view>
 				<!-- #endif -->
 			</view>

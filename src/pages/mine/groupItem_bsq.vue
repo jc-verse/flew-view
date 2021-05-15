@@ -9,9 +9,9 @@
       <information :topList='tops'/>
       <!-- 经历 -->
       <div class="center">
-        <join-list title='比赛经历'       :list='bList' v-if="cardStatu.showInfo.include(1) && bList.length"/>
-        <join-list title='希望参加的比赛'  :list='tags'  v-if="cardStatu.showInfo.include(3) && tags.length" type='tag'/>
-        <join-list title='个人留言'        :value='msg'  v-if="cardStatu.showInfo.include(2) && msg" type='text'/>
+        <join-list title='比赛经历'       :list='bList' v-if="cardStatu.showInfo.includes(1) && bList.length"/>
+        <join-list title='希望参加的比赛'  :list='tags'  v-if="cardStatu.showInfo.includes(3) && tags.length" type='tag'/>
+        <join-list title='个人留言'        :value='msg'  v-if="cardStatu.showInfo.includes(2) && msg" type='text'/>
       </div>
     </div>
     <div class="btn_box">
@@ -41,6 +41,8 @@ import { bsToStrFn, topListFn } from './units';
 
 function filterSFn (val) {
   const { type, matchName, nikeName } = val;
+  console.log('【119】是卡片的全部数据')
+  console.log(119, val)
   let obj = { title: '', bgColor: styles[type].bg ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
   if (type == 1) {
     obj.title = `竞赛组队：${nikeName}向你发起${matchName}的竞赛组队`;
@@ -96,7 +98,7 @@ export default {
     close (flag) {
       if (flag) {
         const { infoData, type } = this
-        this.$emit('clickBtn', type, infoData)
+        this.$emit('clickBtn', type, { data: infoData })
       }
       this.$refs.popup.hide()
     },

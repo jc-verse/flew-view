@@ -10,7 +10,7 @@ export const formHeads = [
   { label: '微信号', code:'wxCode',    id: '' ,required: false,  params: { ph: '请填写微信号',  genre:'input', type: 'text', max: 20 }},
   { label: '姓名',   code:'name',      id: '' ,required: true,  params: { ph: '请填写真实姓名',genre:'input', type: 'text', max: 20 } },
   { label: '手机',   code:'phone',     id: '' ,required: true,  params: { ph: '请填写电话',    genre:'input', type: 'number', max: 11 } },
-  { label: '学校',   code:'schoolName',id: '' ,required: true,  params: { ph: '请填写学校',    genre:'custom', type: 'text', max: 20 ,candidates:['1','12','13','8',15,16,17]} },
+  { label: '学校',   code:'schoolName',id: '' ,required: true,  params: { ph: '请填写学校',    genre:'inputSelect', type: 'text', max: 20 ,candidates:['1','12','13','8',15,16,17]} },
   { label: '年级',   code:'grade',     id: '' ,required: true,  params: { ph: '请填写年级',    genre:'input', type: 'text', max: 20 } },
   { label: '性别',   code:'sex',       id: '' ,required: true,  params: { ph: '请选择性别',    genre:'select', list: arr } },
   { label: '邮箱',   code:'email',     id: '' ,required: false,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },

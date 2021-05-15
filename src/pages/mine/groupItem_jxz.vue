@@ -21,7 +21,7 @@
       <template >
         <div class="buoy yes" v-if="cardStatu.showInfo.includes(4)" @click="clickBuoy(4)" >退出组队</div>
         <div class="buoy yes" v-if="cardStatu.showInfo.includes(5)" @click="clickBuoy(5)" >完成</div>
-        <div class="evaluate" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >关闭组队</div>          
+        <div class="evaluate" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >停止组队</div>          
         <div class="evaluate" v-if="cardStatu.showInfo.includes(7)" @click="clickBuoy(7)" >开启组队</div>
       </template>
     </div>
@@ -52,40 +52,43 @@ import { bsToStrFn, topListFn, joinName } from './units';
 const popups = {
   '4': { title: '退出组队', msg: '是否确认退出组队！', type: 4 },
   '5': { title: '完成', msg: '是否确认完成！', type: 5 },
-  '6': { title: '关闭组队', msg: '是否关闭组队!', type: 6 },
+  '6': { title: '停止组队', msg: '是否停止组队!', type: 6 },
   '7': { title: '开启组队', msg: '是否开启组队!', type: 7 },
 }
 function filterSFn (val, userId) {
   const { type, matchName, nikeName, id, isOrganize } = val;
-  console.log(1222, type, styles, styles[type])
   let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false } // 1 比赛经历  2个人留言  3 希望参加
-  if (userId === id) { // 队长
+  console.log('我是用户id：'+userId, ';我是队长Id：'+ id, `;我是不是队长：${userId == id?'是' : '不是'}`)
+  console.log('【119】是卡片的全部数据')
+  console.log(119, val)
+  if (userId == id) { // 队长
     if (type == 1) {
-      obj.title = `竞赛组队：${nikeName}向你发起${matchName}的竞赛组队`;
+      obj.title = `竞赛组队：${matchName}`;
       if (isOrganize == 1) {
-        obj.showInfo = [5, 6]
-      } else if (isOrganize == 2) {
         obj.showInfo = [5, 7]
+      } else if (isOrganize == 2) {
+        obj.showInfo = [5, 6]
       } else {
         obj.showInfo = [5]
       }
     } else if (type == 2) {
-      obj.title = `学术帮助：${nikeName}向你提出学术帮助`
+      obj.title = `学术帮助`
       obj.showTask = true;
       obj.showInfo = [5]
     } else if (type == 3) {
-      obj.title = `学校咨询：${nikeName}向你提出学校咨询`
+      obj.title = `学校咨询`
       obj.showTask = true;
       obj.showInfo = [5]
     }
   } else {
     if (type == 1) {
-      obj.title = `竞赛组队：我发起${matchName}的竞赛组队`;
+      obj.title = `竞赛组队:${matchName}`;
       obj.showInfo = [4]
     } else if (type == 2) {
       obj.title = `学术帮助` //：我向${nikeName}提出学术帮助
     } else if (type == 3) {
       obj.title = `学校咨询` // ：我向${nikeName}提出学校咨询
+      
     }
   }
   return obj
@@ -137,7 +140,7 @@ export default {
       this.$refs.popup.hide()
       if (!flag) return
       const { infoData, type } = this
-      this.$emit('clickBtn', type, infoData)
+      this.$emit('clickBtn', type, { data: infoData })
     },
   }
 

@@ -10,7 +10,19 @@
             :show-b='ind + 1 === formHeads.length'
             :formData='formData'
           >
-            <form-item :headInit='ite' :formData='formData' @change="changeFn"></form-item>
+            <form-item :headInit='ite' :formData='formData' @change="changeFn">
+              <template slot='upload'>
+                <div class="box" v-if="imgUrl">
+                  <img  :src="imgUrl" alt="" style='width:100rpx;height:100rpx'>
+                  <!-- <i @click.stop="deleteImg"  class="iconfont iconshanchu icon" style="color:#676FDF;font-size:50rpx"></i> -->
+                </div>
+                <i v-else class="iconfont icontupianshangchuan " style="color:#676FDF;font-size:50rpx"></i>
+              </template>
+              <DiyInpSel slot='inputSelect' @searchInp='searchInp' :datas='schoolList' className='schoolName' popup-title="请选择学校" @popupclosed='changeFn'>
+                <div  style='color:#999999; display: flex; align-items: center; justify-content: flex-end;' v-if="!formData.schoolName">请选择学校</div>
+                <div  style=' display: flex; align-items: center; justify-content: flex-end;' v-else>{{formData.schoolName || ''}}</div>
+              </DiyInpSel>
+            </form-item>
           </form-item-box>
         </div>
 
@@ -148,9 +160,9 @@ import DiyPopup from '@/components/diyPopup'
 import DiyPicker from '../userInfo/diyPicker';
 import EditGame from '../userInfo/editGame';
 import DiyInpSel from '@/components/forms/diyInputSelect';
-import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, deepChange, formData, lastHeads } from './const';
+import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, formData, lastHeads } from './const';
 import { joinUrl, getCurPage, analysisFn } from '@/common/utils';
-
+import { imgUrl } from '@/common/http';
 import { 
   subjectList, 
   teamTypeCompetition, 
@@ -158,7 +170,8 @@ import {
   teamTypeList, 
   updateCardInfo,
   userCardInfo,
-  totalTeamTypeList
+  totalTeamTypeList,
+  selectSchoolList
 } from '@/common/api';
 import commonMixin from '@/common/mixins/commonMixin';
 import userDataMixin from '@/common/mixins/userDataMixin';
@@ -191,6 +204,10 @@ export default {
       systemList: [], //  课程体系list
       // totalList: [], // 希望参加的比赛list // 再mixin中
       matchList: [],
+      schoolList: [],
+
+      canClick: true,
+
       right: { label: '体系认证', code:'curriculumSystemAuthUrl', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'upload', type: 'text', max: 20 }},
     }
   },
@@ -251,17 +268,21 @@ export default {
       })
       return arr;
     },
-    newForm () {
-      const { userData } = this;
-      const obj = { ...userData,
-        competitionExperience : userData.competitionExperienceList || [],
-        curriculumSystemType : Number(userData.curriculumSystem) || '',
-        curriculumSystem : userData.curriculumSystemList || [],
-        standardizedPerformance : userData.standardizedPerformanceList || [],
-      };
-      this.formData = {...obj}
-      return obj
+    imgUrl () {
+      const { avatar } = this.formData;
+      let url = ''
+      if ( avatar === 'default_img.png') {
+        url = ''
+      } else if (/http/.test(avatar)) {
+        url =  avatar
+      } else {
+        url = `${imgUrl}${avatar}`
+      }
+      return url;
     }
+  },
+  onShow() {
+    this.formDataFun(19887)
   },
   mounted() {
     this.getDownList(1);  //科目
@@ -280,8 +301,30 @@ export default {
         this.formData.nikeName = data;
       }
     },fail:(err)=>{console.log(err)}})
+    this.getSchoolList()
   },
   methods:{
+    formDataFun(v) {
+      const { userData, formData } = this;
+      const user = v || userData
+      const keys = Object.keys(user)
+      if (keys.length) {
+        const obj = { ...user,
+          competitionExperience : user.competitionExperienceList || [],
+          curriculumSystemType : Number(user.curriculumSystem) || '',
+          curriculumSystem : user.curriculumSystemList || [],
+          standardizedPerformance : user.standardizedPerformanceList || [],
+        };
+        // uni.getStorage({key: 'avatarUrl', success:(res)=>{
+        //   const {errMsg, data} = res
+        //   if (/ok/.test(errMsg) && !/http/.test(formData.avatar)) {
+        //     this.formData.avatar = data
+        //   }
+        // }})
+        console.log(666, user, v)
+        this.formData = JSON.parse(JSON.stringify(obj))
+      }
+    },
     // 获取希望参加的list
     // totalTeamTypeList () {
     //   totalTeamTypeList().then(res => {
@@ -310,11 +353,29 @@ export default {
     //     }
     //   }).catch(err => {console.log(err)})
     // },
+    getSchoolList(val) {
+      if (!val) {
+        this.schoolList = [];
+        return
+      };
+      const params = {
+        keyword: val || ""
+      }
+      selectSchoolList(params).then(res=>{
+        const { data:nData } = res[1] || {};
+        const { code, data } = nData || {};
+        if (code === 200) {
+          this.schoolList = (data || []).map(item=>{
+            return { ...item, label: item.name }
+          })
+        }
+      })
+    },
     // 获取科目/课程体系  list
     getDownList (type = 1) { //  type: 1 科目   /  2 课程体系
       subjectList({ type }).then(res => {
         const {data: nData} = res[1];
-        const { code, data } = nData;
+        const { code, data } = nData || {};
         if (code === 200) {
           const obj = { '1': 'subjectList', '2': 'systemList' };
           this[obj[type]] = data || [];
@@ -323,24 +384,34 @@ export default {
     },
     // 改变表单
     changeFn({data, code, type}) {
-      if (type === 'add') {
-        this.formData[code].push(data);
-      } else if (type === 'join') {
-        let arr = []
-        const { matchList } = this
-        data.forEach(item => {
-          let flag;
-          matchList.forEach(ite =>{
-            const [i, c] = [item[2], ite[2]];
-            flag = i.label === c.label && i.id === c.id
+      switch (type) {
+        case 'add':
+          this.formData[code].push(data);
+          break;
+        case 'join':
+          let arr = []
+          const { matchList } = this;
+          data.forEach(item => {
+            let flag;
+            matchList.forEach(ite =>{
+              const [i, c] = [item[2], ite[2]];
+              console.log(19923, i,c)
+              if (i.label === c.label && i.id === c.id) {
+                flag = i.label === c.label && i.id === c.id
+              }
+            })
+            if (!flag) {
+              arr.push(item)
+            }
           })
-          if (!flag) {
-            arr.push(item)
-          }
-        })
-        this.matchList = matchList.concat(arr);
-      } else {
-        this.formData[code] = data;
+          this.matchList = matchList.concat(arr);
+          break;
+        case 'inpSel':
+          this.formData[code] = data.name || ''
+          break;
+        default:
+          this.formData[code] = data;
+          break;
       }
     },
     // 删除比赛经历
@@ -363,6 +434,7 @@ export default {
     // 保存
     save () {
       const _this = this;
+      if (!this.canClick)  return;
       const { autList, formData, showBtn, matchList } = this;
       if (showBtn.length) { // 校验
         uni.showToast({ title: showBtn[0],icon:'none' });
@@ -372,7 +444,7 @@ export default {
         uni.showToast({ title: '希望参加的比赛不能为空',icon:'none' });
         return;
       }
-      
+      this.canClick = false;
       const matchs = matchList.map((item, index)=>{
         const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id,item[1].id,item[2].id]
         return  { organizeTypeId , organizeTypeSon , organizeTypeSonMatchId }
@@ -389,13 +461,19 @@ export default {
               setTimeout(function () {
                 uni.navigateBack({delta:1,success:()=>{
                   _this.getUserInfo();
+                  _this.canClick = true;
                 }})
               }, 1000);
             } 
           })
         }else {
-          uni.showToast({ title: msg ,icon:'none' });
+          uni.showToast({ title: msg ,icon:'none', success: () =>{
+            _this.canClick = true;
+          } });
         }
+      }).catch(err=> {
+        console.log(err)
+        this.canClick = true;
       })
     },
     // 上传图片
@@ -410,6 +488,10 @@ export default {
         default:
           break;
       }
+    },
+    searchInp (val) {
+      console.log(1000, val)
+      this.getSchoolList(val)
     },
     deleteSta (index) {
       this.formData.standardizedPerformance.map((item, ind) => {
@@ -447,6 +529,9 @@ export default {
           this.matchList = [...list]
         }
       }
+    },
+    userData(val) {
+      this.formDataFun(val)
     }
   }
 }
@@ -467,8 +552,17 @@ export default {
     border-radius: 16px;
     padding: 30rpx;
     box-sizing: border-box;
+    .box{
+      @include flex-center;
+      img{
+        width: 100rpx;
+        height: 100rpx;
+        margin-right: 10rpx;
+      }
+    }
   }
   .bottom,.center{
+    
     .right{
       position: absolute;
       right: 0;

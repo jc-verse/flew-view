@@ -8,6 +8,9 @@ const colors = {
 // 状态筛选
 export const statusScreen = (infoData, userId) => {
   const { type, matchName, nikeName, slaves, id, matchType  } = infoData;
+  console.log('我是用户id：'+userId, '我是队长Id：'+ slaves.id,'我是申请人id:'+ id, '我是不是队长：'+ userId == slaves.id?'是' : '不是')
+  console.log('【119】是卡片的全部数据')
+  console.log(119, infoData)
   const statuInfo = {
     title: '',
     tip: '',

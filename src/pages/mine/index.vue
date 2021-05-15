@@ -98,7 +98,8 @@ import Rate from '@/components/cards/rate';
 import DiyPopup from '@/components/diyPopup';
 
 import FabGroup from '@/components/fabGroup';
-import {imgUrl} from '@/common/http'
+import {imgUrl} from '@/common/http';
+import { demoDatas } from './const'
 
 import { 
   userInfoReadCount, 
@@ -119,7 +120,6 @@ const requests = {
   '3': userInfoContinued, // 进行中
   '4': userInfoApplyRecord, // 发起中
   '5': userInfoApplyRecord, // 申请记录
-
 }
 export default {
   components: {
@@ -130,11 +130,11 @@ export default {
   data() {
     return {
       vipNum: 0,
-      actived: '5',
+      actived: '2',
       ReadCount: 0,
       navList: [
-        { label: '被申请', id: '1',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
         { label: '申请中', id: '2',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
+        { label: '被申请', id: '1',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
         { label: '进行中', id: '3',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-18.png' },
         { label: '发起中', id: '4',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-19.png' },
         { label: '申请记录', id: '5', icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-20.png' },
@@ -144,7 +144,8 @@ export default {
       pages: {
         current: 1,
         size: 10
-      }
+      },
+      count: 0
     }
   },
   computed:{
@@ -179,7 +180,8 @@ export default {
         size: 10
       }
       this.cardList= [];
-      this.getCards(val || '')
+      this.count++
+      this.getCards(val || '', this.count)
     },
     navClick(item) {
       const { id } = item;
@@ -196,7 +198,7 @@ export default {
     goToBack() {
       uni.navigateBack({ delta: 1 })
     },
-    getCards (val) {
+    getCards (val, count) {
       const { actived, pages } = this;
       const i = val || actived
       requests[i](pages).then(res => {
@@ -205,13 +207,21 @@ export default {
         if (code === 200) {
           const { records } = data
           if (records && records.length) {
-            this.cardList = [...this.cardList, ...records]
-            console.log(JSON.stringify(this.cardList))
-            if (records.length === this.pages.size) {
+            if(count === this.count) {
+              this.cardList = [...this.cardList, ...records]
+            }
+            if (records.length === this.pages.size && count === this.count) {
               this.current += 1
             }
+          } else {
+            // 调试用
+            // this.cardList= [...demoDatas]
+            console.log(1222, this.cardList)
           }
         }
+      }).catch(err => {
+        this.cardList= [...demoDatas]
+            console.log(1222, this.cardList)
       })
     },
     // 获取消息数量
@@ -230,6 +240,7 @@ export default {
       const params = {
         userRelationshipId: id
       }
+      console.log('取消申请-参数：' + JSON.stringify(params))
       userInfoCancelMatch(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
@@ -244,6 +255,7 @@ export default {
     // 接受/拒绝申请
     userInfoPower(type, id) {
       const params = { type, userRelationshipId: id };
+      console.log('接受/拒绝申请-参数：' + JSON.stringify(params))
       userInfoPower(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
@@ -258,6 +270,7 @@ export default {
     // 退出组队
     userInfoExitTeam (id) {
       const params = { userRelationshipId: id }
+      console.log('退出组队-参数：' + JSON.stringify(params))
       userInfoExitTeam(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
@@ -272,6 +285,7 @@ export default {
     // 开启/关闭加入组队 
     userInfoOperationMatch (id, type, status) {
       const params ={ status, type, userRelationshipId: id }
+      console.log('开启/关闭加入组队-参数：' + JSON.stringify(params))
       userInfoOperationMatch(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
@@ -288,7 +302,7 @@ export default {
         }
       }).catch(err => {console.log(err)})
     },
-    clickBtn(type, data) {
+    clickBtn(type, { data, rates }) {
       const { userRelationshipId  } = data;
       switch (type) {
         case 1: // 取消申请
@@ -309,15 +323,15 @@ export default {
           break;
         case 5: // 完成
           console.log('完成',data)
-          this.userInfoOperationMatch(userRelationshipId, 1, '')
+          this.userInfoOperationMatch(userRelationshipId, 1, 0)
           break;
         case 6: // 关闭组队
           console.log('关闭组队',data)
-          this.userInfoOperationMatch(userRelationshipId, 2, 2)
+          this.userInfoOperationMatch(userRelationshipId, 2, 1)
           break;
         case 7: // 开启组队
           console.log('开启组队',data)
-          this.userInfoOperationMatch(userRelationshipId, 2, 1);
+          this.userInfoOperationMatch(userRelationshipId, 2, 2);
           break;
 
         case 8: // 联系客服
@@ -325,7 +339,7 @@ export default {
           // this.userInfoPower(1, userRelationshipId)
           break;
         case 9: // 评价
-          console.log('评价',data)
+          console.log('评价',data, rates)
           // this.userInfoOperationMatch(data, 1)
           break;
       

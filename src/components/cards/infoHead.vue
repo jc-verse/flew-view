@@ -3,7 +3,7 @@
     <div class="left">
       <div class="user_head" :style="headStyles">
         <img :src="headImg" alt="" v-if="headImg">
-        <open-data type="userAvatarUrl" v-else></open-data>
+        <!-- <open-data type="userAvatarUrl" v-else></open-data> -->
       </div>
       <slot name='center'>
         <div class="title" :style='styles'> 
@@ -62,10 +62,9 @@ export default {
     },
     headImg () {
       const { avatar } = this.infoData;
-      console.log(12312, avatar)
       let url = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
       if (/(http|https)/.test(avatar)) {
-        url = avatar || ''
+        url = avatar;
       } else if (avatar && avatar !== 'default_img.png') {
         url = imgUrl + avatar
       }

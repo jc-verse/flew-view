@@ -2,7 +2,7 @@
   <div class="group_info_item" :style='{background: statusInfo.bgColor}'>
 
     <div class="msg_title" :class="[showTitle?'ellipsis': '']" @click="clickTitle">{{ statusInfo.title }}</div>
-    <infoHead :infoData='infoData.slaves'/>
+    <infoHead :infoData='infoData'/>
     <div class="content">
       <!-- 个人信息 -->
       <information :topList='tops'/>
@@ -19,15 +19,18 @@
       <div class="buoy" v-if="statusInfo.showInfo.includes(9)" @click="clickBuoy(9)" >评价</div>
     </div>
 
-    <DiyPopup ref='popup'>
-      <div class="tip_box" slot='tip' @click.stop>
-        <div class="title">取消申请</div>
-        <div class="msg">是否确认取消申请！</div>
-        <div class="btns">
-          <div class="no" @click.stop="close(false)">取消</div>
-          <div class="yes" @click.stop="close(true)">确定</div>
+    <DiyPopup ref='popup' title="本次服务怎么样？来个评价吧！" @popupclosed='popupclosed'>
+      <template slot='content' style='height:100%'>
+        
+        <div class="rate_box">
+          <div class="rate_item" v-for="(item, index) in rateHeads" :key='index'>
+            <div class="rate_title">{{item.title}}</div>
+            <div class="rate_content">
+              <Rate :size="32" :value="rateForm[item.code]  || 0" :max="5" @change='changeRate($event,item.code)'></Rate>
+            </div>
+          </div>
         </div>
-      </div>
+      </template>
     </DiyPopup>
   </div>
 </template>
@@ -36,12 +39,13 @@
 import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
+import Rate from '@/components/cards/rate';
 import DiyPopup from '@/components/diyPopup';
 import { bsToStrFn, topListFn } from './units';
 import { statusScreen } from './units'
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup },
+  components: { infoHead, information, joinList, DiyPopup, Rate },
   props: {
     infoData : {
       type:Object,
@@ -56,7 +60,19 @@ export default {
   data () {
     return {
       showTitle: true,
-      type: 8
+      type: 8,
+      rateForm: {
+        knowledge: 3, // 知识水平
+        comprehend : 3, //理解程度
+        efficiency : 3, //授课效率
+        attitude : 3, //讲课态度
+      },
+      rateHeads: [
+        { title: '知识水平', value: '', code: 'knowledge' },
+        { title: '理解程度', value: '', code: 'comprehend' },
+        { title: '讲课态度', value: '', code: 'efficiency' },
+        { title: '授课效率', value: '', code: 'attitude' },
+      ]
     }
   },
   computed : {
@@ -71,15 +87,23 @@ export default {
       return statuData
     }
   },
+  // mounted() {
+  //   this.$refs.popup.show()
+  // },
   methods:{
     clickTitle() {
       this.showTitle = !this.showTitle;
     },
-    close (flag) {
+    changeRate (e,code) {
+      console.log(133,e,code)
+      this.rateForm[code] = e.value
+    },
+    popupclosed (flag) {
       if (flag) {
-        this.$emit('clickBtn', this.type, this.infoData)
+        const { infoData, rateForm } = this;
+        this.$emit('clickBtn', 9, { data: infoData, rates: rateForm});
       }
-      this.$refs.popup.hide()
+      // this.$refs.popup.hide()
     },
     // 点击组队申请！
     clickBuoy (type) {
@@ -87,7 +111,7 @@ export default {
       switch (type) {
         case 8:
           console.log('联系客服');
-          this.$emit('clickBtn', type, this.infoData)
+          this.$emit('clickBtn', type, { data: this.infoData })
           break;
         case 9:
           console.log('评价');
@@ -228,7 +252,24 @@ export default {
   }
 }
 
-  .group_infos{
-    border-top: 2rpx solid rgba(0, 0, 0,.1);
+.group_infos{
+  border-top: 2rpx solid rgba(0, 0, 0,.1);
+}
+
+.rate_box{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  .rate_item{
+    padding: 40rpx;
+    @include flex_center;
+    flex-direction: column;
+    @include fontMixin(32rpx, #000, bold);
+    .rate_title{
+      padding: 10rpx;
+    }
   }
+}
 </style>

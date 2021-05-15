@@ -18,7 +18,7 @@
                 </div>
                 <i v-else class="iconfont icontupianshangchuan " style="color:#676FDF;font-size:50rpx"></i>
               </template>
-              <DiyInpSel @searchInp='searchInp' slot='custom'  :datas='schoolList' className='schoolName' popup-title="请选择学校" @popupclosed='changeFn'>
+              <DiyInpSel slot='inputSelect' @searchInp='searchInp' :datas='schoolList' className='schoolName' popup-title="请选择学校" @popupclosed='changeFn'>
                 <div  style='color:#999999; display: flex; align-items: center; justify-content: flex-end;' v-if="!formData.schoolName">请选择学校</div>
                 <div  style=' display: flex; align-items: center; justify-content: flex-end;' v-else>{{formData.schoolName || ''}}</div>
               </DiyInpSel>
@@ -144,13 +144,12 @@ import formItem from '@/components/forms/formItem';
 import formItemBox from '@/components/forms/formItemBox';
 import FabGroup from '@/components/fabGroup';
 import DiyPopup from '@/components/diyPopup'
-import DiyInpSel from '@/components/forms/diyInputSelect';
 import DiyPicker from './diyPicker';
 import EditGame from './editGame';
-import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, deepChange, formData } from './const';
+import DiyInpSel from '@/components/forms/diyInputSelect';
+import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, formData } from './const';
 import { joinUrl, getCurPage, analysisFn } from '@/common/utils';
 import { imgUrl } from '@/common/http';
-
 import { 
   subjectList, 
   teamTypeCompetition, 
@@ -371,7 +370,6 @@ export default {
     },
     // 改变表单
     changeFn({data, code, type}) {
-      console.log(1213, data,code, type)
       switch (type) {
         case 'add':
           this.formData[code].push(data);
@@ -434,7 +432,7 @@ export default {
       }
       this.canClick = false;
       const matchs = matchList.map((item, index)=>{
-        const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id, item[1].id, item[2].id]
+        const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id,item[1].id,item[2].id]
         return  { organizeTypeId , organizeTypeSon , organizeTypeSonMatchId }
       })
       formData.match = matchs || [];
@@ -494,7 +492,6 @@ export default {
           list.push(arr)
         })
         this.matchList = [...list]
-        console.log(111,this.matchList)
       }
     },
     // 希望参加的比赛回显
@@ -512,7 +509,6 @@ export default {
       }
     },
     userData(val) {
-      
       this.formDataFun(val)
     }
   }

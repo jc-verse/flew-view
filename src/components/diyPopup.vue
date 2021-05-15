@@ -23,7 +23,10 @@
 					<!-- 右侧确定 -->
 					<view class="dialog-confirm" @click="handleClose(true)">确定</view>
 				</view>
-				<slot name='content'></slot>
+				<view style='height: 100%'>
+					<slot name='content'></slot>
+				</view>
+				
 			</view>
 	</view>
 </template>
@@ -169,6 +172,7 @@
 		padding: 0 15px;
 	}
   .dialog-confirm{
+		color: #676FDF;
     right: 0;
   }
   .dialog-close{
