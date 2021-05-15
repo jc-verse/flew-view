@@ -40,9 +40,6 @@ export default {
   flex-wrap: wrap;
   @include fontMixin(28rpx, #333333 ,400);
   margin-top:20rpx;
-  >.top_item:first-child{
-    width: 100%;
-  }
   .top_item{
     min-width: 50%;
     flex-grow: 1;

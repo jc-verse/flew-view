@@ -78,3 +78,13 @@ export const  deepChange = (data) => {
     return obj;
   })
 }
+
+// 将比赛信息重组
+export const bsToStrFn = (arr = []) => {
+  const list = arr || []
+  return list.map(item => {
+    const { createTime, name } = item;
+    const year = createTime.split('-')[0]
+    return `${year} ${name}`
+  });
+}

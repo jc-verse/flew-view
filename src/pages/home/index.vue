@@ -93,6 +93,8 @@ export default {
       key: 'token', 
       success:(res) =>{
         const {errMsg, data} = res;
+        console.log('个人识别信息-token:' + data)
+        
         if (!/ok/.test(errMsg) || !data) {
           uni.redirectTo({ url: '/pages/guidance/index' })
         }

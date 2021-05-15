@@ -125,3 +125,8 @@ export const userInfoOperationMatch = (data) => {
 export const userInfoExitTeam = (data) => {
   return  httpAPI('/app/user-info/exit-team', { data })
 }
+
+// 学术帮助列表
+export const academicHelpList = (data) => {
+  return  httpAPI('/app/academic/academic-help-list', { data })
+}

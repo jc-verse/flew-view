@@ -42,14 +42,12 @@
             @changeTable='changeFn'
           >
             <div class="add" slot='diy'>
-              <form-item  :headInit='systems' :formData='formData' @change="changeFn">
-                <text slot='select' class="iconfont iconjiahao add_icon"></text> 
-              </form-item> 
+              <form-item  :headInit='systems' :showIcon='true' :formData='formData' @change="changeFn"></form-item> 
             </div>
             <div class="right" slot='right' v-if='formData.curriculumSystemType'>
               <form-item  :headInit='right' :formData='formData' @change="changeFn">
                 <template slot='upload'>
-                  <div class="right_box required">
+                  <div class="right_box">
                     {{`上传认证`}}<i class="iconfont icontupianshangchuan icon"></i>
                   </div>
                 </template>
@@ -163,16 +161,7 @@ import DiyInpSel from '@/components/forms/diyInputSelect';
 import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, formData, lastHeads } from './const';
 import { joinUrl, getCurPage, analysisFn } from '@/common/utils';
 import { imgUrl } from '@/common/http';
-import { 
-  subjectList, 
-  teamTypeCompetition, 
-  teamTypeBranchList, 
-  teamTypeList, 
-  updateCardInfo,
-  userCardInfo,
-  totalTeamTypeList,
-  selectSchoolList
-} from '@/common/api';
+import { subjectList, updateCardInfo, selectSchoolList } from '@/common/api';
 import commonMixin from '@/common/mixins/commonMixin';
 import userDataMixin from '@/common/mixins/userDataMixin';
 export default {
@@ -315,44 +304,10 @@ export default {
           curriculumSystem : user.curriculumSystemList || [],
           standardizedPerformance : user.standardizedPerformanceList || [],
         };
-        // uni.getStorage({key: 'avatarUrl', success:(res)=>{
-        //   const {errMsg, data} = res
-        //   if (/ok/.test(errMsg) && !/http/.test(formData.avatar)) {
-        //     this.formData.avatar = data
-        //   }
-        // }})
         console.log(666, user, v)
         this.formData = JSON.parse(JSON.stringify(obj))
       }
     },
-    // 获取希望参加的list
-    // totalTeamTypeList () {
-    //   totalTeamTypeList().then(res => {
-    //     const {data: nData} = res[1];
-    //     const { data, code } = nData;
-    //     if (code === 200) {
-    //       this.totalList = deepChange(data || [])
-
-    //       getApp().globalData.totalList = [...this.totalList];
-    //     }
-    //   }).catch(err => {console.log(err)})
-    // },
-    // 获取信息
-    // getInfo() {
-    //   userCardInfo().then(res=> {
-    //     const { data:nData } = res[1];
-    //     const { data, code } = nData;
-    //     if (code === 200) {
-    //       data.competitionExperience = data.competitionExperienceList || [];
-    //       data.curriculumSystemType = Number(data.curriculumSystem) || '';
-    //       data.curriculumSystem = data.curriculumSystemList || [];
-    //       data.standardizedPerformance = data.standardizedPerformanceList || [];
-    //       data.wxCode = data.wxNum || '';
-    //       data.name = data.userName || '';
-    //       this.formData = {...data} || {};
-    //     }
-    //   }).catch(err => {console.log(err)})
-    // },
     getSchoolList(val) {
       if (!val) {
         this.schoolList = [];

@@ -49,6 +49,11 @@
 			line-height: 66rpx;
 		}
 	}
+	.tag_item{
+		.input-value-border{
+			border: none!important;
+		}
+	}
 
 </style>
 <style>
@@ -64,4 +69,5 @@
 	-webkit-appearance: none;  
 	background: transparent;  
 }
+
 </style>

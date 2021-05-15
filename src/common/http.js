@@ -32,12 +32,12 @@ export const httpAPI =  ( url, options) => {
   return uni.request(htttpDefaultOpts).then(res=> {
     const { data } = res[1];
     const { code, msg } = data || {}
-    interceptor(code, msg)
+    interceptor(code, msg, url)
     return res
   });
 }
 //  拦截特殊状态 
-function interceptor (code , msg) {
+function interceptor (code , msg, url) {
   const route = getCurPageRoute() || '';
   switch(code) {
     case 20011: //是登陆已过期
@@ -49,12 +49,12 @@ function interceptor (code , msg) {
       } })
       break;
     case 1015: //是填写标准信息
-      if (!route.includes('userInfo')) {
+      if (!route.includes('userInfo') && url === '/app/team-up/ranks') {
         uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
       }
       break;
     case 1018: //是完善个人信息
-      if (!route.includes('userComplete')) {
+      if (!route.includes('userComplete') && url === '/app/team-up/ranks') {
         uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
       }
       break;

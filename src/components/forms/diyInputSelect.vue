@@ -5,7 +5,7 @@
 			<scroll-view :scroll-x="true">	
 				<div class="confirm_box" >
 					<!-- <div class="input_box"> -->
-						<input class="uni-input" focus  placeholder="自动获得焦点"  @input="inputFn"/>
+						<input class="uni-input" focus  placeholder="请输入关键字"  @input="inputFn"/>
 						<div class="btn" @click="searchInp">搜索</div>
 					<!-- </div> -->
 				</div>
@@ -75,7 +75,7 @@
 				this.inpVal = e.target.value || '';
 			},
 			searchInp () {
-				this.$emit('searchInp', '学'|| this.inpVal)
+				this.$emit('searchInp', this.inpVal)
 				if (!this.inpVal) {
 					this.checkItems = {}
 				}

@@ -23,13 +23,13 @@ export default {
       index: 0,
       tagList: [
         { label: '省份', id: 1 },
-        { label: '学校', id: 2 },
-        { label: '省份2', id: 3 },
-        { label: '省份3', id: 4 },
-        { label: '省份41111', id: 5 },
-        { label: '省份5', id: 6 },
-        { label: '省份6', id: 7 },
-        { label: '省份7', id: 8 },
+        // { label: '学校', id: 2 },
+        // { label: '省份2', id: 3 },
+        // { label: '省份3', id: 4 },
+        // { label: '省份41111', id: 5 },
+        // { label: '省份5', id: 6 },
+        // { label: '省份6', id: 7 },
+        // { label: '省份7', id: 8 },
       ]
     }
   },
@@ -61,7 +61,7 @@ export default {
     box-sizing: border-box;
     .tag_item_box{
       padding: 0 10rpx;
-      
+      flex-grow: 1;
     }
     
   }

@@ -3,14 +3,11 @@
     <div class="acaHelp">
       <search @change='changeVal' :pValue='searchVal' :propertys="{'maxlength':'10'}"/>
       <tag-group ></tag-group>
-      <scroll-box :num='2'>
+      <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
-          <template v-if="!searchVal">
-            <group-item v-for="(item, ind) in 3" :key='ind' @clickItem='clickItem'/>
-          </template>
-          <template v-if="searchVal">
-            <search-item v-for="(item, ind) in 3" :key='ind' @clickItem='clickItem'/>
+          <template>
+            <group-item v-for="(item, ind) in cardList" :infoData='item' :key='ind' @clickItem='clickItem'/>
           </template>
         </div>
       </scroll-box>
@@ -22,36 +19,65 @@
 
 <script>
 import groupItem from './groupItem';
-import searchItem from './searchItem';
 import search from '@/components/forms/search';
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
+import { academicHelpList } from '@/common/api';
 export default {
-  name:'sage',
-  components: { 
-    tagGroup, 
-    scrollBox, 
-    fabGroup, 
-    search, 
-    groupItem,
-    pageSj,
-    searchItem
-  },
+  name:'acaHelp',
+  components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj },
   data() {
     return {
-      show: false,
-      index: 0,
-      searchVal: 'qqqq'
+      searchVal: '',
+      cardList: [],
+
+      current: 1,
+      size: 10,
+      noConcat: false,
     }
   },
+  onShow() {
+    this.academicHelpList();
+  },
   methods : {
+    initFotm () {
+      this.current = 1;
+      this.size = 10;
+      this.cardList = [];
+      this.noConcat = false;
+    },
     changeVal(val){
       this.searchVal = val
     },
     clickItem() {
       uni.navigateTo({ url: '/pages/detailInfo/index' })
+    },
+    academicHelpList() {
+      const { current, size } = this;
+      const params = { current, size };
+      academicHelpList(params).then(res => {
+        const {data: nData} = res[1];
+        const { code, data } = nData || {};
+        if (code === 200) {
+          const { current, pages, records, searchCount, total  } = data;
+          if (records && records.length) {
+            this.cardList = [ ...this.cardList , ...records] ;
+            if (records.length < 10 && records) {
+              this.noConcat = true;
+            }else {
+              this.current +=1;
+            }
+          } else  {
+            this.noConcat = true;
+          }
+        }
+      })
+    },
+    lower() {
+      if (this.noConcat) return ;
+      this.getInfo();
     }
   },
 }

@@ -22,7 +22,7 @@
 import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
-import crewInfo from '../sage/components/crewInfo';
+import crewInfo from '@/components/cards/crewInfo';
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, crewInfo },

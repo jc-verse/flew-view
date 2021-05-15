@@ -44,7 +44,7 @@
 import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
-import CrewInfo from '../sage/components/crewInfo';
+import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
 
 import { styles } from './const';

@@ -1,12 +1,14 @@
 <template>
   <page-sj> 
     <div class="consult" style="overflow: hidden;">
-      <search @change='changeVal' :propertys="{'maxlength':'10'}"/>
+      <search @change='changeVal' :pValue='searchVal' :propertys="{'maxlength':'10'}"/>
       <tag-group ></tag-group>
-      <scroll-box :num='2'>
+      <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
-          <div class='list_tip'>搜索到3个关于“包玉刚”的信息</div>
-          <group-item v-for="(item, ind) in 3" :key='ind'/>
+          <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
+          <template>
+            <group-item v-for="(item, ind) in cardList" :infoData='item' :key='ind' @clickItem='clickItem'/>
+          </template>
         </div>
       </scroll-box>
       <fab-group/>
@@ -22,32 +24,61 @@ import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
+import { academicHelpList } from '@/common/api';
 export default {
-  name:'sage',
-  components: { 
-    tagGroup, 
-    scrollBox, 
-    fabGroup, 
-    search, 
-    groupItem,
-    pageSj
-  },
+  name:'consult',
+  components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj },
   data() {
     return {
-      show: false,
-      index: 0,
-      isH5: false
+      searchVal: '',
+      cardList: [],
+
+      current: 1,
+      size: 10,
+      noConcat: false,
     }
   },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
+  onShow() {
+    this.academicHelpList();
   },
   methods : {
-    changeVal(value) {
-      console.log(1,value)
+    initFotm () {
+      this.current = 1;
+      this.size = 10;
+      this.cardList = [];
+      this.noConcat = false;
     },
+    changeVal(val){
+      this.searchVal = val
+    },
+    clickItem() {
+      uni.navigateTo({ url: '/pages/detailInfo/index' })
+    },
+    academicHelpList() {
+      const { current, size } = this;
+      const params = { current, size };
+      academicHelpList(params).then(res => {
+        const {data: nData} = res[1];
+        const { code, data } = nData || {};
+        if (code === 200) {
+          const { current, pages, records, searchCount, total  } = data;
+          if (records && records.length) {
+            this.cardList = [ ...this.cardList , ...records] ;
+            if (records.length < 10 && records) {
+              this.noConcat = true;
+            }else {
+              this.current +=1;
+            }
+          } else  {
+            this.noConcat = true;
+          }
+        }
+      })
+    },
+    lower() {
+      if (this.noConcat) return ;
+      this.getInfo();
+    }
   },
 }
 </script>

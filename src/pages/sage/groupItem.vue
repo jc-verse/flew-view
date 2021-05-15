@@ -30,7 +30,7 @@
 import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
-import CrewInfo from './components/crewInfo';
+import CrewInfo from '@/components/cards/crewInfo';
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, CrewInfo },
@@ -74,24 +74,6 @@ export default {
       const { totalList, infoData } = this;
       const { match, matchList } = infoData || {};
       const arr = (matchList || '').split(',');
-      // if (match && Array.isArray(match)) {
-      //   match.forEach(item =>{
-      //     const { organizeTypeId: a, organizeTypeSon: b, organizeTypeSonMatchId: c } = item;
-      //     totalList.forEach(items => {
-      //       if(items.id == a ) {
-      //         items && items.children.forEach(ite =>{
-      //           if (ite.id == b) {
-      //             ite.children.forEach(i =>{
-      //               if (i.id == c) {
-      //                 arr.push(i.abbreviation)
-      //               }
-      //             })
-      //           }
-      //         })
-      //       }
-      //     })
-      //   })
-      // }
       return arr
     },
     slaveList () {
@@ -154,7 +136,15 @@ export default {
     padding: 10rpx 20rpx;
     @include fontMixin(28rpx, #5C86F2 ,500);
   }
-  
+  .evaluate{
+    border-radius: 30rpx;
+    background: #FFF6E8 ;
+    position: absolute;
+    top: 54rpx;
+    right: 170rpx;
+    padding: 10rpx 20rpx;
+    @include fontMixin(28rpx, #EF8E17 ,bold);
+  }
 }
 
 </style>
