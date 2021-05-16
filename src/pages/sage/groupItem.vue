@@ -55,7 +55,7 @@ export default {
     tops() {
       const { infoData } = this;
       const arr = [
-        { title: '学校',    val: infoData.admission || '', id: 1 }, 
+        { title: '学校',    val: infoData.schoolName || '', id: 1 }, 
         { title: '年级',    val: infoData.grade || '',          id: 2 }, 
         { title: '课程体系', val: infoData.curriculumSystem || '', id: 4 }, 
         { title: '标化成绩', val: infoData.standardizedPerformance || '',           id: 3 }, 

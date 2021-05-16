@@ -109,9 +109,10 @@ import {
   userInfoApplyRecord,  // 申请记录
 
   userInfoCancelMatch, // 取消申请
-  userInfoPower, // 接收、拒接
+  userInfoPower, // 竞赛组队-接收、拒接
   userInfoOperationMatch, //完成，和关闭组队
   userInfoExitTeam, //退出组队
+  academicOperationAcademic, //学术帮助-接收、拒接
 } from '@/common/api';
 
 const requests = {
@@ -252,11 +253,26 @@ export default {
         }
       }).catch(err => {console.log(err)})
     },
-    // 接受/拒绝申请
+    // 竞赛组队-接受/拒绝申请
     userInfoPower(type, id) {
       const params = { type, userRelationshipId: id };
-      console.log('接受/拒绝申请-参数：' + JSON.stringify(params))
+      console.log('竞赛组队-接受/拒绝申请-参数：' + JSON.stringify(params))
       userInfoPower(params).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success) {
+          uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
+          this.initForm();
+        } else {
+          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+        }
+      }).catch(err => {console.log(err)})
+    }, //academicOperationAcademic
+    // 学术帮助-接受/拒绝申请
+    academicOperationAcademic(type, id) {
+      const params = { type, userRelationshipId: id };
+      console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
+      academicOperationAcademic(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
         if (code === 200 && success) {
@@ -302,20 +318,28 @@ export default {
         }
       }).catch(err => {console.log(err)})
     },
-    clickBtn(type, { data, rates }) {
-      const { userRelationshipId  } = data;
-      switch (type) {
+    clickBtn(btnType, { data, rates }) {
+      const { userRelationshipId, type  } = data;
+      switch (btnType) {
         case 1: // 取消申请
           console.log('取消申请',data)
           this.userInfoCancelMatch(userRelationshipId);
           break;
         case 2: // 通过
           console.log('通过',data)
-          this.userInfoPower(1, userRelationshipId)
+          if (type == 1) { // 竞赛组队
+            this.userInfoPower(1, userRelationshipId)
+          } else if (type == 2) { // 学术帮助
+            this.academicOperationAcademic(1, userRelationshipId)
+          }
           break;
         case 3: // 拒绝
           console.log('拒绝',data)
-          this.userInfoPower(2, userRelationshipId)
+          if (type == 1) {
+            this.userInfoPower(2, userRelationshipId)
+          } else if (type == 2) {
+            this.academicOperationAcademic(2, userRelationshipId)
+          }
           break;
         case 4: // 退出组队
           console.log('退出组队',data)

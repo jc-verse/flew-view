@@ -1,5 +1,5 @@
 <template>
-  <div class="group_info_item">
+  <div class="group_info_item" @click='clickItem'>
   
     <infoHead :infoData='infoData'/>
 
@@ -13,8 +13,8 @@
       </div>
     </div>
 
-    <div class="buoy" @click="clickBuoy"> 申请服务 </div>
-    <div class="evaluate">评价</div>
+    <div class="buoy" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div>
+    <div :class="[infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >评价</div>
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
     tops() {
       const { infoData } = this;
       const arr = [
-        { title: '学校',    val: infoData.admission || '', id: 1 }, 
+        { title: '学校',    val: infoData.schoolName || '', id: 1 }, 
         { title: '年级',    val: infoData.grade || '',          id: 2 }, 
         { title: '课程体系', val: infoData.curriculumSystem || '', id: 4 }, 
         { title: '标化成绩', val: infoData.standardizedPerformance || '',           id: 3 }, 
@@ -77,7 +77,10 @@ export default {
     // 点击组队申请！
     clickBuoy (type) {
       console.log('点击组队申请！')
-      // this.$emit('clickBuoy', type)
+      this.$emit('clickBuoy', type, this.infoData)
+    },
+    clickItem() {
+      this.$emit('clickItem')
     }
   }
 

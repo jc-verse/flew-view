@@ -126,7 +126,21 @@ export const userInfoExitTeam = (data) => {
   return  httpAPI('/app/user-info/exit-team', { data })
 }
 
-// 学术帮助列表
+// 学术帮助-列表
 export const academicHelpList = (data) => {
   return  httpAPI('/app/academic/academic-help-list', { data })
 }
+
+// 学术帮助-申请服务
+export const academicApplyService = (data) => { // {"serviceUserId": 0}
+  return  httpAPI('/app/academic/apply-service', { data })
+}
+
+// 学术帮助-通过与拒绝
+export const academicOperationAcademic = (data) => {
+  return  httpAPI('/app/academic/operation-academic', { data })
+}
+// {
+//   "type": 0, 1.接受 2.拒绝 ,
+//   "userRelationshipId": 0
+// }

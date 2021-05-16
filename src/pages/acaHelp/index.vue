@@ -7,7 +7,7 @@
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
           <template>
-            <group-item v-for="(item, ind) in cardList" :infoData='item' :key='ind' @clickItem='clickItem'/>
+            <group-item v-for="(item, ind) in cardList" :infoData='item' :key='ind' @clickBuoy='clickBuoy' @clickItem='clickItem'/>
           </template>
         </div>
       </scroll-box>
@@ -24,7 +24,7 @@ import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
-import { academicHelpList } from '@/common/api';
+import { academicHelpList, academicApplyService } from '@/common/api';
 export default {
   name:'acaHelp',
   components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj },
@@ -39,7 +39,7 @@ export default {
     }
   },
   onShow() {
-    this.academicHelpList();
+    this.initFotm();
   },
   methods : {
     initFotm () {
@@ -47,6 +47,7 @@ export default {
       this.size = 10;
       this.cardList = [];
       this.noConcat = false;
+      this.getList();
     },
     changeVal(val){
       this.searchVal = val
@@ -54,7 +55,8 @@ export default {
     clickItem() {
       uni.navigateTo({ url: '/pages/detailInfo/index' })
     },
-    academicHelpList() {
+    // 列表查询
+    getList() {
       const { current, size } = this;
       const params = { current, size };
       academicHelpList(params).then(res => {
@@ -75,9 +77,34 @@ export default {
         }
       })
     },
+    academicApplyService (id) {
+      academicApplyService({ serviceUserId: id }).then(res => {
+        const {data: nData} = res[1];
+        const { code, data, success } = nData || {};
+        if (code === 200 && success) {
+          uni.showToast({title: '申请成功！'})
+        }
+      })
+    },
     lower() {
       if (this.noConcat) return ;
-      this.getInfo();
+      this.getList();
+    },
+    // 点击卡片Btn
+    clickBuoy (type, data) {
+      console.log(12222, type, data)
+      const { id } = data
+      switch (type) {
+        case 1: // 申请服务
+          this.academicApplyService(id)
+          break;
+        case 2: // 评价
+          console.log('评价')
+          break;
+      
+        default:
+          break;
+      }
     }
   },
 }
