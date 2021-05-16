@@ -15,18 +15,10 @@
       </div>
     </div>
     <div class="btn_box">
-      <div class="buoy" @click="clickBuoy(1)" >取消申请</div>
+      <div class="buoy" @click="clickBuoy(1)" v-if="infoData.type == 1">取消申请</div>
+      <div class="buoy" v-else>待对方确认申请</div>
     </div>
-    <DiyPopup ref='popup' :noUp='true'>
-      <div class="tip_box" slot='tip' @click.stop>
-        <div class="title">取消申请</div>
-        <div class="msg">是否确认取消申请！</div>
-        <div class="btns">
-          <div class="no" @click.stop="close(false, 1)">取消</div>
-          <div class="yes" @click.stop="close(true, 1)">确定</div>
-        </div>
-      </div>
-    </DiyPopup>
+    <TipPopup title='取消申请' ref='tipPopup' msg='是否确认取消申请！' @confirm='confirm'/>
   </div>
 </template>
 
@@ -35,6 +27,7 @@ import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import DiyPopup from '@/components/diyPopup';
+import TipPopup from '@/components/cards/tipPopup'
 import { styles } from './const';
 import { bsToStrFn, topListFn } from './units';
 
@@ -57,7 +50,7 @@ function filterSFn (val) {
 }
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup },
+  components: { infoHead, information, joinList, DiyPopup, TipPopup },
   props: {
     infoData : {
       type:Object,
@@ -103,14 +96,12 @@ export default {
     // 点击组队申请！
     clickBuoy (type) {
       this.type = type; // 1: 取消申请
-      this.$refs.popup.show()
+      this.$refs.tipPopup.show()
     },
-    close (flag) {
-      if (flag) {
-        const { infoData, type } = this
-        this.$emit('clickBtn', type, { data: infoData })
-      }
-      this.$refs.popup.hide()
+    // 点击确认
+    confirm () {
+      const { infoData, type } = this
+      this.$emit('clickBtn', type, { data: infoData })
     },
   }
 }
@@ -191,53 +182,6 @@ export default {
   .tip_msg{
     padding-top: 20rpx;
     @include fontMixin(30rpx,#676FDF)
-  }
-}
-.tip_box{
-  width: 500rpx;
-  // height: 300rpx;
-  background: #ffffff;
-  position: absolute;
-  top:50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 101;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 20rpx;
-  .title{
-    padding: 20rpx;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-    // border-bottom: 1px solid #f5f5f5;
-  }
-  .msg{
-    padding: 10rpx;
-    min-height: 80rpx;
-    width: 100%;
-    text-align: center;
-  }
-  .btns{
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    padding: 10rpx 0 20rpx;
-    .yes, .no{
-      text-align: center;
-      border-radius: 30rpx;
-      border: 1px solid rgba(92, 134, 242, 0.2);
-      width: 150rpx;
-      padding: 10rpx;
-    }
-    .yes{
-      background: rgba(92, 134, 242, 0.2);
-      color: #5C86F2
-    };
-    .no{
-      border-color: auto;
-    }
   }
 }
 

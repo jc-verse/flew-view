@@ -18,16 +18,7 @@
       <div class="buoy yes" @click="clickBuoy(2)" > 通过</div>
       <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div>
     </div>
-    <DiyPopup ref='popup' :noUp='true'>
-      <div class="tip_box" slot='tip' @click.stop>
-        <div class="title">{{type == 3 ? '拒绝': '通过'}}</div>
-        <div class="msg">是否确认{{type == 3 ? '拒绝': '通过'}}申请！</div>
-        <div class="btns">
-          <div class="no" @click.stop="close(false, type)">取消</div>
-          <div class="yes" @click.stop="close(true, type)">确定</div>
-        </div>
-      </div>
-    </DiyPopup>
+    <TipPopup :title="popupStatu.title" ref='tipPopup' :msg="popupStatu.msg" @confirm='confirm'/>
   </div>
 </template>
 
@@ -36,8 +27,13 @@ import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import DiyPopup from '@/components/diyPopup';
+import TipPopup from '@/components/cards/tipPopup'
 import { styles } from './const';
 import { bsToStrFn, topListFn } from './units';
+const popups = {
+  '2': { title: '通过', msg: '是否确认通过申请！', type: 2 },
+  '3': { title: '拒绝', msg: '是否确认拒绝申请！', type: 3 },
+}
 
 function filterSFn (val) {
   const { type, matchName, nikeName } = val;
@@ -58,11 +54,15 @@ function filterSFn (val) {
 }
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup },
+  components: { infoHead, information, joinList, DiyPopup, TipPopup },
   props: {
     infoData : {
       type:Object,
       default:()=>({})
+    },
+    userId : {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -85,6 +85,9 @@ export default {
       const  massage = personalMessage ? personalMessage : '暂未添加个人留言';
       return massage
     },
+    popupStatu () {
+      return popups[this.type]
+    },
     cardStatu () {
       return filterSFn(this.infoData)
     }
@@ -93,14 +96,11 @@ export default {
     // 点击组队申请！
     clickBuoy (type) {
       this.type = type; // 2: 点击通过 3: 点击拒绝
-      this.$refs.popup.show()
+      this.$refs.tipPopup.show()
     },
-    close (flag) {
-      if (flag) {
-        const { infoData, type } = this
-        this.$emit('clickBtn', type, { data: infoData })
-      }
-      this.$refs.popup.hide()
+    confirm () {
+      const { infoData, type } = this
+      this.$emit('clickBtn', type, { data: infoData })
     },
   }
 }

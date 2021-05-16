@@ -2,7 +2,7 @@
   <div class="group_info_item" :style="{background: cardStatu.bgColor }">
 
     <div class="msg_title">{{cardStatu.title || ''}}</div>
-    <infoHead :infoData='infoData'/>
+    <infoHead :infoData='cardInfo'/>
 
     <div class="content">
       <!-- 个人信息 -->
@@ -14,7 +14,7 @@
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
         <!-- 团队成员信息 -->
-        <CrewInfo :info='ite' v-for="(ite, ind) in infoData.slave" :key='ind' v-show="showInfo"/>
+        <CrewInfo :info='ite' v-for="(ite, ind) in cardStatu.slaves" :key='ind' v-show="showInfo"/>
       </div>
     </div>
     <div class="btn_box">
@@ -23,20 +23,11 @@
         <div class="buoy yes" v-if="cardStatu.showInfo.includes(5)" @click="clickBuoy(5)" >完成</div>
         <div class="evaluate" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >停止组队</div>          
         <div class="evaluate" v-if="cardStatu.showInfo.includes(7)" @click="clickBuoy(7)" >开启组队</div>
+        <div class="buoy yes" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div>
       </template>
     </div>
     <div class="sign_box" v-if="cardStatu.showTask">任务</div>
-
-    <DiyPopup ref='popup' :noUp='true'>
-      <div class="tip_box" slot='tip' @click.stop>
-        <div class="title">{{popupStatu.title || ''}}</div>
-        <div class="msg">{{ popupStatu.msg || '' }}</div>
-        <div class="btns">
-          <div class="no" @click.stop="close(false, type)">取消</div>
-          <div class="yes" @click.stop="close(true, type)">确定</div>
-        </div>
-      </div>
-    </DiyPopup>
+    <TipPopup :title='popupStatu.title' ref='tipPopup' :msg='popupStatu.msg' @confirm='confirm'/>
   </div>
 </template>
 
@@ -46,6 +37,7 @@ import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
+import TipPopup from '@/components/cards/tipPopup'
 
 import { styles } from './const';
 import { bsToStrFn, topListFn, joinName } from './units';
@@ -54,15 +46,17 @@ const popups = {
   '5': { title: '完成', msg: '是否确认完成！', type: 5 },
   '6': { title: '停止组队', msg: '是否停止组队!', type: 6 },
   '7': { title: '开启组队', msg: '是否开启组队!', type: 7 },
+  '8': { title: '联系客服', msg: '是否联系客服!', type: 8 },
 }
 function filterSFn (val, userId) {
-  const { type, matchName, nikeName, id, isOrganize } = val;
-  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false } // 1 比赛经历  2个人留言  3 希望参加
+  const { type, matchName, nikeName, id, isOrganize, academic, slave } = val;
+  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slaves: [] } // 1 比赛经历  2个人留言  3 希望参加
   console.log('我是用户id：'+userId, ';我是队长Id：'+ id, `;我是不是队长：${userId == id?'是' : '不是'}`)
   console.log('【119】是卡片的全部数据')
   console.log(119, val)
-  if (userId == id) { // 队长
-    if (type == 1) {
+
+  if (type == 1) {
+    if (userId == id) {
       obj.title = `竞赛组队：${matchName}`;
       if (isOrganize == 1) {
         obj.showInfo = [5, 7]
@@ -71,31 +65,33 @@ function filterSFn (val, userId) {
       } else {
         obj.showInfo = [5]
       }
-    } else if (type == 2) {
-      obj.title = `学术帮助`
+    } else {
+      obj.title = `竞赛组队:${matchName}`;
+      obj.showInfo = [4]
+    }
+    obj.slaves = slave || []
+  } else if (type == 2) {
+    if (userId == academic.id) {
+      obj.title = `学术帮助: 向${nikeName}提出学术帮助申请`
       obj.showTask = true;
-      obj.showInfo = [5]
-    } else if (type == 3) {
+      obj.showInfo = [8];
+    } else {
+      obj.title = `学术帮助: ${nikeName}向我提出学术帮助申请` //：
+    }
+  } else if (type == 3) {
+    if (userId == id) {
       obj.title = `学校咨询`
       obj.showTask = true;
       obj.showInfo = [5]
-    }
-  } else {
-    if (type == 1) {
-      obj.title = `竞赛组队:${matchName}`;
-      obj.showInfo = [4]
-    } else if (type == 2) {
-      obj.title = `学术帮助` //：我向${nikeName}提出学术帮助
-    } else if (type == 3) {
+    } else {
       obj.title = `学校咨询` // ：我向${nikeName}提出学校咨询
-      
     }
   }
   return obj
 }
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, CrewInfo, DiyPopup },
+  components: { infoHead, information, joinList, CrewInfo, DiyPopup, TipPopup },
   props: {
     infoData : {
       type:Object,
@@ -115,10 +111,10 @@ export default {
   },
   computed : {
     tops() {
-      return topListFn(this.infoData)
+      return topListFn(this.cardInfo)
     },
     slaveList () {
-      const slave = this.infoData.slave || [];
+      const slave = this.cardStatu.slaves || [];
       return joinName(slave) || ''
     },
     popupStatu () {
@@ -127,18 +123,25 @@ export default {
     cardStatu () {
       return filterSFn(this.infoData, this.userId)
     },
+    cardInfo () {
+      const { infoData, userId } = this;
+      const { academic, id } = infoData
+      if (academic.id == id) { // 判断是否为队员
+        return infoData
+      } else {
+        return academic
+      } 
+    },
   },
   methods:{
     clickDown () {
       this.showList = !this.showList
     },
     clickBuoy (type) {
-      this.type = type; // 4:退出组队 5: 完成  6: 关闭组队  7 开启组队  
-      this.$refs.popup.show()
+      this.type = type; // 4:退出组队 5: 完成  6: 关闭组队  7 开启组队   8：联系客服
+      this.$refs.tipPopup.show()
     },
-    close (flag) {
-      this.$refs.popup.hide()
-      if (!flag) return
+    confirm () {
       const { infoData, type } = this
       this.$emit('clickBtn', type, { data: infoData })
     },

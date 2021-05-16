@@ -15,6 +15,7 @@
 
     <div class="buoy" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div>
     <div :class="[infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >评价</div>
+    <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
   </div>
 </template>
 
@@ -23,10 +24,12 @@ import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
-import { bsToStrFn } from '@/common/utils'
+import TipPopup from '@/components/cards/tipPopup';
+import { bsToStrFn } from '@/common/utils';
+
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, CrewInfo },
+  components: { infoHead, information, joinList, CrewInfo, TipPopup },
   props: {
     infoData: {
       type: Object,
@@ -39,6 +42,7 @@ export default {
   },
   data () {
     return {
+      type: 1,
       info: '',
       showList: false,
       showInfo: false
@@ -76,7 +80,12 @@ export default {
     },
     // 点击组队申请！
     clickBuoy (type) {
-      console.log('点击组队申请！')
+      this.type = type;
+      this.$refs.tipPopup.show()
+    },
+    // 点击确定
+    confirm () {
+      const { type } = this
       this.$emit('clickBuoy', type, this.infoData)
     },
     clickItem() {
