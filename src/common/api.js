@@ -140,7 +140,33 @@ export const academicApplyService = (data) => { // {"serviceUserId": 0}
 export const academicOperationAcademic = (data) => {
   return  httpAPI('/app/academic/operation-academic', { data })
 }
-// {
-//   "type": 0, 1.接受 2.拒绝 ,
-//   "userRelationshipId": 0
-// }
+// 学术帮助-评价
+export const academicEvaluate = (data) => {
+  return  httpAPI('/app/academic/evaluate', { data })
+}
+
+// 学术帮助-完成
+export const academicAcademicComplete = (data) => {
+  return  httpAPI('/app/academic/academic-complete', { data })
+}
+
+
+// 学校咨询-列表
+export const consultingList = (data) => {
+  return  httpAPI('/app/consulting/consulting-list', { data })
+}
+
+// 学校咨询-申请服务
+export const consultingApplyService = (data) => { // {"serviceUserId": 0}
+  return  httpAPI('/app/consulting/apply-service', { data })
+}
+
+// 学校咨询-通过与拒绝
+export const consultingOperation = (data) => {
+  return  httpAPI('/app/consulting/operation-consulting', { data })
+}
+
+// 学校咨询-完成
+export const consultingComplete = (data) => {
+  return  httpAPI('/app/consulting/consulting-complete', { data })
+}

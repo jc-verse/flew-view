@@ -88,3 +88,9 @@ export const bsToStrFn = (arr = []) => {
     return `${year} ${name}`
   });
 }
+
+export  function setStorage (obj) {
+  for (const key in obj) {
+    uni.setStorage({ key , data: obj[key] })
+  }
+}

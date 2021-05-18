@@ -9,7 +9,7 @@
       <!-- 经历 -->
       <div class="center">
         <join-list title='比赛经历' :list='bList'/>
-        <join-list title='个人留言' :value='infoData.personalMessage || ""' type='text'/>
+        <join-list title='个人留言' :value='infoData.personalMessage || "暂无留言"' type='text'/>
       </div>
     </div>
 
@@ -26,7 +26,6 @@ import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import TipPopup from '@/components/cards/tipPopup';
 import { bsToStrFn } from '@/common/utils';
-
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, CrewInfo, TipPopup },
@@ -43,9 +42,6 @@ export default {
   data () {
     return {
       type: 1,
-      info: '',
-      showList: false,
-      showInfo: false
     }
   },
   computed : {
@@ -75,9 +71,6 @@ export default {
     }
   },
   methods:{
-    clickDown () {
-      this.showList = !this.showList
-    },
     // 点击组队申请！
     clickBuoy (type) {
       this.type = type;

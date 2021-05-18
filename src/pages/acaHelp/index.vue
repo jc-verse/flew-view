@@ -6,8 +6,13 @@
       <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
-          <template>
-            <group-item v-for="(item, ind) in cardList" :infoData='item' :key='ind' @clickBuoy='clickBuoy' @clickItem='clickItem'/>
+          <template v-if="cardList.length">
+            <group-item v-for="(item, ind) in cardList" :infoData='item' :key='ind' @clickBuoy='clickBuoy' @clickItem='clickItem(item)'/>
+          </template>
+          <template v-else>
+            <div class="noList">
+              暂无学术帮助！
+            </div>
           </template>
         </div>
       </scroll-box>
@@ -52,8 +57,10 @@ export default {
     changeVal(val){
       this.searchVal = val
     },
-    clickItem() {
+    clickItem(item) {
+      uni.setStorage({ key: 'helpInfo' , data: item })
       uni.navigateTo({ url: '/pages/detailInfo/index' })
+
     },
     // 列表查询
     getList() {
@@ -122,9 +129,17 @@ export default {
     flex-direction: column;
     padding: 20rpx 30rpx;
     box-sizing: border-box;
+    min-height: 100%;
     .list_tip{
       padding-bottom: 20rpx;
       @include fontMixin(24rpx, #6d6c6c)
+    }
+    .noList{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color:#ada9a9;
     }
   }
 }

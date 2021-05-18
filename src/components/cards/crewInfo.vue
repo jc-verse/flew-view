@@ -1,5 +1,5 @@
 <template>
-  <div class="crew_info" >
+  <div class="crew_info" :style='{background: styles.background || "#F7F7F7"}'>
     <infoHead :infoData='info' headStyles='width:64rpx;height: 64rpx' styles='font-size: 30rpx'/>
     <information :topList='tops'/>
   </div>
@@ -14,6 +14,10 @@ export default {
   props: {
     info: {
       type:Object,
+      default: ()=> ({})
+    },
+    styles: {
+      type: Object,
       default: ()=> ({})
     }
   },
@@ -35,9 +39,9 @@ export default {
 <style lang="scss" scoped>
 .crew_info{
   margin-bottom: 10rpx;
-  div{  margin-right: 10rpx; };
   background: #F7F7F7;
   border-radius: 4px;
   padding: 20rpx;
+  div{  margin-right: 10rpx; };
 }
 </style>

@@ -13,7 +13,8 @@
         <div class="user_info">
           <div class="user_name_level">
             <span class="name">
-              <open-data type="userNickName" ></open-data>
+              {{userData.nikeName || ''}}
+              <open-data v-if="!userData.nikeName" type="userNickName" ></open-data>
             </span>
             <span class="level">
               <Rate :size="18" :value="userData.star  || 0" :max="5" :readonly='true'></Rate>
@@ -113,6 +114,11 @@ import {
   userInfoOperationMatch, //完成，和关闭组队
   userInfoExitTeam, //退出组队
   academicOperationAcademic, //学术帮助-接收、拒接
+  academicAcademicComplete, // 学术帮助-完成
+  academicEvaluate,// 学术帮助-评价
+
+  consultingOperation, // 学校咨询--接收、拒接
+  consultingComplete, //学校咨询-接收、拒接
 } from '@/common/api';
 
 const requests = {
@@ -283,6 +289,21 @@ export default {
         }
       }).catch(err => {console.log(err)})
     },
+    // 学校咨询-接受/拒绝申请
+    consultingOperation (type, id) {
+      const params = { type, userRelationshipId: id };
+      console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
+      consultingOperation(params).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success) {
+          uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
+          this.initForm();
+        } else {
+          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+        }
+      }).catch(err => {console.log(err)})
+    },
     // 退出组队
     userInfoExitTeam (id) {
       const params = { userRelationshipId: id }
@@ -311,10 +332,49 @@ export default {
           } else {
             uni.showToast({title: `${status == 1 ? '关闭组队' : '开启组队'}成功！`})
           }
-          uni.showToast({title: '取消成功！'})
           this.initForm();
         } else {
           uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 学术帮助-完成
+    academicAcademicComplete (id) {
+      academicAcademicComplete({ userRelationshipId:id }).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success) {
+          uni.showToast({title: '完成！'})
+          this.initForm();
+        } else {
+          uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 学术帮助-评价
+    academicEvaluate(params) {
+      console.log('我是评价参数：', JSON.stringify(params))
+      academicEvaluate(params).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success) {
+          uni.showToast({title: '评价成功！'})
+          this.initForm();
+        } else {
+          uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 学校咨询-完成
+    consultingComplete (id) {
+      consultingComplete({ userRelationshipId:id }).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        if (code === 200 && success) {
+          uni.showToast({title: '完成！'})
+          this.initForm();
+        } else {
+          uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
         }
       }).catch(err => {console.log(err)})
     },
@@ -331,6 +391,8 @@ export default {
             this.userInfoPower(1, userRelationshipId)
           } else if (type == 2) { // 学术帮助
             this.academicOperationAcademic(1, userRelationshipId)
+          } else if (type == 3) {
+            this.consultingOperation(1, userRelationshipId)
           }
           break;
         case 3: // 拒绝
@@ -339,6 +401,8 @@ export default {
             this.userInfoPower(2, userRelationshipId)
           } else if (type == 2) {
             this.academicOperationAcademic(2, userRelationshipId)
+          } else if (type == 3) {
+            this.consultingOperation(2, userRelationshipId)
           }
           break;
         case 4: // 退出组队
@@ -347,7 +411,13 @@ export default {
           break;
         case 5: // 完成
           console.log('完成',data)
-          this.userInfoOperationMatch(userRelationshipId, 1, 0)
+          if (type == 1) {
+            this.userInfoOperationMatch(userRelationshipId, 1, 0)
+          } else if (type == 2) {
+            this.academicAcademicComplete(userRelationshipId)
+          } else if (type == 3) {
+            this.consultingComplete(userRelationshipId)
+          }
           break;
         case 6: // 关闭组队
           console.log('关闭组队',data)
@@ -364,6 +434,11 @@ export default {
           break;
         case 9: // 评价
           console.log('评价',data, rates)
+          const params = {
+            relationshipId: userRelationshipId,
+            ...rates
+          }
+          this.academicEvaluate(params)
           // this.userInfoOperationMatch(data, 1)
           break;
       

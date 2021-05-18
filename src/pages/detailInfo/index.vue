@@ -4,18 +4,14 @@
     <scroll-box>
       <div class="content_box">
         <div class="top">
-          <infoHead :iconFilter='iconFilter' :showGender='false'/>
+          <infoHead :infoData='cardInfo' :showGender='false'/>
           <!-- 个人信息 -->
-          <information :topList='topList'/>
+          <information :topList='tops'/>
         </div>
         <div class="center">
-          <join-list title='比赛经历' :list='cList'/>
-          <join-list title='比赛经历' :list='tagList' type='diy'>
-            <div class="tags" slot='diy' >
-              <div class="tag" v-for='(ite,ind) in tagList' :key='ind'>{{ite || ''}}</div>
-            </div>
-          </join-list>
-          <join-list title='个人留言' value='留言士大夫士大夫' :list='cList' type='text'/>
+          <join-list title='比赛经历' :list='bList'/>
+          <join-list title='专用方向' :value='cardInfo.professionalDirection' v-if="cardInfo.professionalDirection" type='text' ></join-list>
+          <join-list title='个人留言' :value='cardInfo.personalMessage' v-if="cardInfo.personalMessage" type='text'/>
         </div>
         <div class="bottom">
           <div class="headline">{{ `一对一指导需要收取一定费用哦` }}</div>
@@ -46,6 +42,7 @@ import bottomLogo from "@/components/bottomLogo";
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import joinList from '@/components/cards/joinList';
+import { topListFn, bsToStrFn } from './units'
 export default {
   name:'detail_info',
   components: { 
@@ -62,30 +59,27 @@ export default {
     return {
       show: false,
       index: 0,
-      isH5: false,
-      genders: {
-        'nan':{ icon:'iconxingbie-nan', id: '1', name:'某某男', value: '' },
-        'nv': { icon:'iconxingbie-nv', id: '2', name:'某某女' , value: 'nv'}
-      },
-      topList: [
-        { title: '学校', val: '世界联合学院', id: 1 }, 
-        { title: '年纪', val: '10', id: 2 }, 
-        { title: '标化', val: '我是标化成绩范围18字符', id: 3 }, 
-        { title: '课程', val: 'ALEVEL', id: 4 }, 
-      ],
-      cList: [ '2020 NSDA最佳辩手', '2020 NSHDLC 全程最佳辩手', '2020 AIME 全球前百分之一' ],
-      tagList: [ 'NECIEO', 'AIME',  'NECIEO', 'AIME', 'NECIEO', 'AIME', 'NECIEO', 'AIME', 'NECIEO', 'AIME', ],
+      cardInfo: {}
     }
   },
   computed : {
-    iconFilter () {
-      return this.genders['nv']
-    }
+    tops() {
+      return topListFn(this.cardInfo)
+    },
+    bList() {
+      const { competitionExperience  } = this.cardInfo;
+      const arr = bsToStrFn(competitionExperience);
+      return arr;
+    },
   },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
+  onShow () {
+    const this_ = this
+    uni.getStorage({key: 'helpInfo', success:(res) => {
+      const {errMsg, data} = res;
+      if (/ok/.test(errMsg) && data) {
+          this_.cardInfo = data
+        }
+    }})
   },
   methods : {
   },

@@ -8,13 +8,12 @@
       <information :topList='tops'/>
       <!-- 经历 -->
       <div class="center">
-        <!-- <join-list title='比赛经历' :list='bList'/> -->
-        <join-list title='个人留言' v-if="infoData.personalMessage" :value='infoData.personalMessage || ""' type='text'/>
+        <join-list title='个人留言' :value='infoData.personalMessage || "暂无留言"' type='text'/>
       </div>
     </div>
 
-    <div class="buoy" @click="clickBuoy"> 申请服务 </div>
-    <div class="evaluate">评价</div>
+    <div class="buoy" v-if="userId != infoData.id"  @click.stop="clickBuoy(1)"> 申请服务 </div>
+    <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
   </div>
 </template>
 
@@ -23,10 +22,11 @@ import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
-import { bsToStrFn } from '@/common/utils'
+import TipPopup from '@/components/cards/tipPopup';
+import { bsToStrFn } from '@/common/utils';
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, CrewInfo },
+  components: { infoHead, information, joinList, CrewInfo, TipPopup },
   props: {
     infoData: {
       type: Object,
@@ -35,13 +35,15 @@ export default {
     totalList:{
       type: Array,
       default: ()=>[]
+    },
+    userId: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
-      info: '',
-      showList: false,
-      showInfo: false
+      type: 1,
     }
   },
   computed : {
@@ -63,22 +65,18 @@ export default {
       const arr = bsToStrFn(competitionExperience);
       return arr;
     },
-    tags() {
-      const { totalList, infoData } = this;
-      const { match, matchList } = infoData || {};
-      const arr = (matchList || '').split(',');
-      return arr
-    }
   },
   methods:{
-    clickDown () {
-      this.showList = !this.showList
-    },
-    // 点击组队申请！
+    // 点击服务申请！
     clickBuoy (type) {
-      console.log('点击组队申请！')
-      // this.$emit('clickBuoy', type)
-    }
+      this.type = type;
+      this.$refs.tipPopup.show()
+    },
+    // 点击确定
+    confirm () {
+      const { type } = this
+      this.$emit('clickBuoy', type, this.infoData)
+    },
   }
 
 }

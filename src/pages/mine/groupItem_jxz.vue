@@ -14,7 +14,7 @@
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
         <!-- 团队成员信息 -->
-        <CrewInfo :info='ite' v-for="(ite, ind) in cardStatu.slaves" :key='ind' v-show="showInfo"/>
+        <CrewInfo :styles='{background: "auto"}' :info='ite' v-for="(ite, ind) in cardStatu.slaves" :key='ind' v-show="showInfo"/>
       </div>
     </div>
     <div class="btn_box">
@@ -50,7 +50,7 @@ const popups = {
 }
 function filterSFn (val, userId) {
   const { type, matchName, nikeName, id, isOrganize, academic, slave } = val;
-  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slaves: [] } // 1 比赛经历  2个人留言  3 希望参加
+  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slavelist: [] } // 1 比赛经历  2个人留言  3 希望参加
   console.log('我是用户id：'+userId, ';我是队长Id：'+ id, `;我是不是队长：${userId == id?'是' : '不是'}`)
   console.log('【119】是卡片的全部数据')
   console.log(119, val)
@@ -69,22 +69,23 @@ function filterSFn (val, userId) {
       obj.title = `竞赛组队:${matchName}`;
       obj.showInfo = [4]
     }
-    obj.slaves = slave || []
-  } else if (type == 2) {
-    if (userId == academic.id) {
-      obj.title = `学术帮助: 向${nikeName}提出学术帮助申请`
-      obj.showTask = true;
+    obj.slavelist = slave || [];
+  } else if (type == 2) { // 学术
+    if (userId == academic.id) { // 申请人
+      obj.title = `学术帮助: 向${nikeName}提出学术帮助`
       obj.showInfo = [8];
-    } else {
-      obj.title = `学术帮助: ${nikeName}向我提出学术帮助申请` //：
+    } else { // 队长
+      obj.title = `学术帮助: ${academic.nikeName}向我提出学术帮助` //：
+      obj.showTask = true;
+      obj.showInfo = [5];
     }
   } else if (type == 3) {
-    if (userId == id) {
-      obj.title = `学校咨询`
+    if (userId == id) { // 被申请人
+      obj.title = `学校咨询: ${academic.nikeName}向我提出学校咨询`
       obj.showTask = true;
       obj.showInfo = [5]
     } else {
-      obj.title = `学校咨询` // ：我向${nikeName}提出学校咨询
+      obj.title = `学校咨询: 向${nikeName}提出学校咨询` // ：我向${nikeName}提出学校咨询
     }
   }
   return obj
@@ -125,12 +126,22 @@ export default {
     },
     cardInfo () {
       const { infoData, userId } = this;
-      const { academic, id } = infoData
-      if (academic.id == id) { // 判断是否为队员
+      const { academic, id, type } = infoData
+      if (type == 1) {
         return infoData
-      } else {
-        return academic
-      } 
+      } else  if (type == 2) {
+        if (academic.id == userId) { // 判断是否为队员
+          return infoData
+        } else {
+          return academic
+        } 
+      } else if (type == 3) {
+        if (id == userId) { // 判断是否为队长
+          return academic
+        } else {
+          return infoData
+        }
+      }
     },
   },
   methods:{
@@ -158,6 +169,7 @@ export default {
   padding: 40rpx 30rpx;
   margin-bottom: 20rpx;
   position: relative;
+  overflow: hidden;
 
   .event_tip{
     position: absolute;
@@ -258,52 +270,6 @@ export default {
     }
   }
 }
-.tip_box{
-  width: 500rpx;
-  // height: 300rpx;
-  background: #ffffff;
-  position: absolute;
-  top:50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 101;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 20rpx;
-  .title{
-    padding: 20rpx;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-    // border-bottom: 1px solid #f5f5f5;
-  }
-  .msg{
-    padding: 10rpx;
-    min-height: 80rpx;
-    width: 100%;
-    text-align: center;
-  }
-  .btns{
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    padding: 10rpx 0 20rpx;
-    .yes, .no{
-      text-align: center;
-      border-radius: 30rpx;
-      border: 1px solid rgba(92, 134, 242, 0.2);
-      width: 150rpx;
-      padding: 10rpx;
-    }
-    .yes{
-      background: rgba(92, 134, 242, 0.2);
-      color: #5C86F2
-    };
-    .no{
-      border-color: auto;
-    }
-  }
-}
+
 
 </style>

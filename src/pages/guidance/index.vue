@@ -19,11 +19,7 @@
 import bottomLogo from "@/components/bottomLogo";
 import pageSj from '@/components/pageSjNew';
 import { jscode2session, login } from '@/common/api';
-function setStorage (obj) {
-  for (const key in obj) {
-    uni.setStorage({ key , data: obj[key] })
-  }
-}
+import { setStorage } from '@/common/utils';
 
 export default {
   name:'guidance',

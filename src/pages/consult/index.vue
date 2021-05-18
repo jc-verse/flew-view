@@ -5,9 +5,9 @@
       <tag-group ></tag-group>
       <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
-          <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
+          <div class='list_tip' v-show='searchVal'>搜索到{{cardList.length || 0}}个关于“{{searchVal}}”的信息</div>
           <template>
-            <group-item v-for="(item, ind) in cardList" :infoData='item' :key='ind' @clickItem='clickItem'/>
+            <group-item v-for="(item, ind) in cardList" :userId='userId' :infoData='item' :key='ind'  @clickBuoy='clickBuoy'/>
           </template>
         </div>
       </scroll-box>
@@ -24,7 +24,8 @@ import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
-import { academicHelpList } from '@/common/api';
+import { consultingList, consultingApplyService } from '@/common/api';
+
 export default {
   name:'consult',
   components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj },
@@ -36,10 +37,19 @@ export default {
       current: 1,
       size: 10,
       noConcat: false,
+      userId: ''
     }
   },
   onShow() {
-    this.academicHelpList();
+    this.getInfo();
+    uni.getStorage({key: 'userId',
+      success:(res)=>{
+        const {data, errMsg} = res;
+        if (/ok/.test(errMsg)) {
+          this.userId = data;
+        }
+      }
+    })
   },
   methods : {
     initFotm () {
@@ -52,12 +62,12 @@ export default {
       this.searchVal = val
     },
     clickItem() {
-      uni.navigateTo({ url: '/pages/detailInfo/index' })
+      // uni.navigateTo({ url: '/pages/detailInfo/index' })
     },
-    academicHelpList() {
+    getInfo() {
       const { current, size } = this;
       const params = { current, size };
-      academicHelpList(params).then(res => {
+      consultingList(params).then(res => {
         const {data: nData} = res[1];
         const { code, data } = nData || {};
         if (code === 200) {
@@ -75,9 +85,36 @@ export default {
         }
       })
     },
+    consultingApplyService (id) {
+      consultingApplyService({ serviceUserId: id }).then(res => {
+        const {data: nData} = res[1];
+        const { code, data, success, msg } = nData || {};
+        if (code === 200 && success) {
+          uni.showToast({title: '申请成功！'})
+        } else {
+          uni.showToast({title:msg, icon:'none' })
+        }
+      })
+    },
     lower() {
       if (this.noConcat) return ;
       this.getInfo();
+    },
+    // 点击卡片Btn
+    clickBuoy (type, data) {
+      console.log(12222, type, data)
+      const { id } = data
+      switch (type) {
+        case 1: // 申请服务
+          this.consultingApplyService(id)
+          break;
+        // case 2: // 评价
+        //   console.log('评价')
+          break;
+      
+        default:
+          break;
+      }
     }
   },
 }

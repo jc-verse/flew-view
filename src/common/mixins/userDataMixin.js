@@ -1,4 +1,5 @@
 import { userCardInfo } from '@/common/api';
+import { setStorage } from '@/common/utils';
 const isObject = (val) => {
   return  Object.prototype.toString.call(val) === "[object Object]"
 }
@@ -10,6 +11,7 @@ export default {
   },
   onShow() {
     const obj = getApp().globalData.userData;
+    console.log(122200, obj)
     const keys = Object.keys(obj)
     if (isObject(obj) && keys.length) {
       console.log(222, obj)
@@ -39,6 +41,8 @@ export default {
           // }
           data.wxCode = data.wxNum || '';
           data.name = data.userName || '';
+          console.log(12233, data)
+          setStorage({userId: data.id})
           this.userData = {...data} || {};
         }
       }).catch(err => {console.log(err)})

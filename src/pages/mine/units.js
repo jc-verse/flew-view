@@ -7,80 +7,128 @@ const colors = {
 }
 // 状态筛选
 export const statusScreen = (infoData, userId) => {
-  const { type, matchName, nikeName, slaves, id, matchType  } = infoData;
-  console.log('我是用户id：'+userId, '我是队长Id：'+ slaves.id,'我是申请人id:'+ id, '我是不是队长：'+ userId == slaves.id?'是' : '不是')
+  const { type, matchName, nikeName, slaves, id, matchType, academicEvaluate  } = infoData;
+  console.log('我是用户id：'+userId, '我是申请人Id：'+ slaves.id,'我是被申请人id:'+ id, '我是不是队长：'+ userId == id?'是' : '不是')
   console.log('【119】是卡片的全部数据')
   console.log(119, infoData)
   const statuInfo = {
     title: '',
     tip: '',
-    btnCode: '',  // 8  联系客服 ; 9 评价 
+    btnCode: '',  
     bgColor: colors[type] || 'rgba(211,247,244,1)',
-    showInfo: []
+    showInfo: [],// 8  联系客服 ; 9 评价 
+    showSlaveList: false,
+    cardInfo: infoData
   };
-  if (userId == id) { // 申请人
-    if (type == 1) {
-      statuInfo.title = `竞赛组队：向${slaves.nikeName}发起${slaves.matchName}的竞赛组队`
-    } else if (type == 2) {
-      statuInfo.title = `学术帮助：向${slaves.nikeName}发起学术帮助申请`
-    } else if (type == 3) {
-      statuInfo.title = `学校咨询：向${slaves.nikeName}发起学校咨询申请`
+  
+
+  if (type == 1) {
+    if (userId == id) { //被申请人
+      statuInfo.title = `竞赛组队：${slaves.nikeName}向我发起${matchName}的竞赛组队`
+      statuInfo.cardInfo = slaves
+      switch (matchType) {
+        case 3:
+          statuInfo.tip = `你拒绝了${slaves.nikeName}的申请`
+          break;
+        case 4:
+          statuInfo.tip = `${slaves.nikeName}的申请已取消`
+          break;
+        case 5:
+          statuInfo.title = `竞赛组队：${matchName}`
+          statuInfo.tip = `队伍已经完成组队`;
+          statuInfo.showSlaveList = true;
+          statuInfo.cardInfo = infoData
+          break;
+        case 6:
+          statuInfo.tip = `${slaves.nikeName}已退出组队`
+          break;
+        default:
+          break;
+      }
+    } else {
+      statuInfo.title = `竞赛组队：向${nikeName}发起${matchName}的竞赛组队`;
+      switch (matchType) {
+        case 3:
+          statuInfo.tip = `你的申请已被${nikeName}拒绝`
+          break;
+        case 4:
+          statuInfo.tip = `你的申请已取消`
+          break;
+        case 5:
+          statuInfo.title = `竞赛组队：${matchName}`;
+          statuInfo.tip = `队伍已经完成组队`;
+          statuInfo.showSlaveList = true;
+          statuInfo.cardInfo = infoData
+          break;
+        case 6:
+          statuInfo.tip = `你已退出组队`;
+          break;
+        default:
+          break;
+      }
     }
-    switch (matchType) {
-      case 1:
-        statuInfo.tip = `你的申请待${slaves.nikeName}处理`
-        break;
-      case 2:
-        statuInfo.tip = `你的申请已审批通过`;
-        statuInfo.showInfo= [8]
-        break;
-      case 3:
-        statuInfo.tip = `你的申请已被${slaves.nikeName}拒绝`
-        break;
-      case 4:
-        statuInfo.tip = `你的申请已取消`
-        break;
-      case 5:
-        statuInfo.tip = `你的申请已完成`;
-        statuInfo.showInfo= [9]
-        break;
-      case 6:
-        statuInfo.tip = `你的已退出组队`;
-        break;
-      default:
-        break;
+  } else if (type == 2) {
+    if (userId == id) { //被申请人
+      statuInfo.title = `学术帮助：${slaves.nikeName}向我提交学术帮助申请`;
+      statuInfo.cardInfo = slaves
+      switch (matchType) {
+        case 3:
+          statuInfo.tip = `你拒绝了${slaves.nikeName}的学术帮助申请`
+          break;
+        case 5:
+          statuInfo.tip = `已经完成${slaves.nikeName}的学术帮助`;
+          break;
+        default:
+          break;
+      }
+    } else {
+      statuInfo.title = `学术帮助：向${nikeName}发起学术帮助申请`
+      switch (matchType) {
+        case 3:
+          statuInfo.tip = `你的申请已被${nikeName}拒绝`
+          break;
+        case 5:
+          statuInfo.tip = `您的申请已经完成`;
+          if (academicEvaluate == 2) {
+            statuInfo.showInfo = [9];
+          }
+          break;
+        default:
+          break;
+      }
     }
-  } else if (userId == slaves.id) { //队长
-    if (type == 1) {
-      statuInfo.title = `竞赛组队：${nikeName}向我发起${matchName}的竞赛组队`
-    } else if (type == 2) {
-      statuInfo.title = `学术帮助：${nikeName}向我提交学术帮助申请`
-    } else if (type == 3) {
-      statuInfo.title = `学校咨询：${nikeName}向我提交学校咨询申请`
-    }
-    switch (matchType) {
-      case 1:
-        statuInfo.tip = `${nikeName}的申请待处理`
-        break;
-      case 2:
-        statuInfo.tip = `你接受了${nikeName}的申请`
-        break;
-      case 3:
-        statuInfo.tip = `你拒绝了${nikeName}的申请`
-        break;
-      case 4:
-        statuInfo.tip = `${nikeName}的申请已取消`
-        break;
-      case 5:
-        statuInfo.tip = `${nikeName}的申请已完成`
-        break;
-      case 6:
-        statuInfo.tip = `${nikeName}已退出组队`
-        break;
-      default:
-        break;
+  } else if (type == 3) {
+    if (userId == id) { //被申请人
+      statuInfo.title = `学校咨询：${slaves.nikeName}向我提交学校咨询申请`
+      statuInfo.cardInfo = slaves
+      switch (matchType) {
+        case 3:
+          statuInfo.tip = `你拒绝了${slaves.nikeName}的学校咨询申请`
+          break;
+        case 5:
+          statuInfo.tip = `已经完成${slaves.nikeName}的学校咨询`;
+          break;
+        default:
+          break;
+      }
+    } else {
+      statuInfo.title = `学校咨询：向${nikeName}发起学校咨询申请`
+      switch (matchType) {
+        case 3:
+          statuInfo.tip = `你的申请已被${nikeName}拒绝`
+          break;
+        case 5:
+          statuInfo.tip = `您的申请已经完成`;
+          // if (academicEvaluate == 2) {
+          //   statuInfo.showInfo = [9];
+          // }
+          break;
+        default:
+          break;
+      }
     }
   }
+
   return statuInfo
 }
 // 成员拼接

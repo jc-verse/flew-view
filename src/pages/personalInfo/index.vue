@@ -50,7 +50,8 @@ export default {
         { label: '邮箱',   code:'email',     id: '' ,disabled:true ,required: false,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
       ],
       formData: {},
-      headImg: '',
+      // headImg: '',
+      userHead: '',
       systemList: [],
       // userData: {}// mixin中
     }
@@ -63,7 +64,8 @@ export default {
       success:(res)=>{
         const {data, errMsg} = res;
         if (/ok/.test(errMsg)) {
-          this.headImg = data;
+          // this.headImg = data;
+          this.userHead = data
         }
       }
     })
@@ -83,7 +85,13 @@ export default {
     },
     headImg () {
       const { avatar } = this.userData;
-      return `${imgUrl}${avatar}`
+      let url = this.userHead || 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
+      if (/(http|https)/.test(avatar)) {
+        url = avatar;
+      } else if (avatar && avatar !== 'default_img.png') {
+        url = imgUrl + avatar
+      }
+      return url;
     }
     
   },

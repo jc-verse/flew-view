@@ -2,10 +2,19 @@
   <div class="group_info_item" :style='{background: statusInfo.bgColor}'>
 
     <div class="msg_title" :class="[showTitle?'ellipsis': '']" @click="clickTitle">{{ statusInfo.title }}</div>
-    <infoHead :infoData='infoData'/>
+    <infoHead :infoData='statusInfo.cardInfo'/>
     <div class="content">
       <!-- 个人信息 -->
       <information :topList='tops'/>
+      <!-- 团队成员信息 -->
+      <div class="group_infos" v-if='slaveList.length && statusInfo.showSlaveList'>
+        <div class="team_member" @click="showInfo=!showInfo">
+          <div class="left">团队成员：{{slaveList}}</div>
+          <i @click='showList = !showList' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
+        </div>
+        <!-- 团队成员信息 -->
+        <CrewInfo :styles='{background: "rgba(255,255,255,0)"}' :info='ite' v-for="(ite, ind) in infoData.slave" :key='ind' v-show="showInfo"/>
+      </div>
       <!-- 当前状态 -->
       <div class="group_infos">
         <div class="tip_msg">
@@ -40,12 +49,13 @@ import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import Rate from '@/components/cards/rate';
+import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
 import { bsToStrFn, topListFn } from './units';
-import { statusScreen } from './units'
+import { statusScreen, joinName } from './units'
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup, Rate },
+  components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo },
   props: {
     infoData : {
       type:Object,
@@ -60,32 +70,38 @@ export default {
   data () {
     return {
       showTitle: true,
+      showInfo: false,
+      showList: false,
       type: 8,
       rateForm: {
-        knowledge: 3, // 知识水平
-        comprehend : 3, //理解程度
-        efficiency : 3, //授课效率
-        attitude : 3, //讲课态度
+        "dimension1": 3,
+        "dimension2": 3,
+        "dimension3": 3,
+        "dimension4": 3,
       },
+  // "relationshipId": 0
       rateHeads: [
-        { title: '知识水平', value: '', code: 'knowledge' },
-        { title: '理解程度', value: '', code: 'comprehend' },
-        { title: '讲课态度', value: '', code: 'efficiency' },
-        { title: '授课效率', value: '', code: 'attitude' },
+        { title: '知识水平', value: '', code: 'dimension1' },
+        { title: '理解程度', value: '', code: 'dimension2' },
+        { title: '讲课态度', value: '', code: 'dimension3' },
+        { title: '授课效率', value: '', code: 'dimension4' },
       ]
     }
   },
   computed : {
     tops() {
-      const { infoData } = this;
-      const arr = topListFn(infoData);
+      const { statusInfo } = this;
+      const arr = topListFn(statusInfo.cardInfo);
       return arr
     },
     statusInfo() {
       const { userId, infoData } = this;
-      const statuData = statusScreen(infoData, userId)
-      return statuData
-    }
+      return statusScreen(infoData, userId)
+    },
+    slaveList () {
+      const slave = this.infoData.slave || [];
+      return joinName(slave) || ''
+    },
   },
   // mounted() {
   //   this.$refs.popup.show()
@@ -269,6 +285,27 @@ export default {
     @include fontMixin(32rpx, #000, bold);
     .rate_title{
       padding: 10rpx;
+    }
+  }
+}
+.group_infos{
+  border-top: 2rpx solid rgba(0, 0, 0,.1);
+  .team_member{
+    display: flex;
+    @include flex_center;
+    justify-content: space-between;
+    @include fontMixin(30rpx, #676FDF ,400);
+    .left{
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+    }
+    i{ 
+      padding: 24rpx;
+      color: rgba(0, 0, 0, 0.3)
+    }
+    .icon_active{
+      transform: rotate(-90deg);
     }
   }
 }
