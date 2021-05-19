@@ -64,7 +64,7 @@ export default {
     .header_img{
       height: 320rpx;
       width: 100%;
-      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-17.png');
+      @include img_bg('http://prod.qiniucdns.sjreach.cn/web-17.png');
     }
     .text_box{
       padding: 30rpx;

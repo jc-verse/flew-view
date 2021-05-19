@@ -47,6 +47,7 @@
 		}
 		.uni-searchbar__cancel{
 			line-height: 66rpx;
+			z-index: 10;
 		}
 	}
 	.tag_item{

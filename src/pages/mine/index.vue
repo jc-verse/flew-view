@@ -140,11 +140,11 @@ export default {
       actived: '2',
       ReadCount: 0,
       navList: [
-        { label: '申请中', id: '2',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
-        { label: '被申请', id: '1',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-21.png' },
-        { label: '进行中', id: '3',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-18.png' },
-        { label: '发起中', id: '4',   icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-19.png' },
-        { label: '申请记录', id: '5', icon: 'http://qrw69n75w.hn-bkt.clouddn.com/web-20.png' },
+        { label: '申请中', id: '2',   icon: 'http://prod.qiniucdns.sjreach.cn/web-36.png' },
+        { label: '被申请', id: '1',   icon: 'http://prod.qiniucdns.sjreach.cn/web-35.png' },
+        { label: '进行中', id: '3',   icon: 'http://prod.qiniucdns.sjreach.cn/web-18.png' },
+        { label: '发起中', id: '4',   icon: 'http://prod.qiniucdns.sjreach.cn/web-19.png' },
+        { label: '申请记录', id: '5', icon: 'http://prod.qiniucdns.sjreach.cn/web-20.png' },
       ],
 
       cardList: [],
@@ -477,7 +477,7 @@ export default {
     z-index: 5;
     margin: 0 -30rpx;
     padding: 0 30rpx;
-    @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-25.png');
+    @include img_bg('http://prod.qiniucdns.sjreach.cn/web-25.png');
   }
 
   .mine_title_wrap {
@@ -535,7 +535,7 @@ export default {
       height: 44rpx;
       margin-top: 16rpx;
       position: relative;
-      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-24.png');
+      @include img_bg('http://prod.qiniucdns.sjreach.cn/web-24.png');
 
       .target {
         background: #E65A57;

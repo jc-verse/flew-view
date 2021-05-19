@@ -5,7 +5,7 @@
       <div class="title_en" v-if="info.eTitle">{{info.eTitle || ''}}</div>
     </div>
     <div class="r_b">
-      <img src="/static/img1/icon_2.png" alt="">
+      <img :src="info.url || 'http://prod.qiniucdns.sjreach.cn/web-28.png'" alt="">
     </div>
 
     <slot></slot>
@@ -18,6 +18,10 @@ export default {
     info: {
       type: Object,
       default: ()=> ({})
+    }
+  },
+  data () {
+    return {
     }
   },
   mounted() {
@@ -50,7 +54,7 @@ export default {
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 400rpx;
+    width: 690rpx;
     height: 240rpx;
     @include img_fill;
   }

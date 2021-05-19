@@ -85,7 +85,7 @@ export default {
       right: 0;
       bottom: 0;
       // @include img_fill;
-      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-1.png');
+      @include img_bg('http://prod.qiniucdns.sjreach.cn/web-1.png');
     }
     .title_box{
       .title{

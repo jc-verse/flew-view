@@ -136,7 +136,7 @@ export default {
     width: 100%;
     height: 704rpx;
     flex-grow: 0;
-    @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-22.png');
+    @include img_bg('http://prod.qiniucdns.sjreach.cn/web-22.png');
   }
   .btn{
     margin-top: 70rpx;

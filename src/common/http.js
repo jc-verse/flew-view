@@ -1,6 +1,6 @@
 import { joinUrl, getCurPageRoute } from '@/common/utils'
 export const baseUrl = 'http://47.101.54.170:8111/server';
-export const imgUrl = 'http://qrw69n75w.hn-bkt.clouddn.com/';
+export const imgUrl = 'http://prod.qiniucdns.sjreach.cn/';
 const headerOptions = {
   'POST': {
     'Accept': 'application/json',

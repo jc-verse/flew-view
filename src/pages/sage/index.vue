@@ -72,16 +72,18 @@ export default {
     newBg () {
       const { menuType, headMsg } = this;
       const data = { ...bgColors[menuType], ...headMsg };
+      console.log(88, bgColors, menuType, headMsg, data)
       return data;
     }
   },
   onShow() {
-    const { englishName, matchName, id, title } = (getCurPage() || {})
+    const { englishName, matchName, id, title, menuType } = (getCurPage() || {})
     this.headMsg ={
       title: matchName || '',
       eTitle: englishName || ''
     }
-    this.menuType = id || 0;
+    console.log(199,  id,)
+    this.menuType = menuType || 0;
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
     this.initInfo();

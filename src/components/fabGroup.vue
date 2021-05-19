@@ -1,9 +1,13 @@
 <template>
-  <div class="fab_group">
-    <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click="clickFn(ind, item)">
-      <i @click="clickFn" :class="['iconfont','icon_item', item.icon ]"></i>
-    </div>
-  </div>
+  <movable-area  class="movable_box" >
+      <movable-view class="max" direction="vertical" :y='450' inertia :damping='50'>
+        <div class="fab_group" @mousedown="onmousedown">
+          <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click.stop="clickFn(ind, item)" @mousedown="onmousedown" @mouseup="onmouseup">
+            <i  :class="['iconfont','icon_item', item.icon ]"></i>
+          </div>
+        </div>
+      </movable-view>
+    </movable-area>
 </template>
 <script>
 import { uniFab } from '@dcloudio/uni-ui'
@@ -40,17 +44,17 @@ export default {
           uni.navigateTo({ url: '/pages/home/index' })
           break;
       }
-    }
+    },
+    
   }
 }
 </script>
 <style lang="scss" scoped>
 @import url("/static/fonts/iconfont.css");
 .fab_group{
-  position: fixed;
-  right: 0;
-  bottom: 120rpx;
-  z-index: 10;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   .fab{
     width: 96rpx;
     height: 80rpx;
@@ -68,4 +72,20 @@ export default {
     margin-top: 20rpx;
   }
 }
+
+.movable_box{
+  position: fixed;
+  right: 0;
+  top: 0;
+  // width: 20px;
+  height: 100vh;
+  width: 96rpx;
+  .max{
+    // width: 10px;
+    height: 310rpx;
+    width: 96rpx;
+    // background: red;
+  }
+}
+
 </style>

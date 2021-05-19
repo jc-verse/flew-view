@@ -1,11 +1,11 @@
 export const bgColors = {
-  '1': { lable: '经济与商业' , code: '', color: '#5E5BAE',  url: '', },
-  '2': { lable: 'SAGE' , code: '', color: '#568CD2',  url: '', },
-  '3': { lable: '人文学科' , code: '', color: '#4C9FBF',  url: '' },
-  '4': { lable: '混合科学' , code: '', color: '#4CBABF',  url: '' },
-  '5': { lable: '辩论与演讲' , code: '', color: '#667CD3',  url: '' },
-  '6': { lable: '艺术' , code: '', color: '#75B79B',  url: '' },
-  '7': { lable: '其他竞赛' , code: '', color: '#8B6DA9',  url: '' },
+  '1': { lable: '经济与商业' , code: '', color: '#5E5BAE',  url: 'http://prod.qiniucdns.sjreach.cn/web-31.png', },
+  '2': { lable: 'STEM' , code: '', color: '#568CD2',  url: 'http://prod.qiniucdns.sjreach.cn/web-32.png', },
+  '3': { lable: '人文学科' , code: '', color: '#4C9FBF',  url: 'http://prod.qiniucdns.sjreach.cn/web-30.png' },
+  '4': { lable: '混合科学' , code: '', color: '#4CBABF',  url: 'http://prod.qiniucdns.sjreach.cn/web-29.png' },
+  '5': { lable: '辩论与演讲' , code: '', color: '#667CD3',  url: 'http://prod.qiniucdns.sjreach.cn/web-34.png' },
+  '6': { lable: '艺术' , code: '', color: '#75B79B',  url: 'http://prod.qiniucdns.sjreach.cn/web-33.png' },
+  '7': { lable: '其他竞赛' , code: '', color: '#8B6DA9',  url: 'http://prod.qiniucdns.sjreach.cn/web-28.png' },
 }
 
 export const demoData = [
@@ -57,7 +57,7 @@ export const demoData = [
           "organizeTypeSonMatchId":74
         }],
         "admission":"",
-        "curriculumSystemAuthUrl":"http://qrw69n75w.hn-bkt.clouddn.com/upload/20210504/ace81727bc90eb04da43976c679e1adb.jpeg","curriculumSystemAuthUrlList":["http://qrw69n75w.hn-bkt.clouddn.com/upload/20210504/ace81727bc90eb04da43976c679e1adb.jpeg"
+        "curriculumSystemAuthUrl":"http://prod.qiniucdns.sjreach.cn/upload/20210504/ace81727bc90eb04da43976c679e1adb.jpeg","curriculumSystemAuthUrlList":["http://prod.qiniucdns.sjreach.cn/upload/20210504/ace81727bc90eb04da43976c679e1adb.jpeg"
       ]},
       {
         "avatar":"default_img.png",
@@ -107,7 +107,7 @@ export const demoData = [
               "organizeTypeSonMatchId":74
             }],
             "admission":"",
-            "curriculumSystemAuthUrl":"http://qrw69n75w.hn-bkt.clouddn.com/upload/20210504/ace81727bc90eb04da43976c679e1adb.jpeg","curriculumSystemAuthUrlList":["http://qrw69n75w.hn-bkt.clouddn.com/upload/20210504/ace81727bc90eb04da43976c679e1adb.jpeg"
+            "curriculumSystemAuthUrl":"http://prod.qiniucdns.sjreach.cn/upload/20210504/ace81727bc90eb04da43976c679e1adb.jpeg","curriculumSystemAuthUrlList":["http://prod.qiniucdns.sjreach.cn/upload/20210504/ace81727bc90eb04da43976c679e1adb.jpeg"
           ]}
 ]
 

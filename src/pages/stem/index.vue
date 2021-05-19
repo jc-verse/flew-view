@@ -23,12 +23,12 @@
         <template v-else>
           <scroll-box style="width: 100%;">
             <div class="right_box">
-              <div class="card_item" v-for="(item, index) in searchCards" :key='index' @click="clickCardItem(item)">
+              <div class="card_item" v-for="(item, index) in newCards" :key='index' @click="clickCardItem(item)">
                 <div class="card_l">
                   <img :src="item.url || defalutImg" alt="">
                 </div>
                 <div class="card_r">
-                  <div>{{item.label || ''}}</div>
+                  <div>{{item.matchName || ''}}</div>
                   <div>{{item.englishName || ''}}</div>
                 </div>
               </div>
@@ -94,37 +94,37 @@ export default {
       }) || []
       return cards
     },
-    searchCards() {
-      const { searchValue, searchCardList } = this;
-      const arr = searchCardList.filter(item => item.label.includes(searchValue)).map(item => {
-        return {
-          ...item,
-          label: item.matchName,
-          url: item.icon ? imgUrl +  item.icon: ''
-        }
-      })
-      console.log(9238,arr )
-      return arr;
-    },
-    searchCardList () {//  当前大类下的所有三级菜单
-      const { totalList, menuType } = this;
-      console.log(99967, totalList, menuType)
-      let arr = []; // 获取二级菜单
-      let list = []; // 存放三级菜单
-      if (totalList.length) {
-        const obj = totalList.find(item => item.id == menuType) || {};
-        arr = obj.children || [];
-      }
+    // searchCards() {
+    //   const { searchValue, searchCardList } = this;
+    //   const arr = searchCardList.filter(item => item.label.includes(searchValue)).map(item => {
+    //     return {
+    //       ...item,
+    //       label: item.matchName,
+    //       url: item.icon ? imgUrl +  item.icon: ''
+    //     }
+    //   })
+    //   console.log(9238,arr )
+    //   return arr;
+    // },
+    // searchCardList () {//  当前大类下的所有三级菜单
+    //   const { totalList, menuType } = this;
+    //   console.log(99967, totalList, menuType)
+    //   let arr = []; // 获取二级菜单
+    //   let list = []; // 存放三级菜单
+    //   if (totalList.length) {
+    //     const obj = totalList.find(item => item.id == menuType) || {};
+    //     arr = obj.children || [];
+    //   }
 
-      if (arr.length) { // 整合三级菜单
-        arr.forEach(item => {
-          if (item.children && Array.isArray(item.children)) {
-            list = [...list, ...item.children];
-          }
-        })
-      }
-      return list;
-    }
+    //   if (arr.length) { // 整合三级菜单
+    //     arr.forEach(item => {
+    //       if (item.children && Array.isArray(item.children)) {
+    //         list = [...list, ...item.children];
+    //       }
+    //     })
+    //   }
+    //   return list;
+    // }
   },
   mounted () {
     /*获取当前路由*/
@@ -148,12 +148,13 @@ export default {
       }).catch(err => {console.log(err)})
     },
     getCardList (id) {
-      const { current, size, tabIndex, tabs  } = this;
+      const { current, size, tabIndex, tabs, searchValue  } = this;
       if (!tabs.length) {return}
       const params = {
         current,
         organizeTypeSonId: id || tabs[tabIndex].id,
-        size
+        size,
+        keyword: searchValue || ''
       }
       teamTypeCompetition(params).then(res=> {
         const { data:nData } = res[1];
@@ -171,13 +172,18 @@ export default {
       }).catch(err => {console.log(err)})
     },
     search(value) {
-      this.searchValue = value;
-      console.log(1,value)
+      if (this.searchValue !== value) {
+        this.cards = [];
+        this.current = 1;
+        this.noConcat = false;
+        this.searchValue = value;
+        this.getCardList();
+      }
     },
     // 点击右侧卡片
     clickCardItem(item){
       const { title, menuType } = this;
-      const query = { ...item, title  } //id: menuType
+      const query = { ...item, title, menuType  } //id: menuType
       this.$refs.search.value = '';
       uni.navigateTo({ url: joinUrl('/pages/sage/index', query) })
     },

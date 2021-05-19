@@ -1,6 +1,7 @@
 <template>
   <page-sj >
     <div class="home_box">
+    
       <header class="header">
         <info-head  headStyles='width: 80rpx;height: 80rpx;' :infoData='userData' :isUser='false'>
           <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>
@@ -62,10 +63,13 @@
         </div>
         
         <!-- 底部logo -->
+        
+            
         <bottom-logo/>
       </scroll-box>
 
     </div>
+    
     <FabGroup :shows='[1]'/>
   </page-sj>
 </template>
@@ -173,6 +177,7 @@ export default {
     flex-grow: 0;
     flex-shrink: 0;
     box-sizing: border-box;
+    z-index: 10;
     .name{
       @include fontMixin(26rpx, #485B89, 500)
     }
@@ -180,6 +185,7 @@ export default {
   .icon_item{
     // display: inline-block;
     // transform: rotate(-90deg);
+    z-index: 100;
     font-size: 40rpx;
   }
   .dS{
@@ -208,7 +214,7 @@ export default {
           border-radius: 12px;
           padding: 15% 0 0 20rpx;
           box-sizing: border-box;
-          @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-6.png');
+          @include img_bg('http://prod.qiniucdns.sjreach.cn/web-6.png');
           // @include img_bg('@/static/img1/bg_6.png');
           .title_msg{
             .title{
@@ -226,7 +232,7 @@ export default {
           right: -10rpx;
           width: 566rpx;
           height: 400rpx;
-          @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-1.png');
+          @include img_bg('http://prod.qiniucdns.sjreach.cn/web-1.png');
           // @include img_fill
         }
       }
@@ -254,7 +260,7 @@ export default {
             height:100%;
             @include abs_lb;
             // @include img_fill;
-            @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-2.png');
+            @include img_bg('http://prod.qiniucdns.sjreach.cn/web-2.png');
           }
         }
         .left_b{
@@ -269,7 +275,7 @@ export default {
             width: 100%;
             @include abs_lb;
             // @include img_fill;
-            @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-4.png');
+            @include img_bg('http://prod.qiniucdns.sjreach.cn/web-4.png');
           }
         }
       }
@@ -292,7 +298,7 @@ export default {
             width: 100%;
             height:100%;
             @include abs_rb;
-            @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-3.png');
+            @include img_bg('http://prod.qiniucdns.sjreach.cn/web-3.png');
             // @include img_fill;
           }
         }
@@ -308,11 +314,13 @@ export default {
             height:100%;
             @include abs_rb;
             // @include img_fill;
-            @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-5.png');
+            @include img_bg('http://prod.qiniucdns.sjreach.cn/web-5.png');
           }
         }
       }
     }
   }
 }
+
+
 </style>

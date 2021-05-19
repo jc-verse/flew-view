@@ -69,7 +69,7 @@ export default {
       width: 160rpx;
       height: 160rpx;
       @include flex_center;
-      @include img_bg('http://qrw69n75w.hn-bkt.clouddn.com/web-23.png');
+      @include img_bg('http://prod.qiniucdns.sjreach.cn/web-23.png');
 
     }
   }
