@@ -104,7 +104,7 @@ export default {
         if (code === 200) {
           this.systemList = data || [];
         }
-      })
+      }).catch(err => {console.log(err)})
     },
     // 获取信息
     // getInfo() {

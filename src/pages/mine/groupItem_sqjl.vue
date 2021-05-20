@@ -28,19 +28,7 @@
       <div class="buoy" v-if="statusInfo.showInfo.includes(9)" @click="clickBuoy(9)" >评价</div>
     </div>
 
-    <DiyPopup ref='popup' title="本次服务怎么样？来个评价吧！" @popupclosed='popupclosed'>
-      <template slot='content' style='height:100%'>
-        
-        <div class="rate_box">
-          <div class="rate_item" v-for="(item, index) in rateHeads" :key='index'>
-            <div class="rate_title">{{item.title}}</div>
-            <div class="rate_content">
-              <Rate :size="32" :value="rateForm[item.code]  || 0" :max="5" @change='changeRate($event,item.code)'></Rate>
-            </div>
-          </div>
-        </div>
-      </template>
-    </DiyPopup>
+    <DiyRate ref='diyRate' :rateData='rateForm' @confirmRate='confirmRate'></DiyRate>
   </div>
 </template>
 
@@ -51,11 +39,12 @@ import information from '@/components/cards/information';
 import Rate from '@/components/cards/rate';
 import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
+import DiyRate from '@/components/diyRate';
 import { bsToStrFn, topListFn } from './units';
 import { statusScreen, joinName } from './units'
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo },
+  components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo, DiyRate },
   props: {
     infoData : {
       type:Object,
@@ -103,35 +92,24 @@ export default {
       return joinName(slave) || ''
     },
   },
-  // mounted() {
-  //   this.$refs.popup.show()
-  // },
   methods:{
     clickTitle() {
       this.showTitle = !this.showTitle;
     },
-    changeRate (e,code) {
-      console.log(133,e,code)
-      this.rateForm[code] = e.value
-    },
-    popupclosed (flag) {
-      if (flag) {
-        const { infoData, rateForm } = this;
-        this.$emit('clickBtn', 9, { data: infoData, rates: rateForm});
-      }
-      // this.$refs.popup.hide()
+    confirmRate (rateData) {
+      this.rateForm = rateData
+      const { infoData } = this;
+      this.$emit('clickBtn', 9, { data: infoData, rates: rateData});
     },
     // 点击组队申请！
     clickBuoy (type) {
       this.type = type;
       switch (type) {
         case 8:
-          console.log('联系客服');
           this.$emit('clickBtn', type, { data: this.infoData })
           break;
         case 9:
-          console.log('评价');
-          this.$refs.popup.show()
+          this.$refs.diyRate.show()
           break;
         default:
           break;
@@ -282,7 +260,7 @@ export default {
     padding: 40rpx;
     @include flex_center;
     flex-direction: column;
-    @include fontMixin(32rpx, #000, bold);
+    // @include fontMixin(32rpx, #000, bold);
     .rate_title{
       padding: 10rpx;
     }

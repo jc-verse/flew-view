@@ -6,6 +6,9 @@
           <div class="time" v-if='item.showTime' >{{item.createTime | filterTime}}</div>
           <MessageItem  :info='item'/>
         </div>
+        <div class="noList">
+          当前无消息！
+        </div>
       </div>
     </ScrollBox>
     <FabGroup/>
@@ -129,7 +132,7 @@ export default {
   padding: 20rpx 30rpx 0;
   box-sizing: border-box;
   min-height: 100%;
-
+  position: relative;
   .sigle_msg_item {
     .time {
       height: 34rpx;
@@ -141,6 +144,13 @@ export default {
       margin-bottom: 20rpx;
       text-align: center;
     }
+  }
+  .noList {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: #635656;
   }
 }
 </style>

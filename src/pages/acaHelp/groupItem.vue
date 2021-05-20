@@ -1,5 +1,5 @@
 <template>
-  <div class="group_info_item" @click='clickItem'>
+  <div class="group_info_item" @click.stop='clickItem'>
   
     <infoHead :infoData='infoData'/>
 
@@ -13,9 +13,11 @@
       </div>
     </div>
 
-    <div class="buoy" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div>
-    <div :class="[infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >评价</div>
+    <div class="buoy btn blue" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div>
+    <div :class="['orange','btn',infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >评价</div>
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
+
+    <DiyRate ref='diyRate' :rateData='rateForm' :readonly='true'></DiyRate>
   </div>
 </template>
 
@@ -26,9 +28,11 @@ import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import TipPopup from '@/components/cards/tipPopup';
 import { bsToStrFn } from '@/common/utils';
+import { academicGetEvaluate } from '@/common/api';
+import DiyRate from '@/components/diyRate';
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, CrewInfo, TipPopup },
+  components: { infoHead, information, joinList, CrewInfo, TipPopup, DiyRate },
   props: {
     infoData: {
       type: Object,
@@ -42,6 +46,7 @@ export default {
   data () {
     return {
       type: 1,
+      rateForm: {}
     }
   },
   computed : {
@@ -71,10 +76,32 @@ export default {
     }
   },
   methods:{
+    academicGetEvaluate(serviceUserId ) {
+      academicGetEvaluate({serviceUserId}).then(res => {
+        const {data: nData} = res[1];
+        const { code, data, success } = nData || {};
+        if (code === 200 && success) {
+          this.rateForm = data
+          this.$refs.diyRate.show()
+        }
+      })
+    },
     // 点击组队申请！
     clickBuoy (type) {
       this.type = type;
-      this.$refs.tipPopup.show()
+      
+      console.log(1222, type, this.$refs, DiyRate)
+      switch (type) {
+        case 1:
+          this.$refs.tipPopup.show()
+          break;
+        case 2:
+          this.academicGetEvaluate(this.infoData.id)
+          break;
+      
+        default:
+          break;
+      }
     },
     // 点击确定
     confirm () {
@@ -82,6 +109,7 @@ export default {
       this.$emit('clickBuoy', type, this.infoData)
     },
     clickItem() {
+      console.log(12323, 'clickItem')
       this.$emit('clickItem')
     }
   }
@@ -121,21 +149,27 @@ export default {
   }
   .buoy{
     border-radius: 30rpx 0 0 30rpx;
-    background: rgba(92,134,242,.2);
     position: absolute;
     top: 60rpx;
     right: 0;
-    padding: 10rpx 20rpx;
-    @include fontMixin(28rpx, #5C86F2 ,500);
   }
   .evaluate{
     border-radius: 30rpx;
-    background: #FFF6E8 ;
     position: absolute;
     top: 54rpx;
     right: 170rpx;
-    padding: 10rpx 20rpx;
+  }
+  .orange{
+    background: #FFF6E8 ;
     @include fontMixin(28rpx, #EF8E17 ,bold);
+  }
+  .blue{
+    background: rgba(92,134,242,.2);
+    @include fontMixin(28rpx, #5C86F2 ,500);
+  }
+  .btn{
+    z-index: 100;
+    padding: 10rpx 20rpx;
   }
 }
 </style>

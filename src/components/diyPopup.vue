@@ -1,6 +1,6 @@
 <template>
 	<view class="uni-data-tree">
-		<view class="uni-data-tree-input" @click="handleInput">
+		<view class="uni-data-tree-input" @click.stop="handleInput">
 			<slot :options="options" :data="inputSelected" :error="errorMessage"></slot>
 		</view>
     <!-- 遮罩层 -->
@@ -16,12 +16,12 @@
 						<text class="dialog-title">{{popupTitle}}</text>
 					</view>
 					<!-- 左侧关闭 -->
-					<view class="dialog-close" @click="handleClose(false)">
+					<view class="dialog-close" @click.stop="handleClose(false)">
 						<view class="dialog-close-plus" data-id="close"></view>
 						<view class="dialog-close-plus dialog-close-rotate" data-id="close"></view>
 					</view>
 					<!-- 右侧确定 -->
-					<view class="dialog-confirm" @click="handleClose(true)">确定</view>
+					<view class="dialog-confirm" @click.stop="handleClose(true)">确定</view>
 				</view>
 				<view style='height: 100%'>
 					<slot name='content'></slot>

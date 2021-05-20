@@ -2,7 +2,7 @@
 <!-- 2.SAGE -->
 <page-sj>
   <div class="page_box">
-    <tag-group ></tag-group>
+    <tag-group @changeValue='changeTag'></tag-group>
     <scroll-box @lower='lower'>
       <synopsis :info='newBg'>
         <div class="demo" @click="clickDemo">完善个人设置临时入口</div>
@@ -87,7 +87,6 @@ export default {
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
     this.initInfo();
-    this.getInfo();
   },
   mounted () {
     /*获取当前路由*/
@@ -98,18 +97,20 @@ export default {
     // this.getInfo();
   },
   methods : {
-    initInfo () {
+    initInfo (form={}) {
       this.cardList = [];
       this.noConcat = false;
       this.current  = 1;
+      this.getInfo(form);
     },
-    getInfo () {
-      const { menuType } = this;
+    getInfo (form={}) {
+      const { menuType, current } = this;
       const params = {
-        "current": 1,
-        "organizeTypeSonId": '',
-        "organizeTypeSonMatchId": menuType,
-        "size": 10
+        current,
+        organizeTypeSonId : '',
+        organizeTypeSonMatchId: menuType,
+        size: 10,
+        ...form
       }
       branchCompetitionUser(params).then(res => {
         const { data: nData } = res[1];
@@ -157,6 +158,9 @@ export default {
     // 临时入口
     clickDemo () {
       uni.navigateTo({ url: joinUrl('/pages/userComplete/index', {type:'edit'}) })
+    },
+    changeTag(form) {
+
     },
     // 触底
     lower() {

@@ -36,7 +36,6 @@
 <script>
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
-import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
 import bottomLogo from "@/components/bottomLogo";
 import infoHead from '@/components/cards/infoHead';
@@ -46,7 +45,6 @@ import { topListFn, bsToStrFn } from './units'
 export default {
   name:'detail_info',
   components: { 
-    tagGroup, 
     scrollBox, 
     fabGroup, 
     bottomLogo,

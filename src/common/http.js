@@ -1,5 +1,7 @@
 import { joinUrl, getCurPageRoute } from '@/common/utils'
-export const baseUrl = 'http://47.101.54.170:8111/server';
+
+// export const baseUrl = 'http://47.101.54.170:8111/server';
+export const baseUrl = 'https://www.sjreach.cn/server';
 export const imgUrl = 'http://prod.qiniucdns.sjreach.cn/';
 const headerOptions = {
   'POST': {
@@ -49,12 +51,12 @@ function interceptor (code , msg, url) {
       } })
       break;
     case 1015: //是填写标准信息
-      if (!route.includes('userInfo') && url === '/app/team-up/ranks') {
+      if (!route.includes('userInfo') && (url === '/app/team-up/ranks' || url=== '/pages/mine/index')) {
         uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
       }
       break;
     case 1018: //是完善个人信息
-      if (!route.includes('userComplete') && url === '/app/team-up/ranks') {
+      if (!route.includes('userComplete') && (url === '/app/team-up/ranks' || url=== '/pages/mine/index')) {
         uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
       }
       break;

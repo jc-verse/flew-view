@@ -302,7 +302,7 @@
 			 * 触发动态修改
 			 */
 			_onChange() {
-
+				
 				this.$emit("input", this.valueSync);
 				this.$emit("change", {
 					value: this.valueSync

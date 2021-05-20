@@ -2,12 +2,12 @@
   <page-sj> 
     <div class="acaHelp">
       <search @change='changeVal' :pValue='searchVal' :propertys="{'maxlength':'10'}"/>
-      <tag-group ></tag-group>
+      <tag-group @changeValue='changeTag'></tag-group>
       <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
           <template v-if="cardList.length">
-            <group-item v-for="(item, ind) in cardList" :infoData='item' :key='ind' @clickBuoy='clickBuoy' @clickItem='clickItem(item)'/>
+            <group-item v-for="(item, ind) in cardList"  :infoData='item' :key='ind' @clickBuoy='clickBuoy' @clickItem='clickItem(item)'/>
           </template>
           <template v-else>
             <div class="noList">
@@ -18,6 +18,25 @@
       </scroll-box>
       <fab-group/>
     </div>
+    <!-- <DiyPopup ref='popup' :popupTitle="`${infoData.nikeName}的评价`" @popupclosed='popupclosed'>
+      <template slot='content' style='height:100%'>
+        
+        <div class="rate_box">
+          <div class="rate_item" v-for="(item, index) in rateHeads" :key='index'>
+            <div class="rate_title">{{item.title}}</div>
+            <div class="rate_content">
+              <Rate 
+                :size='34'  
+                :value="rateForm[item.code]" 
+                allowHalf 
+                :max="5" 
+                @change='changeRate($event,item.code)'
+              ></Rate>
+            </div>
+          </div>
+        </div>
+      </template>
+    </DiyPopup> -->
 
   </page-sj>
 </template>
@@ -30,9 +49,11 @@ import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
 import { academicHelpList, academicApplyService } from '@/common/api';
+import DiyPopup from '@/components/diyPopup';
+import DiyRate from '@/components/diyRate';
 export default {
   name:'acaHelp',
-  components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj },
+  components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj, DiyPopup, DiyRate },
   data() {
     return {
       searchVal: '',
@@ -41,18 +62,24 @@ export default {
       current: 1,
       size: 10,
       noConcat: false,
+      rateForm: {
+        dimension1: 0,
+        dimension2: 0,
+        dimension3: 0,
+        dimension4: 0
+      }
     }
   },
   onShow() {
     this.initFotm();
   },
   methods : {
-    initFotm () {
+    initFotm (form = {}) {
       this.current = 1;
       this.size = 10;
       this.cardList = [];
       this.noConcat = false;
-      this.getList();
+      this.getList(form);
     },
     changeVal(val){
       this.searchVal = val
@@ -63,9 +90,9 @@ export default {
 
     },
     // 列表查询
-    getList() {
+    getList(form={}) {
       const { current, size } = this;
-      const params = { current, size };
+      const params = { current, size, ...form };
       academicHelpList(params).then(res => {
         const {data: nData} = res[1];
         const { code, data } = nData || {};
@@ -91,11 +118,25 @@ export default {
         if (code === 200 && success) {
           uni.showToast({title: '申请成功！'})
         }
+      }).catch(err=>{console.log(err)})
+    },
+    academicGetEvaluate(serviceUserId ) {
+      academicGetEvaluate({serviceUserId}).then(res => {
+        const {data: nData} = res[1];
+        const { code, data, success } = nData || {};
+        if (code === 200 && success) {
+          this.rateForm = data
+        }
       })
     },
     lower() {
       if (this.noConcat) return ;
       this.getList();
+    },
+    // 改变筛选项
+    changeTag(form) {
+      console.log(123, form)
+      this.initFotm(form);
     },
     // 点击卡片Btn
     clickBuoy (type, data) {
@@ -107,6 +148,10 @@ export default {
           break;
         case 2: // 评价
           console.log('评价')
+          // console.log(this.$refs)
+          // this.academicGetEvaluate(id)
+
+          // this.$refs.diyRate.show()
           break;
       
         default:

@@ -53,6 +53,10 @@
 	.tag_item{
 		.input-value-border{
 			border: none!important;
+			line-height: 40rpx!important;
+		}
+		.input-value{
+			line-height: none;
 		}
 	}
 

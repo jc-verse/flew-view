@@ -2,7 +2,7 @@
   <page-sj> 
     <div class="consult" style="overflow: hidden;">
       <search @change='changeVal' :pValue='searchVal' :propertys="{'maxlength':'10'}"/>
-      <tag-group ></tag-group>
+      <tag-group @changeValue='changeTag'></tag-group>
       <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到{{cardList.length || 0}}个关于“{{searchVal}}”的信息</div>
@@ -52,21 +52,19 @@ export default {
     })
   },
   methods : {
-    initFotm () {
+    initForm (form={}) {
       this.current = 1;
       this.size = 10;
       this.cardList = [];
       this.noConcat = false;
+      this.getInfo(form);
     },
     changeVal(val){
       this.searchVal = val
     },
-    clickItem() {
-      // uni.navigateTo({ url: '/pages/detailInfo/index' })
-    },
-    getInfo() {
+    getInfo(form={}) {
       const { current, size } = this;
-      const params = { current, size };
+      const params = { current, size, ...form };
       consultingList(params).then(res => {
         const {data: nData} = res[1];
         const { code, data } = nData || {};
@@ -99,6 +97,9 @@ export default {
     lower() {
       if (this.noConcat) return ;
       this.getInfo();
+    },
+    changeTag(form) {
+      this.initForm(form)
     },
     // 点击卡片Btn
     clickBuoy (type, data) {

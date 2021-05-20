@@ -150,6 +150,11 @@ export const academicAcademicComplete = (data) => {
   return  httpAPI('/app/academic/academic-complete', { data })
 }
 
+// 学术帮助-评价显示
+export const academicGetEvaluate = (data) => {
+  return  httpAPI('/app/academic/get-evaluate', { data })
+}
+
 
 // 学校咨询-列表
 export const consultingList = (data) => {

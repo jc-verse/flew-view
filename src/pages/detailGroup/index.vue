@@ -38,7 +38,6 @@
 
 <script>
 import scrollBox from '@/components/scrollBox';
-import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
 import bottomLogo from "@/components/bottomLogo";
 import infoHead from '@/components/cards/infoHead';
@@ -48,7 +47,6 @@ import member from './member'
 export default {
   name:'detail_info',
   components: { 
-    tagGroup, 
     scrollBox, 
     fabGroup, 
     bottomLogo,
