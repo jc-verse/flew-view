@@ -50,7 +50,7 @@ export const formData = {
   "personalMessage": "", //个人留言 
   "phone": "", //手机号
   "professionalDirection": "", // 专业方向
-  "schoolName": "1", // 学校名
+  "schoolName": "", // 学校名
   "schoolRecord": "", //校内成绩
   "sex": 3, // 性别 1.男 2.女 3.不公开 
   "competitionExperience": [ //比赛经历

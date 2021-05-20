@@ -51,12 +51,12 @@ function interceptor (code , msg, url) {
       } })
       break;
     case 1015: //是填写标准信息
-      if (!route.includes('userInfo') && (url === '/app/team-up/ranks' || url=== '/pages/mine/index')) {
+      if (!route.includes('userInfo') && (url === '/app/team-up/ranks' || url=== '/app/user-info/read-count')) {
         uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
       }
       break;
     case 1018: //是完善个人信息
-      if (!route.includes('userComplete') && (url === '/app/team-up/ranks' || url=== '/pages/mine/index')) {
+      if (!route.includes('userComplete') && (url === '/app/team-up/ranks' || url=== '/app/user-info/read-count')) {
         uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
       }
       break;
