@@ -14,6 +14,7 @@
 
     <div class="buoy" v-if="userId != infoData.id"  @click.stop="clickBuoy(1)"> 申请服务 </div>
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import TipPopup from '@/components/cards/tipPopup';
 import { bsToStrFn } from '@/common/utils';
+import { isLogin, toLogin } from '@/common/utils'
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, CrewInfo, TipPopup },
@@ -67,8 +69,13 @@ export default {
     },
   },
   methods:{
+    toLogin,
     // 点击服务申请！
     clickBuoy (type) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       this.type = type;
       this.$refs.tipPopup.show()
     },

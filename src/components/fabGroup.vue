@@ -1,18 +1,21 @@
 <template>
   <movable-area  class="movable_box" >
-      <movable-view class="max" direction="vertical" :y='450' inertia :damping='50'>
-        <div class="fab_group" @mousedown="onmousedown">
-          <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click.stop="clickFn(ind, item)" @mousedown="onmousedown" @mouseup="onmouseup">
-            <i  :class="['iconfont','icon_item', item.icon ]"></i>
-          </div>
+    <movable-view class="max" direction="vertical" :y='450' inertia :damping='50'>
+      <div class="fab_group" @mousedown="onmousedown">
+        <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click.stop="clickFn(ind, item)" @mousedown="onmousedown" @mouseup="onmouseup">
+          <i  :class="['iconfont','icon_item', item.icon ]"></i>
         </div>
-      </movable-view>
-    </movable-area>
+      </div>
+    </movable-view>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+  </movable-area>
 </template>
 <script>
 import { uniFab } from '@dcloudio/uni-ui'
+import TipPopup from '@/components/cards/tipPopup';
+import { isLogin, toLogin } from '@/common/utils'
 export default {
-  components:{uniFab},
+  components:{ uniFab, TipPopup },
   props: {
     shows: {
       type: Array,
@@ -34,11 +37,16 @@ export default {
     }
   },
   methods: {
+    toLogin,
     clickFn(ind, item) {
       this.$emit('clickItem', item)
       switch (item.id) {
         case 1:
-          uni.navigateTo({ url: '/pages/mine/index' })
+          if (isLogin()) {
+            uni.navigateTo({ url: '/pages/mine/index' }) // 我的
+          } else {
+            this.$refs.noLogin.show()
+          }
           break;
         case 2:
           uni.navigateTo({ url: '/pages/home/index' })

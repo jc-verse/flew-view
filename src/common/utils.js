@@ -94,3 +94,12 @@ export  function setStorage (obj) {
     uni.setStorage({ key , data: obj[key] })
   }
 }
+
+export function isLogin () {
+  const token = uni.getStorageSync('token');
+  return !!token
+}
+
+export function toLogin () {
+  uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+}

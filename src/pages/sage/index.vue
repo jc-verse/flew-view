@@ -5,7 +5,7 @@
     <tag-group @changeValue='changeTag'></tag-group>
     <scroll-box @lower='lower'>
       <synopsis :info='newBg'>
-        <div class="demo" @click="clickDemo">完善个人设置临时入口</div>
+        <!-- <div class="demo" @click="clickDemo">完善个人设置临时入口</div> -->
       </synopsis>
       <div class="group_info_list" v-if="cardList.length">
         <group-item v-for="(item, ind) in cardList" :totalList='totalList' :infoData='item' :key='ind' @clickBuoy='clickBuoy'/>

@@ -16,7 +16,7 @@
     <div class="buoy btn blue" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div>
     <div :class="['orange','btn',infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >评价</div>
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
-
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
     <DiyRate ref='diyRate' :rateData='rateForm' :readonly='true'></DiyRate>
   </div>
 </template>
@@ -30,6 +30,8 @@ import TipPopup from '@/components/cards/tipPopup';
 import { bsToStrFn } from '@/common/utils';
 import { academicGetEvaluate } from '@/common/api';
 import DiyRate from '@/components/diyRate';
+import { isLogin, toLogin } from '@/common/utils'
+
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, CrewInfo, TipPopup, DiyRate },
@@ -76,6 +78,7 @@ export default {
     }
   },
   methods:{
+    toLogin,
     academicGetEvaluate(serviceUserId ) {
       academicGetEvaluate({serviceUserId}).then(res => {
         const {data: nData} = res[1];
@@ -88,8 +91,11 @@ export default {
     },
     // 点击组队申请！
     clickBuoy (type) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       this.type = type;
-      
       console.log(1222, type, this.$refs, DiyRate)
       switch (type) {
         case 1:
@@ -109,6 +115,9 @@ export default {
       this.$emit('clickBuoy', type, this.infoData)
     },
     clickItem() {
+      if (!isLogin()) {
+        return 
+      }
       console.log(12323, 'clickItem')
       this.$emit('clickItem')
     }

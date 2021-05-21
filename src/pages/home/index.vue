@@ -69,7 +69,7 @@
       </scroll-box>
 
     </div>
-    
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
     <FabGroup :shows='[1]'/>
   </page-sj>
 </template>
@@ -79,39 +79,31 @@ import infoHead from '@/components/cards/infoHead';
 import bottomLogo from "@/components/bottomLogo";
 import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/pageSjNew';
+import TipPopup from '@/components/cards/tipPopup';
 
 import FabGroup from '@/components/fabGroup';
 import userDataMixin from '@/common/mixins/userDataMixin';
+import { isLogin, toLogin } from '@/common/utils'
 
 export default {
   name: 'home',
-  components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup },
+  components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup, TipPopup },
   mixins:[userDataMixin],
   data () {
     return {
     }
   },
-  created() {
-    // 登录鉴权
-    uni.getStorage({ 
-      key: 'token', 
-      success:(res) =>{
-        const {errMsg, data} = res;
-        console.log('个人识别信息-token:' + data)
-        
-        if (!/ok/.test(errMsg) || !data) {
-          uni.redirectTo({ url: '/pages/guidance/index' })
-        }
-      },
-      fail: (err)=>{
-        uni.redirectTo({ url: '/pages/guidance/index' })
-      }
-    })
-  },
   methods: {
+    toLogin,
     clickIcon() {
-      uni.navigateTo({ url: '/pages/mine/index' }) // 我的
+      console.log(1223, isLogin())
+      if (isLogin()) {
+        uni.navigateTo({ url: '/pages/mine/index' }) // 我的
+      } else {
+        this.$refs.noLogin.show()
+      }
     },
+    
     
     clickCard(val) {
       switch (val) {

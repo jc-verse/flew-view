@@ -23,6 +23,7 @@
     </div>
 
     <div class="buoy" v-if='infoData.rank == 2' @click="clickBuoy(infoData)"> 申请组队 </div>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
   </div>
 </template>
 
@@ -31,6 +32,9 @@ import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
+import TipPopup from '@/components/cards/tipPopup';
+import { isLogin, toLogin } from '@/common/utils'
+
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, CrewInfo },
@@ -84,12 +88,16 @@ export default {
     }
   },
   methods:{
+    toLogin,
     clickDown () {
       this.showList = !this.showList
     },
     // 点击组队申请！
     clickBuoy (type) {
-      console.log('点击组队申请！')
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       this.$emit('clickBuoy', type)
     }
   }

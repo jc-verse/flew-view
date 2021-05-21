@@ -8,7 +8,7 @@
       <div class="bottom_box">
         <p class="font_1">欢迎来到 视界 | Reach</p>
         
-        <button class="btn" @click="clickBtn">进入</button>
+        <button class="btn" @click="clickBtn">授权登录</button>
       </div>
       <!-- 底部logo -->
       <bottom-logo/>
@@ -19,7 +19,7 @@
 import bottomLogo from "@/components/bottomLogo";
 import pageSj from '@/components/pageSjNew';
 import { jscode2session, login } from '@/common/api';
-import { setStorage } from '@/common/utils';
+import { setStorage, isLogin } from '@/common/utils';
 
 export default {
   name:'guidance',
@@ -32,21 +32,23 @@ export default {
     }
   },
   mounted () {
-    // this.login();
-    uni.getStorage({ 
-      key: 'token', 
-      success:(res) =>{
-        const {errMsg, data} = res;
-        if (/ok/.test(errMsg) && data) {
-          this.token = data;
-        }else {
-          this.login();
-        }
-      },
-      fail: (err)=>{
-        this.login();
-      }
-    })
+    // uni.getStorage({ 
+    //   key: 'token', 
+    //   success:(res) =>{
+    //     const {errMsg, data} = res;
+    //     if (/ok/.test(errMsg) && data) {
+    //       this.token = data;
+    //     }else {
+    //       this.login();
+    //     }
+    //   },
+    //   fail: (err)=>{
+    //     this.login();
+    //   }
+    // })
+    // if (!isLogin()) {
+    //   this.login();
+    // }
   },
   methods: {
     clickBtn() {

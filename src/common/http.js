@@ -1,4 +1,5 @@
 import { joinUrl, getCurPageRoute } from '@/common/utils'
+import { isLogin } from './utils'
 
 // export const baseUrl = 'http://47.101.54.170:8111/server';
 export const baseUrl = 'https://www.sjreach.cn/server';
@@ -43,12 +44,14 @@ function interceptor (code , msg, url) {
   const route = getCurPageRoute() || '';
   switch(code) {
     case 20011: //是登陆已过期
-      wx.removeStorage({ key: 'token' })
-      uni.showToast({ title: '登陆已过期', duration: 1000, success: ()=> {
-        if (!route.includes('guidance')) {
-          uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
-        }
-      } })
+      if (isLogin()) {
+        uni.showToast({ title: '登陆已过期', icon:'none', duration: 1000, success: ()=> {
+          if (!route.includes('guidance')) {
+            // uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+          }
+        } })
+        wx.removeStorage({ key: 'token' })
+      }
       break;
     case 1015: //是填写标准信息
       if (!route.includes('userInfo') && (url === '/app/team-up/ranks' || url=== '/app/user-info/read-count')) {
