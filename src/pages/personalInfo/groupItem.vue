@@ -15,6 +15,8 @@
     </div>
 
     <div class="buoy" @click="clickBuoy(infoData.type)"> 修改 </div>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+
   </div>
 </template>
 
@@ -23,9 +25,12 @@ import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import crewInfo from '@/components/cards/crewInfo';
+import TipPopup from '@/components/cards/tipPopup';
+import { isLogin, toLogin } from '@/common/utils'
+
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, crewInfo },
+  components: { infoHead, information, joinList, crewInfo, TipPopup },
   props: {
     infoData: {
       type: Object,
@@ -57,7 +62,12 @@ export default {
     }
   },
   methods:{
+    toLogin,
     clickBuoy (type) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       this.$emit('clickBuoy', type)
     }
   }

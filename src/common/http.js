@@ -50,7 +50,7 @@ function interceptor (code , msg, url) {
             // uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
           }
         } })
-        wx.removeStorage({ key: 'token' })
+        uni.removeStorage({ key: 'token' })
       }
       break;
     case 1015: //是填写标准信息

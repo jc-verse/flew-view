@@ -19,6 +19,7 @@
       <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div>
     </div>
     <TipPopup :title="popupStatu.title" ref='tipPopup' :msg="popupStatu.msg" @confirm='confirm'/>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
   </div>
 </template>
 
@@ -30,6 +31,7 @@ import DiyPopup from '@/components/diyPopup';
 import TipPopup from '@/components/cards/tipPopup'
 import { styles } from './const';
 import { bsToStrFn, topListFn } from './units';
+import { isLogin, toLogin } from '@/common/utils'
 const popups = {
   '2': { title: '通过', msg: '是否确认通过申请！', type: 2 },
   '3': { title: '拒绝', msg: '是否确认拒绝申请！', type: 3 },
@@ -93,8 +95,13 @@ export default {
     }
   },
   methods:{
-    // 点击组队申请！
+    toLogin,
+    // 点击！
     clickBuoy (type) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       this.type = type; // 2: 点击通过 3: 点击拒绝
       this.$refs.tipPopup.show()
     },

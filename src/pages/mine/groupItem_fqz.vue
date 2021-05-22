@@ -31,17 +31,18 @@
     </div>
 
     
-  <DiyPopup ref='popup' :noUp='true'>
-    <div class="tip_box" slot='tip' @click.stop>
-      <div class="title">取消申请</div>
-      <div class="msg">是否确认取消申请！</div>
-      <div class="btns">
-        <div class="no" @click.stop="close(false)">取消</div>
-        <div class="yes" @click.stop="close(true)">确定</div>
+    <DiyPopup ref='popup' :noUp='true'>
+      <div class="tip_box" slot='tip' @click.stop>
+        <div class="title">取消申请</div>
+        <div class="msg">是否确认取消申请！</div>
+        <div class="btns">
+          <div class="no" @click.stop="close(false)">取消</div>
+          <div class="yes" @click.stop="close(true)">确定</div>
+        </div>
       </div>
-    </div>
-  </DiyPopup>
-    
+    </DiyPopup>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+  
   </div>
 </template>
 
@@ -52,6 +53,7 @@ import information from '@/components/cards/information';
 import DiyPopup from '@/components/diyPopup';
 import { styles } from './const';
 import { bsToStrFn, topListFn } from './units';
+import { isLogin, toLogin } from '@/common/utils'
 
 function filterSFn (val) {
   const { type, matchName, nikeName } = val;
@@ -101,6 +103,7 @@ export default {
     }
   },
   methods:{
+    toLogin,
     clickDown () {
       this.showList = !this.showList
     },
@@ -112,6 +115,10 @@ export default {
     },
     // 点击组队申请！
     clickBuoy (type) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       switch (type) {
         case 1:
           console.log('取消申请');

@@ -3,7 +3,8 @@
     <movable-view class="max" direction="vertical" :y='450' inertia :damping='50'>
       <div class="fab_group" @mousedown="onmousedown">
         <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click.stop="clickFn(ind, item)" @mousedown="onmousedown" @mouseup="onmouseup">
-          <i  :class="['iconfont','icon_item', item.icon ]"></i>
+          <i v-if="item.icon"  :class="['iconfont','icon_item', item.icon ]"></i>
+          <text style="color: red">{{item.name  || ''}}</text>
         </div>
       </div>
     </movable-view>
@@ -27,13 +28,21 @@ export default {
       list : [
         { icon: 'iconuser' , id: 1 },
         { icon: 'iconzhuye' , id: 2 },
-      ]
+        { icon: '' , id: 3 , name: '注销'},
+      ],
+      isLogin: true
     }
   },
   computed : {
     newList () {
       const shows = this.shows;
-      return this.list.filter(item=> shows.includes(item.id))
+      return this.list.filter(item=> {
+        if (isLogin()) {
+          return  shows.includes(item.id)
+        } else {
+          return  shows.includes(item.id) && item.id != 3
+        }
+      })
     }
   },
   methods: {
@@ -50,6 +59,9 @@ export default {
           break;
         case 2:
           uni.navigateTo({ url: '/pages/home/index' })
+          break;
+        case 3:
+          toLogin();
           break;
       }
     },

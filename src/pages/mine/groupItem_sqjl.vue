@@ -29,6 +29,7 @@
     </div>
 
     <DiyRate ref='diyRate' :rateData='rateForm' @confirmRate='confirmRate'></DiyRate>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
   </div>
 </template>
 
@@ -41,10 +42,12 @@ import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
 import DiyRate from '@/components/diyRate';
 import { bsToStrFn, topListFn } from './units';
-import { statusScreen, joinName } from './units'
+import { statusScreen, joinName } from './units';
+import TipPopup from '@/components/cards/tipPopup';
+import { isLogin, toLogin } from '@/common/utils'
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo, DiyRate },
+  components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo, DiyRate, TipPopup },
   props: {
     infoData : {
       type:Object,
@@ -93,6 +96,7 @@ export default {
     },
   },
   methods:{
+    toLogin,
     clickTitle() {
       this.showTitle = !this.showTitle;
     },
@@ -103,6 +107,10 @@ export default {
     },
     // 点击组队申请！
     clickBuoy (type) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       this.type = type;
       switch (type) {
         case 8:

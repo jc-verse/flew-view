@@ -17,7 +17,11 @@
           <!-- <ItemInfo /> -->
         </div>
       </div>
+      <div class="unLogin" @click='toLogin'>
+        退出登录
+      </div>
     </div>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
     <FabGroup/>
   </PageJS>
 </template>
@@ -32,12 +36,14 @@ import { joinUrl, getCurPage } from '@/common/utils';
 import GroupItem from './groupItem'
 import userDataMixin from '@/common/mixins/userDataMixin';
 import { imgUrl } from '@/common/http'
+import { isLogin, toLogin } from '@/common/utils'
+import TipPopup from '@/components/cards/tipPopup';
 
 
 import FabGroup from '@/components/fabGroup';
 export default {
   name: 'personalInfo',
-  components: { PageJS, ItemInfo, FabGroup, FormItem, FormItemBox, GroupItem },
+  components: { PageJS, ItemInfo, FabGroup, FormItem, FormItemBox, GroupItem, TipPopup },
   mixins:[userDataMixin],
   data() {
     return {
@@ -96,6 +102,7 @@ export default {
     
   },
   methods: {
+    toLogin,
     // 获取科目/课程体系  list
     getDownList () { //  type: 1 科目   /  2 课程体系
       subjectList({ type: 2 }).then(res => {
@@ -123,6 +130,10 @@ export default {
     },
 
     clickBuoy(val) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       let url = 'userInfo'
       switch (val) {
         case 1:
@@ -241,6 +252,16 @@ export default {
         margin-right: 30rpx;
       }
     }
+  }
+  .unLogin{
+    @include fontMixin;
+    width: 100%;
+    padding: 20rpx;
+    background: red;
+    text-align: center;
+    margin-top: 20rpx;
+    border-radius: 10rpx;
+    color: #fff;
   }
 }
 </style>

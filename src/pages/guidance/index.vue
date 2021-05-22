@@ -76,6 +76,7 @@ export default {
         fail: (err) => {
           _this.canLogin = true;
           console.log("未授权",err);
+          uni.navigateTo({url: '/pages/home/index'})
         }
       })
       

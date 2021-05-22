@@ -1,6 +1,24 @@
 {
 	"pages": [
 		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "视界 | Reach",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/guidance/index",
 			"style": {
 				"navigationBarTitleText": "视界 | Reach",
@@ -98,24 +116,6 @@
 				"navigationBarTitleText": "我的",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#575EFF"
-			}
-		},
-		{
-			"path": "pages/home/index",
-			"style": {
-				"navigationBarTitleText": "视界 | Reach",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#ffffff",
-				"app-plus": {
-					"titleNView": {
-						"buttons": [{
-							"text": "\ue534",
-							"fontSize": "22px",
-							"color": "#FFFFFF",
-							"background": "#ffffff"
-						}]
-					}
-				}
 			}
 		},{
 			"path": "pages/aboutUs/index",

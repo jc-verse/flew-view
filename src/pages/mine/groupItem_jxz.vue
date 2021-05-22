@@ -28,6 +28,8 @@
     </div>
     <div class="sign_box" v-if="cardStatu.showTask">任务</div>
     <TipPopup :title='popupStatu.title' ref='tipPopup' :msg='popupStatu.msg' @confirm='confirm'/>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+
   </div>
 </template>
 
@@ -38,6 +40,7 @@ import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
 import TipPopup from '@/components/cards/tipPopup'
+import { isLogin, toLogin } from '@/common/utils'
 
 import { styles } from './const';
 import { bsToStrFn, topListFn, joinName } from './units';
@@ -145,10 +148,15 @@ export default {
     },
   },
   methods:{
+    toLogin ,
     clickDown () {
       this.showList = !this.showList
     },
     clickBuoy (type) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       this.type = type; // 4:退出组队 5: 完成  6: 关闭组队  7 开启组队   8：联系客服
       this.$refs.tipPopup.show()
     },

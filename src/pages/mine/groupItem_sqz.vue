@@ -19,6 +19,8 @@
       <div class="buoy" v-else>待对方确认申请</div>
     </div>
     <TipPopup title='取消申请' ref='tipPopup' msg='是否确认取消申请！' @confirm='confirm'/>
+    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+
   </div>
 </template>
 
@@ -30,6 +32,8 @@ import DiyPopup from '@/components/diyPopup';
 import TipPopup from '@/components/cards/tipPopup'
 import { styles } from './const';
 import { bsToStrFn, topListFn } from './units';
+import { isLogin, toLogin } from '@/common/utils'
+
 
 function filterSFn (val) {
   const { type, matchName, nikeName } = val;
@@ -93,8 +97,13 @@ export default {
     }
   },
   methods:{
+    toLogin,
     // 点击组队申请！
     clickBuoy (type) {
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
       this.type = type; // 1: 取消申请
       this.$refs.tipPopup.show()
     },

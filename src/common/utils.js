@@ -102,4 +102,9 @@ export function isLogin () {
 
 export function toLogin () {
   uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+  try {
+    uni.clearStorageSync();
+  } catch (e) {
+      // error
+  }
 }

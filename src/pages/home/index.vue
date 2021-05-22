@@ -2,7 +2,7 @@
   <page-sj >
     <div class="home_box">
     
-      <header class="header">
+      <header class="header" :class="[masklen?'masking':'']">
         <info-head  headStyles='width: 80rpx;height: 80rpx;' :infoData='userData' :isUser='false'>
           <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>
         </info-head>
@@ -11,11 +11,11 @@
         <div class="content">
           <div class="top_box">
             <!-- 1 -->
-            <div class="top_1" @click="clickCard(1)">
+            <div class="top_1" @click="clickCard(1)" :class="[masklen && active!==1?'masking':'']">
               <div class="top" >
                 <div class="title_msg">
                   <div class="title">{{'竞赛组队'}}</div>
-                  <div class="msg">{{'寻找志同道合的朋友'}}</div>
+                  <div class="msg">{{'寻找志同道合的朋友'}}</div> 
                 </div>
               </div>
               <div class="top_bg" ></div>
@@ -24,7 +24,7 @@
           <div class="bottom_box">
             <div class="left">
               <!-- 2 -->
-              <div class="left_t" @click="clickCard(2)">
+              <div class="left_t" @click="clickCard(2)" :class="[masklen && active!==2?'masking':'']">
                 <div class="title_msg">
                   <div class="title">{{'学校信息咨询'}}</div>
                   <div class="msg">{{'在校学生一对一答疑'}}</div>
@@ -32,7 +32,7 @@
                 <div class="left_t_bg"></div>
               </div>
               <!-- 4 -->
-              <div class="left_b" @click="clickCard(4)">
+              <div class="left_b" @click="clickCard(4)" :class="[masklen && active!==3?'masking':'']">
                 <div class="title_msg">
                   <div class="title">{{'关于我们'}}</div>
                   <div class="msg">{{'来看看我们能给你的帮助'}}</div>
@@ -43,7 +43,7 @@
             </div>
             <div class="right">
               <!-- 3 -->
-              <div class="right_t" @click="clickCard(3)">
+              <div class="right_t" @click="clickCard(3)" :class="[masklen && active!==4?'masking':'']">
                 <div class="title_msg">
                   <div class="title">{{'学术帮助'}}</div>
                   <div class="msg">{{'学霸的学习方法与解题思路'}}</div>
@@ -51,7 +51,7 @@
                 <div class="right_t_bg"></div>
               </div>
               <!-- 5 -->
-              <div class="right_b" @click="clickCard(5)">
+              <div class="right_b" @click="clickCard(5)" :class="[masklen && active!==5?'masking':'']">
                 <div class="title_msg">
                   <div class="title">{{'加入我们'}}</div>
                   <div class="msg">{{'欢迎加入我们的团队'}}</div>
@@ -67,10 +67,12 @@
             
         <bottom-logo/>
       </scroll-box>
-
+      <div class="mask_box" v-if="masklen" @click="clickMask">
+        <div class="welcome" v-if="active> masklen" @click.stop='clickWel'>欢迎来到视界！</div>
+      </div>
     </div>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
-    <FabGroup :shows='[1]'/>
+    <FabGroup :shows='[1,3]'/>
   </page-sj>
 </template>
 
@@ -83,7 +85,7 @@ import TipPopup from '@/components/cards/tipPopup';
 
 import FabGroup from '@/components/fabGroup';
 import userDataMixin from '@/common/mixins/userDataMixin';
-import { isLogin, toLogin } from '@/common/utils'
+import { isLogin, toLogin, setStorage } from '@/common/utils'
 
 export default {
   name: 'home',
@@ -91,6 +93,21 @@ export default {
   mixins:[userDataMixin],
   data () {
     return {
+      statuList: [],
+      active: 1
+    }
+  },
+  computed:{
+    masklen () {
+      return this.statuList.length
+    }
+  },
+  onLoad() {
+    const count = uni.getStorageSync('count') || 0;
+    // 判断首次进入  
+    if (!count) {
+      setStorage({count: count + 1})
+      this.statuList= [1,2,3,4,5,];
     }
   },
   methods: {
@@ -103,8 +120,6 @@ export default {
         this.$refs.noLogin.show()
       }
     },
-    
-    
     clickCard(val) {
       switch (val) {
         case 1:
@@ -125,6 +140,14 @@ export default {
         default:
           break;
       }
+    },
+    // 点击蒙版  切换展示模块
+    clickMask() {
+      this.active += 1;
+    },
+    // 点击按钮  关闭蒙版
+    clickWel() {
+      this.statuList= []
     }
   }
 }
@@ -313,6 +336,23 @@ export default {
     }
   }
 }
-
+.mask_box{
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  @include flex_center;
+  .welcome{
+    padding: 20rpx 40rpx;
+    background: #5C86F2;
+    color: #fff;
+    border-radius: 40rpx;
+  }
+}
+.masking{
+  filter: blur(3px)
+}
 
 </style>
