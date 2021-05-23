@@ -1,7 +1,7 @@
 <template>
-	<view class="uni-data-tree">
+	<view class="uni-data-tree" @click.stop>
 		<view class="uni-data-tree-input" @click.stop="handleInput">
-			<slot :options="options" :data="inputSelected" :error="errorMessage"></slot>
+			<slot :options="options" :data="inputSelected" ></slot>
 		</view>
     <!-- 遮罩层 -->
 		<view class="uni-data-tree-cover" v-if="isOpened" @click="handleClose">
@@ -57,7 +57,9 @@
 			},
 			styles: {
 				type:Object,
-				default: ()=>({})
+				default: ()=>({
+					top: '20%'
+				})
 			},
 			noUp:{
 				type: Boolean,
@@ -95,6 +97,7 @@
 	.uni-data-tree {
 		position: relative;
 		font-size: 14px;
+		z-index: 999;
 	}
 
 	.error-text {
@@ -133,6 +136,7 @@
 		overflow: hidden;
 		/* #ifdef APP-NVUE */
 		width: 750rpx;
+
 		/* #endif */
 	}
 

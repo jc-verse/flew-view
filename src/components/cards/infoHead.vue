@@ -1,12 +1,12 @@
 <template>
   <div class="info_head" :style='styles'>
     <div class="left">
-      <div class="user_head" :style="headStyles">
+      <div class="user_head" :class="[isUser? 'shadow': '']" :style="headStyles">
         <img :src="headImg" alt="" v-if="headImg">
         <!-- <open-data type="userAvatarUrl" v-else></open-data> -->
       </div>
       <slot name='center'>
-        <div class="title" :style='styles'> 
+        <div class="title" :class="[isUser? 'isHome': '']" :style='{"max-width": `${maxWidth}rpx`}'> 
           <!-- <template v-if="!isUser"> -->
             {{infoData.nikeName || ''}}
           <!-- </template>
@@ -48,10 +48,15 @@ export default {
     isUser:{
       type: Boolean,
       default: false
+    },
+    maxWidth: {
+      type: Number,
+      default: 200
     }
   },
   computed: {
     showSex(){
+      console.log(9999,this.infoData)
       const { sex } = this.infoData
       return sex && sex != 3 && this.showGender
     },
@@ -91,7 +96,7 @@ export default {
     display: flex;
     align-items: center;
   }
-  div{
+  & div:not(:last-child){
     margin-right: 20rpx;
   }
   .user_head{
@@ -100,12 +105,19 @@ export default {
     border-radius: 50%;
     overflow: hidden;
     background: white;
+
     @include img_fill;
   }
   .title{
     max-width: 200rpx;
-    @include font_1;
     @include ellipsis;
+    @include font_1
+  }
+  .isHome{
+    @include fontMixin(13px, #485B89, bold)
+  }
+  .shadow{
+    box-shadow: 0 0 4px rgba(128 ,128 ,128 , .4);
   }
   .gender{
     .icon_item{

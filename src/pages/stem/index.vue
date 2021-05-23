@@ -14,7 +14,7 @@
                 </div>
                 <div class="card_r">
                   <div>{{item.label || ''}}</div>
-                  <div>{{item.englishName || ''}}</div>
+                  <!-- <div>{{item.englishName || ''}}</div> -->
                 </div>
               </div>
             </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="card_r">
                   <div>{{item.matchName || ''}}</div>
-                  <div>{{item.englishName || ''}}</div>
+                  <!-- <div>{{item.englishName || ''}}</div> -->
                 </div>
               </div>
             </div>
@@ -224,7 +224,7 @@ export default {
         width: 100%;
         background: #FFFFFF;
         border-radius: 8px;
-        padding: 30rpx 20rpx;
+        padding: 40rpx 20rpx;
         box-sizing: border-box;
         display: flex;
         align-items: center;
@@ -235,12 +235,12 @@ export default {
           flex-shrink: 0;
           border-radius: 50%;
           overflow: hidden;
-          margin-right: 6rpx;
+          margin-right: 16rpx;
           @include flex_center;
           @include img_fill;
         }
         .card_r{
-          @include fontMixin(24rpx, #333333, bold);
+          @include fontMixin(30rpx, #333333, bold);
           flex-grow: 1;
         }
       }

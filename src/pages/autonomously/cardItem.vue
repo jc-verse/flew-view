@@ -1,20 +1,18 @@
 <template>
   <div class="card_item" >
     <div class="header_box" @click='clickCard'>
-      <span class='title'>活动名称某某某某大赛1</span>
+      <span class='title'>{{infoData.activityName || ''}}</span>
       <span class='down'>
         <i class='iconfont iconxiala icon_item' :class="[down ? 'icon_active': '']"></i>
       </span>
     </div>
     <div class="content_box" v-show='down'>
-      <infoHead :iconFilter='iconFilter'/>
-      <information :topList='topList'/>
-      <join-list title='活动信息' value='海戏剧学院是中国培养戏剧专门人才的高等艺术院校,前身是上海市市立实验戏剧学校,1945年12月1日由著' type='text'/>
-      <join-list title='招募要求' value='我是招募要求的文案我是招募要求的文案我是招募要求的文案我是招募要求的文案' type='text'/>
+      <infoHead :infoData='newInfoData' :maxWidth='300'/>
+      <information :topList='tops'/>
+      <join-list title='活动信息' :value='infoData.activityInfo || "暂无活动信息"' type='text'/>
+      <join-list title='招募要求' :value='infoData.requirement || "暂无招募要求"' type='text'/>
       
-      <div class="fagBtn" @click="clickFag">
-        查看详情
-      </div>
+      <div class="fagBtn" @click="clickFag"> 查看详情 </div>
     </div>
   </div>
 </template>
@@ -22,21 +20,37 @@
 <script>
 import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
-import information from './components/information';
-import { genders,topList,cList,tagList } from '@/components/const';
+import information from '@/components/cards/information';
 export default {
   name: 'cardItem',
   components: { infoHead, information, joinList },
+  props: {
+    infoData: {
+      type: Object,
+      default: ()=>({})
+    }
+  },
   data () {
     return {
-      genders,topList,cList,tagList,
       down: false,
       
     }
   },
   computed : {
-    iconFilter () {
-      return this.genders[this.info || 'nv']
+    tops() {
+      const { infoData } = this;
+      const arr = [
+        { title: '学校', val: infoData.schoolName || '', id: 1 }, 
+        { title: '年级', val: infoData.grade || '',          id: 2 }, 
+        { title: '课程', val: infoData.curriculumSystem || '', id: 4 }, 
+        { title: '标化', val: infoData.standardizedPerformance || '', id: 3 }, 
+      ]
+      return arr
+    },
+    newInfoData () {
+      const data = {...this.infoData};
+      data.nikeName = `发起者：${ data.nikeName || data.nickName || ''}`;
+      return data;
     }
   },
   methods: {
@@ -64,7 +78,7 @@ $padding: 30rpx 20rpx;
     justify-content: space-between;
     align-items: center;
     padding: $padding;
-    @include fontMixin(34rpx, #333333)
+    @include fontMixin(34rpx, #333333, bold)
   }
   .content_box{
     padding: 20rpx 20rpx 120rpx;

@@ -175,3 +175,12 @@ export const consultingOperation = (data) => {
 export const consultingComplete = (data) => {
   return  httpAPI('/app/consulting/consulting-complete', { data })
 }
+
+// 自主发起-完成
+export const launchActivity = (data) => {
+  return  httpAPI('/app/activity/launch-activity', { data })
+}
+// 自主发起-活动列表
+export const activityList = (data) => {
+  return  httpAPI('/app/activity/activity-list', { data })
+}

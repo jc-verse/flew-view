@@ -2,20 +2,8 @@
 <page-sj>
   <div class="initiateProcess">
     <div class="content">
-      <!-- <div class="item_box" v-for='(ite, ind) in formHeads' :key='ind'>
-        <div class="left">{{ ite.label }}</div>
-        <div class="right">
-          <input type="text" 
-            class='input'
-            v-model='formData[ite.code]' 
-            :placeholder='ite.ph' 
-            placeholder-class='placeH' 
-            :curser="value.length"
-          >
-        </div>
-      </div> -->
       <form-item-box v-for='(ite, ind) in formHeads' :key='ind' :ite='ite' :show-b='ind+1 === formHeads.length' >
-        <form-item :info='ite' :headInit='ite'></form-item>
+        <form-item :info='ite' :headInit='ite' @change="changeFn"></form-item>
       </form-item-box>
     </div>
     <div class="btn" :class='[showBtn?"btn_active":""]' @click='submit'> 确定 </div>
@@ -36,17 +24,17 @@ export default {
     return {
       value: '',
       formHeads:[
-        { label: '发起者', code:'name', id: '' ,required: false, params: { ph: '获取微信名',    genre:'text', type: 'text', max: 20} },
-        { label: '活动名称', code:'activeName', id: '' ,required: true, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
-        { label: '活动类型', code:'type', id: '' ,required: true, params: { ph: '选填',    genre:'select', type: 'text', max: 20} },
-        { label: '开始时间', code:'startTime', id: '' ,required: true, params: { ph: '请选择',    genre:'date', type: 'text', max: 20} },
-        { label: '结束时间', code:'endTime', id: '' ,required: true, params: { ph: '请选择',    genre:'date', type: 'text', max: 20} },
-        { label: '地点',    code:'site', id: '' ,required: true, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
-        { label: '活动信息', code:'info', id: '' ,required: true, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
-        { label: '参与人数', code:'number', id: '' ,required: true, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
-        { label: '招募要求', code:'require', id: '' ,required: false, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
-        { label: '备注',    code:'remark', id: '' ,required: false, params: { ph: '请填写',    genre:'input', type: 'text', max: 20} },
-      ],
+        { label: '发起者',    code:'name',      id: '' ,required: false, params:  { ph: '获取微信名', genre:'text',   type: 'text', max: 20} },
+        { label: '活动名称',  code:'activeName',id: '' ,required: true, params:   { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '活动类型',  code:'type',      id: '' ,required: true, params:   { ph: '选填',       genre:'select', type: 'text', max: 20} },
+        { label: '开始时间',  code:'startTime', id: '' ,required: true, params:   { ph: '请选择',     genre:'date',   type: 'text', max: 20} },
+        { label: '结束时间',  code:'endTime',   id: '' ,required: true, params:   { ph: '请选择',     genre:'date',   type: 'text', max: 20} },
+        { label: '地点',      code:'site',      id: '' ,required: true, params:   { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '活动信息',  code:'info',      id: '' ,required: true, params:   { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '参与人数',  code:'number',    id: '' ,required: true, params:   { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '招募要求',  code:'require',   id: '' ,required: false, params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '备注',      code:'remark',    id: '' ,required: false, params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+      ],      
       formData: {}
     }
   },
@@ -61,7 +49,39 @@ export default {
   methods:{
     submit() {
       console.log(1, this.formData)
-    }
+    },
+    // 改变表单
+    changeFn({data, code, type}) {
+      switch (type) {
+        case 'add':
+          this.formData[code].push(data);
+          break;
+        case 'join':
+          let arr = []
+          const { matchList } = this;
+          data.forEach(item => {
+            let flag;
+            matchList.forEach(ite =>{
+              const [i, c] = [item[2], ite[2]];
+              console.log(19923, i,c)
+              if (i.label === c.label && i.id === c.id) {
+                flag = i.label === c.label && i.id === c.id
+              }
+            })
+            if (!flag) {
+              arr.push(item)
+            }
+          })
+          this.matchList = matchList.concat(arr);
+          break;
+        case 'inpSel':
+          this.formData[code] = data.name || ''
+          break;
+        default:
+          this.formData[code] = data;
+          break;
+      }
+    },
   }
 
 

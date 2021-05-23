@@ -37,17 +37,19 @@ export default {
   background: #C8EDFF;
   position: relative;
   flex-shrink: 0;
-
-  @include flex_center;
+  box-sizing: border-box;
+  padding-left: 15px;
+  padding-top: 76rpx;
+  // @include flex_(flex-start);
   .head{
-    text-align: center;
+    text-align: left;
     z-index: 1;
     .title{
-      @include fontMixin(36rpx, #000000, bold);
+      @include fontMixin(36rpx, #ffffff, bold);
     }
     .title_en{
       margin-top: 18rpx;
-      @include fontMixin(28rpx, #333333, 400)
+      @include fontMixin(28rpx, #ffffff, 400)
     }
   }
   .r_b{

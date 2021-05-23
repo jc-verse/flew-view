@@ -73,8 +73,8 @@ export default {
     position: absolute;
     top: 20rpx;
     right: 20rpx;
-    width: 10rpx;
-    height: 10rpx;
+    width: 20rpx;
+    height: 20rpx;
     background: red;
     border-radius: 50%;
 

@@ -1,10 +1,11 @@
 <template>
   <page-sj >
+    
     <div class="home_box">
     
-      <header class="header" :class="[masklen?'masking':'']">
-        <info-head  headStyles='width: 80rpx;height: 80rpx;' :infoData='userData' :isUser='false'>
-          <i slot='right' @click="clickIcon" class='iconfont iconarrow_right icon_item'></i>
+      <header class="header" :class="[masklen?'masking':'']"  @click="clickIcon">
+        <info-head  headStyles='width: 80rpx;height: 80rpx;' :infoData='userData'  :isUser='true'>
+          <i slot='right' class='iconfont iconarrow_right icon_item'></i>
         </info-head>
       </header>
       <scroll-box style="width:100%">
@@ -71,8 +72,10 @@
         <div class="welcome" v-if="active> masklen" @click.stop='clickWel'>欢迎来到视界！</div>
       </div>
     </div>
+    
+    <FabGroup :shows='[1,3,4]' @unLogin='unLogin'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
-    <FabGroup :shows='[1,3]'/>
+    <TipPopup title="操作提示" ref='unLogin' msg="是否退出登录？" @confirm='toLogin'/>
   </page-sj>
 </template>
 
@@ -112,6 +115,9 @@ export default {
   },
   methods: {
     toLogin,
+    unLogin() {
+      this.$refs.unLogin.show()
+    },
     clickIcon() {
       console.log(1223, isLogin())
       if (isLogin()) {
@@ -186,13 +192,14 @@ export default {
   display: flex;
   align-items: center;
   flex-direction: column ;
+  z-index: 1;
   .header{
     width: 100vw;
-    padding: 0 20rpx 10rpx 30rpx;
+    padding: 4rpx 20rpx 10rpx 30rpx;
     flex-grow: 0;
     flex-shrink: 0;
     box-sizing: border-box;
-    z-index: 10;
+    // z-index: 10;
     .name{
       @include fontMixin(26rpx, #485B89, 500)
     }

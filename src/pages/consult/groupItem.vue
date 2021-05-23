@@ -54,11 +54,11 @@ export default {
       const arr = [
         { title: '学校',    val: infoData.schoolName || '', id: 1 }, 
         { title: '年级',    val: infoData.grade || '',          id: 2 }, 
-        { title: '课程体系', val: infoData.curriculumSystem || '', id: 4 }, 
-        { title: '标化成绩', val: infoData.standardizedPerformance || '',           id: 3 }, 
-        { title: '专业方向', val: infoData.professionalDirection || '', id: 4 }, 
-        { title: '校内成绩', val: infoData.schoolRecord || '',         id: 3 }, 
-        { title: '星级评价', val: infoData.star  || 0,           id: 5 , code: 'rate', readonly:true}, 
+        { title: '课程', val: infoData.curriculumSystem || '', id: 4 }, 
+        { title: '标化', val: infoData.standardizedPerformance || '',           id: 3 }, 
+        { title: '专业', val: infoData.professionalDirection || '', id: 4 }, 
+        { title: '成绩', val: infoData.schoolRecord || '',         id: 3 }, 
+        { title: '评价', val: infoData.star  || 0,           id: 5 , code: 'rate', readonly:true}, 
       ]
       return arr
     },

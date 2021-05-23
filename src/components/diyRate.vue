@@ -1,12 +1,13 @@
 <template>
-  <DiyPopup ref='popup' :popupTitle="title" @popupclosed='popupclosed'>
+  <DiyPopup ref='popup' :popupTitle="title" @popupclosed='popupclosed' :styles='{top: "38%"}'>
       <template slot='content' style='height:100%'>
         <div class="rate_box">
           <div class="rate_item" v-for="(item, index) in rateHeads" :key='index'>
             <div class="rate_title">{{item.title}}</div>
             <div class="rate_content">
               <Rate 
-                :size='34'  
+                :size='34' 
+                :margin='30' 
                 :value="newRate[item.code]" 
                 allowHalf 
                 :max="5" 
@@ -94,13 +95,20 @@ export default {
   align-items: flex-start;
   height: 100%;
   .rate_item{
-    padding: 40rpx;
+    padding: 20rpx;
     @include flex_center;
     align-items: flex-start;
     flex-direction: column;
     // @include fontMixin(32rpx, #000, bold);
+    width: 100%;
     .rate_title{
+      width: 100%;
+      text-align: center;
       padding: 10rpx;
+    }
+    .rate_content{
+      width: 100%;
+      padding: 0 68rpx;
     }
   }
 }

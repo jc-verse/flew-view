@@ -6,6 +6,20 @@
   "description": "uniapp",
   "glyphs": [
     {
+      "icon_id": "9046170",
+      "name": "退出",
+      "font_class": "tuichu",
+      "unicode": "e710",
+      "unicode_decimal": 59152
+    },
+    {
+      "icon_id": "20293379",
+      "name": "服务订单详情-客服",
+      "font_class": "kefu",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
       "icon_id": "6531226",
       "name": "认证",
       "font_class": "renzheng",

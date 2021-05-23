@@ -102,9 +102,35 @@ export function isLogin () {
 
 export function toLogin () {
   uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+  const count = uni.getStorageSync('count')
   try {
     uni.clearStorageSync();
   } catch (e) {
       // error
   }
+  if (count) {
+    setStorage({count: count + 1})
+  }
+}
+
+// 时间转换格式
+export function formatDate(time, formatStr) {
+  let date = new Date(time);
+  let Y = date.getFullYear();
+  let M = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
+  let D = date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate();
+  let h = date.getHours();
+  let m = date.getMinutes();
+  let s = date.getSeconds();
+  formatStr = formatStr || 'YYYY-MM-DD H:m:s';
+  return formatStr.replace(/YYYY|MM|DD|H|m|s/ig, function (matches) {
+      return ({
+          YYYY: Y,
+          MM: M,
+          DD: D,
+          H: h,
+          m: m,
+          s: s
+      })[matches];
+  })
 }

@@ -2,13 +2,17 @@
   <PageJS  :styles="{background:'#F1F3F5'}">
     <ScrollBox @lower='lower'>
       <div class="msg_center_wrap" @click='userInfoClickRead'>
-        <div class="sigle_msg_item" v-for="(item, idx) in list" :key="idx">
-          <div class="time" v-if='item.showTime' >{{item.createTime | filterTime}}</div>
-          <MessageItem  :info='item'/>
-        </div>
-        <div class="noList">
+        <template v-if="list.length">
+          <div class="sigle_msg_item" v-for="(item, idx) in list" :key="idx">
+            <div class="time" v-if='item.showTime' >{{item.createTime | filterTime}}</div>
+            <MessageItem  :info='item'/>
+          </div>
+        </template>
+        <template v-else>
+          <div class="noList">
           当前无消息！
         </div>
+        </template>
       </div>
     </ScrollBox>
     <FabGroup/>
@@ -18,7 +22,9 @@
 import PageJS from '@/components/pageSjNew.vue';
 import ScrollBox from '@/components/scrollBox.vue';
 import FabGroup from '@/components/fabGroup';
-import MessageItem from './messageItem.vue'
+import MessageItem from './messageItem.vue';
+
+import { formatDate } from '@/common/utils';
 
 import { userInfoMyMsgList, userInfoClickRead } from '@/common/api';
 function isToday(date) {
@@ -120,8 +126,9 @@ export default {
   filters: {
     // 当天消息只展示时间
     filterTime(val) {
-      const flag = isToday(new Date(val))
-      return flag? val.split(' ')[1] :val
+      const time = new Date(val);
+      const flag = isToday(time)
+      return formatDate(time.getTime(), flag?  'H:m': 'YYYY-MM-DD H:m')
     }
   },
 }

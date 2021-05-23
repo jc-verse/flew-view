@@ -14,7 +14,7 @@
     </div>
 
     <div class="buoy btn blue" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div>
-    <div :class="['orange','btn',infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >评价</div>
+    <div :class="['orange','btn',infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >查看评价</div>
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
     <DiyRate ref='diyRate' :rateData='rateForm' :readonly='true'></DiyRate>
@@ -57,11 +57,11 @@ export default {
       const arr = [
         { title: '学校',    val: infoData.schoolName || '', id: 1 }, 
         { title: '年级',    val: infoData.grade || '',          id: 2 }, 
-        { title: '课程体系', val: infoData.curriculumSystem || '', id: 4 }, 
-        { title: '标化成绩', val: infoData.standardizedPerformance || '',           id: 3 }, 
-        { title: '专业方向', val: infoData.professionalDirection || '', id: 4 }, 
-        { title: '校内成绩', val: infoData.schoolRecord || '',         id: 3 }, 
-        { title: '星级评价', val: infoData.star  || 0,           id: 5 , code: 'rate', readonly:true}, 
+        { title: '课程', val: infoData.curriculumSystem || '', id: 4 }, 
+        { title: '标化', val: infoData.standardizedPerformance || '',           id: 3 }, 
+        { title: '专业', val: infoData.professionalDirection || '', id: 4 }, 
+        { title: '成绩', val: infoData.schoolRecord || '',         id: 3 }, 
+        { title: '评价', val: infoData.star  || 0,           id: 5 , code: 'rate', readonly:true}, 
       ]
       return arr
     },
