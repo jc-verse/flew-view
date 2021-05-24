@@ -112,6 +112,7 @@ export default {
         size: 10,
         ...form
       }
+      console.log('我是竞赛组队赛选参数：', JSON.stringify(params))
       branchCompetitionUser(params).then(res => {
         const { data: nData } = res[1];
         const { data, code } = nData;
@@ -160,7 +161,7 @@ export default {
       uni.navigateTo({ url: joinUrl('/pages/userComplete/index', {type:'edit'}) })
     },
     changeTag(form) {
-
+      this.initInfo(form)
     },
     // 触底
     lower() {

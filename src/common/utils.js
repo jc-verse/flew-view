@@ -88,6 +88,14 @@ export const bsToStrFn = (arr = []) => {
     return `${year} ${name}`
   });
 }
+// 课程体系信息重组
+export const bsToStrFun = (arr = []) => {
+  const list = arr || []
+  return list.map(item => {
+    const { subject, fraction } = item;
+    return `${subject} ${fraction}`
+  });
+}
 
 export  function setStorage (obj) {
   for (const key in obj) {

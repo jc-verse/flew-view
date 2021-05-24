@@ -4,10 +4,10 @@
       <div class="userInfo">
         <div class="top">
           <form-item-box 
-            v-for='(ite, ind) in formHeads' 
+            v-for='(ite, ind) in formHeadList' 
             :key='ind' 
             :ite ='ite' 
-            :show-b='ind + 1 === formHeads.length'
+            :show-b='ind + 1 === formHeadList.length'
             :formData='formData'
           >
             <form-item :headInit='ite' :formData='formData' @change="changeFn">
@@ -38,14 +38,15 @@
             :tableHead='tableHead_sy' 
             :tableData='formData["curriculumSystem"]'
             className='curriculumSystem'  
-            :showBtn='false' 
             class="tb_item"
             @changeTable='changeFn'
+            @deleteItem='deleteItem'
+            :maxNum='8'
           >
             <div class="add" slot='diy'>
               <form-item  :headInit='systems' :showIcon='true' :formData='formData' @change="changeFn"></form-item> 
             </div>
-            <div class="right" slot='right' v-if='formData.curriculumSystemType'>
+            <div class="right" slot='right' v-if='systemImgList.length < 8'>
               <form-item  :headInit='right' :formData='formData' @change="changeFn">
                 <template slot='upload'>
                   <div class="right_box">
@@ -55,10 +56,18 @@
               </form-item>
             </div>
             <div slot='right_list'>
-              <template v-if="formData.curriculumSystemAuthUrl">
-                <div class="g_item" style='margin-top: 10rpx'>
-                  <div class="text">{{`${formData.curriculumSystemAuthUrl}`}}</div>
-                  <div class="delete" @click='deleteUrl(ind)'>删除</div>
+              <template v-if="systemImgList.length">
+                <div class="g_item" style='margin-top: 10rpx' v-for="(ite, ind) in systemImgList" :key='ind'>
+                  <div class="text">{{ ite }}</div>
+                  <div class="delete" @click='deleteUrl(ind,ite)'>删除</div>
+                </div>
+              </template>
+            </div>
+            <div class="g_list" slot='list'>
+              <template v-for='(items,ind) in formData["curriculumSystem"]' >
+                <div class="g_item" :key="ind" v-if="items.img">
+                  <div class="text">{{`${ind + 1}. ${items.img}`}}</div>
+                  <div class="delete" @click='deleteSta(ind)'>删除</div>
                 </div>
               </template>
             </div>
@@ -71,7 +80,17 @@
             :tableData='formData["standardizedPerformance"]' 
             className='standardizedPerformance'
             @changeTable='changeFn'
+            @deleteItem='deleteItem'
+            :maxNum='6'
           >
+            <div class="g_list" slot='list'>
+              <template v-for='(items,ind) in formData["standardizedPerformance"]' >
+                <div class="g_item" :key="ind" v-if="items.img">
+                  <div class="text">{{`${ind + 1}. ${items.img}`}}</div>
+                  <div class="delete" @click='deleteSta(ind, "standardizedPerformance")'>删除</div>
+                </div>
+              </template>
+            </div>
           </CourseSystem>
 
           <form-item-box v-for='(option, ind) in bottomHeads' :key='ind' :ite='option' :show-b='ind+1 === bottomHeads.length' >
@@ -150,7 +169,7 @@ import DiyInpSel from '@/components/forms/diyInputSelect';
 import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, formData } from './const';
 import { joinUrl, getCurPage, analysisFn } from '@/common/utils';
 import { imgUrl } from '@/common/http';
-import { subjectList, updateCardInfo, selectSchoolList } from '@/common/api';
+import { subjectList, updateCardInfo, selectSchoolList, teamUpGradeList } from '@/common/api';
 import commonMixin from '@/common/mixins/commonMixin';
 import userDataMixin from '@/common/mixins/userDataMixin';
 export default {
@@ -182,10 +201,12 @@ export default {
       // totalList: [], // 希望参加的比赛list
       matchList: [],
       schoolList: [],
+      gradeList:[],
 
       canClick: true,
 
       right: { label: '体系认证', code:'curriculumSystemAuthUrl', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'upload', type: 'text', max: 20 }},
+      userCount: 0
     }
   },
   computed:{
@@ -204,6 +225,10 @@ export default {
       //     errList.push(`学科不能为空`);
       //   }
       // })
+      const subjectNameList =  formData['competitionExperience'].map(item=> item.subject);
+      if (subjectNameList.length != [...new Set(subjectNameList)]) {
+        errList.push(`学科名称不能重复`);
+      }
       formData['standardizedPerformance'].forEach(item => {
         if (!item.subject) {
           errList.push(`科目不能为空`);
@@ -213,7 +238,10 @@ export default {
     },
     // 科目下拉
     subjects () {
-      return this.subjectList.map(item => ({...item ,label: item.subjectName }))
+      const { standardizedPerformance } = this.formData;
+      const idList = standardizedPerformance.map(item=> item.subject)
+      const arrNew = this.subjectList.map(item => ({...item ,label: item.subjectName, disable: idList.includes(item.id.toString())}));
+      return arrNew
     },
     // 体系下拉
     systems () {
@@ -256,14 +284,29 @@ export default {
         url = `${imgUrl}${avatar}`
       }
       return url;
+    },
+    formHeadList() {
+      const { gradeList } = this
+      return formHeads.map(item => {
+        if (item.code == 'grade'){
+          item.params.list = gradeList || [];
+        }
+        return item
+      })
+    },
+    systemImgList () {
+      const { curriculumSystemAuthUrl }= this.formData;
+      const arr = curriculumSystemAuthUrl.split(',')
+      return arr
     }
   },
   onShow() {
-    this.formDataFun(19887)
+    this.formDataFun()
   },
   mounted() {
     this.getDownList(1);  //科目
     this.getDownList(2);  //体系
+    this.teamUpGradeList();
 
     /*获取当前路由*/
     const { type = '' } = getCurPage();
@@ -281,8 +324,9 @@ export default {
     this.getSchoolList()
   },
   methods:{
+    // 表单回显
     formDataFun(v) {
-      const { userData, formData } = this;
+      const { userData, userCount } = this;
       const user = v || userData
       const keys = Object.keys(user)
       if (keys.length) {
@@ -293,9 +337,13 @@ export default {
           standardizedPerformance : user.standardizedPerformanceList || [],
         };
         console.log(666, user, v)
-        this.formData = JSON.parse(JSON.stringify(obj))
+        if (userCount === 0) {
+          this.formData = JSON.parse(JSON.stringify(obj))
+          this.userCount +=1
+        }
       }
     },
+    // 获取学校列表
     getSchoolList(val) {
       if (!val) {
         this.schoolList = [];
@@ -321,12 +369,25 @@ export default {
         const { code, data } = nData || {};
         if (code === 200) {
           const obj = { '1': 'subjectList', '2': 'systemList' };
-          this[obj[type]] = data || [];
+          this[obj[type]] = [{label: '请选择', id: '', subjectName:'请选择'}, ...(data || [])];
         }
       })
     },
+    // 获取年级
+    teamUpGradeList() {
+      teamUpGradeList().then(res => {
+        const {data: nData} = res[1];
+        const { code, data } = nData;
+        if (code === 200 && data.length) {
+          const arr = (data || []).map(item => ({...item, label: item.name}));
+          arr.unshift({ label: '请选择年级' , id: ''})
+          this.gradeList = arr;
+        }
+      }).catch(err => {console.log(err)})
+    },
     // 改变表单
     changeFn({data, code, type}) {
+      console.log(123123123, data, code , type)
       switch (type) {
         case 'add':
           this.formData[code].push(data);
@@ -353,9 +414,21 @@ export default {
           this.formData[code] = data.name || ''
           break;
         default:
-          this.formData[code] = data;
+          if (code === 'curriculumSystemAuthUrl') {
+            const { curriculumSystemAuthUrl } = this.formData;
+            this.formData[code] = curriculumSystemAuthUrl? `${curriculumSystemAuthUrl},${data}`: data;
+          } else if (code === 'isConsulting ' || code === 'isAcademic ') {
+            this.formData[code] = data ? 1 : 2;
+          } else {
+            this.formData[code] = data;
+          }
+
           break;
       }
+    },
+    // 删除表格
+    deleteItem({index, code}) {
+      this.formData[code] = this.formData[code].filter((ite, ind) => ind != index);
     },
     // 删除比赛经历
     deleteAut (index) {
@@ -367,8 +440,10 @@ export default {
       this.matchList = this.matchList.filter((item,ind) =>ind !==index )
       console.log(1988, this.matchList)
     },
-    deleteUrl() {
-      this.formData.curriculumSystemAuthUrl = ''
+    deleteUrl(ind, ite) {
+      const { systemImgList } = this;
+      const newArr = systemImgList.filter(item => ite !== item);
+      this.formData.curriculumSystemAuthUrl = newArr.join(',')
     },
     // 展示列表
     showFn(name){
@@ -435,6 +510,14 @@ export default {
     searchInp (val) {
       console.log(1000, val)
       this.getSchoolList(val)
+    },
+    deleteSta (index, code) {
+      this.formData[code].map((item, ind) => {
+        if (ind === index) {
+          item.img = ''
+        }
+        return item;
+      })
     }
   },
 

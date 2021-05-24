@@ -1,8 +1,15 @@
 <template>
   <div class="group_info_item">
   
-    <infoHead :infoData='infoData'/>
-
+    <infoHead :infoData='infoData'>
+      <template slot="right"> 
+        <div class="btn_box">
+          <div v-if="infoData.isConsulting == 2 && infoData.isConsulting != 4" @click.stop="clickBuoy(1)">申请服务</div>
+          <div v-else class="disable">{{infoData.isConsulting == 1 ? '申请中':'进行中'}}</div>
+          <!-- <div class="orange" @click.stop="clickBuoy(2)">查看评价</div> -->
+        </div>
+      </template>
+    </infoHead>
     <div class="content">
       <!-- 个人信息 -->
       <information :topList='tops'/>
@@ -12,7 +19,7 @@
       </div>
     </div>
 
-    <div class="buoy" v-if="userId != infoData.id"  @click.stop="clickBuoy(1)"> 申请服务 </div>
+    <!-- <div class="buoy" v-if="userId != infoData.id"  @click.stop="clickBuoy(1)"> 申请服务 </div> -->
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
   </div>
@@ -24,7 +31,7 @@ import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import TipPopup from '@/components/cards/tipPopup';
-import { bsToStrFn } from '@/common/utils';
+import { bsToStrFn, bsToStrFun } from '@/common/utils';
 import { isLogin, toLogin } from '@/common/utils'
 export default {
   name: 'group_item',
@@ -63,8 +70,8 @@ export default {
       return arr
     },
     bList() {
-      const { competitionExperience  } = this.infoData;
-      const arr = bsToStrFn(competitionExperience);
+      const { curriculumSystemList  } = this.infoData;
+      const arr = bsToStrFun(curriculumSystemList);
       return arr;
     },
   },
@@ -119,23 +126,30 @@ export default {
       transform: rotate(-90deg);
     }
   }
-  .buoy{
-    border-radius: 30rpx 0 0 30rpx;
-    background: rgba(92,134,242,.2);
-    position: absolute;
-    top: 60rpx;
-    right: 0;
-    padding: 10rpx 20rpx;
-    @include fontMixin(28rpx, #5C86F2 ,500);
+  .btn_box{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: -30rpx;
+    > div {
+      padding: 10rpx 10rpx;
+      border-radius: 30rpx;
+      background: rgba(92,134,242,.2);
+      @include fontMixin(24rpx, #5C86F2 ,500);
+    }
+    &>div:first-child{
+      border-radius: 30rpx 0 0 30rpx;
+    }
+    &>div:not(:first-child){
+      margin-right: 10rpx;
+    }
+    .disable{
+      filter: grayscale(100%);
+    }
+    .orange{
+      background: #FFF6E8 ;
+      color: #EF8E17;
+    }
   }
-  .evaluate{
-    border-radius: 30rpx;
-    background: #FFF6E8 ;
-    position: absolute;
-    top: 54rpx;
-    right: 170rpx;
-    padding: 10rpx 20rpx;
-    @include fontMixin(28rpx, #EF8E17 ,bold);
-  }
+  
 }
 </style>

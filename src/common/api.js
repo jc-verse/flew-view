@@ -184,3 +184,9 @@ export const launchActivity = (data) => {
 export const activityList = (data) => {
   return  httpAPI('/app/activity/activity-list', { data })
 }
+
+// 年级下拉
+export const teamUpGradeList = (data) => {
+  return  httpAPI('/app/team-up/grade-list', { data })
+}
+

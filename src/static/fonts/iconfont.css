@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2492272 */
-  src: url('~@/static/fonts/iconfont.woff2?t=1621763678799') format('woff2'),
-       url('~@/static/fonts/iconfont.woff?t=1621763678799') format('woff'),
-       url('~@/static/fonts/iconfont.ttf?t=1621763678799') format('truetype');
+  src: url('~@/static/fonts/iconfont.woff2?t=1621817826510') format('woff2'),
+       url('~@/static/fonts/iconfont.woff?t=1621817826510') format('woff'),
+       url('~@/static/fonts/iconfont.ttf?t=1621817826510') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.iconshanchu1:before {
+  content: "\e600";
+}
+
+.icontuichu1:before {
+  content: "\e601";
 }
 
 .icontuichu:before {

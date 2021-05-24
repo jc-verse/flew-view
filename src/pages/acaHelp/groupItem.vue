@@ -1,20 +1,27 @@
 <template>
   <div class="group_info_item" @click.stop='clickItem'>
   
-    <infoHead :infoData='infoData'/>
-
+    <infoHead :infoData='infoData'>
+      <template slot="right"> 
+        <div class="btn_box">
+          <div v-if="infoData.isAcademic == 2 && infoData.isAcademic != 4" @click.stop="clickBuoy(1)">申请服务</div>
+          <div v-else class="disable">{{infoData.isAcademic == 1 ? '申请中':'进行中'}}</div>
+          <div class="orange" @click.stop="clickBuoy(2)">查看评价</div>
+        </div>
+      </template>
+    </infoHead>
     <div class="content">
       <!-- 个人信息 -->
       <information :topList='tops'/>
       <!-- 经历 -->
       <div class="center">
-        <join-list title='比赛经历' :list='bList'/>
+        <join-list title='课程体系' :list='bList'/>
         <join-list title='个人留言' :value='infoData.personalMessage || "暂无留言"' type='text'/>
       </div>
     </div>
 
-    <div class="buoy btn blue" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div>
-    <div :class="['orange','btn',infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >查看评价</div>
+    <!-- <div class="buoy btn blue" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div> -->
+    <!-- <div :class="['orange','btn',infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >查看评价</div> -->
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
     <DiyRate ref='diyRate' :rateData='rateForm' :readonly='true'></DiyRate>
@@ -27,11 +34,10 @@ import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import TipPopup from '@/components/cards/tipPopup';
-import { bsToStrFn } from '@/common/utils';
+import { bsToStrFn, bsToStrFun } from '@/common/utils';
 import { academicGetEvaluate } from '@/common/api';
 import DiyRate from '@/components/diyRate';
 import { isLogin, toLogin } from '@/common/utils'
-
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, CrewInfo, TipPopup, DiyRate },
@@ -54,6 +60,7 @@ export default {
   computed : {
     tops() {
       const { infoData } = this;
+      console.log(12213123,infoData)
       const arr = [
         { title: '学校',    val: infoData.schoolName || '', id: 1 }, 
         { title: '年级',    val: infoData.grade || '',          id: 2 }, 
@@ -66,16 +73,10 @@ export default {
       return arr
     },
     bList() {
-      const { competitionExperience  } = this.infoData;
-      const arr = bsToStrFn(competitionExperience);
+      const { curriculumSystemList   } = this.infoData;
+      const arr = bsToStrFun(curriculumSystemList);
       return arr;
     },
-    tags() {
-      const { totalList, infoData } = this;
-      const { match, matchList } = infoData || {};
-      const arr = (matchList || '').split(',');
-      return arr
-    }
   },
   methods:{
     toLogin,
@@ -118,7 +119,6 @@ export default {
       if (!isLogin()) {
         return 
       }
-      console.log(12323, 'clickItem')
       this.$emit('clickItem')
     }
   }
@@ -156,29 +156,30 @@ export default {
       transform: rotate(-90deg);
     }
   }
-  .buoy{
-    border-radius: 30rpx 0 0 30rpx;
-    position: absolute;
-    top: 60rpx;
-    right: 0;
+  .btn_box{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: -30rpx;
+    > div {
+      padding: 10rpx 10rpx;
+      border-radius: 30rpx;
+      background: rgba(92,134,242,.2);
+      @include fontMixin(24rpx, #5C86F2 ,500);
+    }
+    &>div:first-child{
+      border-radius: 30rpx 0 0 30rpx;
+    }
+    &>div:not(:first-child){
+      margin-right: 10rpx;
+    }
+    .disable{
+      filter: grayscale(100%);
+    }
+    .orange{
+      background: #FFF6E8 ;
+      color: #EF8E17;
+    }
   }
-  .evaluate{
-    border-radius: 30rpx;
-    position: absolute;
-    top: 54rpx;
-    right: 170rpx;
-  }
-  .orange{
-    background: #FFF6E8 ;
-    @include fontMixin(28rpx, #EF8E17 ,bold);
-  }
-  .blue{
-    background: rgba(92,134,242,.2);
-    @include fontMixin(28rpx, #5C86F2 ,500);
-  }
-  .btn{
-    z-index: 100;
-    padding: 10rpx 20rpx;
-  }
+  
 }
 </style>

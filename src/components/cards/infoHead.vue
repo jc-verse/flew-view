@@ -97,7 +97,7 @@ export default {
     align-items: center;
   }
   & div:not(:last-child){
-    margin-right: 20rpx;
+    margin-right: 10rpx;
   }
   .user_head{
     width: 100rpx;

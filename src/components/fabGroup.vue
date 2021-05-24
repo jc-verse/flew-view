@@ -27,7 +27,7 @@ export default {
       list : [
         { icon: 'iconuser' , id: 1 },
         { icon: 'iconzhuye' , id: 2 },
-        { icon: 'icontuichu' , id: 3 , name: '注销'},
+        { icon: 'icontuichu1' , id: 3 , name: '注销'},
         { icon: 'iconkefu' , id: 4 , name: '联系客服'},
       ],
       isLogin: true

@@ -35,9 +35,8 @@ const tabList = [
   { id: '', label: '全部' },
   { id: 1, label: '艺术' },
   { id: 2, label: '体育' },
-  { id: 3, label: '工艺' },
-  { id: 4, label: '学术' },
-  { id: 5, label: '综合' },
+  { id: 3, label: '学术' },
+  { id: 4, label: '综合' },
   { id: 5, label: '其他' }
 ]
 export default {

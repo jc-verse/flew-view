@@ -6,14 +6,16 @@ const arr = [
 
 export const formHeads = [
   { label: '头像',   code:'avatar', id: '' ,required: false,  params: { ph: '请填写真实姓名',genre:'upload', type: 'text', max: 20 } },
-  { label: '昵称',   code:'nikeName',  id: '' ,required: false, params: { ph: '获取微信名',    genre:'text', type: 'text', max: 20} },
+  { label: '昵称',   code:'nikeName',  id: '' ,required: false, params: { ph: '获取微信名',    genre:'input', type: 'text', max: 5} },
   { label: '微信号', code:'wxCode',    id: '' ,required: false,  params: { ph: '请填写微信号',  genre:'input', type: 'text', max: 20 }},
   { label: '姓名',   code:'name',      id: '' ,required: true,  params: { ph: '请填写真实姓名',genre:'input', type: 'text', max: 20 } },
   { label: '手机',   code:'phone',     id: '' ,required: true,  params: { ph: '请填写电话',    genre:'input', type: 'number', max: 11 } },
   { label: '学校',   code:'schoolName',id: '' ,required: true,  params: { ph: '请填写学校',    genre:'inputSelect', type: 'text', max: 20 ,candidates:['1','12','13','8',15,16,17]} },
-  { label: '年级',   code:'grade',     id: '' ,required: true,  params: { ph: '请填写年级',    genre:'input', type: 'text', max: 20 } },
+  { label: '年级',   code:'grade',     id: '' ,required: true,  params: { ph: '请填写年级',    genre:'select', list: [] } },
   { label: '性别',   code:'sex',       id: '' ,required: true,  params: { ph: '请选择性别',    genre:'select', list: arr } },
   { label: '邮箱',   code:'email',     id: '' ,required: false,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
+  { label: '学术帮助',   code:'isAcademic',     id: '' ,required: false,  params: { ph: '',    genre:'checkbox', type: '' , max: 20} },
+  { label: '学校咨询',   code:'isConsulting',     id: '' ,required: false,  params: { ph: '',    genre:'checkbox', type: '' , max: 20} },
 ]
 
 export const centerHeads =  { 
@@ -27,15 +29,17 @@ export const bottomHeads =[
 export const tableHead = [
   { label: '学科', code: 'subject', id: '', onlyCode: '',disabled: false, type:'input' ,pro : '2.7',ph: '例：西语LLHL'},
   { label: '分数', code: 'fraction', id: '', onlyCode: '',disabled: false, type:'input' ,pro :'1.8'},
-  { label: '咨询', code: 'isConsultingService', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
-  { label: '帮助', code: 'isHelp', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
+  { label: '操作', code: 'edit', id: '', onlyCode: '',disabled: false, type:'edit' ,pro :'1'},
+  // { label: '咨询', code: 'isConsultingService', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
+  // { label: '帮助', code: 'isHelp', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
 ]
 
 export const tableHead2 = [
   { label: '科目', code: 'subject', id: '', onlyCode: '',disabled: false, type:'select' ,pro : '2.7', list:[]},
   { label: '分数', code: 'fraction', id: '', onlyCode: '',disabled: false, type:'input' ,pro :'1.8'},
-  { label: '咨询', code: 'isConsultingService', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
-  { label: '帮助', code: 'isHelp', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
+  { label: '操作', code: 'edit', id: '', onlyCode: '',disabled: false, type:'edit' ,pro :'1'},
+  // { label: '咨询', code: 'isConsultingService', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
+  // { label: '帮助', code: 'isHelp', id: '', onlyCode: '',disabled: false, type:'checkbox' ,pro : '1'},
 ]
 
 export const formData = {

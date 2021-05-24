@@ -2,7 +2,14 @@
   <div class="group_info_item" :style='{background: cardStatu.bgColor || ""}'>
     <div class="event_tip">被申请的</div>
     <div class="msg_title">{{cardStatu.title || ''}}</div>
-    <infoHead :infoData='infoData'/>
+    <infoHead :infoData='infoData'>
+      <template slot="right"> 
+        <div class="btn_box">
+          <div class="blue" @click="clickBuoy(2)" > 通过</div>
+          <div class="" @click="clickBuoy(3)"> 拒绝</div>
+      </div>
+      </template>
+    </infoHead>
 
     <div class="content">
       <!-- 个人信息 -->
@@ -15,8 +22,8 @@
       </div>
     </div>
     <div class="btn_box">
-      <div class="buoy yes" @click="clickBuoy(2)" > 通过</div>
-      <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div>
+      <!-- <div class="buoy yes" @click="clickBuoy(2)" > 通过</div>
+      <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div> -->
     </div>
     <TipPopup :title="popupStatu.title" ref='tipPopup' :msg="popupStatu.msg" @confirm='confirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
@@ -237,5 +244,28 @@ export default {
     }
   }
 }
-
+.btn_box{
+  display: flex;
+  flex-direction: row-reverse;
+  // margin-right: -30rpx;
+  > div {
+    padding: 10rpx 10rpx;
+    border-radius: 30rpx;
+    background: #eeeeee ;
+    @include fontMixin(26rpx, #666666 );
+  }
+  &>div:first-child{
+    border-radius: 30rpx 0 0 30rpx;
+  }
+  &>div:not(:first-child){
+    margin-right: 10rpx;
+  }
+  .disable{
+    filter: grayscale(100%);
+  }
+  .blue{
+    background: rgba(92, 134, 242, .1);
+    color: rgb(92, 134, 242);
+  }
+}
 </style>

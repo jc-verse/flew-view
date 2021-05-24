@@ -17,7 +17,7 @@ import TagItem from './tagItem'
 import TagItemCity from './tagItemCity'
 import { sexs, grades } from '@/common/enum';
 import cityData from '@/static/city1.json';
-import { selectSchoolList } from '@/common/api'
+import { selectSchoolList, teamUpGradeList, subjectList } from '@/common/api'
 
 export default {
   name: 'TagItem',
@@ -26,7 +26,11 @@ export default {
     list: {
       type: Array,
       default:() => []
-    }
+    },
+    showList: {
+      type: Array,
+      default: [1,2,3,4]
+    } 
   },  
   data () {
     return {
@@ -34,24 +38,39 @@ export default {
       tagList: [
         { label: '城市', id: 1 , code: 'city',      defalutVal:'',  list: cityData, ph: '地区'},
         { label: '学校', id: 2 , code: 'schoolName',defalutVal:'',  list:[] ,       ph: '学校'},
-        { label: '性别', id: 3 , code: 'sex',       defalutVal:'3',  list: sexs ,    ph: '性别'},
-        { label: '年级', id: 4 , code: 'grade',     defalutVal:'1',  list: grades,   ph: '年级'},
+        { label: '性别', id: 3 , code: 'sex',       defalutVal:'',  list: sexs ,    ph: '性别'},
+        { label: '年级', id: 4 , code: 'grade',     defalutVal:'',  list: [],   ph: '年级'},
+        { label: '科目', id: 5 , code: 'subId1',     defalutVal:'',  list: [],   ph: '科目'},
+        { label: '课程体系', id: 6 , code: 'subId',     defalutVal:'',  list: [],   ph: '课程体系'},
       ],
       cityName: '',
       form: {
         schoolName: '',
         sex:'3',
-        grade: 1
+        grade: '',
+        subId: '',
+        subId1: ''
       }
     }
   },
   computed: {
     tags () {
-      const { tagList } = this;
-      return tagList.filter(item => item.list.length)
+      const { tagList, showList } = this;
+      console.log(10231, showList)
+      return tagList.filter(item => item.list.length && showList.includes(item.id))
+    },
+  },
+  mounted() {
+    this.teamUpGradeList();
+    if (this.showList.includes(5)) {
+      this.getDownList(1);  //科目
+    }
+    if (this.showList.includes(6)) {
+      this.getDownList(2);  //体系
     }
   },
   methods:{
+    // 获取学校列表
     selectSchoolList() {
       const { cityName, tagList } = this;
       selectSchoolList({keyword: cityName || ''}).then(res => {
@@ -64,12 +83,46 @@ export default {
         }
       }).catch(err => {console.log(err)})
     },
+    // 获取年级
+    teamUpGradeList() {
+      teamUpGradeList().then(res => {
+        const {data: nData} = res[1];
+        const { code, data } = nData;
+        if (code === 200 && data.length) {
+          const arr = (data || []).map(item => ({...item, label: item.name}));
+          arr.unshift({ label: '请选择年级' , id: ''})
+          this.tagList[3].list = arr;
+        }
+      }).catch(err => {console.log(err)})
+    },
+    // 获取科目/课程体系  list
+    getDownList (type = 1) { //  type: 1 科目   /  2 课程体系
+      subjectList({ type }).then(res => {
+        const {data: nData} = res[1];
+        const { code, data } = nData || {};
+        if (code === 200) {
+          const obj = { '1': 4, '2': 5 };
+          this[obj[type]] = data || [];
+          const arr = (data || [])
+            .map(item => ({...item ,label: item.subjectName }))
+          if (arr.length) {
+            arr.unshift({label: type == 1? '请选择科目': '请选择课程体系', id: ''})
+          } 
+          this.tagList[obj[type]].list = arr
+            
+        }
+      })
+    },
     changeFn(id, code, value) {
       switch (id) {
         case 1:
-          const val = value[value.length-1] || {}
-          this.cityName = val.name;
-          this.selectSchoolList();
+          if (value.length) {
+            this.cityName = value.reduce((x, y)=> {
+              return x.name + y.name;
+            })
+            this.selectSchoolList();
+          }
+          
           break;
         case 2:
           this.form[code] = value.name;
@@ -77,6 +130,8 @@ export default {
           break;
         case 3:
         case 4:
+        case 5:
+        case 6:
           this.form[code] = value.id;
           console.log('234' , this.form);
           this.$emit('changeValue', this.form )

@@ -2,7 +2,14 @@
   <div class="group_info_item" :style='{background: cardStatu.bgColor || ""}'>
     <div class="event_tip">我申请的</div>
     <div class="msg_title">{{cardStatu.title || ''}}</div>
-    <infoHead :infoData='infoData'/>
+    <infoHead :infoData='infoData'>
+      <template slot="right"> 
+        <div class="btn_box">
+          <div class="" @click="clickBuoy(1)" v-if="infoData.type == 1">取消申请</div>
+          <div class="" v-else>待对方确认申请</div>
+        </div>
+      </template>
+    </infoHead>
 
     <div class="content">
       <!-- 个人信息 -->
@@ -15,8 +22,8 @@
       </div>
     </div>
     <div class="btn_box">
-      <div class="buoy" @click="clickBuoy(1)" v-if="infoData.type == 1">取消申请</div>
-      <div class="buoy" v-else>待对方确认申请</div>
+      <!-- <div class="buoy" @click="clickBuoy(1)" v-if="infoData.type == 1">取消申请</div>
+      <div class="buoy" v-else>待对方确认申请</div> -->
     </div>
     <TipPopup title='取消申请' ref='tipPopup' msg='是否确认取消申请！' @confirm='confirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
@@ -192,6 +199,32 @@ export default {
     padding-top: 20rpx;
     @include fontMixin(30rpx,#676FDF)
   }
+
 }
+.btn_box{
+  display: flex;
+  flex-direction: row-reverse;
+  // margin-right: -30rpx;
+  > div {
+    padding: 10rpx 10rpx;
+    border-radius: 30rpx;
+    background: #eeeeee ;
+    @include fontMixin(26rpx, #666666 );
+  }
+  &>div:first-child{
+    border-radius: 30rpx 0 0 30rpx;
+  }
+  &>div:not(:first-child){
+    margin-right: 10rpx;
+  }
+  .disable{
+    filter: grayscale(100%);
+  }
+  .blue{
+    background: rgba(92, 134, 242, .1);
+    color: rgb(92, 134, 242);
+  }
+}
+
 
 </style>

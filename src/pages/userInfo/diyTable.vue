@@ -30,7 +30,7 @@
             <div v-if='item.type === "select"' >
               <picker placeholder='请选择' @change='change($event, ind, "select", item.code, item.list)' range-key='label' :value="ite[item.code]" :range="item.list">
                 <view class="uni-input" v-if='ite[item.code]'>
-                  {{item.list[ite[item.code]].label || ''}}
+                  {{item.list[ite[item.code]].label || '111'}}
                   <i class="iconfont iconxiala1" style='color:#808080;margin-left: 10rpx'></i>
                 </view>
                 <view v-else style='color:#808080'>请选择</view>
@@ -42,18 +42,26 @@
                 <i class="iconfont icontupianshangchuan" style="font-size:44rpx;color:#676FDF"></i>
               </UploadImage>
             </div>
+            
+            <div v-if='item.type === "edit"' >
+              <template v-if="tableDataList.length > 1">
+                <i class="iconfont iconshanchu1" style="font-size:44rpx;color:#676FDF" @click='change($event, ind, "edit", item.code)'></i>
+              </template>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <TipPopup title="操作提示" ref='tipPopup' msg="是否确定删除？" @confirm='confirm'/>
   </div>
 </template>
 
 <script>
-import UploadImage from '@/components/forms/upload'
+import UploadImage from '@/components/forms/upload';
+import TipPopup from '@/components/cards/tipPopup';
 export default {
   name: 'diyTable',
-  components: { UploadImage },
+  components: { UploadImage, TipPopup },
   props: {
     heads: { type:Array, default: ()=>[] },
     datas: { type:Array, default: ()=>[] },
@@ -71,12 +79,16 @@ export default {
   mounted() {
   },
   data () {
-    return { }
+    return { 
+      delIndex: 0
+    }
   },
   methods:{
+    confirm() {
+      this.$emit('deleteItem', this.delIndex)
+    },
     change(e,index, type, code, list){
       const { value } = e.target || {}
-      console.log(10293, e)
       switch (type) {
         case 'checkout':
           this.datas[index][code] = !!value.length ? 1 :2;
@@ -86,10 +98,20 @@ export default {
           break;
         case 'select':
           const val = list.find((item, ind) => ind == value) || {}
+          if (val.disable && this.tableDataList[index][code] != value) {
+            this.datas[index][code] = ''; 
+            uni.showToast({title:'无法重复选择', icon:'none'})
+            return;
+          }
           this.datas[index][code] = val.id;
           break;
         case 'upload':
           this.datas[index][code] = e.link;
+          break;
+        case 'edit':
+          this.delIndex = index;
+          this.$refs.tipPopup.show();
+          return 
           break;
         default:
           break;

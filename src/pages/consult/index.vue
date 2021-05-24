@@ -2,7 +2,7 @@
   <page-sj> 
     <div class="consult" style="overflow: hidden;">
       <search @change='changeVal' :pValue='searchVal' :propertys="{'maxlength':'10'}"/>
-      <tag-group @changeValue='changeTag'></tag-group>
+      <tag-group @changeValue='changeTag' :showList='[1,2,3,4,5,6]'></tag-group>
       <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到{{cardList.length || 0}}个关于“{{searchVal}}”的信息</div>
@@ -60,11 +60,14 @@ export default {
       this.getInfo(form);
     },
     changeVal(val){
-      this.searchVal = val
+      if ( this.searchVal != val) {
+        this.searchVal = val;
+        this.initFotm();
+      }
     },
     getInfo(form={}) {
-      const { current, size } = this;
-      const params = { current, size, ...form };
+      const { current, size, searchVal } = this;
+      const params = { current, size, ...form, nikeName:searchVal };
       consultingList(params).then(res => {
         const {data: nData} = res[1];
         const { code, data } = nData || {};
@@ -99,6 +102,7 @@ export default {
       this.getInfo();
     },
     changeTag(form) {
+      console.log(12313123, form)
       this.initForm(form)
     },
     // 点击卡片Btn

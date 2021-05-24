@@ -2,9 +2,9 @@
 	<DiyPopup @popupclosed='popupclosed' popupTitle='希望参加的比赛'>
 		<slot></slot>
 		<template slot='content'>
-			<scroll-view :scroll-x="true">	
+			<scroll-view :scroll-x="true" :scroll-left='rightNum' scroll-with-animation :scroll-into-view='newId'>	
 				<div class="confirm_box" v-if="checkItems.length">
-					<div class="confirm_item" v-for="(item, index) in checkItems" :key='index'>
+					<div class="confirm_item" v-for="(item, index) in checkItems" :id="`item_${index}`" :key='index'>
 						{{ item[2].label}}
 						<i @click='deleteItem(index)'  class="iconfont iconshanchu icon" style="color:#676FDF;margin-left:10rpx"></i>
 					</div>
@@ -47,7 +47,9 @@
 				isOpened: false,
 				checks:['', '', ''], // 各级被选中的下标
 				checkList: [], // 备选项
-				checkItems: [] // 已选中的
+				checkItems: [], // 已选中的
+				rightNum: 0,
+				newId: 'item_0',
 			}
 		},
 		computed: {
@@ -104,6 +106,15 @@
 				if (ind === 2 && !flag) {
 					const arr = [...this.checkList]
 					this.checkItems.push(arr)
+					const this_= this;
+					// setTimeout(()=>{
+					// 	this_.rightNum = 999;
+					// },1000)
+					// console.log(2323423, this.rightNum, arr)
+					this.$nextTick(()=>{
+						// console.log(12313,)
+						this_.newId = `item_${this_.checkItems.length-1}`;
+					})
 				}
 			},
 			deleteItem(ind) {

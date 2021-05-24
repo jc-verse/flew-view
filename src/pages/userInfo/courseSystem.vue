@@ -7,21 +7,22 @@
     </div>
     <slot name='right_list'></slot>
     <div class="content">
-      <diyTable :heads='tableHead' :datas='tableData' @change='tableChange'/>
+      <diyTable :heads='tableHead' :datas='tableData' @change='tableChange' @deleteItem='deleteItem'/>
     </div>
     <slot name='list'></slot>
-    <slot>
-      <div v-if="showBtn" class="add_item" @click="addTableItem">
+    <slot name='add'>
+      <div v-if="ifAdd"  class="add_item" @click="addTableItem">
         <i class="iconfont iconjiahao"></i>
         更多成绩
       </div>
     </slot>
-    
+    <!-- <TipPopup title="操作提示" ref='tipPopup' msg="是否退出登录？" @confirm='confirm'/> -->
   </div>
 </template>
 
 <script>
-import diyTable from './diyTable'
+import diyTable from './diyTable';
+// import TipPopup from '@/components/cards/tipPopup';
 export default {
   name : 'courseSystem',
   components: { diyTable },
@@ -46,20 +47,38 @@ export default {
     showBtn: {
       type: Boolean,
       default: true
+    },
+    maxNum:{
+      type: Number,
     }
   },
   data() {
     return {
+      delIndex: 0
+    }
+  },
+  computed: {
+    ifAdd () {
+      const {maxNum, tableData} = this;
+      return  tableData.length < maxNum
     }
   },
   methods: {
     // 抛出修改
     tableChange (data) {
-      this.$emit('changeTable', {data, code :this.className || ''})
+      this.$emit('changeTable', {data, code: this.className || ''})
+    },
+    deleteItem(index) {
+      this.$emit('deleteItem', {index, code: this.className || ''})
+      
     },
     // 新增表格数据模板
     addTableItem () {
       const obj = {};
+      const {maxNum, tableData} = this;
+      if (!this.ifAdd) {
+        return 
+      }
       this.tableHead.forEach(item => {
         if (item.type === 'checkbox') {
           obj[item.code] = 2

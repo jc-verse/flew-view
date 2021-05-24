@@ -21,7 +21,10 @@
     <template v-if="headInit.params.genre === 'select'" >
       <picker  range-key='label' :value="formData[headInit.code]" :disabled='!!headInit.disabled'  @change="change($event, 'select', headInit.code)" :range="headInit.params.list">
         <div class="box">
-          <view class="select" v-if='formData[headInit.code]'><slot name='select'></slot>{{formData[headInit.code] | findIndex(headInit.params.list)}}</view>
+          <view class="select" v-if='formData[headInit.code]'>
+            <slot name='select'></slot>
+            {{formData[headInit.code] | findIndex(headInit.params.list)}}
+          </view>
           <view v-else style='color:#808080'>请选择</view>
           <text v-if="showIcon || false" class="iconfont iconjiahao add_icon"></text> 
         </div>
@@ -32,7 +35,7 @@
     <!-- select -->
     <template v-if="headInit.params.genre === 'date'">
       <picker  range-key='label' mode='date' :disabled='!!headInit.disabled' :value="formData[headInit.code]" @change="change($event, 'date', headInit.code)" :range="headInit.params.list">
-        <view class="select"  v-if='formData[headInit.code]'>{{headInit.params.list[formData[headInit.code]].label}}</view>
+        <view class="select"  v-if='formData[headInit.code]'>{{formData[headInit.code]}}</view>
         <view v-else style='color:#808080'>请选择</view>
       </picker>
     </template>
@@ -105,10 +108,12 @@ export default {
   filters: {
     findIndex (val, arr) {
       const item =  arr.find(item=> {
-        return item.id === val
+        return item.id === val || item.label ===val;
       }) || {}
       return item.label || ''
     }
+  },
+  mounted () {
   },
   methods: {
     comboxFn() {},
@@ -153,7 +158,8 @@ export default {
     text-align: right !important;
   }
   .custom, .select{
-    @include fontMixin(26rpx, #808080)
+    @include fontMixin(32rpx);
+    font-family: UICTFontTextStyleBody;
   }
   .box{
     display: flex;

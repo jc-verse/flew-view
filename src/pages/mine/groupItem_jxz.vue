@@ -2,7 +2,17 @@
   <div class="group_info_item" :style="{background: cardStatu.bgColor }">
 
     <div class="msg_title">{{cardStatu.title || ''}}</div>
-    <infoHead :infoData='cardInfo'/>
+    <infoHead :infoData='cardInfo'>
+      <template slot="right"> 
+        <div class="btn_box">
+          <div class="blue" v-if="cardStatu.showInfo.includes(4)" @click="clickBuoy(4)" >退出组队</div>
+          <div class="blue" v-if="cardStatu.showInfo.includes(5)" @click="clickBuoy(5)" >完成</div>
+          <div class="" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >停止组队</div>          
+          <div class="" v-if="cardStatu.showInfo.includes(7)" @click="clickBuoy(7)" >开启组队</div>
+          <div class="blue" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div>
+        </div>
+      </template>
+    </infoHead>
 
     <div class="content">
       <!-- 个人信息 -->
@@ -18,13 +28,13 @@
       </div>
     </div>
     <div class="btn_box">
-      <template >
+      <!-- <template >
         <div class="buoy yes" v-if="cardStatu.showInfo.includes(4)" @click="clickBuoy(4)" >退出组队</div>
         <div class="buoy yes" v-if="cardStatu.showInfo.includes(5)" @click="clickBuoy(5)" >完成</div>
         <div class="evaluate" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >停止组队</div>          
         <div class="evaluate" v-if="cardStatu.showInfo.includes(7)" @click="clickBuoy(7)" >开启组队</div>
         <div class="buoy yes" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div>
-      </template>
+      </template> -->
     </div>
     <div class="sign_box" v-if="cardStatu.showTask">任务</div>
     <TipPopup :title='popupStatu.title' ref='tipPopup' :msg='popupStatu.msg' @confirm='confirm'/>
@@ -224,7 +234,6 @@ export default {
     flex-direction: row-reverse;
     .buoy, .evaluate{
       background: #eeeeee ;
-      padding: 10rpx 20rpx;
       @include fontMixin(28rpx, #666666 );
     }
     .buoy{
@@ -278,6 +287,29 @@ export default {
     }
   }
 }
-
+.btn_box{
+  display: flex;
+  flex-direction: row-reverse;
+  // margin-right: -30rpx;
+  > div {
+    padding: 10rpx 10rpx;
+    border-radius: 30rpx;
+    background: #eeeeee ;
+    @include fontMixin(26rpx, #666666 );
+  }
+  &>div:first-child{
+    border-radius: 30rpx 0 0 30rpx;
+  }
+  &>div:not(:first-child){
+    margin-right: 10rpx;
+  }
+  .disable{
+    filter: grayscale(100%);
+  }
+  .blue{
+    background: rgba(92, 134, 242, .1);
+    color: rgb(92, 134, 242);
+  }
+}
 
 </style>

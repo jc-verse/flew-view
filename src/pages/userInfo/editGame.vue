@@ -13,7 +13,7 @@
         :ite ='ite'  :show-b='indx + 1 === matchlist.length'
         :formData='formData'
       >
-        <form-item :headInit='ite' :formData='formData' @change="changeFn">
+        <form-item :headInit='ite' :formData='forms' @change="changeFn">
           <template slot='upload'>
             
             <div class="box" v-if="forms.authUrl">
@@ -53,7 +53,7 @@ export default {
     return {
       matchlist: [
         { label: '比赛名称', code:'name', id: '' ,required: true,  params: { ph: '请填写比赛名称',genre:'input', type: 'text', max: 20 } },
-        { label: '比赛时间', code:'time', id: '' ,required: false,  params: { ph: '请填写比赛时间',genre:'input', type: 'text', max: 20 } },
+        { label: '比赛时间', code:'time', id: '' ,required: false,  params: { ph: '请填写比赛时间',genre:'date', type: 'text', max: 20 } },
         { label: '获得奖项', code:'wonAwards', id: '' ,required: false,  params: { ph: '请填写获得奖项',genre:'input', type: 'text', max: 20 } },
         { label: '上传认证', code:'authUrl', id: '' ,required: false,  params: { ph: '请填写真实姓名',genre:'upload', type: 'text', max: 20 } },
       ],
@@ -67,6 +67,7 @@ export default {
   },
   methods:{
     changeFn({data,code}) {
+      console.log(12233, data, code)
       this.forms[code] = data;
     },
     deleteImg() {
