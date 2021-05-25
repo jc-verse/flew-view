@@ -18,8 +18,9 @@
             </template>
 
             <div v-if='item.type === "input"'>
-              <input :placeholder="item.ph || '请填写'" @input='change($event, ind, "input", item.code)' v-model='ite[item.code]' type="text"/>
+              <input   :placeholder="item.ph || '请填写'" @input='change($event, ind, "input", item.code)' v-model='ite[item.code]' type="text"/>
             </div>
+            
 
             <div v-if='item.type === "checkbox"'>
               <checkbox-group @change='change($event, ind, "checkout", item.code)'  v-model='ite[item.code]'>
@@ -80,7 +81,7 @@ export default {
   },
   data () {
     return { 
-      delIndex: 0
+      delIndex: 0,
     }
   },
   methods:{

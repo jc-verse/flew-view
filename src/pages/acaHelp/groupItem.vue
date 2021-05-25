@@ -5,7 +5,8 @@
       <template slot="right"> 
         <div class="btn_box">
           <div v-if="infoData.isAcademic == 2 && infoData.isAcademic != 4" @click.stop="clickBuoy(1)">申请服务</div>
-          <div v-else class="disable">{{infoData.isAcademic == 1 ? '申请中':'进行中'}}</div>
+          <div v-else-if='infoData.isAcademic == 1' class="disable">{{'申请中'}}</div>
+          <div v-else-if='infoData.isAcademic == 3' class="disable">{{'进行中'}}</div>
           <div class="orange" @click.stop="clickBuoy(2)">查看评价</div>
         </div>
       </template>

@@ -214,26 +214,39 @@ export default {
     showBtn () {
       const { formHeads, bottomHeads,  centerHeads, formData, right } = this;
       const rates = [...formHeads, ...bottomHeads,centerHeads, right ];
-      const errList = []
+      const errList = [];
+      const regNum = [];
+      var reg = /[^\d]/;
       rates.forEach(item => {
         if (item.required && !formData[item.code]) {
           errList.push(`${item.label}不能为空`);
         }
       })
-      // formData['curriculumSystem'].forEach(item => {
-      //   if (!item.subject) {
-      //     errList.push(`学科不能为空`);
-      //   }
-      // })
-      const subjectNameList =  formData['competitionExperience'].map(item=> item.subject);
-      if (subjectNameList.length != [...new Set(subjectNameList)]) {
+      formData['curriculumSystem'].forEach(item => {
+        if (!item.subject) {
+          errList.push(`学科不能为空`);
+        }
+      })
+      const subjectNameList =  formData['curriculumSystem'].map(item=> {
+        if (item.fraction) {
+          regNum.push(item.fraction)
+        }
+        return item.subject
+      });
+      if (subjectNameList.length != [...new Set(subjectNameList)].length) {
         errList.push(`学科名称不能重复`);
       }
       formData['standardizedPerformance'].forEach(item => {
+        if (item.fraction) {
+          regNum.push(item.fraction)
+        }
         if (!item.subject) {
           errList.push(`科目不能为空`);
         }
       })
+      if (regNum.findIndex(item=> reg.test(item)) !== -1) {
+        errList.push(`分数只能填数字`);
+      }
       return  errList;
     },
     // 科目下拉
@@ -296,12 +309,15 @@ export default {
     },
     systemImgList () {
       const { curriculumSystemAuthUrl }= this.formData;
-      const arr = curriculumSystemAuthUrl.split(',')
+      let arr = []
+      if (curriculumSystemAuthUrl) {
+        arr = curriculumSystemAuthUrl.split(',')
+      }
       return arr
     }
   },
   onShow() {
-    this.formDataFun()
+    this.formDataFun();
   },
   mounted() {
     this.getDownList(1);  //科目
@@ -321,7 +337,6 @@ export default {
         this.formData.nikeName = data;
       }
     },fail:(err)=>{console.log(err)}})
-    this.getSchoolList()
   },
   methods:{
     // 表单回显
@@ -336,7 +351,6 @@ export default {
           curriculumSystem : user.curriculumSystemList || [],
           standardizedPerformance : user.standardizedPerformanceList || [],
         };
-        console.log(666, user, v)
         if (userCount === 0) {
           this.formData = JSON.parse(JSON.stringify(obj))
           this.userCount +=1
@@ -387,7 +401,6 @@ export default {
     },
     // 改变表单
     changeFn({data, code, type}) {
-      console.log(123123123, data, code , type)
       switch (type) {
         case 'add':
           this.formData[code].push(data);
@@ -399,7 +412,6 @@ export default {
             let flag;
             matchList.forEach(ite =>{
               const [i, c] = [item[2], ite[2]];
-              console.log(19923, i,c)
               if (i.label === c.label && i.id === c.id) {
                 flag = i.label === c.label && i.id === c.id
               }
@@ -417,7 +429,7 @@ export default {
           if (code === 'curriculumSystemAuthUrl') {
             const { curriculumSystemAuthUrl } = this.formData;
             this.formData[code] = curriculumSystemAuthUrl? `${curriculumSystemAuthUrl},${data}`: data;
-          } else if (code === 'isConsulting ' || code === 'isAcademic ') {
+          } else if (code === 'isConsulting' || code === 'isAcademic') {
             this.formData[code] = data ? 1 : 2;
           } else {
             this.formData[code] = data;
@@ -438,7 +450,6 @@ export default {
     },
     deleteMatch(index) {
       this.matchList = this.matchList.filter((item,ind) =>ind !==index )
-      console.log(1988, this.matchList)
     },
     deleteUrl(ind, ite) {
       const { systemImgList } = this;
@@ -508,7 +519,6 @@ export default {
       }
     },
     searchInp (val) {
-      console.log(1000, val)
       this.getSchoolList(val)
     },
     deleteSta (index, code) {

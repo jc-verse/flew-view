@@ -97,7 +97,7 @@
 	.uni-data-tree {
 		position: relative;
 		font-size: 14px;
-		z-index: 999;
+		
 	}
 
 	.error-text {
@@ -111,12 +111,12 @@
 		top: 0;
 		right: 0;
 		bottom: 0;
+		z-index: 998;
 		background-color: rgba(0, 0, 0, .4);
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
 		flex-direction: column;
-		z-index: 100;
 	}
 
 	.uni-data-tree-dialog {
@@ -132,11 +132,11 @@
 		display: flex;
 		/* #endif */
 		flex-direction: column;
-		z-index: 102;
+		z-index: 999;
 		overflow: hidden;
 		/* #ifdef APP-NVUE */
 		width: 750rpx;
-
+		z-index: 999;
 		/* #endif */
 	}
 

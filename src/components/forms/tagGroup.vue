@@ -46,7 +46,7 @@ export default {
       cityName: '',
       form: {
         schoolName: '',
-        sex:'3',
+        sex:'',
         grade: '',
         subId: '',
         subId1: ''

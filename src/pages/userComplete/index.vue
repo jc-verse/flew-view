@@ -230,8 +230,10 @@ export default {
       //     errList.push(`学科不能为空`);
       //   }
       // })
-      const subjectNameList =  formData['competitionExperience'].map(item=> item.subject);
-      if (subjectNameList.length != [...new Set(subjectNameList)]) {
+      const subjectNameList =  formData['curriculumSystem'].map(item=> {
+        return item.subject
+      });
+      if (subjectNameList.length != [...new Set(subjectNameList)].length) {
         errList.push(`学科名称不能重复`);
       }
       formData['standardizedPerformance'].forEach(item => {
@@ -422,7 +424,7 @@ export default {
           if (code === 'curriculumSystemAuthUrl') {
             const { curriculumSystemAuthUrl } = this.formData;
             this.formData[code] = curriculumSystemAuthUrl? `${curriculumSystemAuthUrl},${data}`: data;
-          } else if (code === 'isConsulting ' || code === 'isAcademic ') {
+          } else if (code === 'isConsulting' || code === 'isAcademic') {
             this.formData[code] = data ? 1 : 2;
           } else {
             this.formData[code] = data;

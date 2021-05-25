@@ -42,6 +42,7 @@ export const  getCurPageRoute = () =>{
 
 // 希望参加比赛的反向组成 - 定制
 export const analysisFn = (deepList, items) => {
+  console.log(12313, deepList)
   const arr = [];
   arr[0] = deepList.find(item => {
     const flag = item.id === items.organizeTypeId;

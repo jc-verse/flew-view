@@ -1,7 +1,7 @@
 <template>
   <div class="group_info_item">
   
-    <infoHead :infoData='infoData' :isUser='true'/>
+    <infoHead :infoData='infoData' />
 
     <div class="content">
       <!-- 个人信息 -->

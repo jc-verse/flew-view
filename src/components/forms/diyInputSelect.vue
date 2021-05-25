@@ -1,5 +1,5 @@
 <template>
-	<DiyPopup @popupclosed='popupclosed' popupTitle='比赛' ref="diyPopup" :styles='{top: "33%"}'>
+	<DiyPopup @popupclosed='popupclosed' popupTitle='学校' ref="diyPopup" :styles='{top: "33%"}'>
 		<slot></slot>
 		<template slot='content'>
 			<scroll-view :scroll-x="true">	

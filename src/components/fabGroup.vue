@@ -2,9 +2,12 @@
   <movable-area  class="movable_box" >
     <movable-view class="max" direction="vertical" :y='450' inertia :damping='50'>
       <div class="fab_group" @mousedown="onmousedown">
-        <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click.stop="clickFn(ind, item)" @mousedown="onmousedown" @mouseup="onmouseup">
-          <i v-if="item.icon"  :class="['iconfont','icon_item', item.icon ]"></i>
-        </div>
+        <cover-view class="controls-title">
+          <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click.stop="clickFn(ind, item)" @mousedown="onmousedown" @mouseup="onmouseup">
+            <i v-if="item.icon"  :class="['iconfont','icon_item', item.icon ]"></i>
+          </div>
+        </cover-view>
+        
       </div>
     </movable-view>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
@@ -79,6 +82,7 @@ export default {
   top: 50%;
   transform: translateY(-50%);
   height: 90vh;
+  z-index:100;
   .fab_group{
     .fab{
       // min-width: 96rpx;
@@ -106,6 +110,9 @@ export default {
     right: 0;
     left: auto;
     height: auto;
+  }
+  .controls-title{
+    z-index: 999;
   }
 }
 

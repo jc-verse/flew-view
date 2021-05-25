@@ -62,7 +62,7 @@ export default {
     changeVal(val){
       if ( this.searchVal != val) {
         this.searchVal = val;
-        this.initFotm();
+        this.initForm();
       }
     },
     getInfo(form={}) {
