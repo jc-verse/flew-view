@@ -69,11 +69,11 @@ export const formData = {
     }
   ],
   "match": [ //希望参加的比赛
-    {
-      "organizeTypeId": '', //  一级
-      "organizeTypeSon": '', // 二级
-      "organizeTypeSonMatchId": '' //  三级
-    }
+    // {
+    //   "organizeTypeId": '', //  一级
+    //   "organizeTypeSon": '', // 二级
+    //   "organizeTypeSonMatchId": '' //  三级
+    // }
   ],     
   "standardizedPerformance": [ // 标化成绩
     {

@@ -76,6 +76,7 @@ export const statusScreen = (infoData, userId) => {
           statuInfo.tip = `你拒绝了${slaves.nikeName}的学术帮助申请`
           break;
         case 5:
+          console.log(1212666)
           statuInfo.tip = `已经完成${slaves.nikeName}的学术帮助`;
           break;
         default:
@@ -88,6 +89,7 @@ export const statusScreen = (infoData, userId) => {
           statuInfo.tip = `你的申请已被${nikeName}拒绝`
           break;
         case 5:
+          console.log(12123)
           statuInfo.tip = `您的申请已经完成`;
           if (academicEvaluate == 2) {
             statuInfo.showInfo = [9];

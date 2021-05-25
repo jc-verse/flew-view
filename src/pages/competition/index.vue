@@ -42,7 +42,14 @@ export default {
         const { data:nData } = res[1];
         const { code, data } = nData;
         if (code === 200 ) {
-          this.list = data || [];
+          const arr = (data || []).map(item => {
+            const obj = { ...item };
+            if (obj.id == 8) {
+              obj.disable = true
+            }
+            return obj;
+          })
+          this.list = arr;
         }
       }).catch(err => {console.log(err)})
     },

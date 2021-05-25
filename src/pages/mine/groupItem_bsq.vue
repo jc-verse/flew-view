@@ -133,7 +133,7 @@ export default {
     position: absolute;
     left: 0;
     top: 0;
-    padding: 20rpx;
+    padding: 10rpx 20rpx;
     background: rgba(0, 145, 255,.2);
     border-radius: 30rpx 0px 30rpx 0;
     @include fontMixin(28rpx, #3891D4)

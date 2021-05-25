@@ -111,14 +111,15 @@ export function isLogin () {
 
 export function toLogin () {
   uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
-  const count = uni.getStorageSync('count')
+  const count = uni.getStorageSync('count');
+  const statement = uni.getStorageSync('statement');
   try {
     uni.clearStorageSync();
   } catch (e) {
       // error
   }
   if (count) {
-    setStorage({count: count + 1})
+    setStorage({count: count + 1, statement})
   }
 }
 

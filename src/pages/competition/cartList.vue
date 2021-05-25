@@ -1,6 +1,6 @@
 <template>
   <div class="list">
-    <div class="item" v-for="(item, index) in newList" :style='{ background: item.styles.background }' :key="index" @click='clickItem(item)'>
+    <div class="item" v-for="(item, index) in newList" :class="[item.disable ? 'disable': '']" :style='{ background: item.styles.background }' :key="index" @click='clickItem(item)'>
       <div class="title_box">
         <div class="title">{{ item.name }}</div>
         <div class="subhead">{{ item.asName || '' }}</div>
@@ -41,6 +41,10 @@ export default {
   },
   methods: {
     clickItem(item) {
+      if (item.disable) {
+        uni.showToast({title: '模块未开放，敬请期待！',icon: 'none'});
+        return 
+      }
       this.$emit('clickItem', item)
     }
   }
@@ -95,5 +99,8 @@ export default {
         @include font_2
       }
     }
+  }
+  .disable{
+    filter: grayscale(100%);
   }
 </style>

@@ -1,23 +1,48 @@
 <template>
   <div>
     <DiyPopup ref='popup' :noUp='true'>
-    <div class="tip_box" slot='tip' @click.stop>
-      <div class="title" v-if="title">{{title}}</div>
-      <div class="msg">{{msg}}</div>
-      <div class="btns">
-        <div class="no" @click.stop="close(false, type)">取消</div>
-        <div class="yes" @click.stop="close(true, type)">确定</div>
-      </div>
-    </div>
-  </DiyPopup>
-</div>
+      <slot name='content_box'>
+        <div class="tip_box" slot='tip' @click.stop :style='{width: `${width}rpx`}'>
+          <div class="title" v-if="title">{{title}}</div>
+          <slot name='content'>
+            <div class="msg">{{msg}}</div>
+          </slot>
+          <div class="btns">
+            <slot name='btn'>
+              <div class="no"  @click.stop="close(false, type)">取消</div>
+              <div class="yes" @click.stop="close(true, type)">确定</div>
+            </slot>
+          </div>
+        </div>
+      </slot>
+    </DiyPopup>
+  </div>
 </template>
 
 <script>
 import DiyPopup from '@/components/diyPopup';
 export default {
   name: 'tipPopup',
-  props: ['title', 'msg', 'type'],
+  // props: ['title', 'msg', 'type',],
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    msg: {
+      type: String,
+      default: ''
+    },
+    type: {
+      type: String,
+      default: ''
+    },
+    width:{
+      type: Number,
+      default: 500,
+    }
+  },
+
   components: {DiyPopup},
   methods: {
     close (flag) {

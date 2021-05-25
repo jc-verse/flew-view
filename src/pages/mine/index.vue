@@ -143,7 +143,7 @@ export default {
         { label: '申请中', id: '2',   icon: 'http://prod.qiniucdns.sjreach.cn/web-36.png' },
         { label: '被申请', id: '1',   icon: 'http://prod.qiniucdns.sjreach.cn/web-35.png' },
         { label: '进行中', id: '3',   icon: 'http://prod.qiniucdns.sjreach.cn/web-18.png' },
-        { label: '发起中', id: '4',   icon: 'http://prod.qiniucdns.sjreach.cn/web-19.png' },
+        // { label: '发起中', id: '4',   icon: 'http://prod.qiniucdns.sjreach.cn/web-19.png' },
         { label: '申请记录', id: '5', icon: 'http://prod.qiniucdns.sjreach.cn/web-20.png' },
       ],
 

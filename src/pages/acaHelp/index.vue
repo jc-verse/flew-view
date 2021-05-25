@@ -115,12 +115,14 @@ export default {
         }
       })
     },
-    academicApplyService (id) {
-      academicApplyService({ serviceUserId: id }).then(res => {
+    
+    academicApplyService (serviceUserId, id) {
+      academicApplyService({ serviceUserId, id }).then(res => {
         const {data: nData} = res[1];
         const { code, data, success } = nData || {};
         if (code === 200 && success) {
           uni.showToast({title: '申请成功！'})
+          this.getList();
         }
       }).catch(err=>{console.log(err)})
     },
@@ -143,12 +145,12 @@ export default {
       this.initFotm(form);
     },
     // 点击卡片Btn
-    clickBuoy (type, data) {
+    clickBuoy (type, data, subjectId) {
       console.log(12222, type, data)
       const { id } = data
       switch (type) {
         case 1: // 申请服务
-          this.academicApplyService(id)
+          this.academicApplyService(id, subjectId)
           break;
         case 2: // 评价
           console.log('评价')

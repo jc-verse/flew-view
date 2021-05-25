@@ -20,11 +20,18 @@
         <join-list title='个人留言' :value='infoData.personalMessage || "暂无留言"' type='text'/>
       </div>
     </div>
-
-    <!-- <div class="buoy btn blue" v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"> 申请服务 </div> -->
-    <!-- <div :class="['orange','btn',infoData.isAcademic != 2 ? 'buoy' : 'evaluate']" @click.stop="clickBuoy(2)" >查看评价</div> -->
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+
+    <TipPopup title="选择学科" ref='subjectPopup' msg="是否登录后执行操作？" @confirm='confirm'>
+      <template slot='content'>
+        <div class="content_box">
+          <picker @change="bindPickerChange" :value="index" range-key='label' :range="systemList" selector-type='select'>
+            <view class="uni-input">{{systemList[index].label}}</view>
+          </picker>
+        </div>
+      </template>
+    </TipPopup>
     <DiyRate ref='diyRate' :rateData='rateForm' :readonly='true'></DiyRate>
   </div>
 </template>
@@ -36,7 +43,7 @@ import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import TipPopup from '@/components/cards/tipPopup';
 import { bsToStrFn, bsToStrFun } from '@/common/utils';
-import { academicGetEvaluate } from '@/common/api';
+import { academicGetEvaluate, selectCurriculumSystem } from '@/common/api';
 import DiyRate from '@/components/diyRate';
 import { isLogin, toLogin } from '@/common/utils'
 export default {
@@ -55,13 +62,14 @@ export default {
   data () {
     return {
       type: 1,
-      rateForm: {}
+      rateForm: {},
+      index: 0,
+      systemList:[],
     }
   },
   computed : {
     tops() {
       const { infoData } = this;
-      console.log(12213123,infoData)
       const arr = [
         { title: '学校',    val: infoData.schoolName || '', id: 1 }, 
         { title: '年级',    val: infoData.grade || '',          id: 2 }, 
@@ -74,13 +82,34 @@ export default {
       return arr
     },
     bList() {
-      const { curriculumSystemList   } = this.infoData;
+      const { curriculumSystemList  } = this.infoData;
       const arr = bsToStrFun(curriculumSystemList);
       return arr;
     },
   },
+  mounted() {
+    this.selectCurriculumSystem();
+  },
   methods:{
     toLogin,
+    selectCurriculumSystem() {
+      selectCurriculumSystem({serviceUserId : this.infoData.id}).then(res => {
+        const {data: nData} = res[1];
+        const { code, data, success } = nData || {};
+        if (code === 200 && success) {
+          if (Array.isArray(data)) {
+            const arr = data.map(item => ({ ...item, label: item.subject  }))
+            this.systemList = arr || []
+            console.log(988, arr)
+          }
+        }
+      }).catch(err=>{console.log(err)})
+    },
+    bindPickerChange: function(e) {
+        console.log('picker发送选择改变，携带值为', e.target.value)
+        this.index = e.target.value
+        console.log(199,e)
+    },
     academicGetEvaluate(serviceUserId ) {
       academicGetEvaluate({serviceUserId}).then(res => {
         const {data: nData} = res[1];
@@ -101,7 +130,8 @@ export default {
       console.log(1222, type, this.$refs, DiyRate)
       switch (type) {
         case 1:
-          this.$refs.tipPopup.show()
+          
+          this.$refs.subjectPopup.show();
           break;
         case 2:
           this.academicGetEvaluate(this.infoData.id)
@@ -113,8 +143,8 @@ export default {
     },
     // 点击确定
     confirm () {
-      const { type } = this
-      this.$emit('clickBuoy', type, this.infoData)
+      const { type, index, systemList } = this
+      this.$emit('clickBuoy', type, this.infoData, systemList[index].id )
     },
     clickItem() {
       if (!isLogin()) {
@@ -182,5 +212,14 @@ export default {
     }
   }
   
+  .content_box{
+    padding: 10rpx 0rpx;
+    min-width: 300rpx;
+    border: 2rpx solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20rpx;
+    margin: 20rpx;
+  }
 }
+
 </style>

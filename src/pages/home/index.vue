@@ -88,12 +88,13 @@ import TipPopup from '@/components/cards/tipPopup';
 
 import FabGroup from '@/components/fabGroup';
 import userDataMixin from '@/common/mixins/userDataMixin';
+import commonMixin from '@/common/mixins/commonMixin';
 import { isLogin, toLogin, setStorage } from '@/common/utils'
 
 export default {
   name: 'home',
   components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup, TipPopup },
-  mixins:[userDataMixin],
+  mixins:[userDataMixin, commonMixin],
   data () {
     return {
       statuList: [],

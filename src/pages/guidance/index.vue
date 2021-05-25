@@ -12,6 +12,19 @@
       </div>
       <!-- 底部logo -->
       <bottom-logo/>
+      <TipPopup title="声明" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm' :width='654'>
+        <template #content>
+          <div class="tip_content">
+            <p>谢谢大家使用   视界 I Reach！</p> 
+            <p>本程序学术帮助、学校咨询所涉及到的服务，只代表服务提供者个人的观点和见解与本程序无关。我们会尽力做好服务提供者的筛选,做到客观、公正、有内涵，对大家有帮助。</p>
+            <p>由于是学生群体运营，有很多不足之处。请联系客服提出宝贵意见，让我们能真正帮助到大家，再次感谢！</p>
+          </div>
+        </template>
+        <template #btn>
+          <div class="tip_btn" @click="clickIknow"> 我知道了</div>
+        </template>
+      </TipPopup>
+
     </div>
   </page-sj>
 </template>
@@ -20,10 +33,10 @@ import bottomLogo from "@/components/bottomLogo";
 import pageSj from '@/components/pageSjNew';
 import { jscode2session, login } from '@/common/api';
 import { setStorage, isLogin } from '@/common/utils';
-
+import TipPopup from '@/components/cards/tipPopup';
 export default {
   name:'guidance',
-  components:{ bottomLogo, pageSj },
+  components:{ bottomLogo, pageSj, TipPopup },
   data() {
     return {
       token:'',
@@ -52,9 +65,10 @@ export default {
     // }
   },
   methods: {
-    clickBtn() {
-      if (!this.canLogin) return;
-      this.canLogin = false;
+    clickIknow() {
+      this.$refs.tipPopup.close();
+      setStorage({statement: 'Y'})
+
       const _this = this;
       uni.getUserProfile({
         desc:'登录',
@@ -83,6 +97,18 @@ export default {
           uni.navigateTo({url: '/pages/home/index'})
         }
       })
+      
+    },
+    clickBtn() {
+      const statement = uni.getStorageSync('statement') || 'N';
+      if (!this.canLogin) return;
+        this.canLogin = false;
+      if(statement !== "Y") { //判断是否首次登录，并阅读了声明
+        this.$refs.tipPopup.show();
+      } else {
+        this.clickIknow();
+      }
+      
       
     },
     login () {
@@ -154,6 +180,20 @@ export default {
     border-radius: 40rpx;
     line-height: 80rpx;
     color: white;
+  }
+  .tip_content{
+    padding: 20rpx;
+    word-break: break-word;
+    border-bottom: 2rpx solid rgba(0, 0, 0,0.08);
+    p{
+      text-align: center;
+      line-height: 22px;
+      @include fontMixin(14px, #666666)
+    }
+  }
+  .tip_btn{
+    padding: 20rpx;
+    @include fontMixin(16px, #676FDF, bold)
   }
 }
 </style>

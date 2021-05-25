@@ -134,7 +134,12 @@ export default {
         case 'select':
           const {list} = this.headInit.params || {}
           const ite = list.find((item, index) => index == value) || {}
-          val = ite.id;
+          
+          if  (code === 'grade') {
+            val = ite.label
+          } else {
+            val = ite.id;
+          }
           break;
         default:
           break;

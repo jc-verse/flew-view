@@ -190,3 +190,8 @@ export const teamUpGradeList = (data) => {
   return  httpAPI('/app/team-up/grade-list', { data })
 }
 
+// 查询课程体系
+export const selectCurriculumSystem = (data) => {
+  return  httpAPI('/app/academic/select-curriculum-system', { data })
+}
+

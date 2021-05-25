@@ -16,6 +16,7 @@
       <information :topList='tops'/>
       <!-- 经历 -->
       <div class="center">
+        <join-list title='课程体系' :list='bList'/>
         <join-list title='个人留言' :value='infoData.personalMessage || "暂无留言"' type='text'/>
       </div>
     </div>
