@@ -17,10 +17,10 @@
           <div class="headline">{{ `一对一指导需要收取一定费用哦` }}</div>
           <div class="join_box">
             <div class="left">
-              <img src="@/static/img1/QR_code.png" alt="">
+              <image :src="QRImg" alt="" show-menu-by-longpress>
             </div>
           </div>
-          <div class="b_tip">了解详情长按二维码添加客服。</div>
+          <div class="b_tip">了解详情长按保存二维码，添加客服。</div>
         </div>
       </div>
       
@@ -41,7 +41,8 @@ import bottomLogo from "@/components/bottomLogo";
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import joinList from '@/components/cards/joinList';
-import { topListFn, bsToStrFn } from './units'
+import { topListFn, bsToStrFn } from './units';
+import {imgUrl} from '@/common/http'
 export default {
   name:'detail_info',
   components: { 
@@ -57,7 +58,8 @@ export default {
     return {
       show: false,
       index: 0,
-      cardInfo: {}
+      cardInfo: {},
+      QRImg: imgUrl + '/service_QR.png'
     }
   },
   computed : {

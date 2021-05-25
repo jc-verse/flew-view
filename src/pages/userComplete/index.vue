@@ -355,6 +355,9 @@ export default {
           curriculumSystemType : Number(user.curriculumSystem) || '',
           curriculumSystem : user.curriculumSystemList || [],
           standardizedPerformance : user.standardizedPerformanceList || [],
+
+          isConsulting  : user.isConsulting == 1,
+          isAcademic  : user.isAcademic == 1,
         };
         if (userCount === 0) {
           this.formData = JSON.parse(JSON.stringify(obj))

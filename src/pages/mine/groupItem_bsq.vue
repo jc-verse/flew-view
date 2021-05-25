@@ -7,7 +7,7 @@
         <div class="btn_box">
           <div class="blue" @click="clickBuoy(2)" > 通过</div>
           <div class="" @click="clickBuoy(3)"> 拒绝</div>
-      </div>
+        </div>
       </template>
     </infoHead>
 

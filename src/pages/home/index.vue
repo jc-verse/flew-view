@@ -73,7 +73,16 @@
       </div>
     </div>
     
-    <FabGroup :shows='[1,3,4]' @unLogin='unLogin'/>
+    <FabGroup :shows='[1,3,4]' @unLogin='unLogin' @QRPopup='QRPopup' @noLogin='clickIcon'/>
+    <TipPopup title="联系客服" ref='QRPopup' msg="是否登录后执行操作？" @confirm='toLogin'>
+      <template #content >
+        <div class="qr_img">
+          <image :src="QRImg" alt="" show-menu-by-longpress>
+        </div>
+        <div class="qr_tip">长按保存二维码添加客服微信</div>
+      </template>
+      <template #btn> </template>
+    </TipPopup>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
     <TipPopup title="操作提示" ref='unLogin' msg="是否退出登录？" @confirm='toLogin'/>
   </page-sj>
@@ -90,6 +99,7 @@ import FabGroup from '@/components/fabGroup';
 import userDataMixin from '@/common/mixins/userDataMixin';
 import commonMixin from '@/common/mixins/commonMixin';
 import { isLogin, toLogin, setStorage } from '@/common/utils'
+import { imgUrl } from '@/common/http'
 
 export default {
   name: 'home',
@@ -98,7 +108,8 @@ export default {
   data () {
     return {
       statuList: [],
-      active: 1
+      active: 1,
+      QRImg: imgUrl+ '/service_QR.png'
     }
   },
   computed:{
@@ -116,6 +127,9 @@ export default {
   },
   methods: {
     toLogin,
+    QRPopup() {
+      this.$refs.QRPopup.show();
+    },
     unLogin() {
       this.$refs.unLogin.show()
     },
@@ -361,6 +375,16 @@ export default {
 }
 .masking{
   filter: blur(3px)
+}
+.qr_img{
+  width: 380rpx;
+  height: 380rpx;
+  @include img_fill;
+}
+.qr_tip{
+  padding: 20rpx;
+  text-align: center;
+  color: #a1a1a1;
 }
 
 </style>

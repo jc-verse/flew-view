@@ -1,24 +1,22 @@
 <template>
   <movable-area  class="movable_box" >
     <movable-view class="max" direction="vertical" :y='450' inertia :damping='50'>
-      <div class="fab_group" @mousedown="onmousedown">
-        <cover-view class="controls-title">
-          <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click.stop="clickFn(ind, item)" @mousedown="onmousedown" @mouseup="onmouseup">
+      <div class="fab_group" >
+        <!-- <cover-view class="controls-title"> -->
+          <div class="user fab" v-for="(item, ind) in newList" :key="ind" @click.stop="clickFn(ind, item)" >
             <i v-if="item.icon"  :class="['iconfont','icon_item', item.icon ]"></i>
           </div>
-        </cover-view>
+        <!-- </cover-view> -->
         
       </div>
     </movable-view>
-    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
   </movable-area>
 </template>
 <script>
 import { uniFab } from '@dcloudio/uni-ui'
-import TipPopup from '@/components/cards/tipPopup';
 import { isLogin, toLogin } from '@/common/utils'
 export default {
-  components:{ uniFab, TipPopup },
+  components:{ uniFab },
   props: {
     shows: {
       type: Array,
@@ -57,7 +55,7 @@ export default {
           if (isLogin()) {
             uni.navigateTo({ url: '/pages/mine/index' }) // 我的
           } else {
-            this.$refs.noLogin.show()
+            this.$emit('noLogin')
           }
           break;
         case 2:
@@ -65,6 +63,9 @@ export default {
           break;
         case 3:
           this.$emit('unLogin')
+          break;
+        case 4:
+          this.$emit('QRPopup')
           break;
       }
     },

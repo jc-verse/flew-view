@@ -18,8 +18,11 @@
           <div class="QRCodes">
             <div class="QRCode" v-for="(item, index) in QRList" :key="index">
               <div class="code">
-                <img :src="item.code" alt="">
+                <image :src="item.code" show-menu-by-longpress  mode="widthFix" :data-src="item.code"  @bindtap="previewImage">
               </div>
+              <!-- <div class="code">
+                <img :src="item.code" show-menu-by-longpress  mode="widthFix" :data-src="item.code"  @bindtap="previewImage">
+              </div> -->
               <div class="text">{{item.title}}</div>
             </div>
           </div>
@@ -40,6 +43,7 @@ import bottomLogo from "@/components/bottomLogo";
 import { textMsg } from './const';
 
 import FabGroup from '@/components/fabGroup';
+import {imgUrl} from '@/common/http'
 export default {
   name:'about_us', 
   components: { scrollBox, bottomLogo, pageSj, FabGroup },
@@ -48,12 +52,21 @@ export default {
       textMsg,
       isH5: false,
       QRList: [
-        { code:require('@/static/img1/QR_code.png'), title: '长按识别二维码加入我们的大家庭', id:1 },
-        { code:require('@/static/img1/QR_code.png'), title: '长按识别二维码', id:2 },
+        // { code:require('@/static/img1/QR_code.png'), title: '长按识别二维码加入我们的大家庭', id:1 },
+        { code: imgUrl + '/service_QR.png', title: '长按保存二维码', id:2 },
       ]
     }
   },
   mounted() {
+  },
+  methods: {
+    previewImage: function(e) {
+    var current = e.target.dataset.src;
+    wx.previewImage({
+      current: current,
+      urls: [current]
+    })
+  },
   }
 }
 </script>
@@ -109,6 +122,9 @@ export default {
         }
       }
     }
+  }
+  img{
+    pointer-events: auto !important;
   }
 }
 </style>
