@@ -28,13 +28,6 @@
       </div>
     </div>
     <div class="btn_box">
-      <!-- <template >
-        <div class="buoy yes" v-if="cardStatu.showInfo.includes(4)" @click="clickBuoy(4)" >退出组队</div>
-        <div class="buoy yes" v-if="cardStatu.showInfo.includes(5)" @click="clickBuoy(5)" >完成</div>
-        <div class="evaluate" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >停止组队</div>          
-        <div class="evaluate" v-if="cardStatu.showInfo.includes(7)" @click="clickBuoy(7)" >开启组队</div>
-        <div class="buoy yes" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div>
-      </template> -->
     </div>
     <div class="sign_box" v-if="cardStatu.showTask">任务</div>
     <TipPopup :title='popupStatu.title' ref='tipPopup' :msg='popupStatu.msg' @confirm='confirm'/>

@@ -3,10 +3,10 @@
   <div class="initiateProcess">
     <div class="content">
       <form-item-box v-for='(ite, ind) in formHeads' :key='ind' :ite='ite' :show-b='ind+1 === formHeads.length' >
-        <form-item :info='ite' :headInit='ite' @change="changeFn"></form-item>
+        <form-item :info='ite' :headInit='ite' :formData='formData' @change="changeFn"></form-item>
       </form-item-box>
     </div>
-    <div class="btn" :class='[showBtn?"btn_active":""]' @click='submit'> 确定 </div>
+    <div class="btn" :class='[!errList.length?"btn_active":""]' @click='submit'> 确定 </div>
   </div>
 </page-sj>
   
@@ -17,25 +17,48 @@ import pageSj from '@/components/pageSjNew';
 
 import formItem from '@/components/forms/formItem';
 import formItemBox from '@/components/forms/formItemBox';
+import { launchActivity } from '@/common/api'
+const arr = [
+  { label: '请选择', id: '' },
+  { label: '艺术', id: 1 },
+  { label: '体育', id: 2 },
+  { label: '学术', id: 3 },
+  { label: '综合', id: 4 },
+  { label: '其他', id: 5 },
+]
+const toDateTime = (date) => {
+  return new Date(date).getTime();
+}
 export default {
   name: 'initiateProcess',
   components: { pageSj, formItem, formItemBox },
   data() {
     return {
       value: '',
-      formHeads:[
-        { label: '发起者',    code:'name',      id: '' ,required: false, params:  { ph: '获取微信名', genre:'text',   type: 'text', max: 20} },
-        { label: '活动名称',  code:'activeName',id: '' ,required: true, params:   { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-        { label: '活动类型',  code:'type',      id: '' ,required: true, params:   { ph: '选填',       genre:'select', type: 'text', max: 20} },
-        { label: '开始时间',  code:'startTime', id: '' ,required: true, params:   { ph: '请选择',     genre:'date',   type: 'text', max: 20} },
-        { label: '结束时间',  code:'endTime',   id: '' ,required: true, params:   { ph: '请选择',     genre:'date',   type: 'text', max: 20} },
-        { label: '地点',      code:'site',      id: '' ,required: true, params:   { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-        { label: '活动信息',  code:'info',      id: '' ,required: true, params:   { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-        { label: '参与人数',  code:'number',    id: '' ,required: true, params:   { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-        { label: '招募要求',  code:'require',   id: '' ,required: false, params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-        { label: '备注',      code:'remark',    id: '' ,required: false, params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-      ],      
-      formData: {}
+      formHeads: [
+        { label: '发起者',    code:'name',          id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',   type: 'text', max: 20} },
+        { label: '活动名称',  code:'activityName',  id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '活动类型',  code:'activityType',  id: '' ,required: true,   params:  { ph: '请选择',     genre:'select', type: 'text', max: 20, list:arr} },
+        { label: '开始时间',  code:'startTime',     id: '' ,required: true,   params:  { ph: '请选择',     genre:'date',   type: 'text', max: 20} },
+        { label: '结束时间',  code:'endTime',       id: '' ,required: true,   params:  { ph: '请选择',     genre:'date',   type: 'text', max: 20} },
+        { label: '地点',      code:'address',       id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '活动信息',  code:'activityInfo',  id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '参与人数',  code:'num',           id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '招募要求',  code:'requirement',   id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '备注',      code:'remarks',       id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+      ],    
+      canClick: true,  
+      formData: {
+        "activityInfo": "",
+        "activityName": "",
+        "activityType": '',
+        "address": "",
+        "endTime": "",
+        "num": '',
+        "remarks": "",
+        "requirement": "",
+        "startTime": ""
+      }
     }
   },
   computed:{
@@ -44,11 +67,64 @@ export default {
         return !this.formData[item.code]
       }) || [];
       return  arr.length === 0
+    },
+    errList () {
+      const { formData, formHeads } = this;
+      const errArr =  []
+      const ite = formHeads.find(item => item.required && !formData[item.code]) || {};
+      const { endTime, startTime } = formData;
+      if ( endTime && startTime &&  toDateTime(endTime)< toDateTime(startTime)) {
+        errArr.push(`结束时间不能早于开始时间！`)
+      };
+      if (Object.keys(ite).length) {
+        if ( ite.params.genre === 'input') {
+          errArr.push(`${ite.label}不能为空！`)
+        } else if (ite.params.genre === 'select' || ite.params.genre === 'date') {
+          errArr.push(`请选择${ite.label}！`)
+        }
+      }
+      
+      
+      return errArr
     }
   },
   methods:{
     submit() {
-      console.log(1, this.formData)
+      const { errList, formData } = this;
+      console.log(1, formData)
+      if (errList.length) {
+        uni.showToast({title: errList[0], icon:'none'})
+        return 
+      }
+      this.canClick = false;
+      this.launchActivity();
+    },
+    launchActivity() {
+      const params = {...this.formData}
+      const _this = this;
+      launchActivity(params).then(res => {
+        const { data: nData } = res[1];
+        const { data, code, msg } = nData;
+        if (code === 200) {
+          uni.showToast({ 
+            title: msg || '',
+            success: (res)=>{
+              setTimeout(function () {
+                uni.navigateBack({ delta:1,success:()=>{
+                  _this.canClick = true;
+                }})
+              }, 1000);
+            } 
+          })
+        }else {
+          uni.showToast({ title: msg ,icon:'none', success: () =>{
+            _this.canClick = true;
+          } });
+        }
+      }).catch(err=> {
+        console.log(err)
+        this.canClick = true;
+      })
     },
     // 改变表单
     changeFn({data, code, type}) {
@@ -63,7 +139,6 @@ export default {
             let flag;
             matchList.forEach(ite =>{
               const [i, c] = [item[2], ite[2]];
-              console.log(19923, i,c)
               if (i.label === c.label && i.id === c.id) {
                 flag = i.label === c.label && i.id === c.id
               }
@@ -81,6 +156,7 @@ export default {
           this.formData[code] = data;
           break;
       }
+      console.log(123123, data,code, type, this.formData)
     },
   }
 

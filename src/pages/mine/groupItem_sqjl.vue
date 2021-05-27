@@ -5,7 +5,6 @@
     <infoHead :infoData='statusInfo.cardInfo'>
       <template slot="right"> 
         <div class="btn_box">
-          <!-- <div class="" v-if="statusInfo.showInfo.includes(8) || true" @click="clickBuoy(8)">联系客服</div> -->
           <div class="" v-if="statusInfo.showInfo.includes(9)" @click="clickBuoy(9)" >评价</div>
         </div>
       </template>
@@ -32,8 +31,6 @@
     </div>
 
     <div class="btn_box">
-      <!-- <div class="buoy" v-if="statusInfo.showInfo.includes(8)" @click="clickBuoy(8)">联系客服</div> -->
-      <!-- <div class="buoy" v-if="statusInfo.showInfo.includes(9)" @click="clickBuoy(9)" >评价</div> -->
     </div>
 
     <DiyRate ref='diyRate' :rateData='rateForm' @confirmRate='confirmRate'></DiyRate>

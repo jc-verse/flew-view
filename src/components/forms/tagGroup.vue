@@ -1,20 +1,20 @@
 <template>
   <div class="tag_group">
-    <div class="tag_list">
-      <div class="tag_item_box" v-for="(item, ind) in tags" :key='ind'>
-        <template v-if="item.code === 'city'">
-          <TagItemCity :ind='ind' :item='item' @changeCity="changeFn"/>
-        </template>
-        <template v-else-if="item.code !== 'city' && item.list.length">
-          <TagItem :ind='ind' :item='item' @changeItem='changeFn'/>
-        </template>
-      </div>
+      <div class="tag_list">
+        <div class="tag_item_box" v-for="(item, ind) in tags" :key='ind'>
+          <template v-if="item.code === 'city'">
+            <TagItemCity :ind='ind' :item='item' @changeCity="changeFn"/>
+          </template>
+          <template v-else-if="item.code !== 'city' && item.list.length">
+            <TagItem :ind='ind' :item='item' @changeItem='changeFn'/>
+          </template>
+        </div>
     </div>
   </div>
 </template>
 <script>
 import TagItem from './tagItem'
-import TagItemCity from './tagItemCity'
+import TagItemCity from './tagItemCityNew'
 import { sexs, grades } from '@/common/enum';
 import cityData from '@/static/city1.json';
 import { selectSchoolList, teamUpGradeList, subjectList } from '@/common/api'
@@ -39,9 +39,9 @@ export default {
         { label: '城市', id: 1 , code: 'city',      defalutVal:'',  list: cityData, ph: '地区'},
         { label: '学校', id: 2 , code: 'schoolName',defalutVal:'',  list:[] ,       ph: '学校'},
         { label: '性别', id: 3 , code: 'sex',       defalutVal:'',  list: sexs ,    ph: '性别'},
-        { label: '年级', id: 4 , code: 'grade',     defalutVal:'',  list: [],   ph: '年级'},
-        { label: '科目', id: 5 , code: 'subId1',     defalutVal:'',  list: [],   ph: '科目'},
         { label: '课程体系', id: 6 , code: 'subId',     defalutVal:'',  list: [],   ph: '课程体系'},
+        { label: '科目', id: 5 , code: 'subId1',     defalutVal:'',  list: [],   ph: '科目'},
+        { label: '年级', id: 4 , code: 'grade',     defalutVal:'',  list: [],   ph: '年级'},
       ],
       cityName: '',
       form: {
@@ -117,9 +117,7 @@ export default {
       switch (id) {
         case 1:
           if (value.length) {
-            this.cityName = value.reduce((x, y)=> {
-              return x.name + y.name;
-            })
+            this.cityName = value
             this.selectSchoolList();
           }
           

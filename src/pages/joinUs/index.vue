@@ -25,6 +25,12 @@
               </div> -->
               <div class="text">{{item.title}}</div>
             </div>
+            <!-- <div class="wx_code" @click="copy(wxCode)">
+              <span>点击复制客服微信：</span><span>【{{wxCode}}】</span>
+            </div> -->
+            <div class="wx_code" @click="copy(copyItem.wxCode)">
+              <span>点击复制客服微信</span>
+            </div>
           </div>
         </div>
         
@@ -43,7 +49,9 @@ import bottomLogo from "@/components/bottomLogo";
 import { textMsg } from './const';
 
 import FabGroup from '@/components/fabGroup';
-import {imgUrl} from '@/common/http'
+import { imgUrl } from '@/common/http'
+import { copy } from '@/common/utils';
+import { copyWxData } from '@/common/server_qr_wx';
 export default {
   name:'about_us', 
   components: { scrollBox, bottomLogo, pageSj, FabGroup },
@@ -53,20 +61,23 @@ export default {
       isH5: false,
       QRList: [
         // { code:require('@/static/img1/QR_code.png'), title: '长按识别二维码加入我们的大家庭', id:1 },
-        { code: imgUrl + '/service_QR.png', title: '长按保存二维码', id:2 },
-      ]
+        { code: imgUrl+ copyItem.qrImg, title: '长按保存客服二维码', id:2 },
+      ],
+      copyItem
     }
   },
   mounted() {
   },
   methods: {
+    copy,
     previewImage: function(e) {
-    var current = e.target.dataset.src;
-    wx.previewImage({
-      current: current,
-      urls: [current]
-    })
-  },
+      var current = e.target.dataset.src;
+      wx.previewImage({
+        current: current,
+        urls: [current]
+      })
+    },
+    
   }
 }
 </script>
@@ -125,6 +136,18 @@ export default {
   }
   img{
     pointer-events: auto !important;
+  }
+  .wx_code{
+    display: flex;
+    justify-content: center;
+    span{
+      padding: 10rpx 20rpx;
+      background: #0066ff;
+      color: white;
+      border-radius: 20rpx;
+      font-size: 12px;
+      margin: 20rpx 0 0;
+    }
   }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="tag_item" @click="clickD(true)">
-    <picker  @change="onchange" @cancel='clickD(false)' :placeholder="item.ph" :value="index" range-key="label" :range="item.list">
-      <span>{{ itemVal.label || ''}}</span>
-      <i class='iconfont iconxiala icon_item' :class="[down ? 'icon_active': '']"></i>
+    <picker  @change="onchange"  :placeholder="item.ph" :value="index" range-key="label" :range="item.list">
+      <div class="tag_item">
+        <span>{{ itemVal.label || ''}}</span>
+        <span class='iconfont iconxiala icon_item' :class="[down ? 'icon_active': '']"></span>
+      </div>
     </picker>
-  </div>
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
   data () {
     return {
       index: 0,
-      down: false
+      down: true
     }
   },
   computed: {
@@ -32,7 +32,7 @@ export default {
 			this.index = e.detail.value;
       console.log(12312312, e.detail)
       this.$emit('changeItem', id, code, item.list[e.detail.value])
-      this.clickD(false)
+      // this.clickD(false)
 		},
     clickD (falg) {
       this.down = !this.down;
@@ -56,9 +56,10 @@ export default {
     margin-left: 10rpx;
     font-size: 24rpx;
     display: inline-block;
+    transform: translateY(4rpx);
   }
   .icon_active{
-    transform: rotate(-90deg);
+    transform: translateY(4rpx) rotate(-90deg);
   }
 }
 </style>

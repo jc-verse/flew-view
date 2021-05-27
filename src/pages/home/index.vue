@@ -80,6 +80,9 @@
           <image :src="QRImg" alt="" show-menu-by-longpress>
         </div>
         <div class="qr_tip">长按保存二维码添加客服微信</div>
+        <div class="wx_code" @click="copy(copyItem.wxCode)">
+          <span>点击复制客服微信</span>
+        </div>
       </template>
       <template #btn> </template>
     </TipPopup>
@@ -98,18 +101,21 @@ import TipPopup from '@/components/cards/tipPopup';
 import FabGroup from '@/components/fabGroup';
 import userDataMixin from '@/common/mixins/userDataMixin';
 import commonMixin from '@/common/mixins/commonMixin';
-import { isLogin, toLogin, setStorage } from '@/common/utils'
+import { isLogin, toLogin, setStorage, copy } from '@/common/utils'
 import { imgUrl } from '@/common/http'
+import { copyWxData } from '@/common/server_qr_wx';
 
 export default {
   name: 'home',
   components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup, TipPopup },
   mixins:[userDataMixin, commonMixin],
   data () {
+    const [copyItem] = copyWxData
     return {
       statuList: [],
       active: 1,
-      QRImg: imgUrl+ '/service_QR.png'
+      QRImg: imgUrl+ copyItem.qrImg,
+      copyItem
     }
   },
   computed:{
@@ -124,8 +130,10 @@ export default {
       setStorage({count: count + 1})
       this.statuList= [1,2,3,4,5,];
     }
+    console.log(123123123,copyWxData)
   },
   methods: {
+    copy,
     toLogin,
     QRPopup() {
       this.$refs.QRPopup.show();
@@ -377,14 +385,26 @@ export default {
   filter: blur(3px)
 }
 .qr_img{
-  width: 380rpx;
-  height: 380rpx;
+  width: 420rpx;
+  height: 420rpx;
   @include img_fill;
 }
 .qr_tip{
   padding: 20rpx;
   text-align: center;
   color: #a1a1a1;
+}
+.wx_code{
+  display: flex;
+  justify-content: center;
+  span{
+    padding: 10rpx 20rpx;
+    background: #0066ff;
+    color: white;
+    border-radius: 20rpx;
+    font-size: 12px;
+    margin: 20rpx 0 0;
+  }
 }
 
 </style>

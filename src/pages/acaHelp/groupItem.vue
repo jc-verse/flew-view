@@ -32,6 +32,18 @@
         </div>
       </template>
     </TipPopup>
+    <!-- <TipPopup title="选择学科" ref='subjectPopup' msg="是否登录后执行操作？" @confirm='confirm'>
+      <template slot='content'>
+        <div class="content_box">
+          <scroll-view class="select_box" :scroll-y="true" :show-scrollbar='true'>
+            <div :class="['select_item', checkList.includes(i.id) ? 'check': '']" v-for='i in systemList' :key='i' @click="checkItem(i.id)">
+              {{i.label}}
+              <i class="iconfont iconziyuanldpi icon"></i>
+            </div>
+          </scroll-view>
+        </div>
+      </template>
+    </TipPopup> -->
     <DiyRate ref='diyRate' :rateData='rateForm' :readonly='true'></DiyRate>
   </div>
 </template>
@@ -45,7 +57,17 @@ import TipPopup from '@/components/cards/tipPopup';
 import { bsToStrFn, bsToStrFun } from '@/common/utils';
 import { academicGetEvaluate, selectCurriculumSystem } from '@/common/api';
 import DiyRate from '@/components/diyRate';
-import { isLogin, toLogin } from '@/common/utils'
+import { isLogin, toLogin } from '@/common/utils';
+// const demoSel= [
+//   { label: '小白', id: 1 },
+//   { label: '小白1', id: 2 },
+//   { label: '小白2', id: 3 },
+//   { label: '小白3', id: 4 },
+//   { label: '小白4', id: 5 },
+//   { label: '小白5', id: 6 },
+//   { label: '小白6', id: 7 },
+//   { label: '小白7', id: 8 },
+// ]
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, CrewInfo, TipPopup, DiyRate },
@@ -65,14 +87,16 @@ export default {
       rateForm: {},
       index: 0,
       systemList:[],
+      // demoSel,
+      checkList: [] // 被选中的id
     }
   },
   computed : {
     tops() {
       const { infoData } = this;
       const arr = [
-        { title: '学校',    val: infoData.schoolName || '', id: 1 }, 
-        { title: '年级',    val: infoData.grade || '',          id: 2 }, 
+        { title: '学校', val: infoData.schoolName || '', id: 1 }, 
+        { title: '年级', val: infoData.grade || '',          id: 2 }, 
         { title: '课程', val: infoData.curriculumSystem || '', id: 4 }, 
         { title: '标化', val: infoData.standardizedPerformance || '',           id: 3 }, 
         { title: '专业', val: infoData.professionalDirection || '', id: 4 }, 
@@ -92,6 +116,15 @@ export default {
   },
   methods:{
     toLogin,
+    checkItem(id) {
+      const { checkList } = this;
+      if (checkList.includes(id)) {
+        this.checkList = checkList.filter(item => item!= id)
+      } else {
+        this.checkList.push(id);
+      }
+
+    },
     selectCurriculumSystem() {
       selectCurriculumSystem({serviceUserId : this.infoData.id}).then(res => {
         const {data: nData} = res[1];
@@ -215,10 +248,39 @@ export default {
   .content_box{
     padding: 10rpx 0rpx;
     min-width: 300rpx;
-    border: 2rpx solid rgba(0, 0, 0, 0.1);
+    // border: 2rpx solid rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 20rpx;
     margin: 20rpx;
+  }
+}
+.select_box{
+  height: 300rpx;
+  .select_item{
+    padding: 20rpx 60rpx 20rpx 20rpx;
+    margin: 10rpx;
+    text-align: left;
+    position: relative;
+    
+  }
+  .check{
+    color: #5C86F2;
+    // background: rgba(92, 134, 242, 0.3);
+    .icon{
+      // background: #5C86F2;
+      color: #5C86F2;
+    }
+  }
+  .icon{
+    position: absolute;
+    right: 20rpx;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0,.3);
+    // background: #b7b5b5;
+    padding: 15rpx;
+    border-radius: 50%;
+    font-size: 20rpx;
   }
 }
 

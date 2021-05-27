@@ -155,7 +155,6 @@ export const academicGetEvaluate = (data) => {
   return  httpAPI('/app/academic/get-evaluate', { data })
 }
 
-
 // 学校咨询-列表
 export const consultingList = (data) => {
   return  httpAPI('/app/consulting/consulting-list', { data })
@@ -176,7 +175,7 @@ export const consultingComplete = (data) => {
   return  httpAPI('/app/consulting/consulting-complete', { data })
 }
 
-// 自主发起-完成
+// 自主发起-发起活动
 export const launchActivity = (data) => {
   return  httpAPI('/app/activity/launch-activity', { data })
 }

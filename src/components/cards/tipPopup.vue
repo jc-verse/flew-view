@@ -82,9 +82,12 @@ export default {
   }
   .msg{
     padding: 10rpx;
-    min-height: 80rpx;
+    min-height: 200rpx;
     width: 100%;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .btns{
     display: flex;

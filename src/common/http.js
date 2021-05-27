@@ -39,6 +39,11 @@ export const httpAPI =  ( url, options) => {
     return res
   });
 }
+const serverList = [
+  '/app/team-up/ranks',
+  '/app/academic/apply-service',
+  '/app/consulting/apply-service',
+]
 //  拦截特殊状态 
 function interceptor (code , msg, url) {
   const route = getCurPageRoute() || '';
@@ -54,12 +59,12 @@ function interceptor (code , msg, url) {
       }
       break;
     case 1015: //是填写标准信息
-      if (!route.includes('userInfo') && (url === '/app/team-up/ranks' || url=== '/app/user-info/read-count')) {
+      if (!route.includes('userInfo') && serverList.includes(url)) {
         uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
       }
       break;
     case 1018: //是完善个人信息
-      if (!route.includes('userComplete') && (url === '/app/team-up/ranks' || url=== '/app/user-info/read-count')) {
+      if (!route.includes('userComplete') && serverList.includes(url)) {
         uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
       }
       break;

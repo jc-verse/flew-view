@@ -144,3 +144,16 @@ export function formatDate(time, formatStr) {
       })[matches];
   })
 }
+
+export const copy = (value) => {
+  uni.setClipboardData({
+    data: value,   // 要复制的文字
+    success: function(res) {
+      uni.getClipboardData({
+        success: function(res) {
+          uni.showToast({ title: '复制成功'  });
+        }
+      });
+    }
+  });
+}

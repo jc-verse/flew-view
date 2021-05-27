@@ -49,7 +49,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+body{
+  -webkit-overflow-scrolling: unset;
+}
 .tag_item{
+  
+  -webkit-overflow-scrolling:auto;
   padding: 8rpx 36rpx;
   flex-shrink: 0;
   background: #ECECEC;
@@ -71,5 +76,9 @@ export default {
   .uni-data-tree[data-v-7939fa20] /deep/ .input-value-border[data-v-7939fa20]{
     border: none!important;
   }
+}
+.picker_box{
+  // transform: translateZ(1px);
+  // -webkit-overflow-scrolling:auto;
 }
 </style>

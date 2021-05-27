@@ -21,6 +21,9 @@
             </div>
           </div>
           <div class="b_tip">了解详情长按保存二维码，添加客服。</div>
+          <div class="wx_code" @click="copy(copyItem.wxCode)">
+            <span>点击复制客服微信</span>
+          </div>
         </div>
       </div>
       
@@ -43,6 +46,8 @@ import information from '@/components/cards/information';
 import joinList from '@/components/cards/joinList';
 import { topListFn, bsToStrFn } from './units';
 import {imgUrl} from '@/common/http'
+import {copy} from '@/common/utils'
+import { copyWxData } from '@/common/server_qr_wx';
 export default {
   name:'detail_info',
   components: { 
@@ -55,11 +60,13 @@ export default {
     pageSj
   },
   data() {
+    const [ copyItem ] = copyWxData;
     return {
       show: false,
       index: 0,
       cardInfo: {},
-      QRImg: imgUrl + '/service_QR.png'
+      QRImg: imgUrl+ copyItem.qrImg,
+      copyItem
     }
   },
   computed : {
@@ -82,6 +89,7 @@ export default {
     }})
   },
   methods : {
+    copy
   },
 }
 </script>
@@ -136,6 +144,18 @@ $color:#B3B3B4;
     .b_tip{
       @include fontMixin(24rpx, #666666)
     }
+  }
+}
+.wx_code{
+  display: flex;
+  justify-content: center;
+  span{
+    padding: 10rpx 20rpx;
+    background: #0066ff;
+    color: white;
+    border-radius: 20rpx;
+    font-size: 12px;
+    margin: 20rpx 0 0;
   }
 }
 </style>
