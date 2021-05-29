@@ -73,6 +73,7 @@ export default {
   flex-direction: column;
   align-items: center;
   border-radius: 20rpx;
+  padding: 10rpx;
   .title{
     padding: 20rpx;
     font-weight: bold;
@@ -96,7 +97,7 @@ export default {
     padding: 10rpx 0 20rpx;
     .yes, .no{
       text-align: center;
-      border-radius: 30rpx;
+      border-radius: 50rpx;
       border: 1px solid rgba(92, 134, 242, 0.2);
       width: 150rpx;
       padding: 10rpx;

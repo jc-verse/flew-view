@@ -42,7 +42,9 @@ export default {
       token:'',
       userInfo: {},
       canLogin: true,
-      wxInfoData: {}
+      wxInfoData: {},
+      loading: false
+
     }
   },
   mounted () {
@@ -66,6 +68,7 @@ export default {
   },
   methods: {
     clickIknow() {
+      
       this.$refs.tipPopup.close();
       setStorage({statement: 'Y'})
 
@@ -82,13 +85,7 @@ export default {
           if (!_this.token) {
             _this.login()
           } else {
-            uni.redirectTo({ 
-              url: '/pages/home/index', 
-              success(res) {
-                console.log(res)
-              }, 
-              fail(err){console.log(err)} 
-            })
+            uni.redirectTo({  url: '/pages/home/index', })
           }
         },
         fail: (err) => {
@@ -113,6 +110,9 @@ export default {
     },
     login () {
       const _this = this;
+      if (this.loading) return;
+      this.loading = true;
+      uni.showLoading();
       uni.login({
         success(loginRes){
           const { code } = loginRes;
@@ -150,6 +150,10 @@ export default {
               }
             })
           }
+        },
+        complete:() => {
+          this.loading= false
+          uni.hideLoading();
         }
       })
     },

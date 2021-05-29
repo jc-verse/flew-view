@@ -206,7 +206,8 @@ export default {
       canClick: true,
 
       right: { label: '体系认证', code:'curriculumSystemAuthUrl', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'upload', type: 'text', max: 20 }},
-      userCount: 0
+      userCount: 0,
+      loading: false
     }
   },
   computed:{
@@ -463,10 +464,22 @@ export default {
     showFn(name){
       this.shows[name] = !this.shows[name]
     },
+    // 节流
+    throttle(flag) {
+      if (flag) {
+        this.loading = true;
+        this.canClick = false;
+        uni.showLoading()
+      } else {
+        this.loading = false;
+        this.canClick = true;
+        uni.hideLoading()
+      }
+    },
     // 保存
     save () {
       const _this = this;
-      if (!this.canClick)  return;
+      if (!this.canClick || this.loading)  return;
       const { autList, formData, showBtn, matchList } = this;
       if (showBtn.length) { // 校验
         uni.showToast({ title: showBtn[0],icon:'none' });
@@ -476,16 +489,19 @@ export default {
         uni.showToast({ title: '希望参加的比赛不能为空',icon:'none' });
         return;
       }
-      this.canClick = false;
+      this.throttle(true);
       const matchs = matchList.map((item, index)=>{
         const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id,item[1].id,item[2].id]
         return  { organizeTypeId , organizeTypeSon , organizeTypeSonMatchId }
       })
+      const isConsulting = formData.isConsulting === true || formData.isConsulting === 1 ? 1 : 2; 
+      const isAcademic = formData.isAcademic === true || formData.isAcademic === 1 ? 1 : 2; 
       formData.match = matchs || [];
-      const params = { ...formData }
+      const params = { ...formData, isConsulting, isAcademic }
       updateCardInfo(params).then(res => {
         const { data: nData } = res[1];
         const { data, code, msg } = nData;
+        _this.throttle(false);
         if (code === 200) {
           uni.showToast({ 
             title: msg || '',
@@ -493,20 +509,17 @@ export default {
               setTimeout(function () {
                 uni.navigateBack({delta:1,success:()=>{
                   _this.getUserInfo();
-                  _this.canClick = true;
                   uni.removeStorage({key: 'toUserInfoUrl'})
                 }})
               }, 1000);
             } 
           })
         }else {
-          uni.showToast({ title: msg ,icon:'none', success: () =>{
-            _this.canClick = true;
-          } });
+          uni.showToast({ title: msg ,icon:'none' });
         }
       }).catch(err=> {
         console.log(err)
-        this.canClick = true;
+        this.throttle(false);
       })
     },
     // 上传图片

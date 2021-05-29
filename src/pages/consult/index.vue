@@ -37,7 +37,8 @@ export default {
       current: 1,
       size: 10,
       noConcat: false,
-      userId: ''
+      userId: '',
+      loading: false
     }
   },
   onShow() {
@@ -86,15 +87,31 @@ export default {
         }
       })
     },
+    // 节流
+    throttle(flag) {
+      if (flag) {
+        this.loading = true;
+        uni.showLoading()
+      } else {
+        this.loading = false;
+        uni.hideLoading()
+      }
+    },
     consultingApplyService (id) {
+      if (this.loading) return;
+      this.throttle(true)
       consultingApplyService({ serviceUserId: id }).then(res => {
         const {data: nData} = res[1];
         const { code, data, success, msg } = nData || {};
+        this.this.throttle(false)
         if (code === 200 && success) {
           uni.showToast({title: '申请成功！'})
         } else {
           uni.showToast({title:msg, icon:'none' })
         }
+      }).catch(err=> {
+        console.log(err);
+        this.throttle(false)
       })
     },
     lower() {
@@ -115,7 +132,7 @@ export default {
           break;
         // case 2: // 评价
         //   console.log('评价')
-          break;
+          // break;
       
         default:
           break;

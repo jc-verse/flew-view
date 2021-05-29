@@ -67,7 +67,8 @@ export default {
         dimension2: 0,
         dimension3: 0,
         dimension4: 0
-      }
+      },
+      loading: false
     }
   },
   onShow() {
@@ -115,26 +116,44 @@ export default {
         }
       })
     },
-    
+    // 节流
+    throttle(flag) {
+      if (flag) {
+        this.loading = true;
+        uni.showLoading()
+      } else {
+        this.loading = false;
+        uni.hideLoading()
+      }
+    },
     academicApplyService (serviceUserId, id) {
-      academicApplyService({ serviceUserId, id }).then(res => {
-        const {data: nData} = res[1];
-        const { code, data, success } = nData || {};
-        if (code === 200 && success) {
-          uni.showToast({title: '申请成功！'})
-          this.getList();
-        }
-      }).catch(err=>{console.log(err)})
+      if (this.loading) return;
+      this.throttle(true);
+      academicApplyService({ serviceUserId, id })
+        .then(res => {
+          const {data: nData} = res[1];
+          const { code, data, success } = nData || {};
+          this.throttle(false);
+          if (code === 200 && success) {
+            uni.showToast({title: '申请成功！'})
+            this.getList();
+          }
+        })
+        .catch(err=>{
+          console.log(err)
+          this.throttle(false)
+        })
+        
     },
-    academicGetEvaluate(serviceUserId ) {
-      academicGetEvaluate({serviceUserId}).then(res => {
-        const {data: nData} = res[1];
-        const { code, data, success } = nData || {};
-        if (code === 200 && success) {
-          this.rateForm = data
-        }
-      })
-    },
+    // academicGetEvaluate(serviceUserId ) {
+    //   academicGetEvaluate({serviceUserId}).then(res => {
+    //     const {data: nData} = res[1];
+    //     const { code, data, success } = nData || {};
+    //     if (code === 200 && success) {
+    //       this.rateForm = data
+    //     }
+    //   })
+    // },
     lower() {
       if (this.noConcat) return ;
       this.getList();
@@ -152,13 +171,13 @@ export default {
         case 1: // 申请服务
           this.academicApplyService(id, subjectId)
           break;
-        case 2: // 评价
-          console.log('评价')
-          // console.log(this.$refs)
-          // this.academicGetEvaluate(id)
+        // case 2: // 评价
+        //   console.log('评价')
+        //   // console.log(this.$refs)
+        //   // this.academicGetEvaluate(id)
 
-          // this.$refs.diyRate.show()
-          break;
+        //   // this.$refs.diyRate.show()
+        //   break;
       
         default:
           break;

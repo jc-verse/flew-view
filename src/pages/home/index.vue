@@ -376,6 +376,7 @@ export default {
 .qr_img{
   width: 420rpx;
   height: 420rpx;
+  margin: auto;
   @include img_fill;
 }
 .qr_tip{

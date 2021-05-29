@@ -80,7 +80,8 @@ export default {
       systemList:[],
       // demoSel,
       checkList: [], // 被选中的id
-      toUserInfoUrl: ''
+      toUserInfoUrl: '',
+      loading: false
     }
   },
   computed : {
@@ -135,14 +136,30 @@ export default {
         this.index = e.target.value
         console.log(199,e)
     },
+    // 节流
+    throttle(flag) {
+      if (flag) {
+        this.loading = true;
+        uni.showLoading()
+      } else {
+        this.loading = false;
+        uni.hideLoading()
+      }
+    },
     academicGetEvaluate(serviceUserId ) {
+      if (this.loading) return;
+      this.throttle(true)
       academicGetEvaluate({serviceUserId}).then(res => {
         const {data: nData} = res[1];
         const { code, data, success } = nData || {};
+        this.throttle(false)
         if (code === 200 && success) {
           this.rateForm = data
           this.$refs.diyRate.show()
         }
+      }).catch(err => {
+        console.log(err);
+        this.throttle(false)
       })
     },
     // 点击组队申请！
@@ -252,7 +269,7 @@ export default {
   .content_box{
     padding: 10rpx 0rpx;
     min-width: 300rpx;
-    // border: 2rpx solid rgba(0, 0, 0, 0.1);
+    border: 2rpx solid rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 20rpx;
     margin: 20rpx;

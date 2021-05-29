@@ -1,5 +1,5 @@
 <template>
-	<view class="uni-data-tree" @click.stop>
+	<view class="uni-data-tree" @click.stop @touchmove.stop>
 		<view class="uni-data-tree-input" @click.stop="handleInput">
 			<slot :options="options" :data="inputSelected" ></slot>
 		</view>
