@@ -1,9 +1,9 @@
 <template>
     <picker  @change="onchange"  :placeholder="item.ph" :value="index" range-key="label" :range="item.list">
-      <div class="tag_item">
+      <view class="tag_item">
         <span>{{ itemVal.label || ''}}</span>
         <span class='iconfont iconxiala icon_item' :class="[down ? 'icon_active': '']"></span>
-      </div>
+      </view>
     </picker>
 </template>
 
@@ -22,6 +22,7 @@ export default {
   computed: {
     itemVal () {
       const { item, index } = this;
+      console.log(188, index, item)
       return item.list[index] || {}
     },
   },
@@ -56,10 +57,10 @@ export default {
     margin-left: 10rpx;
     font-size: 24rpx;
     display: inline-block;
-    transform: translateY(4rpx);
+    // transform: translateY(4rpx);
   }
   .icon_active{
-    transform: translateY(4rpx) rotate(-90deg);
+    transform: rotate(-90deg);
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <page-sj> 
     <div class="acaHelp">
       <search @change='changeVal' :pValue='searchVal' :propertys="{'maxlength':'10'}"/>
-      <tag-group @changeValue='changeTag' :showList='[1,2,3,4,5,6]'></tag-group>
+      <tag-group @changeValue='changeTag' :showList='[1,2,3,5,6,4]'></tag-group>
       <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>

@@ -71,6 +71,7 @@
     </div>
   </div>
   <FabGroup :shows='[2]'/>
+  <TipPopup title="提示" ref='toUserInfo' msg="是否完善个人信息？" @confirm='toUserInfo(true)' />
   <!-- <DiyPopup ref='popup' :noUp='true'>
     <div class="tip_box" slot='tip' @click.stop>
       <div class="title">取消申请</div>
@@ -100,7 +101,9 @@ import DiyPopup from '@/components/diyPopup';
 
 import FabGroup from '@/components/fabGroup';
 import {imgUrl} from '@/common/http';
-import { demoDatas } from './const'
+import { demoDatas } from './const';
+import TipPopup from '@/components/cards/tipPopup';
+
 
 import { 
   userInfoReadCount, 
@@ -130,7 +133,7 @@ const requests = {
 }
 export default {
   components: {
-    PageJs, ScrollBox, FabGroup, Rate, DiyPopup,
+    PageJs, ScrollBox, FabGroup, Rate, DiyPopup, TipPopup,
     GroupItemSqz, GroupItemJxz, GroupItemBsq, GroupItemSqjl, GroupItemFqz,
   },
   mixins:[userDataMixin],
@@ -152,7 +155,8 @@ export default {
         current: 1,
         size: 10
       },
-      count: 0
+      count: 0,
+      toUserInfoUrl:''
     }
   },
   computed:{
@@ -174,6 +178,13 @@ export default {
         url = imgUrl + avatar
       }
       return url
+    }
+  },
+  onLoad() {
+    const toUserInfoUrl = uni.getStorageSync('toUserInfoUrl')
+    if (toUserInfoUrl) {
+      this.toUserInfoUrl = toUserInfoUrl;
+      this.$refs.toUserInfo.show();
     }
   },
   onShow () {
@@ -445,7 +456,14 @@ export default {
         default:
           break;
       }
-    }
+    },
+    // 跳转信息录入
+    toUserInfo (flag) {
+      // if (flag) {
+        uni.navigateTo({ url: this.toUserInfoUrl });
+        this.toUserInfoUrl = ''
+      // }
+    },
   },
   watch: {
     actived(val) {

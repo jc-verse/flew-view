@@ -58,7 +58,7 @@ export default {
       this.down = !this.down
     },
     clickFag() {
-      this.$emit("clickBtn");
+      this.$emit("clickBtn", this.infoData);
     }
   }
 }

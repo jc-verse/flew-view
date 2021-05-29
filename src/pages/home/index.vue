@@ -110,12 +110,12 @@ export default {
   components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup, TipPopup },
   mixins:[userDataMixin, commonMixin],
   data () {
-    const [copyItem] = copyWxData
+    const [copyItem] = copyWxData;
+    const QRImg =  imgUrl+ copyItem.qrImg;
     return {
+      QRImg, copyItem,
       statuList: [],
       active: 1,
-      QRImg: imgUrl+ copyItem.qrImg,
-      copyItem
     }
   },
   computed:{
@@ -125,12 +125,11 @@ export default {
   },
   onLoad() {
     const count = uni.getStorageSync('count') || 0;
-    // 判断首次进入  
-    if (!count) {
+    // 判断首次非登录-进入  
+    if (!count && isLogin()) {
       setStorage({count: count + 1})
       this.statuList= [1,2,3,4,5,];
     }
-    console.log(123123123,copyWxData)
   },
   methods: {
     copy,
@@ -141,34 +140,24 @@ export default {
     unLogin() {
       this.$refs.unLogin.show()
     },
+    // 点击 头像进入-> 我的页面
     clickIcon() {
-      console.log(1223, isLogin())
       if (isLogin()) {
         uni.navigateTo({ url: '/pages/mine/index' }) // 我的
       } else {
         this.$refs.noLogin.show()
       }
     },
+    // 点击卡片
     clickCard(val) {
-      switch (val) {
-        case 1:
-          uni.navigateTo({ url: '/pages/competition/index' }) // 竞赛组队
-          break;
-        case 2:
-          uni.navigateTo({ url: '/pages/consult/index' }) // 学校信息咨询
-          break;
-        case 3:
-          uni.navigateTo({ url: '/pages/acaHelp/index' }) // 关于我们
-          break;
-        case 4:
-          uni.navigateTo({ url: '/pages/aboutUs/index' }) // 学术帮助
-          break;
-        case 5:
-          uni.navigateTo({ url: '/pages/joinUs/index' }) // 加入我们
-          break;
-        default:
-          break;
+      const routers = {
+        '1': '/pages/competition/index', // 竞赛组队
+        '2': '/pages/consult/index',// 学校信息咨询
+        '3': '/pages/acaHelp/index', // 关于我们
+        '4': '/pages/aboutUs/index', // 学术帮助
+        '5': 'pages/joinUs/index', // 加入我们
       }
+      uni.navigateTo({ url: routers[val] });
     },
     // 点击蒙版  切换展示模块
     clickMask() {

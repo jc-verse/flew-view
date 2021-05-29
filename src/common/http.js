@@ -1,5 +1,5 @@
 import { joinUrl, getCurPageRoute } from '@/common/utils'
-import { isLogin } from './utils'
+import { isLogin, setStorage } from './utils'
 
 // export const baseUrl = 'http://47.101.54.170:8111/server';
 export const baseUrl = 'https://www.sjreach.cn/server';
@@ -59,14 +59,17 @@ function interceptor (code , msg, url) {
       }
       break;
     case 1015: //是填写标准信息
-      if (!route.includes('userInfo') && serverList.includes(url)) {
-        uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
-      }
+    // toUserInfoUrl
+      setStorage({ toUserInfoUrl: '/pages/userInfo/index' })
+      // if (!route.includes('userInfo') && serverList.includes(url)) {
+      //   uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
+      // }
       break;
     case 1018: //是完善个人信息
-      if (!route.includes('userComplete') && serverList.includes(url)) {
-        uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
-      }
+      setStorage({ toUserInfoUrl: '/pages/userComplete/index' })
+      // if (!route.includes('userComplete') && serverList.includes(url)) {
+      //   uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
+      // }
       break;
   }
 }

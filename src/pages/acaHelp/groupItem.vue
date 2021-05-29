@@ -20,10 +20,11 @@
         <join-list title='个人留言' :value='infoData.personalMessage || "暂无留言"' type='text'/>
       </div>
     </div>
-    <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
+    <!-- <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/> -->
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+    <TipPopup title="提示" ref='toUserInfo' msg="是否完善个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
 
-    <TipPopup title="选择学科" ref='subjectPopup' msg="是否登录后执行操作？" @confirm='confirm'>
+    <TipPopup title="选择学科" ref='subjectPopup'  @confirm='confirm'>
       <template slot='content'>
         <div class="content_box">
           <picker @change="bindPickerChange" :value="index" range-key='label' :range="systemList" selector-type='select'>
@@ -32,7 +33,7 @@
         </div>
       </template>
     </TipPopup>
-    <!-- <TipPopup title="选择学科" ref='subjectPopup' msg="是否登录后执行操作？" @confirm='confirm'>
+    <!-- <TipPopup title="选择学科" ref='subjectPopup'  @confirm='confirm'>
       <template slot='content'>
         <div class="content_box">
           <scroll-view class="select_box" :scroll-y="true" :show-scrollbar='true'>
@@ -58,16 +59,6 @@ import { bsToStrFn, bsToStrFun } from '@/common/utils';
 import { academicGetEvaluate, selectCurriculumSystem } from '@/common/api';
 import DiyRate from '@/components/diyRate';
 import { isLogin, toLogin } from '@/common/utils';
-// const demoSel= [
-//   { label: '小白', id: 1 },
-//   { label: '小白1', id: 2 },
-//   { label: '小白2', id: 3 },
-//   { label: '小白3', id: 4 },
-//   { label: '小白4', id: 5 },
-//   { label: '小白5', id: 6 },
-//   { label: '小白6', id: 7 },
-//   { label: '小白7', id: 8 },
-// ]
 export default {
   name: 'group_item',
   components: { infoHead, information, joinList, CrewInfo, TipPopup, DiyRate },
@@ -88,7 +79,8 @@ export default {
       index: 0,
       systemList:[],
       // demoSel,
-      checkList: [] // 被选中的id
+      checkList: [], // 被选中的id
+      toUserInfoUrl: ''
     }
   },
   computed : {
@@ -159,19 +151,31 @@ export default {
         this.$refs.noLogin.show()
         return 
       }
+      const  toUserInfoUrl = uni.getStorageSync('toUserInfoUrl');
       this.type = type;
-      console.log(1222, type, this.$refs, DiyRate)
       switch (type) {
         case 1:
-          
-          this.$refs.subjectPopup.show();
+          if (toUserInfoUrl) {
+            this.toUserInfoUrl = toUserInfoUrl;
+            this.$refs.toUserInfo.show();
+          } else {
+            this.$refs.subjectPopup.show();
+          }
           break;
         case 2:
           this.academicGetEvaluate(this.infoData.id)
           break;
-      
         default:
           break;
+      }
+    },
+    // 跳转信息录入
+    toUserInfo (flag) {
+      if (flag) {
+        uni.navigateTo({ url: this.toUserInfoUrl });
+        this.toUserInfoUrl = ''
+      } else {
+        uni.showToast({title: '请录入信息后, 申请服务!', icon: 'none'})
       }
     },
     // 点击确定

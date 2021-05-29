@@ -1,8 +1,8 @@
 <template>
   <div class="member">
-      <infoHead :iconFilter='iconFilter'/>
+      <infoHead :infoData='infoData'/>
       <!-- 个人信息 -->
-      <information :topList='topList'/>
+      <information :topList='tops'/>
   </div>
 </template>
 
@@ -12,24 +12,27 @@ import information from '@/components/cards/information';
 export default {
   name: 'member',
   components: { infoHead, information },
+  props: {
+    infoData: {
+      type: Object,
+      defautl: ()=>({})
+    }
+  },
   data() {
     return {
-      topList: [
-        { title: '学校', val: '世界联合学院', id: 1 }, 
-        { title: '年纪', val: '10', id: 2 }, 
-        { title: '标化', val: '我是标化成绩范围18字符', id: 3 }, 
-        { title: '课程', val: 'ALEVEL', id: 4 }, 
-      ]
     }
   },
   computed : {
-    iconFilter () {
-      const genders = {
-        'nan':{ icon:'iconxingbie-nan', id: '1', name:'某某男', value: '' },
-        'nv': { icon:'iconxingbie-nv', id: '2', name:'某某女' , value: 'nv'}
-      }
-      return genders['nv']
-    }
+    tops() {
+      const { infoData } = this;
+      const arr = [
+        { title: '学校', val: infoData.schoolName || '', id: 1 }, 
+        { title: '年级', val: infoData.grade || '',          id: 2 }, 
+        { title: '课程', val: infoData.curriculumSystem || '', id: 4 }, 
+        { title: '标化', val: infoData.standardizedPerformance || '', id: 3 }, 
+      ]
+      return arr
+    },
   },
 }
 </script>

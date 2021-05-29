@@ -45,7 +45,7 @@ export default {
           const arr = (data || []).map(item => {
             const obj = { ...item };
             if (obj.id == 8) {
-              obj.disable = true
+              // obj.disable = true
             }
             return obj;
           })

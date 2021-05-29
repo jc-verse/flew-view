@@ -499,6 +499,7 @@ export default {
                 uni.navigateBack({delta:1,success:()=>{
                   _this.getUserInfo();
                   _this.canClick = true;
+                  uni.removeStorage({key: 'toUserInfoUrl'})
                 }})
               }, 1000);
             } 

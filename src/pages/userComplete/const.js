@@ -13,7 +13,7 @@ export const formHeads = [
   { label: '学校',   code:'schoolName',id: '' ,required: true,  params: { ph: '请填写学校',    genre:'inputSelect', type: 'text', max: 20 ,candidates:['1','12','13','8',15,16,17]} },
   { label: '年级',   code:'grade',     id: '' ,required: true,  params: { ph: '请填写年级',    genre:'select', list: [] } },
   { label: '性别',   code:'sex',       id: '' ,required: true,  params: { ph: '请选择性别',    genre:'select', list: arr } },
-  { label: '邮箱',   code:'email',     id: '' ,required: false,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
+  { label: '邮箱',   code:'email',     id: '' ,required: false,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 35} },
   { label: '学术帮助',   code:'isAcademic',     id: '' ,required: false,  params: { ph: '',    genre:'checkbox', type: '' , max: 20} },
   { label: '学校咨询',   code:'isConsulting',     id: '' ,required: false,  params: { ph: '',    genre:'checkbox', type: '' , max: 20} },
 ]

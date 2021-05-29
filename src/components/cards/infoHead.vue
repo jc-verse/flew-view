@@ -57,12 +57,13 @@ export default {
   computed: {
     showSex(){
       console.log(9999,this.infoData)
-      const { sex } = this.infoData
+      const { sex } = this.infoData || 3
       return sex && sex != 3 && this.showGender
     },
     icon() {
       const {infoData} = this;
       const arr = ['iconxingbie-nan', 'iconxingbie-nv', '']
+      console.log(1213, infoData.sex)
       return arr[infoData.sex-1]
     },
     headImg () {
@@ -73,6 +74,7 @@ export default {
       } else if (avatar && avatar !== 'default_img.png') {
         url = imgUrl + avatar
       }
+      console.log(123123, url)
       return url
     }
   },

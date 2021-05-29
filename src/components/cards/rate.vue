@@ -4,7 +4,7 @@
 			<view
 				class="uni-rate__icon"
 				:class="{'uni-cursor-not-allowed': disabled}"
-				:style="{ 'margin-right': margin + 'px' }"
+				:style="{ 'margin-right': margin*2 + 'rpx' }"
 				v-for="(star, index) in stars"
 				:key="index"
 				@touchstart.stop="touchstart"
@@ -15,19 +15,19 @@
 			>
 				<i
 					class='iconfont iconB-pingfen'
-					:style="{color, fontSize: size + 'px'}"
+					:style="{color, fontSize: size*2 + 'rpx'}"
 					:color="color"
 					:type="isFill ? 'star-filled' : 'star'"
 				/>
 				<!-- #ifdef APP-NVUE -->
 				<view
-					:style="{ width: star.activeWitch.replace('%','')*size/100+'px'}"
+					:style="{ width: star.activeWitch.replace('%','')*size/100 * 2+'rpx'}"
 					class="uni-rate__icon-on"
 				>
 					<i
 						class='iconfont iconB-pingfen'
 						style="text-align: left;"
-						:style="{color: disabled?'#ccc':activeColor, fontSize: size + 'px' }"
+						:style="{color: disabled?'#ccc':activeColor, fontSize: size*2 + 'rpx' }"
 						type="star-filled"
 					/>
 				</view>
@@ -38,7 +38,7 @@
 					class="uni-rate__icon-on"
 				>
 					<i class='iconfont iconB-pingfen' 
-            :style="{color: disabled?disabledColor:activeColor, fontSize: size + 'px'}"
+            :style="{color: disabled?disabledColor:activeColor, fontSize: size*2 + 'rpx'}"
 					/>
 				</view>
 				<!-- #endif -->

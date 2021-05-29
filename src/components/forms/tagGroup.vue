@@ -91,7 +91,12 @@ export default {
         if (code === 200 && data.length) {
           const arr = (data || []).map(item => ({...item, label: item.name}));
           arr.unshift({ label: '请选择年级' , id: ''})
-          this.tagList[3].list = arr;
+          this.tagList = this.tagList.map(item => {
+            if (item.id == 4) {
+              item.list = arr;
+            }
+            return item;
+          });
         }
       }).catch(err => {console.log(err)})
     },
@@ -101,15 +106,19 @@ export default {
         const {data: nData} = res[1];
         const { code, data } = nData || {};
         if (code === 200) {
-          const obj = { '1': 4, '2': 5 };
-          this[obj[type]] = data || [];
+          const obj = { '1': 5, '2': 6 };
+          // this[obj[type]] = data || [];
           const arr = (data || [])
             .map(item => ({...item ,label: item.subjectName }))
           if (arr.length) {
             arr.unshift({label: type == 1? '请选择科目': '请选择课程体系', id: ''})
           } 
-          this.tagList[obj[type]].list = arr
-            
+          this.tagList = this.tagList.map(item => {
+            if (item.id == obj[type]) {
+              item.list = arr;
+            }
+            return item;
+          });
         }
       })
     },

@@ -1,6 +1,6 @@
 <template>
   <DiyPopup ref='popup' :popupTitle="title" @popupclosed='popupclosed' :styles='{top: "38%"}'>
-      <template slot='content' style='height:100%'>
+      <template slot='content' >
         <div class="rate_box">
           <div class="rate_item" v-for="(item, index) in rateHeads" :key='index'>
             <div class="rate_title">{{item.title}}</div>
@@ -95,7 +95,7 @@ export default {
   align-items: flex-start;
   height: 100%;
   .rate_item{
-    padding: 20rpx;
+    padding: 20rpx 20rpx 0;
     @include flex_center;
     align-items: flex-start;
     flex-direction: column;

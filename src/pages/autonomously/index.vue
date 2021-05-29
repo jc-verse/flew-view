@@ -30,7 +30,8 @@ import cardItem from './cardItem';
 import TipPopup from '@/components/cards/tipPopup';
 import {  cardList } from '@/components/const'
 import { isLogin, toLogin } from '@/common/utils'
-import { activityList } from '@/common/api'
+import { activityList } from '@/common/api';
+import { joinUrl, getCurPage } from '@/common/utils';
 const tabList = [
   { id: '', label: '全部' },
   { id: 1, label: '艺术' },
@@ -68,12 +69,15 @@ export default {
       }
       uni.navigateTo({ url: '/pages/initiateProcess/index' })
     },
-    clickBtn() {
+    clickBtn(item) {
       if (!isLogin()) {
         this.$refs.noLogin.show()
         return 
       }
-      uni.navigateTo({ url: '/pages/detailGroup/index' })
+      const { activityId } = item;
+      const type = tabList[this.tabIndex].id
+      console.log(123123999, type)
+      uni.navigateTo({ url:joinUrl( '/pages/detailGroup/index', {activityId, type}) })
     },
     // 点击memu
     clickItme (item , index) {

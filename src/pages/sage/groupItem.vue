@@ -24,6 +24,8 @@
 
     <div class="buoy" v-if='infoData.rank == 2' @click="clickBuoy(infoData)"> 申请组队 </div>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+    <TipPopup title="提示" ref='toUserInfo' msg="是否完善个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
+
   </div>
 </template>
 
@@ -52,7 +54,8 @@ export default {
     return {
       info: '',
       showList: false,
-      showInfo: false
+      showInfo: false,
+      toUserInfoUrl: ''
     }
   },
   computed : {
@@ -92,13 +95,30 @@ export default {
     clickDown () {
       this.showList = !this.showList
     },
+    // 跳转信息录入
+    toUserInfo (flag) {
+      if (flag) {
+        uni.navigateTo({ url: this.toUserInfoUrl });
+        this.toUserInfoUrl = ''
+      } else {
+        uni.showToast({title: '请录入信息后, 申请服务!', icon: 'none'})
+      }
+    },
     // 点击组队申请！
     clickBuoy (type) {
       if (!isLogin()) {
         this.$refs.noLogin.show()
         return 
       }
-      this.$emit('clickBuoy', type)
+
+      const  toUserInfoUrl = uni.getStorageSync('toUserInfoUrl');
+      if (toUserInfoUrl) {
+        this.toUserInfoUrl = toUserInfoUrl;
+        this.$refs.toUserInfo.show();
+      } else {
+        this.$emit('clickBuoy', type)
+      }
+      
     }
   }
 

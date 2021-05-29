@@ -4,22 +4,22 @@
     <scroll-box style='width:100%'>
       <div class="content_box">
         <div class="top">
-          <infoHead :iconFilter='iconFilter'/>
+          <infoHead :infoData='infoData'/>
           <!-- 个人信息 -->
-          <information :topList='topList'/>
+          <information :topList='tops'/>
         </div>
         <div class="center">
-          <join-list title='活动信息' value='活动信息150字，招募要求100字，组队人数8/20人急话缓说计划计划' type='text'/>
+          <join-list title='活动信息' :value='infoData.activityInfo  ||  "暂无活动信息"' type='text'/>
           <join-list title='组队人数' :list='tagList' type='diy'>
             <div class="tags" slot='diy' >
-              <div class="tag" >{{`${7}/${8}人`}}</div>
+              <div class="tag" >{{`${infoData.alreadyNum  || 0}/${infoData.num  || 0}人`}}</div>
             </div>
           </join-list>
-          <join-list title='招募要求' value='招募要求100字，摄影师、插画师、艺术家、创意人,设计创意群体中具有较高的影响力与号召力' :list='cList' type='text'/>
+          <join-list title='招募要求' :value='infoData.requirement  || "暂无招募要求"'  type='text'/>
         </div>
-        <div class="memeber_box">
+        <div class="memeber_box" v-if="infoData.memberVoList && infoData.memberVoList.length">
           <div class="me_title">组队成员</div>
-          <member/>
+          <member v-for="(item, index) in infoData.memberVoList" :infoData='item' :key='index'/>
         </div>
         
       <!-- 底部logo -->
@@ -43,6 +43,8 @@ import bottomLogo from "@/components/bottomLogo";
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import joinList from '@/components/cards/joinList';
+import { getCurPage } from '@/common/utils';
+import { activityList } from '@/common/api';
 import member from './member'
 export default {
   name:'detail_info',
@@ -59,7 +61,6 @@ export default {
     return {
       show: false,
       index: 0,
-      isH5: false,
       genders: {
         'nan':{ icon:'iconxingbie-nan', id: '1', name:'某某男', value: '' },
         'nv': { icon:'iconxingbie-nv', id: '2', name:'某某女' , value: 'nv'}
@@ -72,19 +73,46 @@ export default {
       ],
       cList: [ '2020 NSDA最佳辩手', '2020 NSHDLC 全程最佳辩手', '2020 AIME 全球前百分之一' ],
       tagList: [ 'NECIEO', 'AIME',  'NECIEO', 'AIME', 'NECIEO', 'AIME', 'NECIEO', 'AIME', 'NECIEO', 'AIME', ],
+      infoData: {}
     }
   },
   computed : {
     iconFilter () {
       return this.genders['nv']
-    }
+    },
+    tops() {
+      const { infoData } = this;
+      const arr = [
+        { title: '学校', val: infoData.schoolName || '', id: 1 }, 
+        { title: '年级', val: infoData.grade || '',          id: 2 }, 
+        { title: '课程', val: infoData.curriculumSystem || '', id: 4 }, 
+        { title: '标化', val: infoData.standardizedPerformance || '', id: 3 }, 
+      ]
+      return arr
+    },
   },
-  onLoad() {
-    // #ifdef H5
-      this.isH5 = true
-    // #endif
+  onShow() {
+    const { activityId, type } = getCurPage()
+    this.getInfo(activityId, type)
   },
   methods : {
+    // 获取详情
+    getInfo(activityId, type) {
+      const params = {
+        activityId, type: type || '',
+        current: 1,
+        size: 10,
+      }
+      activityList(params).then(res => {
+        const { data: nData } = res[1];
+        const { data, code } = nData;
+        if (code === 200) {
+          console.log(123123, data)
+          const { records } = data
+          this.infoData = records[0] || {};
+        }
+      })
+    }
   },
 }
 </script>
