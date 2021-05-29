@@ -6,9 +6,16 @@
           <div class="label">头像</div>
           <img class="user_img" :src="headImg" alt="">
         </div>
-        <FormItemBox :ite ='ite' :formData='userData' :show-b='ind + 1 === formHeads.length' v-for='(ite, ind) in formHeads' :key='ind' >
-          <FormItem :headInit='ite' :formData='userData' @change="changeFn"/>
-        </FormItemBox>
+        <template v-if="showInfoForm">
+          <FormItemBox :ite ='ite' :formData='userData' :show-b='ind + 1 === formHeads.length' v-for='(ite, ind) in formHeads' :key='ind' >
+            <FormItem :headInit='ite' :formData='userData' @change="changeFn"/>
+          </FormItemBox>
+        </template>
+        <template v-else>
+          <FormItemBox :ite ='ite' :formData='userData' :show-b='ind + 1 === formHeads2.length' v-for='(ite, ind) in formHeads2' :key='ind' >
+            <FormItem :headInit='ite' :formData='userData' @change="changeFn"/>
+          </FormItemBox>
+        </template>
       </div>
       <div class="person_card">
         <div class="title">我的名片卡</div>
@@ -48,17 +55,27 @@ export default {
   data() {
     return {
       formHeads: [
-        { label: '昵称',   code:'nikeName',  id: '',disabled:true ,required: false, params: { ph: '获取微信名',    genre:'text', type: 'text', max: 20} },
-        { label: '微信号', code:'wxNum',    id: '' ,disabled:true ,required: false,  params: { ph: '请填写微信号',  genre:'input', type: 'text', max: 20 }},
+        { label: '昵称',   code:'nikeName',  id: '',disabled:true ,required: false, params: { ph: '微信用户',    genre:'text', type: 'text', max: 20} },
+        { label: '微信号', code:'wxNum',    id: '' ,disabled:true ,required: false,  params: { ph: '无',  genre:'input', type: 'text', max: 20 }},
         // { label: '生日',   code: 'birthday', id: '', required: false, params: { ph: '请填写生日',  genre:'date', type: 'text', max: 20 } },
-        { label: '年级',   code:'grade',     id: '' ,disabled:true ,required: false,  params: { ph: '请填写年级',    genre:'input', type: 'text', max: 20 } },
-        { label: '性别',   code:'sex',       id: '' ,disabled:true ,required: false,  params: { ph: '请选择性别',    genre:'select', list: sexs } },
-        { label: '邮箱',   code:'email',     id: '' ,disabled:true ,required: false,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 20} },
+        { label: '年级',   code:'grade',     id: '' ,disabled:true ,required: false,  params: { ph: '',    genre:'input', type: 'text', max: 20 } },
+        { label: '性别',   code:'sex',       id: '' ,disabled:true ,required: false,  params: { ph: '不公开',    genre:'select', list: sexs } },
+        { label: '邮箱',   code:'email',     id: '' ,disabled:true ,required: false,  params: { ph: '暂无邮箱',    genre:'input', type: 'email' , max: 20} },
       ],
+      formHeads2: [
+        { label: '昵称',   code:'nikeName',  id: '',disabled:true ,required: false, params: { ph: '微信用户',    genre:'input', type: 'text', max: 20} },
+        { label: '微信号', code:'wxNum',    id: '' ,disabled:true ,required: false,  params: { ph: '无',  genre:'input', type: 'text', max: 20 }},
+        // { label: '生日',   code: 'birthday', id: '', required: false, params: { ph: '请填写生日',  genre:'date', type: 'text', max: 20 } },
+        { label: '年级',   code:'grade',     id: '' ,disabled:true ,required: false,  params: { ph: '无',    genre:'input', type: 'text', max: 20 } },
+        { label: '性别',   code:'sex',       id: '' ,disabled:true ,required: false,  params: { ph: '无',    genre:'input', list: sexs } },
+        { label: '邮箱',   code:'email',     id: '' ,disabled:true ,required: false,  params: { ph: '无',    genre:'input', type: 'email' , max: 20} },
+      ],
+      
       formData: {},
       // headImg: '',
       userHead: '',
       systemList: [],
+      showInfoForm: false
       // userData: {}// mixin中
     }
   },
@@ -77,7 +94,8 @@ export default {
     })
   },
   onShow(){
-
+    const url = uni.getStorageSync('toUserInfoUrl')
+    this.showInfoForm = isLogin() && !url
   },
   computed :{
     newFormData () {
@@ -98,8 +116,7 @@ export default {
         url = imgUrl + avatar
       }
       return url;
-    }
-    
+    },
   },
   methods: {
     toLogin,

@@ -67,7 +67,7 @@ export default {
     // }
   },
   methods: {
-    clickIknow() {
+    clickIknow(flag) { // flag 1: 不保存用户信息
       
       this.$refs.tipPopup.close();
       setStorage({statement: 'Y'})
@@ -80,7 +80,9 @@ export default {
           _this.userInfo = res.userInfo;
           _this.wxInfoData.iv = res.iv;
           _this.wxInfoData.encryptedData = res.encryptedData;
-          setStorage (res.userInfo)
+          if (flag !== 1) {
+            setStorage (res.userInfo)
+          }
           console.log(988, _this.userInfo)
           if (!_this.token) {
             _this.login()
@@ -103,10 +105,8 @@ export default {
       if(statement !== "Y") { //判断是否首次登录，并阅读了声明
         this.$refs.tipPopup.show();
       } else {
-        this.clickIknow();
+        this.clickIknow(1);
       }
-      
-      
     },
     login () {
       const _this = this;

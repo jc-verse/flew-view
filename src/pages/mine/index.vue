@@ -156,7 +156,8 @@ export default {
         size: 10
       },
       count: 0,
-      toUserInfoUrl:''
+      toUserInfoUrl:'',
+      loading: false
     }
   },
   computed:{
@@ -255,6 +256,8 @@ export default {
     },
     // 取消申请
     userInfoCancelMatch(id) {
+      if (this.loading) return;
+      this.throttle(true)
       const params = {
         userRelationshipId: id
       }
@@ -262,81 +265,112 @@ export default {
       userInfoCancelMatch(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false)
         if (code === 200 && success) {
           uni.showToast({title: '取消成功！'})
           this.initForm();
         } else {
           uni.showToast({title: '取消失败，请重试！',icon: 'none'  })
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        console.log(err);
+        this.throttle(false)
+      })
     },
     // 竞赛组队-接受/拒绝申请
     userInfoPower(type, id) {
+      if (this.loading) return;
+      this.throttle(true)
       const params = { type, userRelationshipId: id };
       console.log('竞赛组队-接受/拒绝申请-参数：' + JSON.stringify(params))
       userInfoPower(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false)
         if (code === 200 && success) {
           uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
           this.initForm();
         } else {
           uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)  
+      })
     }, //academicOperationAcademic
     // 学术帮助-接受/拒绝申请
     academicOperationAcademic(type, id) {
+      if (this.loading) return;
+      this.throttle(true)
       const params = { type, userRelationshipId: id };
       console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
       academicOperationAcademic(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false)  
         if (code === 200 && success) {
           uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
           this.initForm();
         } else {
           uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)  
+      })
     },
     // 学校咨询-接受/拒绝申请
     consultingOperation (type, id) {
+      if (this.loading) return;
+      this.throttle(true)
       const params = { type, userRelationshipId: id };
       console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
       consultingOperation(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false) 
         if (code === 200 && success) {
           uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
           this.initForm();
         } else {
           uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)  
+      })
     },
     // 退出组队
     userInfoExitTeam (id) {
+      if (this.loading) return;
+      this.throttle(true)
       const params = { userRelationshipId: id }
       console.log('退出组队-参数：' + JSON.stringify(params))
       userInfoExitTeam(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false)
         if (code === 200 && success ) {
           uni.showToast({title: '已退出组队',icon: 'none'})
           this.initForm();
         } else {
           uni.showToast({title: '操作失败，请重试！',icon: 'none'})
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)  
+      })
     },
     // 开启/关闭加入组队 
     userInfoOperationMatch (id, type, status) {
+      if (this.loading) return;
+      this.throttle(true)
       const params ={ status, type, userRelationshipId: id }
       console.log('开启/关闭加入组队-参数：' + JSON.stringify(params))
       userInfoOperationMatch(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false)
         if (code === 200 && success) {
           if (type == 1) {
             uni.showToast({title: '完成！'})
@@ -347,47 +381,68 @@ export default {
         } else {
           uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)
+      })
     },
     // 学术帮助-完成
     academicAcademicComplete (id) {
+      if (this.loading) return;
+      this.throttle(true)
       academicAcademicComplete({ userRelationshipId:id }).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false)
         if (code === 200 && success) {
           uni.showToast({title: '完成！'})
           this.initForm();
         } else {
           uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)
+      })
     },
     // 学术帮助-评价
     academicEvaluate(params) {
+      if (this.loading) return;
+      this.throttle(true)
       console.log('我是评价参数：', JSON.stringify(params))
       academicEvaluate(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false)
         if (code === 200 && success) {
           uni.showToast({title: '评价成功！'})
           this.initForm();
         } else {
           uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        this.throttle(false)
+        console.log(err)
+      })
     },
     // 学校咨询-完成
     consultingComplete (id) {
+      if (this.loading) return;
+      this.throttle(true)
       consultingComplete({ userRelationshipId:id }).then(res => {
         const { data: nData } = res[1];
         const { code, data, success } = nData;
+        this.throttle(false)
         if (code === 200 && success) {
           uni.showToast({title: '完成！'})
           this.initForm();
         } else {
           uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
         }
-      }).catch(err => {console.log(err)})
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)
+      })
     },
     clickBtn(btnType, { data, rates }) {
       const { userRelationshipId, type  } = data;
@@ -459,10 +514,18 @@ export default {
     },
     // 跳转信息录入
     toUserInfo (flag) {
-      // if (flag) {
-        uni.navigateTo({ url: this.toUserInfoUrl });
-        this.toUserInfoUrl = ''
-      // }
+      uni.navigateTo({ url: this.toUserInfoUrl });
+      this.toUserInfoUrl = ''
+    },
+    // 节流
+    throttle(flag) {
+      if (flag) {
+        this.loading = true;
+        uni.showLoading()
+      } else {
+        this.loading = false;
+        uni.hideLoading()
+      }
     },
   },
   watch: {
