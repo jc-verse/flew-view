@@ -6,7 +6,7 @@ const arr = [
 
 export const formHeads = [
   { label: '头像',   code:'avatar', id: '' ,required: false,  params: { ph: '请填写真实姓名',genre:'upload', type: 'text', max: 20 } },
-  { label: '昵称',   code:'nikeName',  id: '' ,required: false, params: { ph: '获取微信名',    genre:'input', type: 'text', max: 5} },
+  { label: '昵称',   code:'nikeName',  id: '' ,required: false, params: { ph: '获取微信名',    genre:'input', type: 'text', max: 6} },
   { label: '微信号', code:'wxCode',    id: '' ,required: false,  params: { ph: '请填写微信号',  genre:'input', type: 'text', max: 20 }},
   { label: '姓名',   code:'name',      id: '' ,required: true,  params: { ph: '请填写真实姓名',genre:'input', type: 'text', max: 20 } },
   { label: '手机',   code:'phone',     id: '' ,required: true,  params: { ph: '请填写电话',    genre:'input', type: 'number', max: 11 } },

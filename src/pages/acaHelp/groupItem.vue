@@ -22,7 +22,7 @@
     </div>
     <!-- <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/> -->
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
-    <TipPopup title="提示" ref='toUserInfo' msg="是否完善个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
+    <TipPopup title="提示" ref='toUserInfo' msg="需要填写个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
 
     <TipPopup title="选择学科" ref='subjectPopup'  @confirm='confirm'>
       <template slot='content'>

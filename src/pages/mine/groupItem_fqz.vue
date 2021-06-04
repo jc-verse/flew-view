@@ -1,8 +1,8 @@
 <template>
   <div class="group_info_item" :style='{background: cardStatu.bgColor}'>
-    <div class="event_tip">
+    <!-- <div class="event_tip">
       我申请的
-    </div>
+    </div> -->
     <div class="msg_title">{{infoData | filterTitle}}</div>
     <infoHead :infoData='infoData'>
       <template slot="right"> 
@@ -12,6 +12,9 @@
           <div class="" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >停止组队</div>          
           <div class="" v-if="cardStatu.showInfo.includes(7)" @click="clickBuoy(7)" >开启组队</div>
           <div class="blue" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div> -->
+          <div class="buoy" @click="clickBuoy(1)" v-if="show1">取消申请</div>
+          <div class="buoy yes" @click="clickBuoy(2)" > 通过</div>
+          <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div> 
         </div>
       </template>
     </infoHead>
@@ -21,23 +24,25 @@
       <information :topList='tops'/>
       <!-- 经历 -->
       <div class="center">
-        <join-list title='比赛经历' :list='bList' v-if="bList.length"/>
-        <join-list title='希望参加的比赛' :list='tags' type='tag' v-if="tags.length && infoData.type== 1"/>
-        <join-list title='个人留言' v-if="infoData.type != 1" :value='`我是留言文案文案文案文案文案文案文案文案文案文案`' type='text'/>
+        <join-list title='活动信息' :value='infoData.activityInfo || "暂无活动信息" ' type='text' />
+        <join-list title='招募要求' :value='infoData.requirement  || "暂无招募要求"' type='text'/>
       </div>
-      <!-- 当前状态 -->
-      <!-- <div class="group_infos">
-        <div class="tip_msg">
-          {{ infoData.status  | filterStatu}}
+      <!-- 团队成员信息 -->
+      <div class="group_infos" v-if='slaveList.length'>
+        <div class="team_member" @click="showInfo=!showInfo">
+          <div class="left">团队成员：{{slaveList}}</div>
+          <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
-      </div> -->
+        <!-- 团队成员信息 -->
+        <CrewInfo :styles='{background: "auto"}' :info='ite' v-for="(ite, ind) in cardStatu.slaves" :key='ind' v-show="showInfo"/>
+      </div>
     </div>
     <div class="btn_box">
-      <div class="buoy" @click="clickBuoy(1)" v-if="show1">取消申请</div>
+      <!-- <div class="buoy" @click="clickBuoy(1)" v-if="show1">取消申请</div>
       <template v-else>
         <div class="buoy yes" @click="clickBuoy(2)" > 通过</div>
         <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div>
-      </template>
+      </template> -->
     </div>
 
     
@@ -61,13 +66,16 @@ import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import DiyPopup from '@/components/diyPopup';
+import CrewInfo from '@/components/cards/crewInfo';
 import { styles } from './const';
-import { bsToStrFn, topListFn } from './units';
-import { isLogin, toLogin } from '@/common/utils'
+import { bsToStrFn, topListFn, joinName } from './units';
+import { isLogin, toLogin } from '@/common/utils';
+import { activityList, attendActivity } from '@/common/api';
 
 function filterSFn (val) {
   const { type, matchName, nikeName } = val;
-  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
+  let obj = { title: '', bgColor: 'rgba(255, 247, 232, 0.8)' ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
+  // let obj = { title: '', bgColor: "red" ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
   // if (type == 1) {
   //   // obj.title = `竞赛组队：我向${nikeName}发起${matchName}的竞赛组队`;
   //   obj.showInfo = [ 1, 3 ]
@@ -83,7 +91,7 @@ function filterSFn (val) {
 
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup },
+  components: { infoHead, information, joinList, DiyPopup, CrewInfo },
   props: {
     infoData : {
       type:Object,
@@ -105,8 +113,9 @@ export default {
     bList() {
       return bsToStrFn(this.infoData.competitionExperience)
     },
-    tags() {
-      return (this.infoData.matchList || '').split(',');
+    slaveList () {
+      const slave = this.cardStatu.slaves || [];
+      return joinName(slave) || ''
     },
     cardStatu () {
       return filterSFn(this.infoData)
@@ -170,7 +179,7 @@ export default {
 .group_info_item{
   background: #FFFFFF;
   border-radius: 8px;
-  padding: 90rpx 30rpx 60rpx;
+  padding: 30rpx 30rpx 60rpx;
   margin-bottom: 20rpx;
   position: relative;
 
@@ -211,9 +220,9 @@ export default {
     }
   }
   .btn_box{
-    position: absolute;
-    top: 175rpx;
-    right: 0;
+    // position: absolute;
+    // top: 175rpx;
+    // right: 0;
     display: flex;
     justify-content: revert;
     flex-direction: row-reverse;
@@ -313,6 +322,27 @@ export default {
     color: rgb(92, 134, 242);
   }
 }
+.group_infos{
+    border-top: 2rpx solid rgba(0, 0, 0,.1);
+    .team_member{
+      display: flex;
+      @include flex_center;
+      justify-content: space-between;
+      @include fontMixin(30rpx, #676FDF ,400);
+      .left{
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+      i{ 
+        padding: 24rpx;
+        color: rgba(0, 0, 0, 0.3)
+      }
+      .icon_active{
+        transform: rotate(-90deg);
+      }
+    }
+  }
 
 
 </style>

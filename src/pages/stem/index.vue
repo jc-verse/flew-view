@@ -182,7 +182,8 @@ export default {
     },
     // 点击右侧卡片
     clickCardItem(item){
-      const { title, menuType } = this;
+      const { title, menuType, tabs, tabIndex } = this;
+      tabs[tabIndex].id
       const query = { ...item, title, menuType  } //id: menuType
       this.$refs.search.value = '';
       uni.navigateTo({ url: joinUrl('/pages/sage/index', query) })

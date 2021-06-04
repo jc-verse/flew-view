@@ -20,7 +20,7 @@
         <join-list title='个人留言' :value='infoData.personalMessage || "暂无留言"' type='text'/>
       </div>
     </div>
-    <TipPopup title="提示" ref='toUserInfo' msg="是否完善个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
+    <TipPopup title="提示" ref='toUserInfo' msg="需要填写个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
 
     <!-- <div class="buoy" v-if="userId != infoData.id"  @click.stop="clickBuoy(1)"> 申请服务 </div> -->
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>

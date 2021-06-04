@@ -57,6 +57,7 @@ export default {
       show: false,
       index: 0,
       menuType: '1',
+      matchId: '', //比赛id
       cardList: [],
 
       current: 1,
@@ -82,6 +83,7 @@ export default {
       title: matchName || '',
       eTitle: englishName || ''
     }
+    this.matchId = id
     console.log(199,  id,)
     this.menuType = menuType || 0;
     this.title = title || '';
@@ -104,11 +106,10 @@ export default {
       this.getInfo(form);
     },
     getInfo (form={}) {
-      const { menuType, current } = this;
+      const { menuType, current, matchId } = this;
       const params = {
         current,
-        organizeTypeSonId : '',
-        organizeTypeSonMatchId: menuType,
+        organizeTypeSonMatchId: matchId,
         size: 10,
         ...form
       }

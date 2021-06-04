@@ -135,6 +135,7 @@ export const statusScreen = (infoData, userId) => {
 }
 // 成员拼接
 export const  joinName = (slave) => {
+  if(!slave) return ''
   return slave.reduce((i, j)=> {
     return  i ? i +'/'+ j.nikeName : i + j.nikeName
   }, '')

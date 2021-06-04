@@ -169,9 +169,9 @@ export default {
     }
   }
   .btn_box{
-    position: absolute;
-    top: 175rpx;
-    right: 0;
+    // position: absolute;
+    // top: 175rpx;
+    // right: 0;
     display: flex;
     justify-content: revert;
     flex-direction: row-reverse;

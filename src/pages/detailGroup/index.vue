@@ -29,7 +29,7 @@
     </scroll-box>
     <fab-group/>
     <div class="join_btn">
-      <div class="btn">申请加入</div>
+      <div class="btn" @click="joinGroup">申请加入</div>
     </div>
   </div>
 </page-sj>
@@ -44,7 +44,7 @@ import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import joinList from '@/components/cards/joinList';
 import { getCurPage } from '@/common/utils';
-import { activityList } from '@/common/api';
+import { activityList, attendActivity } from '@/common/api';
 import member from './member'
 export default {
   name:'detail_info',
@@ -73,7 +73,8 @@ export default {
       ],
       cList: [ '2020 NSDA最佳辩手', '2020 NSHDLC 全程最佳辩手', '2020 AIME 全球前百分之一' ],
       tagList: [ 'NECIEO', 'AIME',  'NECIEO', 'AIME', 'NECIEO', 'AIME', 'NECIEO', 'AIME', 'NECIEO', 'AIME', ],
-      infoData: {}
+      infoData: {},
+      loading: false
     }
   },
   computed : {
@@ -111,6 +112,39 @@ export default {
           const { records } = data
           this.infoData = records[0] || {};
         }
+      })
+    },
+    // 节流
+    throttle(flag) {
+      if (flag) {
+        this.loading = true;
+        uni.showLoading()
+      } else {
+        this.loading = false;
+        uni.hideLoading()
+      }
+    },
+    joinGroup() {
+      this.attendActivity();
+    },
+    attendActivity() {
+      if (this.loading) return
+      this.throttle(true)
+      const { activityId } = this.infoData;
+      attendActivity({activityId}).then(res => {
+        const { data: nData } = res[1];
+        const { data, code, msg } = nData;
+        this.throttle(false);
+        if (code === 200) {
+          const { records } = data
+          this.infoData = records[0] || {};
+          uni.showToast({title: msg})
+        } else {
+          uni.showToast({title: msg, icon:'none'})
+        }
+      }).catch(err=>{
+        console.log(err)
+        this.throttle(false)
       })
     }
   },

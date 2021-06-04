@@ -24,7 +24,7 @@
 
     <div class="buoy" v-if='infoData.rank == 2' @click="clickBuoy(infoData)"> 申请组队 </div>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
-    <TipPopup title="提示" ref='toUserInfo' msg="是否完善个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
+    <TipPopup title="提示" ref='toUserInfo' msg="需要填写个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
 
   </div>
 </template>

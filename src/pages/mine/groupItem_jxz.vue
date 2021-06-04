@@ -18,7 +18,7 @@
       <!-- 个人信息 -->
       <information :topList='tops'/>
       <!-- 团队成员信息 -->
-      <div class="group_infos" v-if='slaveList.length'>
+      <div class="group_infos" v-if='slaveList'>
         <div class="team_member" @click="showInfo=!showInfo">
           <div class="left">团队成员：{{slaveList}}</div>
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
@@ -122,7 +122,8 @@ export default {
     },
     slaveList () {
       const slave = this.cardStatu.slaves || [];
-      return joinName(slave) || ''
+      console.log(9998, joinName(slave))
+      return joinName(slave || []) || ''
     },
     popupStatu () {
       return popups[this.type]
@@ -133,21 +134,27 @@ export default {
     cardInfo () {
       const { infoData, userId } = this;
       const { academic, id, type } = infoData
+      console.log(1223, infoData,11)
+      let info = {}
       if (type == 1) {
-        return infoData
+        info = infoData
       } else  if (type == 2) {
         if (academic.id == userId) { // 判断是否为队员
-          return infoData
+          info = infoData
         } else {
-          return academic
+          info = academic
         } 
       } else if (type == 3) {
         if (id == userId) { // 判断是否为队长
-          return academic
+          info = academic
         } else {
-          return infoData
+          info = infoData
         }
+      } else {
+        info = 
       }
+      console.log(1222, info,99)
+      return info;
     },
   },
   methods:{
@@ -219,9 +226,9 @@ export default {
     }
   }
   .btn_box{
-    position: absolute;
-    top: 136rpx;
-    right: 0;
+    // position: absolute;
+    // top: 136rpx;
+    // right: 0;
     display: flex;
     justify-content: revert;
     flex-direction: row-reverse;

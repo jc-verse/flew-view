@@ -56,6 +56,7 @@ export default {
   name:'about_us', 
   components: { scrollBox, bottomLogo, pageSj, FabGroup },
   data () {
+    const [ copyItem ] = copyWxData;
     return {
       textMsg,
       isH5: false,

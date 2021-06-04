@@ -71,7 +71,7 @@
     </div>
   </div>
   <FabGroup :shows='[2]'/>
-  <TipPopup title="提示" ref='toUserInfo' msg="是否完善个人信息？" @confirm='toUserInfo(true)' />
+  <TipPopup title="提示" ref='toUserInfo' msg="需要填写个人信息？" @confirm='toUserInfo(true)' />
   <!-- <DiyPopup ref='popup' :noUp='true'>
     <div class="tip_box" slot='tip' @click.stop>
       <div class="title">取消申请</div>
@@ -122,13 +122,15 @@ import {
 
   consultingOperation, // 学校咨询--接收、拒接
   consultingComplete, //学校咨询-接收、拒接
+  activityList, // 发起中-list
+  attendActivity
 } from '@/common/api';
 
 const requests = {
   '1': userInfoApply, // 被申请 
   '2': userInfoConduct, // 申请中
   '3': userInfoContinued, // 进行中
-  '4': userInfoApplyRecord, // 发起中
+  '4': activityList, // 发起中
   '5': userInfoApplyRecord, // 申请记录
 }
 export default {
@@ -146,7 +148,7 @@ export default {
         { label: '申请中', id: '2',   icon: 'http://prod.qiniucdns.sjreach.cn/web-36.png' },
         { label: '被申请', id: '1',   icon: 'http://prod.qiniucdns.sjreach.cn/web-35.png' },
         { label: '进行中', id: '3',   icon: 'http://prod.qiniucdns.sjreach.cn/web-18.png' },
-        // { label: '发起中', id: '4',   icon: 'http://prod.qiniucdns.sjreach.cn/web-19.png' },
+        { label: '发起中', id: '4',   icon: 'http://prod.qiniucdns.sjreach.cn/web-19.png' },
         { label: '申请记录', id: '5', icon: 'http://prod.qiniucdns.sjreach.cn/web-20.png' },
       ],
 
@@ -220,6 +222,9 @@ export default {
     getCards (val, count) {
       const { actived, pages } = this;
       const i = val || actived
+      if (actived == 4) {
+        pages.status = 1
+      }
       requests[i](pages).then(res => {
         const { data: nData } = res[1];
         const { code, data, msg  } = nData;
@@ -237,6 +242,7 @@ export default {
             // this.cardList= [...demoDatas]
             console.log(1222, this.cardList)
           }
+          console.log(1233999, this.cardList)
         }
       }).catch(err => {
         this.cardList= [...demoDatas]

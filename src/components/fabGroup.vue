@@ -41,7 +41,7 @@ export default {
         if (isLogin()) {
           return  shows.includes(item.id)
         } else {
-          return  shows.includes(item.id) && item.id != 3
+          return  shows.includes(item.id) && ![1,3].includes(item.id) 
         }
       })
     }

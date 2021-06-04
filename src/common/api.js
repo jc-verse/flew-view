@@ -194,3 +194,8 @@ export const selectCurriculumSystem = (data) => {
   return  httpAPI('/app/academic/select-curriculum-system', { data })
 }
 
+
+// 自主发起-申请加入
+export const attendActivity = (data) => {
+  return  httpAPI('/app/activity/attend-activity', { data })
+}

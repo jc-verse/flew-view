@@ -8,7 +8,10 @@
       <div class="bottom_box">
         <p class="font_1">欢迎来到 视界 | Reach</p>
         
-        <button class="btn" @click="clickBtn">授权登录</button>
+        <div class="btn_box">
+          <div class="visitor" @click="visitorModule">访客</div>
+          <div class="btn" @click="clickBtn">登录</div>
+        </div>
       </div>
       <!-- 底部logo -->
       <bottom-logo/>
@@ -108,11 +111,25 @@ export default {
         this.clickIknow(1);
       }
     },
+    visitorModule() {
+      uni.navigateTo({url: '/pages/home/index'})
+    },
+    // 节流
+    throttle(flag) {
+      if (flag) {
+        this.loading = true;
+        this.canClick = false;
+        uni.showLoading()
+      } else {
+        this.loading = false;
+        this.canClick = true;
+        uni.hideLoading()
+      }
+    },
     login () {
       const _this = this;
       if (this.loading) return;
-      this.loading = true;
-      uni.showLoading();
+      this.throttle(true);
       uni.login({
         success(loginRes){
           const { code } = loginRes;
@@ -122,6 +139,7 @@ export default {
               console.log('wxRes', wxRes)
               const { data, statusCode } = wxRes[1];
               const { openid, session_key } = data;
+              _this.throttle(false);
               if (statusCode === 200) {
                 setStorage(data)
                 // 获取token
@@ -133,27 +151,32 @@ export default {
                   if (code === 200) {
                     setStorage(nData)
                     _this.token = nData.token;
+                    console.log('token：', nData.token)
                     const keys = Object.keys(_this.userInfo)
                     if (keys.length) {
-                      setTimeout(() => {
+                      // setTimeout(() => {
                         uni.redirectTo({ 
                           url: '/pages/home/index', 
                           success(res) {console.log(res)}, 
                           fail(err){console.log(err)} 
                         })
-                      }, 1000);
+                      // });
                     } else {
                       _this.canLogin = true
                     }
                   }
                 })
               }
+            }).catch(err => {
+              console.log(err);
+              _this.throttle(false);
             })
+          } else {
+            _this.throttle(false);
           }
         },
-        complete:() => {
-          this.loading= false
-          uni.hideLoading();
+        fail: ()=>  {
+          _this.throttle(false);
         }
       })
     },
@@ -176,15 +199,23 @@ export default {
     flex-grow: 0;
     @include img_bg('http://prod.qiniucdns.sjreach.cn/web-22.png');
   }
-  .btn{
+  .btn_box{
+    @include flex_center;
     margin-top: 70rpx;
-    width: 384rpx;
-    height: 80rpx;
-    background: #676FDF;
-    border-radius: 40rpx;
-    line-height: 80rpx;
-    color: white;
+    >div{
+      padding:20rpx 60rpx  ;
+      background: #676FDF;
+      border-radius: 40rpx;
+      color: white;
+    }
+    &>div:not(:first-child){
+      margin-left: 20rpx;
+    }
+    .visitor{
+      filter: grayscale(100%);
+    }
   }
+  
   .tip_content{
     padding: 20rpx;
     word-break: break-word;
