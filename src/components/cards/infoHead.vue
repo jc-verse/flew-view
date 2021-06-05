@@ -6,7 +6,7 @@
         <!-- <open-data type="userAvatarUrl" v-else></open-data> -->
       </div>
       <slot name='center'>
-        <div class="title" :class="[isUser? 'isHome': '']" :style='{"max-width": `${maxWidth}rpx`}'> 
+        <div class="title" :class="[isUser? 'isHome': '']" :style='{"max-width": `${maxWidth}rpx`, "font-size": `${fontSize}rpx`}'> 
           <!-- <template v-if="!isUser"> -->
             {{infoData.nikeName || ''}}
           <!-- </template>
@@ -52,6 +52,10 @@ export default {
     maxWidth: {
       type: Number,
       default: 200
+    },
+    fontSize: {
+      type: Number,
+      default: 36
     }
   },
   computed: {
@@ -84,11 +88,11 @@ export default {
 <style lang="scss" scoped>
 @import url("/static/fonts/iconfont.css");
 @mixin font_1{
-  font-size: 18px;
+  font-size: 36rpx;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: bold;
   color: #131415;
-  line-height: 25px;
+  line-height: 50rpx;
 }
 .info_head{
   display: flex;

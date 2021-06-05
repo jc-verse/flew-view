@@ -7,7 +7,7 @@ const colors = {
 }
 // 状态筛选
 export const statusScreen = (infoData, userId) => {
-  const { type, matchName, nikeName, slaves, id, matchType, academicEvaluate  } = infoData;
+  const { type, matchName, nikeName, slaves, id, matchType, academicEvaluate, activity  } = infoData;
   console.log('我是用户id：'+userId, '我是申请人Id：'+ slaves.id,'我是被申请人id:'+ id, '我是不是队长：'+ userId == id?'是' : '不是')
   console.log('【119】是卡片的全部数据')
   console.log(119, infoData)
@@ -129,6 +129,37 @@ export const statusScreen = (infoData, userId) => {
           break;
       }
     }
+  } else if (type == 4) {
+    if (activity.serviceUid == userId) {
+      statuInfo.title = `自主活动：${slaves.nikeName}申请加入${activity.name}`;
+      statuInfo.cardInfo = slaves
+      switch (matchType) {
+        case 3:
+          statuInfo.tip = `你拒绝了${slaves.nikeName}的申请`
+          break;
+        case 5:
+          statuInfo.tip = `已经同意了${slaves.nikeName}的申请`;
+          break;
+        default:
+          break;
+      }
+    } else {
+      statuInfo.title = `自主活动：我申请加入${activity.name}`;
+      switch (matchType) {
+        case 3:
+          statuInfo.tip = `你的申请已被${nikeName}拒绝`
+          break;
+        case 5:
+          statuInfo.tip = `您的申请已经完成`;
+          // if (academicEvaluate == 2) {
+          //   statuInfo.showInfo = [9];
+          // }
+          break;
+        default:
+          break;
+      }
+    }
+    
   }
 
   return statuInfo

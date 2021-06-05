@@ -2,7 +2,7 @@
   <div class="group_info_item" :style="{background: cardStatu.bgColor }">
 
     <div class="msg_title">{{cardStatu.title || ''}}</div>
-    <infoHead :infoData='cardInfo'>
+    <infoHead :infoData='cardInfo' headStyles='width:70rpx;height:70rpx' fontSize='34'>
       <template slot="right"> 
         <div class="btn_box">
           <div class="blue" v-if="cardStatu.showInfo.includes(4)" @click="clickBuoy(4)" >退出组队</div>
@@ -24,7 +24,7 @@
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
         <!-- 团队成员信息 -->
-        <CrewInfo :styles='{background: "auto"}' :info='ite' v-for="(ite, ind) in cardStatu.slaves" :key='ind' v-show="showInfo"/>
+        <CrewInfo :styles='{background: "auto"}' :info='ite' v-for="(ite, ind) in cardStatu.slavelist" :key='ind' v-show="showInfo"/>
       </div>
     </div>
     <div class="btn_box">
@@ -55,7 +55,7 @@ const popups = {
   '8': { title: '联系客服', msg: '是否联系客服!', type: 8 },
 }
 function filterSFn (val, userId) {
-  const { type, matchName, nikeName, id, isOrganize, academic, slave } = val;
+  const { type, matchName, nikeName, id, isOrganize, academic, slave, activity = {} } = val;
   let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slavelist: [] } // 1 比赛经历  2个人留言  3 希望参加
   console.log('我是用户id：'+userId, ';我是队长Id：'+ id, `;我是不是队长：${userId == id?'是' : '不是'}`)
   console.log('【119】是卡片的全部数据')
@@ -93,6 +93,13 @@ function filterSFn (val, userId) {
     } else {
       obj.title = `学校咨询: 向${nikeName}提出学校咨询` // ：我向${nikeName}提出学校咨询
     }
+  } else if (type == 4) {
+    obj.slavelist = slave || [];
+    if (activity.id == userId) {
+      obj.title = `自主活动：${nikeName}申请加入${activity.name}`
+    } else {
+      obj.title = `自主活动：我申请加入${activity.name}`
+    }
   }
   return obj
 }
@@ -121,7 +128,7 @@ export default {
       return topListFn(this.cardInfo)
     },
     slaveList () {
-      const slave = this.cardStatu.slaves || [];
+      const slave = this.cardStatu.slavelist || [];
       console.log(9998, joinName(slave))
       return joinName(slave || []) || ''
     },
@@ -151,7 +158,7 @@ export default {
           info = infoData
         }
       } else {
-        info = 
+        info = infoData
       }
       console.log(1222, info,99)
       return info;
@@ -290,7 +297,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  // margin-right: -30rpx;
+  margin-right: -20rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;

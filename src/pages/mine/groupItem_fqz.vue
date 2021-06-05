@@ -3,18 +3,14 @@
     <!-- <div class="event_tip">
       我申请的
     </div> -->
-    <div class="msg_title">{{infoData | filterTitle}}</div>
-    <infoHead :infoData='infoData'>
+    <div class="msg_title">{{cardStatu.title || ''}}</div>
+    <infoHead :infoData='infoData' headStyles='width:70rpx;height:70rpx' fontSize='34'>
       <template slot="right"> 
         <div class="btn_box">
-          <!-- <div class="blue" v-if="cardStatu.showInfo.includes(4)" @click="clickBuoy(4)" >退出组队</div>
-          <div class="blue" v-if="cardStatu.showInfo.includes(5)" @click="clickBuoy(5)" >完成</div>
-          <div class="" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >停止组队</div>          
-          <div class="" v-if="cardStatu.showInfo.includes(7)" @click="clickBuoy(7)" >开启组队</div>
-          <div class="blue" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div> -->
-          <div class="buoy" @click="clickBuoy(1)" v-if="show1">取消申请</div>
-          <div class="buoy yes" @click="clickBuoy(2)" > 通过</div>
-          <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div> 
+          <div class="" v-if="cardStatu.showInfo.includes(11)" @click="clickBuoy(11)" >修改</div>    
+          <div class="blue" v-if="cardStatu.showInfo.includes(10)" @click="clickBuoy(10)" >完成</div>
+          <div class="" v-if="infoData.isActivity == 1" >申请中</div>          
+          <div class="" v-if="infoData.isActivity == 3" >进行中</div>
         </div>
       </template>
     </infoHead>
@@ -34,18 +30,9 @@
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
         <!-- 团队成员信息 -->
-        <CrewInfo :styles='{background: "auto"}' :info='ite' v-for="(ite, ind) in cardStatu.slaves" :key='ind' v-show="showInfo"/>
+        <CrewInfo :styles='{background: "auto"}' :info='ite' v-for="(ite, ind) in cardStatu.memberVoList" :key='ind' v-show="showInfo"/>
       </div>
     </div>
-    <div class="btn_box">
-      <!-- <div class="buoy" @click="clickBuoy(1)" v-if="show1">取消申请</div>
-      <template v-else>
-        <div class="buoy yes" @click="clickBuoy(2)" > 通过</div>
-        <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div>
-      </template> -->
-    </div>
-
-    
     <DiyPopup ref='popup' :noUp='true'>
       <div class="tip_box" slot='tip' @click.stop>
         <div class="title">取消申请</div>
@@ -57,7 +44,8 @@
       </div>
     </DiyPopup>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
-  
+    <TipPopup title="完成" ref='tipPopup' msg="是否确定完成活动？" @confirm='confirm'/>
+
   </div>
 </template>
 
@@ -67,35 +55,31 @@ import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import DiyPopup from '@/components/diyPopup';
 import CrewInfo from '@/components/cards/crewInfo';
-import { styles } from './const';
 import { bsToStrFn, topListFn, joinName } from './units';
 import { isLogin, toLogin } from '@/common/utils';
-import { activityList, attendActivity } from '@/common/api';
+import TipPopup from '@/components/cards/tipPopup'
 
-function filterSFn (val) {
-  const { type, matchName, nikeName } = val;
-  let obj = { title: '', bgColor: 'rgba(255, 247, 232, 0.8)' ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
-  // let obj = { title: '', bgColor: "red" ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
-  // if (type == 1) {
-  //   // obj.title = `竞赛组队：我向${nikeName}发起${matchName}的竞赛组队`;
-  //   obj.showInfo = [ 1, 3 ]
-  // } else if (type == 2) {
-  //   // obj.title = `学术帮助：我向${nikeName}提出学术帮助`
-  //   obj.showInfo = [ 1, 2 ]
-  // } else if (type == 3) {
-  //   // obj.title = `学校咨询：我向${nikeName}提出学校咨询`
-  //   obj.showInfo = [ 1, 2 ]
-  // }
+function filterSFn (val,  userId) {
+  const { type, matchName, nikeName, activityName, state  } = val;
+  let obj = { title: '', bgColor: "rgba(255, 247, 232, 0.8)" ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
+  obj.title = '自主活动：' + activityName? `我发起了${activityName}活动`: '';
+  if (state == 1) {
+    obj.showInfo = [ 10, 11 ];
+  }
   return obj
 }
 
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup, CrewInfo },
+  components: { infoHead, information, joinList, DiyPopup, CrewInfo, TipPopup },
   props: {
     infoData : {
       type:Object,
       default:()=>({})
+    },
+    userId : {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -103,7 +87,8 @@ export default {
       info: '',
       showList: false,
       showInfo: false,
-      show1: true
+      show1: true,
+      type: 0
     }
   },
   computed : {
@@ -114,12 +99,12 @@ export default {
       return bsToStrFn(this.infoData.competitionExperience)
     },
     slaveList () {
-      const slave = this.cardStatu.slaves || [];
+      const slave = this.cardStatu.memberVoList || [];
       return joinName(slave) || ''
     },
     cardStatu () {
-      return filterSFn(this.infoData)
-    }
+      return filterSFn(this.infoData, this.userId)
+    },
   },
   methods:{
     toLogin,
@@ -132,45 +117,26 @@ export default {
       }
       this.$refs.popup.hide()
     },
+    confirm() {
+      this.$emit('clickBtn', this.type, { data: this.infoData })
+    },
     // 点击组队申请！
     clickBuoy (type) {
       if (!isLogin()) {
         this.$refs.noLogin.show()
         return 
       }
+      this.type = type;
       switch (type) {
-        case 1:
-          console.log('取消申请');
-          this.$refs.popup.show()
+        case 10:
+          this.$refs.tipPopup.show();
           break;
-        // case 2:
-        //   console.log('点击通过');
-        //   break;
-        // case 3:
-        //   console.log('点击拒绝');
-          break;
-        default:
+        case 11:
+          this.$emit('clickBtn', type, { data: this.infoData })
           break;
       }
     }
   },
-  filters: {
-    // filterStatu(val) {
-    //   return status[val].msg
-    // },
-    filterTitle(val) {
-      const { type,matchName,nikeName   } = val;
-      console.log(12212, val)
-      if (type == 1) {
-        return `竞赛组队：我向${nikeName}发起的${matchName}竞赛组队`
-      } else if (type == 2) {
-        return `学术帮助：我向${nikeName}提出学术帮助`
-      } else if (type == 3) {
-        return `学校咨询：我向${nikeName}提出学校咨询`
-      }
-    }
-  }
-
 }
 </script>
 
@@ -179,7 +145,7 @@ export default {
 .group_info_item{
   background: #FFFFFF;
   border-radius: 8px;
-  padding: 30rpx 30rpx 60rpx;
+  padding: 40rpx 30rpx;
   margin-bottom: 20rpx;
   position: relative;
 
@@ -301,7 +267,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  // margin-right: -30rpx;
+  margin-right: -20rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;

@@ -210,7 +210,7 @@
 		},{
 			"path": "pages/detailGroup/index",
 			"style": {
-				"navigationBarTitleText": "活动名称某某某某大赛",
+				"navigationBarTitleText": "活动",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff",
 				"app-plus": {
@@ -229,6 +229,24 @@
 			"path": "pages/initiateProcess/index",
 			"style": {
 				"navigationBarTitleText": "发起活动",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
+		},{
+			"path": "pages/initiateProcess/edit",
+			"style": {
+				"navigationBarTitleText": "发起活动-编辑",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff",
 				"app-plus": {

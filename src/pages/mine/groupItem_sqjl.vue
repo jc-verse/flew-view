@@ -2,7 +2,7 @@
   <div class="group_info_item" :style='{background: statusInfo.bgColor}'>
 
     <div class="msg_title" :class="[showTitle?'ellipsis': '']" @click="clickTitle">{{ statusInfo.title }}</div>
-    <infoHead :infoData='statusInfo.cardInfo'>
+    <infoHead :infoData='statusInfo.cardInfo' headStyles='width:70rpx;height:70rpx' fontSize='34'>
       <template slot="right"> 
         <div class="btn_box">
           <div class="" v-if="statusInfo.showInfo.includes(9)" @click="clickBuoy(9)" >评价</div>
@@ -23,10 +23,8 @@
         <CrewInfo :styles='{background: "rgba(255,255,255,0)"}' :info='ite' v-for="(ite, ind) in infoData.slave" :key='ind' v-show="showInfo"/>
       </div>
       <!-- 当前状态 -->
-      <div class="group_infos">
-        <div class="tip_msg">
-          {{ statusInfo.tip || '' }}
-        </div>
+      <div class="group_infos" v-if="statusInfo.tip">
+        <div class="tip_msg"> {{ statusInfo.tip || '' }}</div>
       </div>
     </div>
 
@@ -259,9 +257,9 @@ export default {
   }
 }
 
-.group_infos{
-  border-top: 2rpx solid rgba(0, 0, 0,.1);
-}
+// .group_infos{
+//   border-top: 2rpx solid rgba(0, 0, 0,.1);
+// }
 
 .rate_box{
   display: flex;
@@ -304,7 +302,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  // margin-right: -30rpx;
+  margin-right: -20rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;

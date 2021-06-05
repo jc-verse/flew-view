@@ -102,6 +102,7 @@ import DiyPopup from '@/components/diyPopup';
 import FabGroup from '@/components/fabGroup';
 import {imgUrl} from '@/common/http';
 import { demoDatas } from './const';
+import { joinUrl } from '@/common/utils';
 import TipPopup from '@/components/cards/tipPopup';
 
 
@@ -123,7 +124,9 @@ import {
   consultingOperation, // 学校咨询--接收、拒接
   consultingComplete, //学校咨询-接收、拒接
   activityList, // 发起中-list
-  attendActivity
+  operationActivity, // 发起中-接受，拒绝
+  operationActivityEdit, //编辑
+  activityComplete, // 完成
 } from '@/common/api';
 
 const requests = {
@@ -142,7 +145,7 @@ export default {
   data() {
     return {
       vipNum: 0,
-      actived: '2',
+      actived: '4',
       ReadCount: 0,
       navList: [
         { label: '申请中', id: '2',   icon: 'http://prod.qiniucdns.sjreach.cn/web-36.png' },
@@ -346,6 +349,27 @@ export default {
         this.throttle(false)  
       })
     },
+    // 自主发起-接受/拒绝申请
+    operationActivity (type, id) {
+      if (this.loading) return;
+      this.throttle(true)
+      const params = { type, userRelationshipId: id };
+      console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
+      operationActivity(params).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        this.throttle(false) 
+        if (code === 200 && success) {
+          uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
+          this.initForm();
+        } else {
+          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+        }
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)  
+      })
+    },
     // 退出组队
     userInfoExitTeam (id) {
       if (this.loading) return;
@@ -450,8 +474,27 @@ export default {
         this.throttle(false)
       })
     },
+    // 自主发起-完成
+    activityComplete (activityId) {
+      if (this.loading) return;
+      this.throttle(true)
+      activityComplete({ activityId }).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success } = nData;
+        this.throttle(false)
+        if (code === 200 && success) {
+          uni.showToast({title: '完成！'})
+          this.initForm();
+        } else {
+          uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
+        }
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)
+      })
+    },
     clickBtn(btnType, { data, rates }) {
-      const { userRelationshipId, type  } = data;
+      const { userRelationshipId, type, activityId  } = data;
       switch (btnType) {
         case 1: // 取消申请
           console.log('取消申请',data)
@@ -465,6 +508,8 @@ export default {
             this.academicOperationAcademic(1, userRelationshipId)
           } else if (type == 3) {
             this.consultingOperation(1, userRelationshipId)
+          } else if (type == 4) {
+            this.operationActivity(1, userRelationshipId)
           }
           break;
         case 3: // 拒绝
@@ -475,6 +520,8 @@ export default {
             this.academicOperationAcademic(2, userRelationshipId)
           } else if (type == 3) {
             this.consultingOperation(2, userRelationshipId)
+          } else if (type == 4) {
+            this.operationActivity(2, userRelationshipId)
           }
           break;
         case 4: // 退出组队
@@ -513,7 +560,12 @@ export default {
           this.academicEvaluate(params)
           // this.userInfoOperationMatch(data, 1)
           break;
-      
+        case 10: // 自主发起-完成
+          this.activityComplete(activityId)
+          break;
+        case 11:
+          uni.navigateTo({ url: joinUrl('/pages/initiateProcess/edit',{activityId})})
+          break;
         default:
           break;
       }

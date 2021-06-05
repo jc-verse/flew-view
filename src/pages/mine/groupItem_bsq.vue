@@ -2,7 +2,7 @@
   <div class="group_info_item" :style='{background: cardStatu.bgColor || ""}'>
     <div class="event_tip">被申请的</div>
     <div class="msg_title">{{cardStatu.title || ''}}</div>
-    <infoHead :infoData='infoData'>
+    <infoHead :infoData='infoData' headStyles='width:70rpx;height:70rpx' fontSize='34'>
       <template slot="right"> 
         <div class="btn_box">
           <div class="blue" @click="clickBuoy(2)" > 通过</div>
@@ -20,10 +20,6 @@
         <join-list title='希望参加的比赛'  :list='tags'  v-if="cardStatu.showInfo.includes(3) && tags.length" type='tag'/>
         <join-list title='个人留言'        :value='msg'  v-if="cardStatu.showInfo.includes(2) && msg" type='text'/>
       </div>
-    </div>
-    <div class="btn_box">
-      <!-- <div class="buoy yes" @click="clickBuoy(2)" > 通过</div>
-      <div class="evaluate" @click="clickBuoy(3)"> 拒绝</div> -->
     </div>
     <TipPopup :title="popupStatu.title" ref='tipPopup' :msg="popupStatu.msg" @confirm='confirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
@@ -45,7 +41,7 @@ const popups = {
 }
 
 function filterSFn (val) {
-  const { type, matchName, nikeName } = val;
+  const { type, matchName, nikeName, activity } = val;
   console.log('【119】是卡片的全部数据')
   console.log(119, val)
   let obj = { title: '', bgColor: styles[type].bg ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
@@ -58,6 +54,8 @@ function filterSFn (val) {
   } else if (type == 3) {
     obj.title = `学校咨询：${nikeName}向你提出学校咨询`
     obj.showInfo = [ 1, 2 ]
+  } else if ( type == 4 ){
+    obj.title = `自主活动：${nikeName}申请加入${activity.name}`
   }
   return obj
 }
@@ -125,7 +123,7 @@ export default {
 .group_info_item{
   background: #FFFFFF;
   border-radius: 8px;
-  padding: 90rpx 30rpx 60rpx;
+  padding: 80rpx 30rpx 30rpx;
   margin-bottom: 20rpx;
   position: relative;
 
@@ -247,7 +245,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  // margin-right: -30rpx;
+  margin-right: -20rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;

@@ -4,13 +4,22 @@
     <scroll-box style='width:100%'>
       <div class="content_box">
         <div class="top">
-          <infoHead :infoData='infoData'/>
+          <infoHead :infoData='infoData'>
+            <template slot="right"> 
+              <div class="btn_box">
+                <div class="" v-if="infoData.isActivity == 1" >申请中</div>          
+                <div class="" v-if="infoData.isActivity == 3" >进行中</div>
+
+                <!-- <div class="blue" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div> -->
+              </div>
+            </template>
+          </infoHead>
           <!-- 个人信息 -->
           <information :topList='tops'/>
         </div>
         <div class="center">
           <join-list title='活动信息' :value='infoData.activityInfo  ||  "暂无活动信息"' type='text'/>
-          <join-list title='组队人数' :list='tagList' type='diy'>
+          <join-list title='组队人数'  type='diy'>
             <div class="tags" slot='diy' >
               <div class="tag" >{{`${infoData.alreadyNum  || 0}/${infoData.num  || 0}人`}}</div>
             </div>
@@ -29,9 +38,11 @@
     </scroll-box>
     <fab-group/>
     <div class="join_btn">
-      <div class="btn" @click="joinGroup">申请加入</div>
+      <div class="btn" :class="[!canJoin? 'noJoin':'']" @click="joinGroup">申请加入</div>
     </div>
   </div>
+  <TipPopup title="申请加入" ref='tipPopup' :msg="`是否申请加入活动！`" @confirm='confirm'/>
+  <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
 </page-sj>
   
 </template>
@@ -43,6 +54,8 @@ import bottomLogo from "@/components/bottomLogo";
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
 import joinList from '@/components/cards/joinList';
+import { isLogin, toLogin } from '@/common/utils'
+import TipPopup from '@/components/cards/tipPopup'
 import { getCurPage } from '@/common/utils';
 import { activityList, attendActivity } from '@/common/api';
 import member from './member'
@@ -55,32 +68,18 @@ export default {
     infoHead,
     information,
     joinList,
-    member
+    member,
+    TipPopup
   },
   data() {
     return {
       show: false,
       index: 0,
-      genders: {
-        'nan':{ icon:'iconxingbie-nan', id: '1', name:'某某男', value: '' },
-        'nv': { icon:'iconxingbie-nv', id: '2', name:'某某女' , value: 'nv'}
-      },
-      topList: [
-        { title: '学校', val: '世界联合学院', id: 1 }, 
-        { title: '年纪', val: '10', id: 2 }, 
-        { title: '标化', val: '我是标化成绩范围18字符', id: 3 }, 
-        { title: '课程', val: 'ALEVEL', id: 4 }, 
-      ],
-      cList: [ '2020 NSDA最佳辩手', '2020 NSHDLC 全程最佳辩手', '2020 AIME 全球前百分之一' ],
-      tagList: [ 'NECIEO', 'AIME',  'NECIEO', 'AIME', 'NECIEO', 'AIME', 'NECIEO', 'AIME', 'NECIEO', 'AIME', ],
       infoData: {},
       loading: false
     }
   },
   computed : {
-    iconFilter () {
-      return this.genders['nv']
-    },
     tops() {
       const { infoData } = this;
       const arr = [
@@ -91,12 +90,18 @@ export default {
       ]
       return arr
     },
+    canJoin () {
+      const { isActivity  } = this.infoData;
+      return [2].includes(isActivity)
+    }
+
   },
   onShow() {
     const { activityId, type } = getCurPage()
     this.getInfo(activityId, type)
   },
   methods : {
+    toLogin,
     // 获取详情
     getInfo(activityId, type) {
       const params = {
@@ -111,6 +116,9 @@ export default {
           console.log(123123, data)
           const { records } = data
           this.infoData = records[0] || {};
+          if (this.infoData.activityName) {
+            uni.setNavigationBarTitle({ title: this.infoData.activityName })
+          }
         }
       })
     },
@@ -125,6 +133,16 @@ export default {
       }
     },
     joinGroup() {
+      if (!this.canJoin) {
+        return;
+      }
+      if (!isLogin()) {
+        this.$refs.noLogin.show()
+        return 
+      }
+      this.$refs.tipPopup.show()
+    },
+    confirm () {
       this.attendActivity();
     },
     attendActivity() {
@@ -205,6 +223,33 @@ $color:#B3B3B4;
       width: 100%;
       border-radius: 40rpx;
       @include fontMixin(32rpx, #ffffff)
+    }
+  }
+  .noJoin {
+    filter:grayscale(100%)
+  }
+  .btn_box{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: -20rpx;
+    > div {
+      padding: 10rpx 10rpx;
+      border-radius: 30rpx;
+      background: #eeeeee ;
+      @include fontMixin(26rpx, #666666 );
+    }
+    &>div:first-child{
+      border-radius: 30rpx 0 0 30rpx;
+    }
+    &>div:not(:first-child){
+      margin-right: 10rpx;
+    }
+    .disable{
+      filter: grayscale(100%);
+    }
+    .blue{
+      background: rgba(92, 134, 242, .1);
+      color: rgb(92, 134, 242);
     }
   }
 }

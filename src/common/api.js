@@ -199,3 +199,16 @@ export const selectCurriculumSystem = (data) => {
 export const attendActivity = (data) => {
   return  httpAPI('/app/activity/attend-activity', { data })
 }
+// 自主发起-通过与拒绝
+export const operationActivity = (data) => {
+  return  httpAPI('/app/activity/operation-activity', { data })
+}
+
+// 自主发起-完成
+export const activityComplete = (data) => {
+  return  httpAPI('/app/activity/complete', { data })
+}
+// 自主发起-修改
+export const operationActivityEdit = (data) => {
+  return  httpAPI('/app/activity/operation-activity', { data })
+}
