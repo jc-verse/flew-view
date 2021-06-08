@@ -29,7 +29,6 @@ export const  getCurPage = () =>{
   let pages = getCurrentPages();
   let curPage = pages[pages.length-1]
   let curParam = curPage.options || (curPage.$route || {}).query;
-  console.log(666,1,curPage)
   return curParam
 }
 
@@ -42,7 +41,6 @@ export const  getCurPageRoute = () =>{
 
 // 希望参加比赛的反向组成 - 定制
 export const analysisFn = (deepList, items) => {
-  console.log(12313, deepList)
   const arr = [];
   arr[0] = deepList.find(item => {
     const flag = item.id === items.organizeTypeId;

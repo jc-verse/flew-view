@@ -43,7 +43,7 @@
                 <i class="iconfont icontupianshangchuan" style="font-size:44rpx;color:#676FDF"></i>
               </UploadImage>
             </div>
-            
+            <!-- 操作 -->
             <div v-if='item.type === "edit"' >
               <template v-if="tableDataList.length > 1">
                 <i class="iconfont iconshanchu1" style="font-size:44rpx;color:#676FDF" @click='change($event, ind, "edit", item.code)'></i>

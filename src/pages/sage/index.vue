@@ -73,7 +73,6 @@ export default {
     newBg () {
       const { menuType, headMsg } = this;
       const data = { ...bgColors[menuType], ...headMsg };
-      console.log(88, bgColors, menuType, headMsg, data)
       return data;
     }
   },

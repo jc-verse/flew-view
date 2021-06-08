@@ -107,12 +107,7 @@
 					const arr = [...this.checkList]
 					this.checkItems.push(arr)
 					const this_= this;
-					// setTimeout(()=>{
-					// 	this_.rightNum = 999;
-					// },1000)
-					// console.log(2323423, this.rightNum, arr)
 					this.$nextTick(()=>{
-						// console.log(12313,)
 						this_.newId = `item_${this_.checkItems.length-1}`;
 					})
 				}

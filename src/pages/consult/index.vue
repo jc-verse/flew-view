@@ -119,12 +119,10 @@ export default {
       this.getInfo();
     },
     changeTag(form) {
-      console.log(12313123, form)
       this.initForm(form)
     },
     // 点击卡片Btn
     clickBuoy (type, data) {
-      console.log(12222, type, data)
       const { id } = data
       switch (type) {
         case 1: // 申请服务

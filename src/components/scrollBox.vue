@@ -66,7 +66,6 @@ export default {
       // console.log(e)
     },
     lower (e) {
-      console.log(12312300)
       this.$emit('lower')
     },
     scroll (e) {

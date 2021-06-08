@@ -126,7 +126,6 @@ export default {
           if (Array.isArray(data)) {
             const arr = data.map(item => ({ ...item, label: item.subject  }))
             this.systemList = arr || []
-            console.log(988, arr)
           }
         }
       }).catch(err=>{console.log(err)})
@@ -134,7 +133,6 @@ export default {
     bindPickerChange: function(e) {
         console.log('picker发送选择改变，携带值为', e.target.value)
         this.index = e.target.value
-        console.log(199,e)
     },
     // 节流
     throttle(flag) {

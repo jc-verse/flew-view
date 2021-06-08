@@ -11,7 +11,6 @@ export default {
   },
   onShow() {
     const obj = getApp().globalData.userData;
-    console.log(122200, obj)
     const keys = Object.keys(obj)
     if (isObject(obj) && keys.length) {
       console.log(222, obj)
@@ -26,23 +25,10 @@ export default {
         const { data:nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
-          // data.competitionExperience = data.competitionExperienceList || [];
-          // data.curriculumSystemType = Number(data.curriculumSystem) || '';
-  
-          // data.curriculumSystem = data.curriculumSystemList || [];
-          // data.standardizedPerformance = data.standardizedPerformanceList || [];
-          // if (!/http/.test(data.avatar)) {
-          //   uni.getStorage({key:'avatarUrl',success: (res)=>{
-          //     const { errMsg, data } = res;
-          //     if (/ok/.test(errMsg)) {
-          //       this.userData.avatar = data;
-          //     }
-          //   }});  
-          // }
           data.wxCode = data.wxNum || '';
           data.name = data.userName || '';
-          console.log(12233, data)
           setStorage({userId: data.id})
+          getApp().globalData.userData = {...data} || {};
           this.userData = {...data} || {};
         }
       }).catch(err => {console.log(err)})

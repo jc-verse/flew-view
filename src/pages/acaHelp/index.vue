@@ -83,7 +83,6 @@ export default {
       this.getList(form);
     },
     changeVal(val){
-      console.log(1828, val)
       if ( this.searchVal != val) {
         this.searchVal = val;
         this.initFotm();
@@ -132,15 +131,16 @@ export default {
       academicApplyService({ serviceUserId, id })
         .then(res => {
           const {data: nData} = res[1];
-          const { code, data, success } = nData || {};
+          const { code, data, success, msg } = nData || {};
           this.throttle(false);
-          if (code === 200 && success) {
-            uni.showToast({title: '申请成功！'})
-            this.getList();
+          if (code === 200 ) {
+            uni.showToast({title: msg})
+            this.initFotm();
+          } else {
+            uni.showToast({title: msg, icon:'none' })
           }
         })
         .catch(err=>{
-          console.log(err)
           this.throttle(false)
         })
         
@@ -160,25 +160,15 @@ export default {
     },
     // 改变筛选项
     changeTag(form) {
-      console.log(123, form)
       this.initFotm(form);
     },
     // 点击卡片Btn
     clickBuoy (type, data, subjectId) {
-      console.log(12222, type, data)
       const { id } = data
       switch (type) {
         case 1: // 申请服务
           this.academicApplyService(id, subjectId)
           break;
-        // case 2: // 评价
-        //   console.log('评价')
-        //   // console.log(this.$refs)
-        //   // this.academicGetEvaluate(id)
-
-        //   // this.$refs.diyRate.show()
-        //   break;
-      
         default:
           break;
       }

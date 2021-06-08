@@ -56,7 +56,6 @@ export default {
   computed: {
     tags () {
       const { tagList, showList } = this;
-      console.log(10231, showList)
       return tagList.filter(item => item.list.length && showList.includes(item.id))
     },
   },
@@ -140,7 +139,6 @@ export default {
         case 5:
         case 6:
           this.form[code] = value.id;
-          console.log('234' , this.form);
           this.$emit('changeValue', this.form )
           break;
         default:

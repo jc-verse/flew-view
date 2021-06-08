@@ -113,7 +113,6 @@ export default {
         const { data: nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
-          console.log(123123, data)
           const { records } = data
           this.infoData = records[0] || {};
           if (this.infoData.activityName) {
@@ -163,6 +162,7 @@ export default {
       }).catch(err=>{
         console.log(err)
         this.throttle(false)
+        uni.showToast({title: err})
       })
     }
   },

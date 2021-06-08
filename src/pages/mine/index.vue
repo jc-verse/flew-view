@@ -125,7 +125,7 @@ import {
   consultingComplete, //学校咨询-接收、拒接
   activityList, // 发起中-list
   operationActivity, // 发起中-接受，拒绝
-  operationActivityEdit, //编辑
+  // updateActivity, //编辑
   activityComplete, // 完成
 } from '@/common/api';
 
@@ -145,7 +145,7 @@ export default {
   data() {
     return {
       vipNum: 0,
-      actived: '4',
+      actived: '2',
       ReadCount: 0,
       navList: [
         { label: '申请中', id: '2',   icon: 'http://prod.qiniucdns.sjreach.cn/web-36.png' },
@@ -243,13 +243,10 @@ export default {
           } else {
             // 调试用
             // this.cardList= [...demoDatas]
-            console.log(1222, this.cardList)
           }
-          console.log(1233999, this.cardList)
         }
       }).catch(err => {
         this.cardList= [...demoDatas]
-            console.log(1222, this.cardList)
       })
     },
     // 获取消息数量
@@ -258,7 +255,6 @@ export default {
         const { data: nData } = res[1];
         const { code, data } = nData;
         if (code === 200) {
-          console.log('123123', data)
           this.ReadCount = data
         }
       }).catch(err => {console.log(err)})

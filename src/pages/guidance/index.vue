@@ -79,14 +79,12 @@ export default {
       uni.getUserProfile({
         desc:'登录',
         success: (res) => {
-          console.log(199928, res)
           _this.userInfo = res.userInfo;
           _this.wxInfoData.iv = res.iv;
           _this.wxInfoData.encryptedData = res.encryptedData;
           if (flag !== 1) {
             setStorage (res.userInfo)
           }
-          console.log(988, _this.userInfo)
           if (!_this.token) {
             _this.login()
           } else {
@@ -143,7 +141,6 @@ export default {
               if (statusCode === 200) {
                 setStorage(data)
                 // 获取token
-                console.log(16688, data)
                 login({ openId: openid, session_key, ..._this.wxInfoData }).then(logiRes => {
                   console.log('logiRes',logiRes)
                   const { data } = logiRes[1];

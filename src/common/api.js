@@ -209,6 +209,6 @@ export const activityComplete = (data) => {
   return  httpAPI('/app/activity/complete', { data })
 }
 // 自主发起-修改
-export const operationActivityEdit = (data) => {
-  return  httpAPI('/app/activity/operation-activity', { data })
+export const updateActivity = (data) => {
+  return  httpAPI('/app/activity/update-activity', { data })
 }

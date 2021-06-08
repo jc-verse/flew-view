@@ -1,9 +1,26 @@
 <template>
-<page-sj>
+<page-sj :styles='{background: "#F1F3F5"}'>
   <div class="initiateProcess">
     <div class="content">
       <form-item-box v-for='(ite, ind) in formHeads' :key='ind' :ite='ite' :show-b='ind+1 === formHeads.length' >
-        <form-item :info='ite' :headInit='ite' :formData='formData' @change="changeFn"></form-item>
+        <template v-if="ite.params.genre !== 'textarea'">
+          <form-item :info='ite' :headInit='ite' :formData='formData' @change="changeFn"></form-item>
+        </template>
+        <template v-else>
+          <template>
+            <div class="num_box">
+              {{`${maxNum || 0}/${ite.params.max}`}}
+            </div>
+          </template>
+          <template  slot="diy">
+            <textarea 
+              @input='changeTextarea($event,ite)' 
+              class="textarea_box" 
+              :placeholder="ite.params.ph" 
+              :maxlength="ite.params.max"
+            />
+          </template>
+        </template>
       </form-item-box>
     </div>
     <div class="btn" v-if="errList.length" @click='submit'> 确定 </div>
@@ -18,19 +35,9 @@ import pageSj from '@/components/pageSjNew';
 
 import formItem from '@/components/forms/formItem';
 import formItemBox from '@/components/forms/formItemBox';
-import { activityList, operationActivityEdit } from '@/common/api'
+import { activityList, updateActivity } from '@/common/api'
 import { getCurPage } from '@/common/utils';
-const arr = [
-  { label: '请选择', id: '' },
-  { label: '艺术', id: 1 },
-  { label: '体育', id: 2 },
-  { label: '学术', id: 3 },
-  { label: '综合', id: 4 },
-  { label: '其他', id: 5 },
-]
-const toDateTime = (date) => {
-  return new Date(date).getTime();
-}
+
 export default {
   name: 'initiateProcess',
   components: { pageSj, formItem, formItemBox },
@@ -38,23 +45,14 @@ export default {
     return {
       value: '',
       formHeads: [
-        // { label: '发起者',    code:'name',          id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',   type: 'text', max: 20} ,disabled:true},
         { label: '活动名称',  code:'activityName',  id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-        // { label: '活动类型',  code:'activityType',  id: '' ,required: true,   params:  { ph: '请选择',     genre:'select', type: 'text', max: 20, list:arr} ,disabled:true},
-        // { label: '开始时间',  code:'startTime',     id: '' ,required: true,   params:  { ph: '请选择',     genre:'date',   type: 'text', max: 20} ,disabled:true},
-        // { label: '结束时间',  code:'endTime',       id: '' ,required: true,   params:  { ph: '请选择',     genre:'date',   type: 'text', max: 20} ,disabled:true},
         { label: '地点',      code:'address',       id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-        { label: '活动信息',  code:'activityInfo',  id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
-        // { label: '参与人数',  code:'num',           id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} ,disabled:true},
-        { label: '招募要求',  code:'requirement',   id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '活动简介',  code:'activityInfo',  id: '' ,required: true,   params:  { ph: '请填写活动简介',     genre:'textarea',  type: 'text', max: 100} },
+        { label: '招募要求',  code:'requirement',   id: '' ,required: false,  params:  { ph: '请填写招募要求',     genre:'textarea',  type: 'text', max: 100} },
         { label: '备注',      code:'remarks',       id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
       ],    
       canClick: true,  
       formData: {
-        // "endTime": "",
-        // "num": '',
-        // "activityType": '',
-        // "startTime": ""
         "address": "",
         "activityId":'',
         "activityInfo": "",
@@ -69,6 +67,10 @@ export default {
     this.getInfo(activityId)
   },
   computed:{
+    maxNum () {
+      const { activityInfo } = this.formData;
+      return activityInfo.length
+    },
     showBtn () {
       const arr = this.formHeads.find(item=>{
         return !this.formData[item.code]
@@ -80,9 +82,9 @@ export default {
       const errArr =  []
       const ite = formHeads.find(item => item.required && !formData[item.code]) || {};
       if (Object.keys(ite).length) {
-        if ( ite.params.genre === 'input') {
+        if ( ite.params.genre === 'input' || ite.params.genre === 'textarea') {
           errArr.push(`${ite.label}不能为空！`)
-        } 
+        }
       }
       return errArr
     }
@@ -90,19 +92,18 @@ export default {
   methods:{
     submit() {
       const { errList, formData } = this;
-      console.log(1, formData)
       if (errList.length) {
         uni.showToast({title: errList[0], icon:'none'})
         return 
       }
       this.canClick = false;
-      this.operationActivityEdit();
+      this.updateActivity();
     },
-    operationActivityEdit() {
+    updateActivity() {
       const { formData } = this;
       const params = { ...formData, info: formData.activityInfo }
       const _this = this;
-      operationActivityEdit(params).then(res => {
+      updateActivity(params).then(res => {
         const { data: nData } = res[1];
         const { data, code, msg } = nData;
         if (code === 200) {
@@ -141,7 +142,6 @@ export default {
         const { data: nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
-          console.log(123123, data)
           const { records } = data
           const info = records[0] || {};
           const { formHeads } = this;
@@ -154,6 +154,11 @@ export default {
         }
       })
     },
+    changeTextarea(e, item) {
+      const { value, cursor } = e.detail;
+      const { code } = item;
+      this.formData[code] = value
+    }
   }
 
 
@@ -198,6 +203,7 @@ export default {
   }
   .btn{
     width: 100%;
+    margin: 20rpx 0;
     @include fontMixin(32rpx, #ffffff, bold);
     background: #C5C5C5 ;
     text-align: center;
@@ -207,5 +213,19 @@ export default {
   .btn_active{
     background: #676FDF;
   }
+}
+.textarea_box{
+  border: 2rpx solid rgb(119, 119, 119);
+  padding: 20rpx 20rpx 20rpx 20rpx;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+  border-radius: 10rpx;
+  line-height: 40rpx;
+  height: 200rpx;
+}
+.num_box{
+  text-align: right;
+  font-size: 12px;
+  color: #7e7e7e;
 }
 </style>

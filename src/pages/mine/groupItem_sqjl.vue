@@ -278,7 +278,7 @@ export default {
   }
 }
 .group_infos{
-  border-top: 2rpx solid rgba(0, 0, 0,.1);
+  border-top: 2rpx solid #ECEEF6;
   .team_member{
     display: flex;
     @include flex_center;

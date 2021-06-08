@@ -67,7 +67,6 @@ export default {
   },
   methods:{
     changeFn({data,code}) {
-      console.log(12233, data, code)
       this.forms[code] = data;
     },
     deleteImg() {

@@ -5,7 +5,7 @@
     <infoHead :infoData='infoData' headStyles='width:70rpx;height:70rpx' fontSize='34'>
       <template slot="right"> 
         <div class="btn_box">
-          <div class="" @click="clickBuoy(1)" v-if="infoData.type == 1">取消申请</div>
+          <div class="" @click="clickBuoy(1)" v-if="[1, 4].includes(infoData.type)">取消申请</div>
           <div class="" v-else>待对方确认申请</div>
         </div>
       </template>
@@ -39,7 +39,7 @@ import { isLogin, toLogin } from '@/common/utils'
 
 
 function filterSFn (val) {
-  const { type, matchName, nikeName, activity = {} } = val;
+  const { type, matchName, nikeName, activity = {}, subject } = val;
   let obj = { title: '', bgColor: styles[type].bg ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
   console.log('【119】是卡片的全部数据')
   console.log(119, val)
@@ -47,7 +47,7 @@ function filterSFn (val) {
     obj.title = `竞赛组队：我向${nikeName}发起${matchName}的竞赛组队`;
     obj.showInfo = [ 1, 3 ]
   } else if (type == 2) {
-    obj.title = `学术帮助：我向${nikeName}提出学术帮助`
+    obj.title = `学术帮助：我向${nikeName}提出${subject}的学术帮助`
     obj.showInfo = [ 1, 2 ]
   } else if (type == 3) {
     obj.title = `学校咨询：我向${nikeName}提出学校咨询`

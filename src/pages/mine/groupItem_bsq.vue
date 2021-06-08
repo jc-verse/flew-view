@@ -41,7 +41,7 @@ const popups = {
 }
 
 function filterSFn (val) {
-  const { type, matchName, nikeName, activity } = val;
+  const { type, matchName, nikeName, activity, subject } = val;
   console.log('【119】是卡片的全部数据')
   console.log(119, val)
   let obj = { title: '', bgColor: styles[type].bg ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
@@ -49,7 +49,7 @@ function filterSFn (val) {
     obj.title = `竞赛组队：${nikeName}向你发起${matchName}的竞赛组队`;
     obj.showInfo = [ 1, 3 ]
   } else if (type == 2) {
-    obj.title = `学术帮助：${nikeName}向你提出学术帮助`
+    obj.title = `学术帮助：${nikeName}向你提出${subject}的学术帮助`
     obj.showInfo = [ 1, 2 ]
   } else if (type == 3) {
     obj.title = `学校咨询：${nikeName}向你提出学校咨询`

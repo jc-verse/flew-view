@@ -32,13 +32,15 @@ import {  cardList } from '@/components/const'
 import { isLogin, toLogin } from '@/common/utils'
 import { activityList } from '@/common/api';
 import { joinUrl, getCurPage } from '@/common/utils';
+// 1.公益 2.艺术 3.体育 4.学术 5.综合 6.其他
 const tabList = [
   { id: '', label: '全部' },
-  { id: 1, label: '艺术' },
-  { id: 2, label: '体育' },
-  { id: 3, label: '学术' },
-  { id: 4, label: '综合' },
-  { id: 5, label: '其他' }
+  { id: 1, label: '公益' },
+  { id: 2, label: '艺术' },
+  { id: 3, label: '体育' },
+  { id: 4, label: '学术' },
+  { id: 5, label: '综合' },
+  { id: 6, label: '其他' }
 ]
 export default {
   name: 'autonomously',
@@ -75,8 +77,7 @@ export default {
         return 
       }
       const { activityId } = item;
-      const type = tabList[this.tabIndex].id
-      console.log(123123999, type)
+      const type = tabList[this.tabIndex].id;
       uni.navigateTo({ url:joinUrl( '/pages/detailGroup/index', {activityId, type}) })
     },
     // 点击memu
@@ -98,8 +99,7 @@ export default {
         const { data: nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
-          const { records } = data
-          console.log('自主list', data)
+          const { records } = data;
           this.cardList = [ ...cardList, ...records];
         }
       })

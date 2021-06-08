@@ -94,37 +94,6 @@ export default {
       }) || []
       return cards
     },
-    // searchCards() {
-    //   const { searchValue, searchCardList } = this;
-    //   const arr = searchCardList.filter(item => item.label.includes(searchValue)).map(item => {
-    //     return {
-    //       ...item,
-    //       label: item.matchName,
-    //       url: item.icon ? imgUrl +  item.icon: ''
-    //     }
-    //   })
-    //   console.log(9238,arr )
-    //   return arr;
-    // },
-    // searchCardList () {//  当前大类下的所有三级菜单
-    //   const { totalList, menuType } = this;
-    //   console.log(99967, totalList, menuType)
-    //   let arr = []; // 获取二级菜单
-    //   let list = []; // 存放三级菜单
-    //   if (totalList.length) {
-    //     const obj = totalList.find(item => item.id == menuType) || {};
-    //     arr = obj.children || [];
-    //   }
-
-    //   if (arr.length) { // 整合三级菜单
-    //     arr.forEach(item => {
-    //       if (item.children && Array.isArray(item.children)) {
-    //         list = [...list, ...item.children];
-    //       }
-    //     })
-    //   }
-    //   return list;
-    // }
   },
   mounted () {
     /*获取当前路由*/

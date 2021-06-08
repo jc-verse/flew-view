@@ -55,7 +55,7 @@ const popups = {
   '8': { title: '联系客服', msg: '是否联系客服!', type: 8 },
 }
 function filterSFn (val, userId) {
-  const { type, matchName, nikeName, id, isOrganize, academic, slave, activity = {} } = val;
+  const { type, matchName, nikeName, id, isOrganize, academic, slave, activity = {}, subject } = val;
   let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slavelist: [] } // 1 比赛经历  2个人留言  3 希望参加
   console.log('我是用户id：'+userId, ';我是队长Id：'+ id, `;我是不是队长：${userId == id?'是' : '不是'}`)
   console.log('【119】是卡片的全部数据')
@@ -78,10 +78,10 @@ function filterSFn (val, userId) {
     obj.slavelist = slave || [];
   } else if (type == 2) { // 学术
     if (userId == academic.id) { // 申请人
-      obj.title = `学术帮助: 向${nikeName}提出学术帮助`
+      obj.title = `学术帮助: 向${nikeName}提出${subject}的学术帮助`
       obj.showInfo = [8];
     } else { // 队长
-      obj.title = `学术帮助: ${academic.nikeName}向我提出学术帮助` //：
+      obj.title = `学术帮助: ${academic.nikeName}向我提出${subject}的学术帮助` //：
       obj.showTask = true;
       obj.showInfo = [5];
     }
@@ -98,7 +98,7 @@ function filterSFn (val, userId) {
     if (activity.id == userId) {
       obj.title = `自主活动：${nikeName}申请加入${activity.name}`
     } else {
-      obj.title = `自主活动：我申请加入${activity.name}`
+      obj.title = `自主活动：${activity.name}`
     }
   }
   return obj
@@ -129,7 +129,6 @@ export default {
     },
     slaveList () {
       const slave = this.cardStatu.slavelist || [];
-      console.log(9998, joinName(slave))
       return joinName(slave || []) || ''
     },
     popupStatu () {
@@ -140,8 +139,7 @@ export default {
     },
     cardInfo () {
       const { infoData, userId } = this;
-      const { academic, id, type } = infoData
-      console.log(1223, infoData,11)
+      const { academic, id, type } = infoData;
       let info = {}
       if (type == 1) {
         info = infoData
@@ -160,7 +158,6 @@ export default {
       } else {
         info = infoData
       }
-      console.log(1222, info,99)
       return info;
     },
   },

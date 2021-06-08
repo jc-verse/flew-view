@@ -157,7 +157,6 @@ export default {
         '4': '/pages/aboutUs/index', // 学术帮助
         '5': '/pages/joinUs/index', // 加入我们
       }
-      console.log(1233, val, routers[val])
       uni.navigateTo({ url: routers[val] });
     },
     // 点击蒙版  切换展示模块

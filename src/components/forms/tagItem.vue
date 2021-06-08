@@ -22,7 +22,6 @@ export default {
   computed: {
     itemVal () {
       const { item, index } = this;
-      console.log(188, index, item)
       return item.list[index] || {}
     },
   },
@@ -31,7 +30,6 @@ export default {
       const { item, index } = this;
       const { id, code } = item
 			this.index = e.detail.value;
-      console.log(12312312, e.detail)
       this.$emit('changeItem', id, code, item.list[e.detail.value])
       // this.clickD(false)
 		},
