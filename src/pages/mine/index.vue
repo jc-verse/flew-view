@@ -290,13 +290,13 @@ export default {
       console.log('竞赛组队-接受/拒绝申请-参数：' + JSON.stringify(params))
       userInfoPower(params).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success, msg } = nData;
         this.throttle(false)
-        if (code === 200 && success) {
+        if (code === 200) {
           uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
           this.initForm();
         } else {
-          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+          uni.showToast({title: msg ,icon: 'none'  })
         }
       }).catch(err => {
         console.log(err)
@@ -311,13 +311,13 @@ export default {
       console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
       academicOperationAcademic(params).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success, msg } = nData;
         this.throttle(false)  
-        if (code === 200 && success) {
+        if (code === 200) {
           uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
           this.initForm();
         } else {
-          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+          uni.showToast({title: msg,icon: 'none'  })
         }
       }).catch(err => {
         console.log(err)
@@ -332,13 +332,13 @@ export default {
       console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
       consultingOperation(params).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success, msg } = nData;
         this.throttle(false) 
-        if (code === 200 && success) {
+        if (code === 200) {
           uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
           this.initForm();
         } else {
-          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+          uni.showToast({title: msg,icon: 'none'  })
         }
       }).catch(err => {
         console.log(err)
@@ -353,13 +353,13 @@ export default {
       console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
       operationActivity(params).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success, msg } = nData;
         this.throttle(false) 
-        if (code === 200 && success) {
+        if (code === 200) {
           uni.showToast({title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none'})
           this.initForm();
         } else {
-          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+          uni.showToast({title: msg,icon: 'none'  })
         }
       }).catch(err => {
         console.log(err)
@@ -374,13 +374,13 @@ export default {
       console.log('退出组队-参数：' + JSON.stringify(params))
       userInfoExitTeam(params).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success, msg } = nData;
         this.throttle(false)
         if (code === 200 && success ) {
-          uni.showToast({title: '已退出组队',icon: 'none'})
+          uni.showToast({title: msg || '',icon: 'none'})
           this.initForm();
         } else {
-          uni.showToast({title: '操作失败，请重试！',icon: 'none'})
+          uni.showToast({title: msg || '',icon: 'none'})
         }
       }).catch(err => {
         console.log(err)
@@ -395,17 +395,17 @@ export default {
       console.log('开启/关闭加入组队-参数：' + JSON.stringify(params))
       userInfoOperationMatch(params).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success, msg } = nData;
         this.throttle(false)
-        if (code === 200 && success) {
+        if (code === 200) {
           if (type == 1) {
-            uni.showToast({title: '完成！'})
+            uni.showToast({title: msg || ''})
           } else {
             uni.showToast({title: `${status == 1 ? '关闭组队' : '开启组队'}成功！`})
           }
           this.initForm();
         } else {
-          uni.showToast({title: '操作失败，请重试！',icon: 'none'  })
+          uni.showToast({title: msg || '',icon: 'none'  })
         }
       }).catch(err => {
         console.log(err)
@@ -418,13 +418,13 @@ export default {
       this.throttle(true)
       academicAcademicComplete({ userRelationshipId:id }).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success, msg } = nData;
         this.throttle(false)
-        if (code === 200 && success) {
-          uni.showToast({title: '完成！'})
+        if (code === 200) {
+          uni.showToast({title: msg})
           this.initForm();
         } else {
-          uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
+          uni.showToast({ title: msg,icon: 'none' })
         }
       }).catch(err => {
         console.log(err)
@@ -438,13 +438,13 @@ export default {
       console.log('我是评价参数：', JSON.stringify(params))
       academicEvaluate(params).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success,msg } = nData;
         this.throttle(false)
-        if (code === 200 && success) {
-          uni.showToast({title: '评价成功！'})
+        if (code === 200) {
+          uni.showToast({title: msg})
           this.initForm();
         } else {
-          uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
+          uni.showToast({ title: msg, icon: 'none' })
         }
       }).catch(err => {
         this.throttle(false)
@@ -457,13 +457,13 @@ export default {
       this.throttle(true)
       consultingComplete({ userRelationshipId:id }).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success, msg } = nData;
         this.throttle(false)
-        if (code === 200 && success) {
-          uni.showToast({title: '完成！'})
+        if (code === 200) {
+          uni.showToast({title: msg || ''})
           this.initForm();
         } else {
-          uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
+          uni.showToast({ title: msg || '',icon: 'none' })
         }
       }).catch(err => {
         console.log(err)
@@ -476,13 +476,13 @@ export default {
       this.throttle(true)
       activityComplete({ activityId }).then(res => {
         const { data: nData } = res[1];
-        const { code, data, success } = nData;
+        const { code, data, success,msg } = nData;
         this.throttle(false)
-        if (code === 200 && success) {
-          uni.showToast({title: '完成！'})
+        if (code === 200) {
+          uni.showToast({title: msg || ''})
           this.initForm();
         } else {
-          uni.showToast({ title: '操作失败，请重试！',icon: 'none' })
+          uni.showToast({ title: msg || '',icon: 'none' })
         }
       }).catch(err => {
         console.log(err)
