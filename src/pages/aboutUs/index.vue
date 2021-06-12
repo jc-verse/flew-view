@@ -13,6 +13,7 @@
             </div>
             <div class="text_msg" v-html="textMsg">
             </div>
+            <div class="tip" v-html="tipMsg"></div>
           </div>
         </div>
         
@@ -30,13 +31,14 @@ import scrollBox from '@/components/scrollBox';
 import pageSj from '@/components/scrollBox';
 import bottomLogo from "@/components/bottomLogo";
 import FabGroup from '@/components/fabGroup';
-import { textMsg } from './const';
+import { textMsg, tipMsg } from './const';
 export default {
   name:'about_us', 
   components: { bottomLogo, scrollBox, pageSj, FabGroup },
   data () {
     return {
       textMsg,
+      tipMsg
     }
   },
 }

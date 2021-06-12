@@ -34,7 +34,7 @@
     
     <!-- select -->
     <template v-if="headInit.params.genre === 'date'">
-      <picker  range-key='label' mode='date' :disabled='!!headInit.disabled' :value="formData[headInit.code]" @change="change($event, 'date', headInit.code)" :range="headInit.params.list">
+      <picker  range-key='label' mode='date' :fields='headInit.params.fields ? headInit.params.fields: "day" ' :disabled='!!headInit.disabled' :value="formData[headInit.code]" @change="change($event, 'date', headInit.code)" :range="headInit.params.list">
         <view class="select"  v-if='formData[headInit.code]'>{{formData[headInit.code]}}</view>
         <view v-else style='color:#808080'>请选择</view>
       </picker>

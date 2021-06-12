@@ -13,7 +13,8 @@ export default {
     const obj = getApp().globalData.userData;
     const keys = Object.keys(obj)
     if (isObject(obj) && keys.length) {
-      console.log(222, obj)
+      // console.log(222, obj)
+      this.userData = obj;
     } else {
       this.getUserInfo();
     }

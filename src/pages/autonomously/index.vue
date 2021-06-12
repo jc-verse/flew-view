@@ -54,8 +54,12 @@ export default {
       tabIndex: 0
     }
   },
-  onShow() {
-    this.initForm();
+  onLoad() {
+    const { pageType }= getCurPage();
+    console.log(988, pageType)
+    if (pageType==='add') {
+      this.initForm();
+    }
   },
   methods: {
     toLogin,

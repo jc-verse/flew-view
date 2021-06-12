@@ -14,7 +14,7 @@
                 </div>
                 <div class="card_r">
                   <div>{{item.label || ''}}</div>
-                  <!-- <div>{{item.englishName || ''}}</div> -->
+                  <div class="englisName">{{item.englishName || ''}}</div>
                 </div>
               </div>
             </div>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="card_r">
                   <div>{{item.matchName || ''}}</div>
-                  <!-- <div>{{item.englishName || ''}}</div> -->
+                  <div class="englisName">{{item.englishName || ''}}</div>
                 </div>
               </div>
             </div>
@@ -218,6 +218,10 @@ export default {
     .right_box > div:last-child{
       margin-bottom: 0;
     }
+  }
+  .englisName{
+    font-size: 24rpx;
+    font-weight: 400;
   }
 }
 

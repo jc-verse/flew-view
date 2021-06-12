@@ -1,5 +1,5 @@
 <template>
-  <DiyPopup @popupclosed='popupclosed' popupTitle='经历' :styles='{ top: "auto" }'>
+  <DiyPopup @popupclosed='popupclosed' ref='diyPopup' popupTitle='经历' :styles='{ top: "auto" }'>
     <slot>
       <div class="custom add"  >
         亮出你比赛经历吧
@@ -11,7 +11,7 @@
       <form-item-box 
         v-for='(ite, indx) in matchlist' :key='indx' 
         :ite ='ite'  :show-b='indx + 1 === matchlist.length'
-        :formData='formData'
+        :formData='{}'
       >
         <form-item :headInit='ite' :formData='forms' @change="changeFn">
           <template slot='upload'>
@@ -42,7 +42,8 @@ export default {
     className: {
       type: String,
       default: ''
-    }
+    },
+
   },
   components: {
     formItem,
@@ -53,8 +54,8 @@ export default {
     return {
       matchlist: [
         { label: '比赛名称', code:'name', id: '' ,required: true,  params: { ph: '请填写比赛名称',genre:'input', type: 'text', max: 20 } },
-        { label: '比赛时间', code:'time', id: '' ,required: false,  params: { ph: '请填写比赛时间',genre:'date', type: 'text', max: 20 } },
-        { label: '获得奖项', code:'wonAwards', id: '' ,required: false,  params: { ph: '请填写获得奖项',genre:'input', type: 'text', max: 20 } },
+        { label: '比赛时间', code:'time', id: '' ,required: false,  params: { ph: '请填写比赛时间',genre:'date', type: 'text', max: 20, fields:"month" } },
+        { label: '获得奖项', code:'wonAwards', id: '' ,required: false,  params: { ph: '请填写获得奖项',genre:'input', type: 'text', max: 30 } },
         { label: '上传认证', code:'authUrl', id: '' ,required: false,  params: { ph: '请填写真实姓名',genre:'upload', type: 'text', max: 20 } },
       ],
       forms: { name: '', time: '', wonAwards: '', authUrl : '' }
@@ -66,6 +67,9 @@ export default {
     }
   },
   methods:{
+    show() {
+      this.$refs.diyPopup.show();
+    },
     changeFn({data,code}) {
       this.forms[code] = data;
     },
@@ -83,7 +87,14 @@ export default {
           type:'add'
           }
         )
+        this.forms = { name: '', time: '', wonAwards: '', authUrl : '' }
       }
+    }
+  },
+  watch: {
+    formData (val, old ) {
+      this.forms = val;
+      console.log(222, val, old)
     }
   }
 }

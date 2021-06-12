@@ -9,12 +9,13 @@
         <template v-else>
           <template>
             <div class="num_box">
-              {{`${maxNum || 0}/${ite.params.max}`}}
+              {{`${formData[ite.code].length || 0}/${ite.params.max}`}}
             </div>
           </template>
+              <!-- @input='changeTextarea($event,ite)'  -->
           <template  slot="diy">
             <textarea 
-              @input='changeTextarea($event,ite)' 
+              v-model="formData[ite.code]"
               class="textarea_box" 
               :placeholder="ite.params.ph" 
               :maxlength="ite.params.max"
@@ -45,10 +46,11 @@ export default {
     return {
       value: '',
       formHeads: [
-        { label: '活动名称',  code:'activityName',  id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '活动名称',  code:'activityName',  id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 30} },
         { label: '地点',      code:'address',       id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
         { label: '活动简介',  code:'activityInfo',  id: '' ,required: true,   params:  { ph: '请填写活动简介',     genre:'textarea',  type: 'text', max: 100} },
         { label: '招募要求',  code:'requirement',   id: '' ,required: false,  params:  { ph: '请填写招募要求',     genre:'textarea',  type: 'text', max: 100} },
+        { label: '联系方式',  code:'phone',         id: '' ,required: true,   params:  { ph: '请填写手机号码',     genre:'input',  type: 'text', max: 11} },
         { label: '备注',      code:'remarks',       id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
       ],    
       canClick: true,  
@@ -59,6 +61,7 @@ export default {
         "activityName": "",
         "remarks": "",
         "requirement": "",
+        "phone": ''
       }
     }
   },
@@ -67,10 +70,6 @@ export default {
     this.getInfo(activityId)
   },
   computed:{
-    maxNum () {
-      const { activityInfo } = this.formData;
-      return activityInfo.length
-    },
     showBtn () {
       const arr = this.formHeads.find(item=>{
         return !this.formData[item.code]
@@ -85,6 +84,9 @@ export default {
         if ( ite.params.genre === 'input' || ite.params.genre === 'textarea') {
           errArr.push(`${ite.label}不能为空！`)
         }
+      }
+      if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(formData.phone)) {
+        errArr.push(`手机号格式不正确`)
       }
       return errArr
     }
@@ -147,18 +149,18 @@ export default {
           const { formHeads } = this;
           const infoObj = {}
           for (let i in formHeads) {
-            infoObj[formHeads[i].code] = info[formHeads[i].code]
+            infoObj[formHeads[i].code] = info[formHeads[i].code] || ''
           }
           infoObj.activityId = info.activityId;
           this.formData = infoObj;
         }
       })
     },
-    changeTextarea(e, item) {
-      const { value, cursor } = e.detail;
-      const { code } = item;
-      this.formData[code] = value
-    }
+    // changeTextarea(e, item) {
+    //   const { value, cursor } = e.detail;
+    //   const { code } = item;
+    //   this.formData[code] = value
+    // }
   }
 
 
@@ -222,6 +224,7 @@ export default {
   border-radius: 10rpx;
   line-height: 40rpx;
   height: 200rpx;
+  width: 95%;
 }
 .num_box{
   text-align: right;

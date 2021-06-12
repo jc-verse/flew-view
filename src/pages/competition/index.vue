@@ -69,7 +69,7 @@ export default {
           uni.navigateTo({ url: joinUrl('/pages/stem/index',item) })
           break;
         case 8:
-          uni.navigateTo({ url: joinUrl('/pages/autonomously/index',item) })
+          uni.navigateTo({ url: joinUrl('/pages/autonomously/index', {...item, pageType: "add"}) })
           break;
         default:
           break;

@@ -59,7 +59,7 @@ export default {
         { label: '微信号', code:'wxNum',    id: '' ,disabled:true ,required: false,  params: { ph: '无',  genre:'input', type: 'text', max: 20 }},
         // { label: '生日',   code: 'birthday', id: '', required: false, params: { ph: '请填写生日',  genre:'date', type: 'text', max: 20 } },
         { label: '年级',   code:'grade',     id: '' ,disabled:true ,required: false,  params: { ph: '',    genre:'input', type: 'text', max: 20 } },
-        { label: '性别',   code:'sex',       id: '' ,disabled:true ,required: false,  params: { ph: '不公开',    genre:'select', list: sexs } },
+        { label: '性别',   code:'sex',       id: '' ,disabled:true ,required: false,  params: { ph: '请选择',    genre:'select', list: sexs } },
         { label: '邮箱',   code:'email',     id: '' ,disabled:true ,required: false,  params: { ph: '暂无邮箱',    genre:'input', type: 'email' , max: 20} },
       ],
       formHeads2: [

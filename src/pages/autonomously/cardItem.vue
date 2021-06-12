@@ -11,6 +11,12 @@
       <information :topList='tops'/>
       <join-list title='活动信息' :value='infoData.activityInfo || "暂无活动信息"' type='text'/>
       <join-list title='招募要求' :value='infoData.requirement || "暂无招募要求"' type='text'/>
+      <join-list v-if="infoData.phone" title='联系方式' :value='infoData.phone || ""' type='diy'>
+        <template slot="diy">
+          <span class="copy">{{infoData.phone || ''}}</span>
+          <span class="copy_btn" @click="copy(infoData.phone)">复制</span>
+        </template>
+      </join-list>
       
       <div class="fagBtn" @click="clickFag"> 查看详情 </div>
     </div>
@@ -21,6 +27,7 @@
 import joinList from '@/components/cards/joinList';
 import infoHead from '@/components/cards/infoHead';
 import information from '@/components/cards/information';
+import { copy } from '@/common/utils'
 export default {
   name: 'cardItem',
   components: { infoHead, information, joinList },
@@ -54,6 +61,7 @@ export default {
     }
   },
   methods: {
+    copy,
     clickCard() {
       this.down = !this.down
     },
@@ -99,5 +107,12 @@ $padding: 30rpx 20rpx;
 }
 .icon_active{
   transform: rotate(-180deg);
+}
+.copy{
+  color: #b0a8a8;
+}
+.copy_btn{
+  margin-left:20rpx;
+  @include fontMixin(28rpx, #5C86F2)
 }
 </style>

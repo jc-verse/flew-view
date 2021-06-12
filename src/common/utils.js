@@ -123,6 +123,9 @@ export function toLogin () {
 
 // 时间转换格式
 export function formatDate(time, formatStr) {
+  if (!time) {
+    return ''
+  }
   let date = new Date(time);
   let Y = date.getFullYear();
   let M = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);

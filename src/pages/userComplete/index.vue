@@ -95,7 +95,7 @@
 
           <form-item-box v-for='(option, ind) in bottomHeads' :key='ind' :ite='option' :show-b='ind+1 === bottomHeads.length' >
             <template v-if='option.code === "competitionExperience"'>
-              <EditGame className='competitionExperience' @editGameFn='changeFn'>
+              <EditGame ref='editGame' className='competitionExperience' :formData='showDetailFn'  @editGameFn='changeFn'>
                 <div class="custom add"  >
                   亮出你比赛经历吧
                   <i class="iconfont iconjiahao add_icon"></i>
@@ -104,7 +104,7 @@
               <div class="g_list" slot='diy'>
                 <template v-if="formData.competitionExperience.length && shows.aut">
                   <div class="g_item" v-for='(items,ind) in formData.competitionExperience' :key="ind">
-                    <div class="text">{{`${items.name}`}}</div>
+                    <div class="text" @click="showDetail(ind)">{{`${items.name}`}}</div>
                     <div class="delete" @click='deleteAut(ind)'>删除</div>
                   </div>
                   <div class="noList" @click='showFn("aut")'>
@@ -210,9 +210,10 @@ export default {
 
       canClick: true,
 
-      right: { label: '体系认证', code:'curriculumSystemAuthUrl', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'upload', type: 'text', max: 20 }},
+      right: { label: '体系认证', code:'curriculumSystemAuthUrl', id: '' ,required: false,  params: { ph: '请选择您希望参加的比赛',  genre:'upload', type: 'text', max: 20 }},
       userCount: 0,
-      loading: false
+      loading: false,
+      compIndex: -1,
     }
   },
   computed:{
@@ -228,19 +229,20 @@ export default {
           errList.push(`${item.label}不能为空`);
         }
       })
-      formData['curriculumSystem'].forEach(item => {
-        if (!item.subject) {
-          errList.push(`学科不能为空`);
+      
+      const  systemFind = formData['curriculumSystem'].find(item => (item.fraction && item.subject));
+      if (systemFind) {
+        const subjectNameList =  formData['curriculumSystem'].filter(item => item.subject).map(item=> {
+          if (item.fraction) {
+            regNum.push(item.fraction)
+          }
+          return item.subject
+        });
+        if (subjectNameList.length != [...new Set(subjectNameList)].length) {
+          errList.push(`学科名称不能重复`);
         }
-      })
-      const subjectNameList =  formData['curriculumSystem'].map(item=> {
-        if (item.fraction) {
-          regNum.push(item.fraction)
-        }
-        return item.subject
-      });
-      if (subjectNameList.length != [...new Set(subjectNameList)].length) {
-        errList.push(`学科名称不能重复`);
+      } else {
+        errList.push(`请完善课程体系！`);
       }
       formData['standardizedPerformance'].forEach(item => {
         if (item.fraction) {
@@ -320,23 +322,30 @@ export default {
         arr = curriculumSystemAuthUrl.split(',')
       }
       return arr
+    },
+    showDetailFn () {
+      const { formData, compIndex  } = this;
+      const { competitionExperience } = formData
+      if (!competitionExperience || !competitionExperience[compIndex]) {
+        return {}
+      } else {
+        return competitionExperience[compIndex]
+      }
     }
   },
   onShow() {
-    this.formDataFun();
-  },
-  mounted() {
-    this.getDownList(1);  //科目
-    this.getDownList(2);  //体系
-    this.teamUpGradeList();
-
     /*获取当前路由*/
     const { type = '' } = getCurPage();
     if (type === 'edit') {
       this.isEdit = true;
       // this.getInfo();
     }
-
+    this.formDataFun();
+  },
+  mounted() {
+    this.getDownList(1);  //科目
+    this.getDownList(2);  //体系
+    this.teamUpGradeList();
     uni.getStorage({ key: 'nickName', success:(res)=>{
       const { errMsg = '', data } = res || {};
       if (errMsg && errMsg.includes('ok')) {
@@ -412,7 +421,13 @@ export default {
     changeFn({data, code, type}) {
       switch (type) {
         case 'add':
-          this.formData[code].push(data);
+          const ind = this.compIndex;
+          if (this.compIndex == -1) {
+            this.formData[code].push(data);
+          } else {
+            this.formData[code] = this.formData[code].map((item, index) => ind === index ? data: item)
+          }
+          this.compIndex = -1;
           break;
         case 'join':
           let arr = []
@@ -502,7 +517,8 @@ export default {
       const isConsulting = formData.isConsulting === true || formData.isConsulting === 1 ? 1 : 2; 
       const isAcademic = formData.isAcademic === true || formData.isAcademic === 1 ? 1 : 2; 
       formData.match = matchs || [];
-      const params = { ...formData, isConsulting, isAcademic }
+      const curriculumSystem = formData.curriculumSystem.filter(item => (item.fraction && item.subject)) // 过滤不全的课程体系
+      const params = { ...formData, isConsulting, isAcademic, curriculumSystem }
       updateCardInfo(params).then(res => {
         const { data: nData } = res[1];
         const { data, code, msg } = nData;
@@ -550,6 +566,11 @@ export default {
         }
         return item;
       })
+    },
+    showDetail(index) {
+      console.log(1299, this.$refs)
+      this.compIndex = index
+      this.$refs.editGame[0].show()
     }
   },
 

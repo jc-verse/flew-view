@@ -9,12 +9,13 @@
         <template v-else>
           <template>
             <div class="num_box">
-              {{`${maxNum || 0}/${ite.params.max}`}}
+              {{`${formData[ite.code].length || 0}/${ite.params.max}`}}
             </div>
           </template>
+              <!-- @input='changeTextarea($event,ite)'  -->
           <template  slot="diy">
             <textarea 
-              @input='changeTextarea($event,ite)' 
+              v-model="formData[ite.code]"
               class="textarea_box" 
               :placeholder="ite.params.ph" 
               :maxlength="ite.params.max"
@@ -56,7 +57,7 @@ export default {
       value: '',
       formHeads: [
         { label: '发起者',    code:'name',          id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',   type: 'text', max: 20} ,disabled:true},
-        { label: '活动名称',  code:'activityName',  id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
+        { label: '活动名称',  code:'activityName',  id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 30} },
         { label: '活动类型',  code:'activityType',  id: '' ,required: true,   params:  { ph: '请选择',     genre:'select', type: 'text', max: 20, list:arr} },
         { label: '开始时间',  code:'startTime',     id: '' ,required: true,   params:  { ph: '请选择',     genre:'date',   type: 'text', max: 20} },
         { label: '结束时间',  code:'endTime',       id: '' ,required: true,   params:  { ph: '请选择',     genre:'date',   type: 'text', max: 20} },
@@ -64,6 +65,7 @@ export default {
         { label: '活动简介',  code:'activityInfo',  id: '' ,required: true,   params:  { ph: '请填写活动简介',     genre:'textarea',  type: 'text', max: 100} },
         { label: '参与人数',  code:'num',           id: '' ,required: true,   params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
         { label: '招募要求',  code:'requirement',   id: '' ,required: false,  params:  { ph: '请填写招募要求',     genre:'textarea',  type: 'text', max: 100} },
+        { label: '联系方式',  code:'phone',         id: '' ,required: true,   params:  { ph: '请填写手机号码',     genre:'input',  type: 'text', max: 11} },
         { label: '备注',      code:'remarks',       id: '' ,required: false,  params:  { ph: '请填写',     genre:'input',  type: 'text', max: 20} },
       ],    
       canClick: true,  
@@ -77,15 +79,12 @@ export default {
         "num": '',
         "remarks": "",
         "requirement": "",
-        "startTime": ""
+        "startTime": "",
+        "phone": ''
       }
     }
   },
   computed:{
-    maxNum () {
-      const { activityInfo } = this.formData;
-      return activityInfo.length
-    },
     showBtn () {
       const arr = this.formHeads.find(item=>{
         return !this.formData[item.code]
@@ -106,6 +105,12 @@ export default {
         } else if (ite.params.genre === 'select' || ite.params.genre === 'date') {
           errArr.push(`请选择${ite.label}！`)
         }
+      }
+      if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(formData.phone)) {
+        errArr.push(`手机号格式不正确`)
+      }
+      if (!/^\d+$/.test(formData.num)) {
+        errArr.push(`参与人数只能为数字`)
       }
       return errArr
     }
@@ -136,7 +141,7 @@ export default {
             title: msg || '',
             success: (res)=>{
               setTimeout(function () {
-                uni.navigateBack({ delta:1,success:()=>{
+                uni.redirectTo({ url: '/pages/autonomously/index?pageType=add',success:()=>{
                   _this.canClick = true;
                 }})
               }, 1000);
@@ -183,11 +188,11 @@ export default {
           break;
       }
     },
-    changeTextarea(e, item) {
-      const { value, cursor } = e.detail;
-      const { code } = item;
-      this.formData[code] = value
-    }
+    // changeTextarea(e, item) {
+    //   const { value, cursor } = e.detail;
+    //   const { code } = item;
+    //   this.formData[code] = value
+    // }
   }
 
 
@@ -251,6 +256,7 @@ export default {
   border-radius: 10rpx;
   line-height: 40rpx;
   height: 200rpx;
+  width: 95%;
 }
 .num_box{
   text-align: right;
