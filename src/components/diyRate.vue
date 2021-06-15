@@ -6,6 +6,7 @@
             <div class="rate_title">{{item.title}}</div>
             <div class="rate_content">
               <Rate 
+                v-if="count == 0"
                 :size='34' 
                 :margin='30' 
                 :value="newRate[item.code]" 
@@ -56,7 +57,8 @@ export default {
         { title: '理解程度', value: '', code: 'dimension2' },
         { title: '讲课态度', value: '', code: 'dimension3' },
         { title: '授课效率', value: '', code: 'dimension4' },
-      ]
+      ],
+      count: 0
     }
   },
   computed : {
@@ -73,9 +75,18 @@ export default {
       this.rateForm[code] = e.value
     },
     popupclosed (flag) {
-      if (flag) {
+      console.log(883, flag)
+      if (flag === true) {
         const {  rateForm } = this;
         this.$emit('confirmRate', rateForm);
+        this.rateForm={
+          "dimension1": 3,
+          "dimension2": 3,
+          "dimension3": 3,
+          "dimension4": 3,
+        }
+        this.count+= 1 
+        this.$nextTick(()=>{this.count = 0})
       }
     },
     show () {

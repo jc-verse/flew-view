@@ -44,16 +44,16 @@ function filterSFn (val) {
   console.log('【119】是卡片的全部数据')
   console.log(119, val)
   if (type == 1) {
-    obj.title = `竞赛组队：我向${nikeName}发起${matchName}的竞赛组队`;
+    obj.title = `竞赛组队：向${nikeName}发起${matchName}的竞赛组队`;
     obj.showInfo = [ 1, 3 ]
   } else if (type == 2) {
-    obj.title = `学术帮助：我向${nikeName}提出${subject}的学术帮助`
+    obj.title = `学术帮助：向${nikeName}提出${subject}的学术帮助`
     obj.showInfo = [ 1, 2 ]
   } else if (type == 3) {
-    obj.title = `学校咨询：我向${nikeName}提出学校咨询`
+    obj.title = `学校咨询：向${nikeName}提出学校咨询`
     obj.showInfo = [ 1, 2 ]
   } else if ( type == 4 ){
-    obj.title =  `自主活动：我申请加入${activity.name || ''}`
+    obj.title =  `自主活动：申请加入${activity.name || ''}`
   }
   return obj
 }
@@ -202,7 +202,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  margin-right: -20rpx;
+  margin-right: -30rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;

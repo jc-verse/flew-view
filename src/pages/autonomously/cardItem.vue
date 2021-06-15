@@ -11,12 +11,12 @@
       <information :topList='tops'/>
       <join-list title='活动信息' :value='infoData.activityInfo || "暂无活动信息"' type='text'/>
       <join-list title='招募要求' :value='infoData.requirement || "暂无招募要求"' type='text'/>
-      <join-list v-if="infoData.phone" title='联系方式' :value='infoData.phone || ""' type='diy'>
+      <!-- <join-list v-if="infoData.phone" title='联系方式' :value='infoData.phone || ""' type='diy'>
         <template slot="diy">
-          <span class="copy">{{infoData.phone || ''}}</span>
+          <span class="copy">手机号：{{infoData.phone || ''}}</span>
           <span class="copy_btn" @click="copy(infoData.phone)">复制</span>
         </template>
-      </join-list>
+      </join-list> -->
       
       <div class="fagBtn" @click="clickFag"> 查看详情 </div>
     </div>

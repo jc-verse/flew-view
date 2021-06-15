@@ -28,7 +28,7 @@ export const statusScreen = (infoData, userId) => {
       statuInfo.cardInfo = slaves
       switch (matchType) {
         case 3:
-          statuInfo.tip = `你拒绝了${slaves.nikeName}的申请`
+          statuInfo.tip = `您拒绝了${slaves.nikeName}的申请`
           break;
         case 4:
           statuInfo.tip = `${slaves.nikeName}的申请已取消`
@@ -49,10 +49,10 @@ export const statusScreen = (infoData, userId) => {
       statuInfo.title = `竞赛组队：向${nikeName}发起${matchName}的竞赛组队`;
       switch (matchType) {
         case 3:
-          statuInfo.tip = `你的申请已被${nikeName}拒绝`
+          statuInfo.tip = `您的申请已被${nikeName}拒绝`
           break;
         case 4:
-          statuInfo.tip = `你的申请已取消`
+          statuInfo.tip = `您的申请已取消`
           break;
         case 5:
           statuInfo.title = `竞赛组队：${matchName}`;
@@ -61,7 +61,7 @@ export const statusScreen = (infoData, userId) => {
           statuInfo.cardInfo = infoData
           break;
         case 6:
-          statuInfo.tip = `你已退出组队`;
+          statuInfo.tip = `您已退出组队`;
           break;
         default:
           break;
@@ -73,7 +73,7 @@ export const statusScreen = (infoData, userId) => {
       statuInfo.cardInfo = slaves
       switch (matchType) {
         case 3:
-          statuInfo.tip = `你拒绝了${slaves.nikeName}的学术帮助申请`
+          statuInfo.tip = `您拒绝了${slaves.nikeName}的学术帮助申请`
           break;
         case 5:
           statuInfo.tip = `已经完成${slaves.nikeName}的学术帮助`;
@@ -85,7 +85,7 @@ export const statusScreen = (infoData, userId) => {
       statuInfo.title = `学术帮助：向${nikeName}发起${subject}的学术帮助申请`
       switch (matchType) {
         case 3:
-          statuInfo.tip = `你的申请已被${nikeName}拒绝`
+          statuInfo.tip = `您的申请已被${nikeName}拒绝`
           break;
         case 5:
           statuInfo.tip = `您的申请已经完成`;
@@ -103,7 +103,7 @@ export const statusScreen = (infoData, userId) => {
       statuInfo.cardInfo = slaves
       switch (matchType) {
         case 3:
-          statuInfo.tip = `你拒绝了${slaves.nikeName}的学校咨询申请`
+          statuInfo.tip = `您拒绝了${slaves.nikeName}的学校咨询申请`
           break;
         case 5:
           statuInfo.tip = `已经完成${slaves.nikeName}的学校咨询`;
@@ -115,26 +115,22 @@ export const statusScreen = (infoData, userId) => {
       statuInfo.title = `学校咨询：向${nikeName}发起学校咨询申请`
       switch (matchType) {
         case 3:
-          statuInfo.tip = `你的申请已被${nikeName}拒绝`
+          statuInfo.tip = `您的申请已被${nikeName}拒绝`
           break;
         case 5:
           statuInfo.tip = `您的申请已经完成`;
-          // if (academicEvaluate == 2) {
-          //   statuInfo.showInfo = [9];
-          // }
           break;
         default:
           break;
       }
     }
   } else if (type == 4) {
-    statuInfo.showSlaveList = true;
     if (activity.serviceUid == userId) {
       statuInfo.title = `自主活动：${slaves.nikeName}申请加入${activity.name}`;
       // statuInfo.cardInfo = slaves
       switch (matchType) {
         case 3:
-          statuInfo.tip = `你拒绝了${slaves.nikeName}的申请`
+          statuInfo.tip = `您拒绝了${slaves.nikeName}的申请`
           statuInfo.cardInfo = slaves
           break;
         case 4:
@@ -144,6 +140,15 @@ export const statusScreen = (infoData, userId) => {
         case 5:
           statuInfo.title = `自主活动：${activity.name}`;
           statuInfo.tip = `活动已完成`;
+          statuInfo.showSlaveList = true;
+          break;
+        case 6:
+          statuInfo.tip = `${slaves.nikeName}已退出活动`;
+          statuInfo.cardInfo = slaves
+          break;
+        case 7:
+          statuInfo.tip = `${slaves.nikeName}已被您移出活动`;
+          statuInfo.cardInfo = slaves
           break;
         default:
           break;
@@ -152,17 +157,21 @@ export const statusScreen = (infoData, userId) => {
       statuInfo.title = `自主活动：我申请加入${activity.name}`;
       switch (matchType) {
         case 3:
-          statuInfo.tip = `你的申请已被${nikeName}拒绝`
+          statuInfo.tip = `您的申请已被${nikeName}拒绝`
           break;
         case 4:
-          statuInfo.tip = `你的申请已取消`
+          statuInfo.tip = `您的申请已取消`
           break;
         case 5:
           statuInfo.title = `自主活动：${activity.name}`;
           statuInfo.tip = `活动已完成`;
-          // if (academicEvaluate == 2) {
-          //   statuInfo.showInfo = [9];
-          // }
+          statuInfo.showSlaveList = true;
+          break;
+        case 6:
+          statuInfo.tip = `您已退出活动`;
+          break;
+        case 7:
+          statuInfo.tip = `您已被移出活动`;
           break;
         default:
           break;
@@ -192,10 +201,20 @@ export const bsToStrFn = (arr = []) => {
 
 export const topListFn = (infoData) => {
   const data = infoData || {};
+  let newPerformance = '';
+  if (data.standardizedPerformance) {
+    const arr = data.standardizedPerformance.split(' ')
+    newPerformance = arr.map((item, ind) => {
+      if (ind === 1 && Number(item)) {
+        return Number(item)
+      }
+      return item 
+    } ).join(' ')
+  }
   const arr = [
     { title: '学校', val: data.schoolName || '', id: 1 , width: '50%' ,noShow: false}, 
     { title: '年级', val: data.grade || '',          id: 2, width: '50%' ,noShow: false}, 
-    { title: '标化', val: data.standardizedPerformance || '',  id: 3, width: '50%' ,noShow: false}, 
+    { title: '标化', val: newPerformance || '',  id: 3, width: '50%' ,noShow: false}, 
     { title: '课程', val: data.curriculumSystem || '', id: 4 , width: '50%',noShow: false}, 
     { title: '专业', val: data.professionalDirection || '', id: 4 }, 
     { title: '成绩', val: data.schoolRecord || '',         id: 3 }, 

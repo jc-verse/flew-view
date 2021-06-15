@@ -19,8 +19,8 @@
           <div class="left">团队成员：{{slaveList}}</div>
           <i @click='showList = !showList' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
-        <!-- 团队成员信息 -->
-        <CrewInfo :styles='{background: "rgba(255,255,255,0)"}' :info='ite' v-for="(ite, ind) in infoData.slave" :key='ind' v-show="showInfo"/>
+        <!-- 团队成员信息 :styles='{background: "rgba(255,255,255,0)"}' -->
+        <CrewInfo  :info='ite' v-for="(ite, ind) in infoData.slave" :key='ind' v-show="showInfo"/>
       </div>
       <!-- 当前状态 -->
       <div class="group_infos" v-if="statusInfo.tip">
@@ -28,10 +28,6 @@
       </div>
     </div>
 
-    <div class="btn_box">
-    </div>
-
-    <DiyRate ref='diyRate' :rateData='rateForm' @confirmRate='confirmRate'></DiyRate>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
   </div>
 </template>
@@ -43,14 +39,13 @@ import information from '@/components/cards/information';
 import Rate from '@/components/cards/rate';
 import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
-import DiyRate from '@/components/diyRate';
 import { bsToStrFn, topListFn } from './units';
 import { statusScreen, joinName } from './units';
 import TipPopup from '@/components/cards/tipPopup';
 import { isLogin, toLogin } from '@/common/utils'
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo, DiyRate, TipPopup },
+  components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo, TipPopup },
   props: {
     infoData : {
       type:Object,
@@ -67,20 +62,8 @@ export default {
       showTitle: true,
       showInfo: false,
       showList: false,
-      type: 8,
-      rateForm: {
-        "dimension1": 3,
-        "dimension2": 3,
-        "dimension3": 3,
-        "dimension4": 3,
-      },
+      type: 0,
   // "relationshipId": 0
-      rateHeads: [
-        { title: '知识水平', value: '', code: 'dimension1' },
-        { title: '理解程度', value: '', code: 'dimension2' },
-        { title: '讲课态度', value: '', code: 'dimension3' },
-        { title: '授课效率', value: '', code: 'dimension4' },
-      ]
     }
   },
   computed : {
@@ -103,11 +86,6 @@ export default {
     clickTitle() {
       this.showTitle = !this.showTitle;
     },
-    confirmRate (rateData) {
-      this.rateForm = rateData
-      const { infoData } = this;
-      this.$emit('clickBtn', 9, { data: infoData, rates: rateData});
-    },
     // 点击组队申请！
     clickBuoy (type) {
       if (!isLogin()) {
@@ -117,10 +95,9 @@ export default {
       this.type = type;
       switch (type) {
         case 8:
-          this.$emit('clickBtn', type, { data: this.infoData })
-          break;
         case 9:
-          this.$refs.diyRate.show()
+          this.$emit('clickBtn', type, { data: this.infoData })
+          // this.$refs.diyRate.show()
           break;
         default:
           break;
@@ -302,7 +279,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  margin-right: -20rpx;
+  margin-right: -30rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;

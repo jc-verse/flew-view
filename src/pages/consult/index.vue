@@ -42,7 +42,7 @@ export default {
     }
   },
   onShow() {
-    this.getInfo();
+    this.initForm();
     uni.getStorage({key: 'userId',
       success:(res)=>{
         const {data, errMsg} = res;
@@ -103,12 +103,14 @@ export default {
       consultingApplyService({ serviceUserId: id }).then(res => {
         const {data: nData} = res[1];
         const { code, data, success, msg } = nData || {};
-        this.this.throttle(false)
+        this.throttle(false)
         if (code === 200 && success) {
           uni.showToast({title: '申请成功！'})
         } else {
           uni.showToast({title:msg, icon:'none' })
         }
+        
+        this.initForm()
       }).catch(err=> {
         console.log(err);
         this.throttle(false)

@@ -212,3 +212,13 @@ export const activityComplete = (data) => {
 export const updateActivity = (data) => {
   return  httpAPI('/app/activity/update-activity', { data })
 }
+
+// 自主发起-退出活动（成员）
+export const exitTeam = (data) => {
+  return  httpAPI('/app/activity/exit-team', { data })
+}
+
+// 自主发起-踢出活动（发起者）
+export const kickTeam = (data) => {
+  return  httpAPI('/app/activity/kick-team', { data })
+}

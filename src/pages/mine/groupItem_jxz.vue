@@ -9,6 +9,8 @@
           <div class="blue" v-if="cardStatu.showInfo.includes(5)" @click="clickBuoy(5)" >完成</div>
           <div class="" v-if="cardStatu.showInfo.includes(6)" @click="clickBuoy(6)" >停止组队</div>          
           <div class="" v-if="cardStatu.showInfo.includes(7)" @click="clickBuoy(7)" >开启组队</div>
+          <div class="" v-if="cardStatu.showInfo.includes(12)" @click="clickBuoy(12)" >退出</div>
+          <!-- <div class="" v-if="cardStatu.showInfo.includes(13)" @click="clickBuoy(13)" >移除</div> -->
           <!-- <div class="blue" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div> -->
         </div>
       </template>
@@ -17,6 +19,12 @@
     <div class="content">
       <!-- 个人信息 -->
       <information :topList='tops'/>
+      <join-list v-if="cardStatu.showPhone" title='联系方式' type='diy'>
+        <template slot="diy">
+          <span class="copy">手机号：{{infoData.phone || ''}}</span>
+          <span class="copy_btn" @click="copy(infoData.phone)">复制</span>
+        </template>
+      </join-list>
       <!-- 团队成员信息 -->
       <div class="group_infos" v-if='slaveList'>
         <div class="team_member" @click="showInfo=!showInfo">
@@ -24,13 +32,20 @@
           <i @click='clickDown' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
         </div>
         <!-- 团队成员信息 -->
-        <CrewInfo :styles='{background: "auto"}' :info='ite' v-for="(ite, ind) in cardStatu.slavelist" :key='ind' v-show="showInfo"/>
+        <CrewInfo 
+          :styles='{background: "auto"}' 
+          :info='ite' 
+          v-for="(ite, ind) in cardStatu.slavelist" 
+          :showBtn='showBtnList' :key='ind' v-show="showInfo"
+          @clickBtn='clickBtnFn'
+        />
       </div>
     </div>
     <div class="btn_box">
     </div>
     <div class="sign_box" v-if="cardStatu.showTask">任务</div>
     <TipPopup :title='popupStatu.title' ref='tipPopup' :msg='popupStatu.msg' @confirm='confirm'/>
+    <TipPopup title='移除成员' ref='delPopup' msg='确认执行移除操作?' @confirm='delConfirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
 
   </div>
@@ -43,8 +58,7 @@ import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
 import TipPopup from '@/components/cards/tipPopup'
-import { isLogin, toLogin } from '@/common/utils'
-
+import { isLogin, toLogin, copy } from '@/common/utils'
 import { styles } from './const';
 import { bsToStrFn, topListFn, joinName } from './units';
 const popups = {
@@ -53,10 +67,11 @@ const popups = {
   '6': { title: '停止组队', msg: '是否停止组队!', type: 6 },
   '7': { title: '开启组队', msg: '是否开启组队!', type: 7 },
   '8': { title: '联系客服', msg: '是否联系客服!', type: 8 },
+  '12': { title: '退出活动', msg: '是否退出活动!', type: 12 },
 }
 function filterSFn (val, userId) {
-  const { type, matchName, nikeName, id, isOrganize, academic, slave, activity = {}, subject } = val;
-  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slavelist: [] } // 1 比赛经历  2个人留言  3 希望参加
+  const { type, matchName, nikeName, id, isOrganize, academic, slave, activity = {}, subject, phone } = val;
+  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slavelist: [], showphone: false } // 1 比赛经历  2个人留言  3 希望参加
   console.log('我是用户id：'+userId, ';我是队长Id：'+ id, `;我是不是队长：${userId == id?'是' : '不是'}`)
   console.log('【119】是卡片的全部数据')
   console.log(119, val)
@@ -95,10 +110,16 @@ function filterSFn (val, userId) {
     }
   } else if (type == 4) {
     obj.slavelist = slave || [];
-    if (activity.id == userId) {
-      obj.title = `自主活动：${nikeName}申请加入${activity.name}`
-    } else {
+    console.log()
+    if (activity.serviceUid == userId) { // 发起者
+      obj.title = `自主活动：${academic.nikeName}申请加入${activity.name}`
+      obj.showInfo = [13]
+    } else { // 成员
       obj.title = `自主活动：${activity.name}`
+      obj.showInfo = [12]
+      if (phone) {
+        obj.showPhone = true
+      }
     }
   }
   return obj
@@ -120,7 +141,8 @@ export default {
     return {
       showList: false,
       showInfo: false,
-      type: 4
+      type: 4,
+      detailData: {}
     }
   },
   computed : {
@@ -160,9 +182,19 @@ export default {
       }
       return info;
     },
+    showBtnList () {
+      const { showInfo }= this.cardStatu;
+      if (showInfo.includes(13)){
+        return [
+          { code: 13, label: '移除' }
+        ]
+      } else {
+        return []
+      }
+    }
   },
   methods:{
-    toLogin ,
+    toLogin, copy,
     clickDown () {
       this.showList = !this.showList
     },
@@ -178,6 +210,15 @@ export default {
       const { infoData, type } = this
       this.$emit('clickBtn', type, { data: infoData })
     },
+    delConfirm () {
+      const { detailData, type } = this
+      this.$emit('clickBtn', type, { data: detailData })
+    },
+    clickBtnFn (type, data) {
+      this.detailData = data;
+      this.type = type
+      this.$refs.delPopup.show();
+    }
   }
 
 }
@@ -236,22 +277,6 @@ export default {
     display: flex;
     justify-content: revert;
     flex-direction: row-reverse;
-    .buoy, .evaluate{
-      background: #eeeeee ;
-      @include fontMixin(28rpx, #666666 );
-    }
-    .buoy{
-      border-radius: 30rpx 0 0 30rpx;
-      @include fontMixin(28rpx, #666666 );
-    }
-    .yes{
-      background: rgba(92, 134, 242, .1);
-      color: rgb(92, 134, 242);
-    }
-    .evaluate{
-      border-radius: 30rpx;
-      margin-right: 10rpx;
-    }
   }
   
   
@@ -294,7 +319,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  margin-right: -20rpx;
+  margin-right: -30rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;
@@ -314,6 +339,14 @@ export default {
     background: rgba(92, 134, 242, .1);
     color: rgb(92, 134, 242);
   }
+  
+}
+.copy{
+  color: #b0a8a8;
+  }
+.copy_btn{
+  margin-left:20rpx;
+  @include fontMixin(28rpx, #5C86F2)
 }
 
 </style>

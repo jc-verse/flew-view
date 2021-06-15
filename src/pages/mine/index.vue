@@ -70,8 +70,20 @@
       </ScrollBox>
     </div>
   </div>
-  <FabGroup :shows='[2]'/>
+  <FabGroup :shows='[2, 4]' @QRPopup='QRPopup' />
   <TipPopup title="提示" ref='toUserInfo' msg="需要填写个人信息？" @confirm='toUserInfo(true)' />
+  <TipPopup title="联系客服" ref='QRPopup' >
+      <template #content >
+        <div class="qr_img">
+          <image :src="QRImg" alt="" show-menu-by-longpress>
+        </div>
+        <div class="qr_tip">长按保存二维码添加客服微信</div>
+        <div class="wx_code" @click="copy(copyItem.wxCode)">
+          <span>点击复制客服微信</span>
+        </div>
+      </template>
+      <template #btn> </template>
+    </TipPopup>
   <!-- <DiyPopup ref='popup' :noUp='true'>
     <div class="tip_box" slot='tip' @click.stop>
       <div class="title">取消申请</div>
@@ -82,6 +94,7 @@
       </div>
     </div>
   </DiyPopup> -->
+  <DiyRate ref='diyRate' :rateData='rateForm' @confirmRate='confirmRate'></DiyRate>
 
   </PageJs>
 </template>
@@ -98,12 +111,14 @@ import ScrollBox from '@/components/scrollBox.vue';
 import userDataMixin from '@/common/mixins/userDataMixin';
 import Rate from '@/components/cards/rate';
 import DiyPopup from '@/components/diyPopup';
+import DiyRate from '@/components/diyRate';
 
 import FabGroup from '@/components/fabGroup';
 import {imgUrl} from '@/common/http';
 import { demoDatas } from './const';
-import { joinUrl } from '@/common/utils';
+import { joinUrl, copy } from '@/common/utils';
 import TipPopup from '@/components/cards/tipPopup';
+import { copyWxData } from '@/common/server_qr_wx';
 
 
 import { 
@@ -127,6 +142,8 @@ import {
   operationActivity, // 发起中-接受，拒绝
   // updateActivity, //编辑
   activityComplete, // 完成
+  exitTeam, // 自主发起- 成员-退出
+  kickTeam  // 自主发起- 发起者-踢出
 } from '@/common/api';
 
 const requests = {
@@ -136,14 +153,24 @@ const requests = {
   '4': activityList, // 发起中
   '5': userInfoApplyRecord, // 申请记录
 }
+const rateFormInit = {
+  "dimension1": 3,
+  "dimension2": 3,
+  "dimension3": 3,
+  "dimension4": 3,
+}
 export default {
   components: {
-    PageJs, ScrollBox, FabGroup, Rate, DiyPopup, TipPopup,
+    PageJs, ScrollBox, FabGroup, Rate, DiyPopup, TipPopup, DiyRate,
     GroupItemSqz, GroupItemJxz, GroupItemBsq, GroupItemSqjl, GroupItemFqz,
   },
   mixins:[userDataMixin],
   data() {
+    const [copyItem] = copyWxData;
+    const QRImg =  imgUrl+ copyItem.qrImg;
+    const rateForm = { ...rateFormInit }
     return {
+      QRImg, copyItem, rateForm,
       vipNum: 0,
       actived: '2',
       ReadCount: 0,
@@ -162,7 +189,8 @@ export default {
       },
       count: 0,
       toUserInfoUrl:'',
-      loading: false
+      loading: false,
+      userRelationshipId: ''
     }
   },
   computed:{
@@ -198,6 +226,7 @@ export default {
     this.initForm();
   },
   methods: {
+    copy,
     initForm (val) {
       this.pages = {
         current: 1,
@@ -302,7 +331,7 @@ export default {
         console.log(err)
         this.throttle(false)  
       })
-    }, //academicOperationAcademic
+    }, 
     // 学术帮助-接受/拒绝申请
     academicOperationAcademic(type, id) {
       if (this.loading) return;
@@ -436,6 +465,7 @@ export default {
       if (this.loading) return;
       this.throttle(true)
       console.log('我是评价参数：', JSON.stringify(params))
+      const _this = this
       academicEvaluate(params).then(res => {
         const { data: nData } = res[1];
         const { code, data, success,msg } = nData;
@@ -446,6 +476,8 @@ export default {
         } else {
           uni.showToast({ title: msg, icon: 'none' })
         }
+        _this.rateForm = { ...rateFormInit };
+        console.log(1231, _this.rateForm, rateFormInit)
       }).catch(err => {
         this.throttle(false)
         console.log(err)
@@ -489,8 +521,54 @@ export default {
         this.throttle(false)
       })
     },
+    // 自主发起- 成员-退出
+    exitTeam (userRelationshipId) {
+      if (this.loading) return;
+      this.throttle(true)
+      exitTeam({ userRelationshipId }).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success,msg } = nData;
+        this.throttle(false)
+        if (code === 200) {
+          uni.showToast({title: msg || ''})
+          this.initForm();
+        } else {
+          uni.showToast({ title: msg || '',icon: 'none' })
+        }
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)
+      })
+    },
+    // 自主发起- 发起者-踢出
+    kickTeam (userRelationshipId, uid) {
+      if (this.loading) return;
+      this.throttle(true)
+      kickTeam({ userRelationshipId, uid }).then(res => {
+        const { data: nData } = res[1];
+        const { code, data, success,msg } = nData;
+        this.throttle(false)
+        if (code === 200) {
+          uni.showToast({title: msg || ''})
+          this.initForm();
+        } else {
+          uni.showToast({ title: msg || '',icon: 'none' })
+        }
+      }).catch(err => {
+        console.log(err)
+        this.throttle(false)
+      })
+    },
+    // 确定评价
+    confirmRate (rateData) {
+      const params = {
+        relationshipId: this.userRelationshipId,
+        ...rateData
+      }
+      this.academicEvaluate(params)
+    },
     clickBtn(btnType, { data, rates }) {
-      const { userRelationshipId, type, activityId  } = data;
+      const { userRelationshipId, type, activityId, id  } = data;
       switch (btnType) {
         case 1: // 取消申请
           console.log('取消申请',data)
@@ -545,22 +623,24 @@ export default {
 
         case 8: // 联系客服
           console.log('联系客服',data)
-          // this.userInfoPower(1, userRelationshipId)
           break;
         case 9: // 评价
-          console.log('评价',data, rates)
-          const params = {
-            relationshipId: userRelationshipId,
-            ...rates
-          }
-          this.academicEvaluate(params)
-          // this.userInfoOperationMatch(data, 1)
+          this.userRelationshipId = userRelationshipId
+          this.$refs.diyRate.show()
           break;
         case 10: // 自主发起-完成
           this.activityComplete(activityId)
           break;
         case 11:
           uni.navigateTo({ url: joinUrl('/pages/initiateProcess/edit',{activityId})})
+          break;
+        case 12: // 自主发起-退出（成员）
+          console.log(12)
+          this.exitTeam(userRelationshipId)
+          break;
+        case 13:// 自主发起-移除（发起者）
+          console.log(13, data)
+          this.kickTeam(userRelationshipId, id)
           break;
         default:
           break;
@@ -580,6 +660,9 @@ export default {
         this.loading = false;
         uni.hideLoading()
       }
+    },
+    QRPopup() {
+      this.$refs.QRPopup.show();
     },
   },
   watch: {
@@ -781,6 +864,29 @@ export default {
   .nolist{
     @include flex_center;
     height: 100%;
+  }
+}
+.qr_img{
+  width: 420rpx;
+  height: 420rpx;
+  margin: auto;
+  @include img_fill;
+}
+.qr_tip{
+  padding: 20rpx;
+  text-align: center;
+  color: #a1a1a1;
+}
+.wx_code{
+  display: flex;
+  justify-content: center;
+  span{
+    padding: 10rpx 20rpx;
+    background: #0066ff;
+    color: white;
+    border-radius: 20rpx;
+    font-size: 12px;
+    margin: 20rpx 0 0;
   }
 }
 </style>

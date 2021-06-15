@@ -238,14 +238,28 @@ export default {
       } else {
         errList.push(`请完善课程体系！`);
       }
-      formData['standardizedPerformance'].forEach(item => {
-        if (item.fraction) {
-          regNum.push(item.fraction)
+      const  standardizedFind = formData['standardizedPerformance'].find(item => (item.fraction && item.subject));
+      if (standardizedFind) {
+        const subjectNameList =  formData['standardizedPerformance'].filter(item => item.subject).map(item=> {
+          if (item.fraction) {
+            regNum.push(item.fraction)
+          }
+          return item.subject
+        });
+        if (subjectNameList.length != [...new Set(subjectNameList)].length) {
+          errList.push(`科目不能重复选择`);
         }
-        if (!item.subject) {
-          errList.push(`科目不能为空`);
-        }
-      })
+      } else {
+        errList.push(`请完善标化成绩！`);
+      }
+      // formData['standardizedPerformance'].forEach(item => {
+      //   if (item.fraction) {
+      //     regNum.push(item.fraction)
+      //   }
+      //   if (!item.subject) {
+      //     errList.push(`科目不能为空`);
+      //   }
+      // })
       if (regNum.findIndex(item=> reg.test(item)) !== -1) {
         errList.push(`分数只能填数字`);
       }
@@ -512,7 +526,9 @@ export default {
       const isAcademic = formData.isAcademic === true || formData.isAcademic === 1 ? 1 : 2; 
       formData.match = matchs || [];
       const curriculumSystem = formData.curriculumSystem.filter(item => (item.fraction && item.subject)) // 过滤不全的课程体系
-      const params = { ...formData, isConsulting, isAcademic, curriculumSystem }
+      const standardizedPerformance = formData.standardizedPerformance.filter(item => (item.fraction && item.subject)) // 过滤不全的课程体系
+      const params = { ...formData, isConsulting, isAcademic, curriculumSystem, standardizedPerformance }
+      // console.log(666,standardizedPerformance)
       updateCardInfo(params).then(res => {
         const { data: nData } = res[1];
         const { data, code, msg } = nData;

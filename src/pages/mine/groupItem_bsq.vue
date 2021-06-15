@@ -46,13 +46,13 @@ function filterSFn (val) {
   console.log(119, val)
   let obj = { title: '', bgColor: styles[type].bg ,showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
   if (type == 1) {
-    obj.title = `竞赛组队：${nikeName}向你发起${matchName}的竞赛组队`;
+    obj.title = `竞赛组队：${nikeName}向您发起${matchName}的竞赛组队`;
     obj.showInfo = [ 1, 3 ]
   } else if (type == 2) {
-    obj.title = `学术帮助：${nikeName}向你提出${subject}的学术帮助`
+    obj.title = `学术帮助：${nikeName}向您提出${subject}的学术帮助`
     obj.showInfo = [ 1, 2 ]
   } else if (type == 3) {
-    obj.title = `学校咨询：${nikeName}向你提出学校咨询`
+    obj.title = `学校咨询：${nikeName}向您提出学校咨询`
     obj.showInfo = [ 1, 2 ]
   } else if ( type == 4 ){
     obj.title = `自主活动：${nikeName}申请加入${activity.name}`
@@ -245,7 +245,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  margin-right: -20rpx;
+  margin-right: -30rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;

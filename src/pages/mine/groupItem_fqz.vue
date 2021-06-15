@@ -267,7 +267,7 @@ export default {
 .btn_box{
   display: flex;
   flex-direction: row-reverse;
-  margin-right: -20rpx;
+  margin-right: -30rpx;
   > div {
     padding: 10rpx 10rpx;
     border-radius: 30rpx;
