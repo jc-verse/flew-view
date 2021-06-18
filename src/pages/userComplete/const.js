@@ -20,7 +20,7 @@ export const centerHeads =  {
 
 export const bottomHeads =[
   { label: '比赛经历',      code:'competitionExperience', id: '' ,required: false,  params: { ph: '亮出你比赛经历吧',  genre:'custom', type: 'text', max: 30 }},
-  { label: '希望参加的比赛', code:'match', id: '' ,required: true,  params: { ph: '请选择您希望参加的比赛',  genre:'custom', type: 'text', max: 20, mode : 'multiSelector' }},
+  { label: '希望参加的比赛', code:'match', id: '' ,required: false,  params: { ph: '请选择您希望参加的比赛',  genre:'custom', type: 'text', max: 20, mode : 'multiSelector' }},
 ]
 export const tableHead = [
   { label: '学科/级别', code: 'subject', id: '', onlyCode: '',disabled: false, type:'input' ,pro : '2.7',ph: '例：英语B/HL'},
@@ -70,11 +70,11 @@ export const formData = {
     }
   ],
   "match": [ //希望参加的比赛
-    {
-      "organizeTypeId": '', //  一级
-      "organizeTypeSon": '', // 二级
-      "organizeTypeSonMatchId": '' //  三级
-    }
+    // {
+    //   "organizeTypeId": '', //  一级
+    //   "organizeTypeSon": '', // 二级
+    //   "organizeTypeSonMatchId": '' //  三级
+    // }
   ],     
   "standardizedPerformance": [ // 标化成绩
     {

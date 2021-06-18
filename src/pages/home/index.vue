@@ -4,7 +4,7 @@
     <div class="home_box">
     
       <header class="header" :class="[masklen?'masking':'']"  @click="clickIcon">
-        <info-head  headStyles='width: 80rpx;height: 80rpx;' :infoData='userData'  :isUser='true'>
+        <info-head  headStyles='width: 80rpx;height: 80rpx;' :infoData='userDataNewFn'  :isUser='true'>
           <i slot='right' class='iconfont iconarrow_right icon_item'></i>
         </info-head>
       </header>
@@ -121,6 +121,14 @@ export default {
   computed:{
     masklen () {
       return this.statuList.length
+    },
+    userDataNewFn () {
+      const { userInfo } = this.$store.state;
+      // const nickName = uni.getStorageSync('nickName')
+      // if (!userInfo.nikeName && nickName) {
+      //   userInfo.nikeName = nickName
+      // }
+      return userInfo
     }
   },
   onLoad() {

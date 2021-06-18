@@ -18,7 +18,7 @@
       <TipPopup title="声明" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm' :width='654'>
         <template #content>
           <div class="tip_content">
-            <p>谢谢大家使用   视界 I Reach！</p> 
+            <p>谢谢大家使用   【视界 I Reach】！</p> 
             <p>本程序学术帮助、学校咨询所涉及到的服务，只代表服务提供者个人的观点和见解与本程序无关。我们会尽力做好服务提供者的筛选,做到客观、公正、有内涵，对大家有帮助。</p>
             <p>由于是学生群体运营，有很多不足之处。请联系客服提出宝贵意见，让我们能真正帮助到大家，再次感谢！</p>
           </div>
@@ -35,11 +35,15 @@
 import bottomLogo from "@/components/bottomLogo";
 import pageSj from '@/components/pageSjNew';
 import { jscode2session, login } from '@/common/api';
-import { setStorage, isLogin } from '@/common/utils';
+import { setStorage, isLogin, closeLogin } from '@/common/utils';
 import TipPopup from '@/components/cards/tipPopup';
+import {mapState,mapMutations} from 'vuex';
+import userDataMixin from '@/common/mixins/userDataMixin';
+
 export default {
   name:'guidance',
   components:{ bottomLogo, pageSj, TipPopup },
+  mixins:[userDataMixin],
   data() {
     return {
       token:'',
@@ -82,9 +86,9 @@ export default {
           _this.userInfo = res.userInfo;
           _this.wxInfoData.iv = res.iv;
           _this.wxInfoData.encryptedData = res.encryptedData;
-          if (flag !== 1) {
+          // if (flag !== 1) {
             setStorage (res.userInfo)
-          }
+          // }
           if (!_this.token) {
             _this.login()
           } else {
@@ -110,6 +114,7 @@ export default {
       }
     },
     visitorModule() {
+      closeLogin();
       uni.navigateTo({url: '/pages/home/index'})
     },
     // 节流
@@ -151,13 +156,8 @@ export default {
                     console.log('token：', nData.token)
                     const keys = Object.keys(_this.userInfo)
                     if (keys.length) {
-                      // setTimeout(() => {
-                        uni.redirectTo({ 
-                          url: '/pages/home/index', 
-                          success(res) {console.log(res)}, 
-                          fail(err){console.log(err)} 
-                        })
-                      // });
+                        _this.getUserInfo();
+                        uni.redirectTo({ url: '/pages/home/index'})
                     } else {
                       _this.canLogin = true
                     }
@@ -219,7 +219,7 @@ export default {
     border-bottom: 2rpx solid rgba(0, 0, 0,0.08);
     p{
       text-align: center;
-      line-height: 22px;
+      // line-height: 44rpx;
       @include fontMixin(14px, #666666)
     }
   }

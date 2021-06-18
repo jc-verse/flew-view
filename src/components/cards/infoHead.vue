@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     showSex(){
-      const { sex } = this.infoData || 3
+      const sex  = this.infoData.sex || ''
       return sex && sex != 3 && this.showGender
     },
     icon() {

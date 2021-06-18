@@ -13,16 +13,16 @@
         <div class="user_info">
           <div class="user_name_level">
             <span class="name">
-              {{userData.nikeName || ''}}
-              <open-data v-if="!userData.nikeName" type="userNickName" ></open-data>
+              {{userDataNewFn.nikeName || ''}}
+              <!-- <open-data v-if="!userDataNewFn.nikeName" type="userNickName" ></open-data> -->
             </span>
             <span class="level">
-              <Rate :size="18" :value="userData.star  || 0" :max="5" :readonly='true'></Rate>
+              <Rate :size="18" :value="userDataNewFn.star  || 0" :max="5" :readonly='true'></Rate>
             </span>
           </div>
           <div class="vip_num">
             <span class="text">会员号：</span>
-            <span class="num">{{userData.vipNum}}</span>
+            <span class="num">{{userDataNewFn.vipNum || ''}}</span>
             <span class="desc" v-if="realInfo.id > 2">(已认证)</span>
           </div>
         </div>
@@ -58,13 +58,13 @@
             <GroupItemSqz v-for="(item, idx) in cardList" :infoData='item' :key="idx" @clickBtn='clickBtn'/>
           </template>
           <template v-else-if="actived == 3">
-            <GroupItemJxz v-for="(item, idx) in cardList" :infoData='item' :userId='userData.id' :key="idx" @clickBtn='clickBtn'/>
+            <GroupItemJxz v-for="(item, idx) in cardList" :infoData='item' :userId='userDataNewFn.id' :key="idx" @clickBtn='clickBtn'/>
           </template>
           <template v-else-if="actived == 4">
-            <GroupItemFqz v-for="(item, idx) in cardList" :infoData='item' :userId='userData.id' :key="idx" @clickBtn='clickBtn'/>
+            <GroupItemFqz v-for="(item, idx) in cardList" :infoData='item' :userId='userDataNewFn.id' :key="idx" @clickBtn='clickBtn'/>
           </template>
           <template v-else-if="actived == 5">
-            <GroupItemSqjl v-for="(item, idx) in cardList" :infoData='item' :userId='userData.id' :key="idx" @clickBtn='clickBtn'/>
+            <GroupItemSqjl v-for="(item, idx) in cardList" :infoData='item' :userId='userDataNewFn.id' :key="idx" @clickBtn='clickBtn'/>
           </template>
         </template>
       </ScrollBox>
@@ -190,12 +190,12 @@ export default {
       count: 0,
       toUserInfoUrl:'',
       loading: false,
-      userRelationshipId: ''
+      userRelationshipId: '',
     }
   },
   computed:{
     realInfo () {
-      const { realInfo } = this.userData;
+      const { realInfo } = this.userDataNewFn || {};
       const list = {
         '1': { isReal: false, id: 1, class: '' },
         '2': { isReal: true,  id: 2, class: '' },
@@ -204,7 +204,7 @@ export default {
       return list[realInfo || 1]
     },
     headImg () {
-      const { avatar } = this.userData;
+      const { avatar } = this.userDataNewFn;
       let url = 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
       if (/(http|https)/.test(avatar)) {
         url = avatar || ''
@@ -212,6 +212,10 @@ export default {
         url = imgUrl + avatar
       }
       return url
+    },
+    userDataNewFn () {
+      const { userInfo } = this.$store.state;
+      return userInfo || {}
     }
   },
   onLoad() {

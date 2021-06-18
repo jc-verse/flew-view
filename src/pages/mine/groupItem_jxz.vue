@@ -19,10 +19,10 @@
     <div class="content">
       <!-- 个人信息 -->
       <information :topList='tops'/>
-      <join-list v-if="cardStatu.showPhone" title='联系方式' type='diy'>
-        <template slot="diy">
-          <span class="copy">手机号：{{infoData.phone || ''}}</span>
-          <span class="copy_btn" @click="copy(infoData.phone)">复制</span>
+      <join-list v-if="cardStatu.showPhone || cardStatu.showMobile" title='联系方式' type='diy'>
+        <template slot="diy" style='margin-bottom:20rpx'>
+          <span class="copy">手机号：{{phoneOrMobile || ''}}</span>
+          <span class="copy_btn" @click="copy(phoneOrMobile)">复制</span>
         </template>
       </join-list>
       <!-- 团队成员信息 -->
@@ -36,7 +36,10 @@
           :styles='{background: "auto"}' 
           :info='ite' 
           v-for="(ite, ind) in cardStatu.slavelist" 
-          :showBtn='showBtnList' :key='ind' v-show="showInfo"
+          :showBtn='showBtnList' 
+          :showMobile ='cardStatu.showMobile'
+          :key='ind' 
+          v-show="showInfo"
           @clickBtn='clickBtnFn'
         />
       </div>
@@ -71,12 +74,13 @@ const popups = {
 }
 function filterSFn (val, userId) {
   const { type, matchName, nikeName, id, isOrganize, academic, slave, activity = {}, subject, phone } = val;
-  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slavelist: [], showphone: false } // 1 比赛经历  2个人留言  3 希望参加
+  let obj = { title: '', bgColor: styles[type].bg ,showInfo: [], showTask: false, slavelist: [], showPhone: false, showMobile: false } // 1 比赛经历  2个人留言  3 希望参加
   console.log('我是用户id：'+userId, ';我是队长Id：'+ id, `;我是不是队长：${userId == id?'是' : '不是'}`)
   console.log('【119】是卡片的全部数据')
   console.log(119, val)
 
   if (type == 1) {
+    obj.showMobile = true
     if (userId == id) {
       obj.title = `竞赛组队：${matchName}`;
       if (isOrganize == 1) {
@@ -191,6 +195,18 @@ export default {
       } else {
         return []
       }
+    },
+    phoneOrMobile () {
+      const { infoData, cardStatu } = this;
+      const { phone, mobile } = infoData
+      let num = ''
+      if (cardStatu.showPhone) {
+        num = phone
+      }
+      if (cardStatu.showMobile) {
+        num = mobile
+      }
+      return num
     }
   },
   methods:{

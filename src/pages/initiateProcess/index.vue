@@ -116,8 +116,8 @@ export default {
     }
   },
   onShow() {
-    const obj = getApp().globalData.userData;
-    this.formData.name = obj.nikeName;
+    const { nikeName } = this.$store.state.userInfo;
+    this.formData.name = nikeName;
   },
   methods:{
     submit() {

@@ -5,7 +5,6 @@
     <tag-group @changeValue='changeTag'></tag-group>
     <scroll-box @lower='lower'>
       <synopsis :info='newBg'>
-        <!-- <div class="demo" @click="clickDemo">完善个人设置临时入口</div> -->
       </synopsis>
       <div class="group_info_list" v-if="cardList.length">
         <group-item v-for="(item, ind) in cardList" :totalList='totalList' :infoData='item' :key='ind' @clickBuoy='clickBuoy'/>
@@ -83,7 +82,6 @@ export default {
       eTitle: englishName || ''
     }
     this.matchId = id
-    console.log(199,  id,)
     this.menuType = menuType || 0;
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
@@ -132,10 +130,10 @@ export default {
       })
     },
     teamUpranks (item) {
-      const { menuType,  } = this;
+      const { matchId  } = this;
       const params = {
         "master": item.id,
-        "organizeTypeSonMatchId": menuType || 0
+        "organizeTypeSonMatchId": matchId || 0
       }
       teamUpranks( params ).then(res => {
         const { data: nData } = res[1];
@@ -155,10 +153,6 @@ export default {
       // this.type = type || 1;
       this.teamUpranks(item)
       // this.open();
-    },
-    // 临时入口
-    clickDemo () {
-      uni.navigateTo({ url: joinUrl('/pages/userComplete/index', {type:'edit'}) })
     },
     changeTag(form) {
       this.initInfo(form)

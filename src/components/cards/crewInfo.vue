@@ -12,15 +12,23 @@
       </template>
     </infoHead>
     <information :topList='tops'/>
+    <join-list v-if="showMobile" title='联系方式' type='diy'>
+        <template slot="diy">
+          <span class="copy">手机号：{{info.mobile || ''}}</span>
+          <span class="copy_btn" @click="copy(info.mobile)">复制</span>
+        </template>
+      </join-list>
   </div>
 </template>
 
 <script>
 import infoHead from '@/components/cards/infoHead';
+import joinList from '@/components/cards/joinList';
 import information from '@/components/cards/information';
+import { copy } from '@/common/utils'
 export default {
   name: 'crew_info',
-  components: { infoHead, information },
+  components: { infoHead, information, joinList },
   props: {
     info: {
       type:Object,
@@ -33,31 +41,36 @@ export default {
     showBtn: {
       type: Array,
       default: ()=> []
+    },
+    showMobile: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     tops() {
       const { info } = this;
-      let newPerformance= ''
-      if (info.standardizedPerformance) {
-        const arr = info.standardizedPerformance.split(' ')
-        newPerformance = arr.map((item, ind) => {
-          if (ind === 1 && Number(item)) {
-            return Number(item)
-          }
-          return item 
-        } ).join(' ')
-      }
+      // let newPerformance= ''
+      // if (info.standardizedPerformance) {
+      //   const arr = info.standardizedPerformance.split(' ')
+      //   newPerformance = arr.map((item, ind) => {
+      //     if (ind === 1 && Number(item)) {
+      //       return Number(item)
+      //     }
+      //     return item 
+      //   } ).join(' ')
+      // }
       const arr = [
         { title: '学校', val: info.schoolName || '', id: 1 ,width:'50%'}, 
         { title: '年级', val: info.grade || '',          id: 2,width:'50%' }, 
         { title: '课程', val: info.curriculumSystem || '', id: 4 ,width:'50%'}, 
-        { title: '标化', val: newPerformance || '', id: 3 ,width:'50%'}, 
+        { title: '标化', val: info.standardizedPerformance || '', id: 3 ,width:'50%'}, 
       ]
       return arr
     },
   },
   methods: {
+    copy,
     clickBtn(code) {
       this.$emit('clickBtn', code, this.info)
     }
@@ -98,5 +111,12 @@ export default {
     color: rgb(92, 134, 242);
   }
   
+}
+.copy{
+  color: #b0a8a8;
+  }
+.copy_btn{
+  margin-left:20rpx;
+  @include fontMixin(28rpx, #5C86F2)
 }
 </style>

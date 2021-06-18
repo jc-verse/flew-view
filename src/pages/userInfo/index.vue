@@ -217,7 +217,7 @@ export default {
       const rates = [...formHeads, ...bottomHeads,centerHeads, right ];
       const errList = [];
       const regNum = [];
-      var reg = /[^\d]/;
+      var reg = /[\u4e00-\u9fa5]/;
       rates.forEach(item => {
         if (item.required && !formData[item.code]) {
           errList.push(`${item.label}不能为空`);
@@ -261,7 +261,7 @@ export default {
       //   }
       // })
       if (regNum.findIndex(item=> reg.test(item)) !== -1) {
-        errList.push(`分数只能填数字`);
+        errList.push(`分数不能包含中文！`);
       }
       return  errList;
     },
@@ -347,25 +347,36 @@ export default {
     if (type === 'edit') {
       this.isEdit = true;
       // this.getInfo();
+      this.formDataFun();
+    } else {
+      const nickName = uni.getStorageSync('nickName');
+      if (!this.formData.nikeName && nickName) {
+        this.formData.nikeName = nickName;
+      }
     }
-    this.formDataFun();
   },
   mounted() {
     this.getDownList(1);  //科目
     this.getDownList(2);  //体系
     this.teamUpGradeList();
-    uni.getStorage({ key: 'nickName', success:(res)=>{
-      const { errMsg = '', data } = res || {};
-      if (errMsg && errMsg.includes('ok')) {
-        this.formData.nikeName = data;
-      }
-    },fail:(err)=>{console.log(err)}})
+    // const nickName = uni.getStorageSync('nickName');
+    // if (!this.formData.nikeName && nickName) {
+    //   this.formData.nikeName = nickName;
+    // }
+
+    // uni.getStorage({ key: 'nickName', success:(res)=>{
+    //   const { errMsg = '', data } = res || {};
+    //   if (errMsg && errMsg.includes('ok')) {
+    //     this.formData.nikeName = data;
+    //   }
+    // },fail:(err)=>{console.log(err)}})
   },
   methods:{
     // 表单回显
     formDataFun(v) {
       const { userData, userCount } = this;
-      const user = v || userData
+      const { userInfo } = this.$store.state;
+      const user = v || userInfo
       const keys = Object.keys(user)
       if (keys.length) {
         const obj = { ...user,
@@ -381,6 +392,10 @@ export default {
           this.formData = JSON.parse(JSON.stringify(obj))
           this.userCount +=1
         }
+      }
+      const nickName = uni.getStorageSync('nickName');
+      if (!this.formData.nikeName && nickName) {
+        this.formData.nikeName = nickName;
       }
     },
     // 获取学校列表
@@ -513,10 +528,10 @@ export default {
         uni.showToast({ title: showBtn[0],icon:'none' });
         return;
       }
-      if (!matchList.length) {
-        uni.showToast({ title: '希望参加的比赛不能为空',icon:'none' });
-        return;
-      }
+      // if (!matchList.length) {
+      //   uni.showToast({ title: '希望参加的比赛不能为空',icon:'none' });
+      //   return;
+      // }
       this.throttle(true);
       const matchs = matchList.map((item, index)=>{
         const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id,item[1].id,item[2].id]
@@ -611,9 +626,9 @@ export default {
         }
       }
     },
-    userData(val) {
-      this.formDataFun(val)
-    }
+    // userData(val) {
+    //   this.formDataFun(val)
+    // }
   }
 }
 </script>

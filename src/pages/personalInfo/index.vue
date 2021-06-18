@@ -7,13 +7,13 @@
           <img class="user_img" :src="headImg" alt="">
         </div>
         <template v-if="showInfoForm">
-          <FormItemBox :ite ='ite' :formData='userData' :show-b='ind + 1 === formHeads.length' v-for='(ite, ind) in formHeads' :key='ind' >
-            <FormItem :headInit='ite' :formData='userData' @change="changeFn"/>
+          <FormItemBox :ite ='ite' :formData='userDataNewFn' :show-b='ind + 1 === formHeads.length' v-for='(ite, ind) in formHeads' :key='ind' >
+            <FormItem :headInit='ite' :formData='userDataNewFn' @change="changeFn"/>
           </FormItemBox>
         </template>
         <template v-else>
-          <FormItemBox :ite ='ite' :formData='userData' :show-b='ind + 1 === formHeads2.length' v-for='(ite, ind) in formHeads2' :key='ind' >
-            <FormItem :headInit='ite' :formData='userData' @change="changeFn"/>
+          <FormItemBox :ite ='ite' :formData='userDataNewFn' :show-b='ind + 1 === formHeads2.length' v-for='(ite, ind) in formHeads2' :key='ind' >
+            <FormItem :headInit='ite' :formData='userDataNewFn' @change="changeFn"/>
           </FormItemBox>
         </template>
       </div>
@@ -41,7 +41,6 @@ import { userCardInfo, subjectList } from '@/common/api';
 import { sexs } from '@/common/enum';
 import { joinUrl, getCurPage } from '@/common/utils';
 import GroupItem from './groupItem'
-import userDataMixin from '@/common/mixins/userDataMixin';
 import { imgUrl } from '@/common/http'
 import { isLogin, toLogin } from '@/common/utils'
 import TipPopup from '@/components/cards/tipPopup';
@@ -51,7 +50,6 @@ import FabGroup from '@/components/fabGroup';
 export default {
   name: 'personalInfo',
   components: { PageJS, ItemInfo, FabGroup, FormItem, FormItemBox, GroupItem, TipPopup },
-  mixins:[userDataMixin],
   data() {
     return {
       formHeads: [
@@ -76,22 +74,22 @@ export default {
       userHead: '',
       systemList: [],
       showInfoForm: false
-      // userData: {}// mixin中
+      // userDataNewFn: {}// mixin中
     }
   },
   mounted() {
     // this.getInfo();
     
     this.getDownList();
-    uni.getStorage({key: 'avatarUrl',
-      success:(res)=>{
-        const {data, errMsg} = res;
-        if (/ok/.test(errMsg)) {
-          // this.headImg = data;
-          this.userHead = data
-        }
-      }
-    })
+    // uni.getStorage({key: 'avatarUrl',
+    //   success:(res)=>{
+    //     const {data, errMsg} = res;
+    //     if (/ok/.test(errMsg)) {
+    //       // this.headImg = data;
+    //       this.userHead = data
+    //     }
+    //   }
+    // })
   },
   onShow(){
     const url = uni.getStorageSync('toUserInfoUrl')
@@ -99,8 +97,8 @@ export default {
   },
   computed :{
     newFormData () {
-      const { formData, systemList, userData} = this;
-      const obj = {...userData};
+      const { formData, systemList, userDataNewFn} = this;
+      const obj = {...userDataNewFn};
       if (systemList.length) {
         const item = systemList.find(ite => ite.id == obj.curriculumSystem) || {}
         obj.curriculumSystem = item.subjectName || obj.curriculumSystem
@@ -108,7 +106,7 @@ export default {
       return obj;
     },
     headImg () {
-      const { avatar } = this.userData;
+      const { avatar } = this.userDataNewFn;
       let url = this.userHead || 'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
       if (/(http|https)/.test(avatar)) {
         url = avatar;
@@ -117,6 +115,10 @@ export default {
       }
       return url;
     },
+    userDataNewFn () {
+      const { userInfo } = this.$store.state;
+      return userInfo
+    }
   },
   methods: {
     toLogin,
@@ -143,7 +145,7 @@ export default {
     // },
     // 改变表单
     changeFn({data,code}) {
-      this.userData[code] = data;
+      // this.userDataNewFn[code] = data;
     },
 
     clickBuoy(val) {

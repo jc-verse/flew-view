@@ -1,5 +1,6 @@
 import { totalTeamTypeList } from '@/common/api';
 import { deepChange } from '@/common/utils';
+import {mapState,mapMutations} from 'vuex';
 
 export default {
   data () {
@@ -17,6 +18,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([ 'setTotalList']),
     // 获取希望参加的list
     totalTeamTypeList () {
       totalTeamTypeList().then(res => {

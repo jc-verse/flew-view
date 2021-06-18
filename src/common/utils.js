@@ -107,8 +107,7 @@ export function isLogin () {
   return !!token
 }
 
-export function toLogin () {
-  uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+export function closeLogin () {
   const count = uni.getStorageSync('count');
   const statement = uni.getStorageSync('statement');
   try {
@@ -120,6 +119,12 @@ export function toLogin () {
     setStorage({count: count + 1, statement})
   }
 }
+
+export function toLogin () {
+  uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
+  closeLogin()
+}
+
 
 // 时间转换格式
 export function formatDate(time, formatStr) {
