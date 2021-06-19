@@ -4,9 +4,7 @@
  * data: Object;
 */
 export const joinUrl = (url, data = {}) => {
-  
   const keys = Object.keys(data);
-
   const newUrl = keys.reduce((url, key)=> {
     let u = url
     if (!data[key]) {
@@ -95,18 +93,18 @@ export const bsToStrFun = (arr = []) => {
     return `${subject} ${fraction}`
   });
 }
-
+// 本地存储
 export  function setStorage (obj) {
   for (const key in obj) {
     uni.setStorage({ key , data: obj[key] })
   }
 }
-
+// 判断登录
 export function isLogin () {
   const token = uni.getStorageSync('token');
   return !!token
 }
-
+// 退出登录
 export function closeLogin () {
   const count = uni.getStorageSync('count');
   const statement = uni.getStorageSync('statement');
@@ -119,7 +117,7 @@ export function closeLogin () {
     setStorage({count: count + 1, statement})
   }
 }
-
+// 返回引导页
 export function toLogin () {
   uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
   closeLogin()
@@ -150,7 +148,7 @@ export function formatDate(time, formatStr) {
       })[matches];
   })
 }
-
+// 复制
 export const copy = (value) => {
   uni.setClipboardData({
     data: value,   // 要复制的文字

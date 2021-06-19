@@ -1,5 +1,5 @@
-import { userCardInfo } from '@/common/api';
-import { setStorage } from '@/common/utils';
+import { userCardInfo, totalTeamTypeList } from '@/common/api';
+import { setStorage, deepChange } from '@/common/utils';
 import {mapState,mapMutations} from 'vuex';
 const isObject = (val) => {
   return  Object.prototype.toString.call(val) === "[object Object]"
@@ -7,21 +7,12 @@ const isObject = (val) => {
 export default {
   data () {
     return {
-      userData: {}
     }
   },
   onLoad() {
-    // const obj = getApp().globalData.userData;
-    // const keys = Object.keys(obj)
-    // if (isObject(obj) && keys.length) {
-    //   // console.log(222, obj)
-    //   this.userData = obj;
-    // } else {
-      // this.getUserInfo();
-    // }
   },
   methods: {
-    ...mapMutations([ 'setUserInfo']),
+    ...mapMutations([ 'setUserInfo', "setTotalList"]),
     // 获取信息
     getUserInfo() {
       const avatarUrl = uni.getStorageSync('avatarUrl')
@@ -38,6 +29,15 @@ export default {
           // getApp().globalData.userData = {...data} || {};
           this.userData = {...data} || {};
           this.setUserInfo({...data}) 
+        }
+      }).catch(err => {console.log(err)})
+    },
+    totalTeamTypeList () {
+      totalTeamTypeList().then(res => {
+        const {data: nData} = res[1];
+        const { data, code } = nData;
+        if (code === 200) {
+          this.setTotalList(deepChange(data || []))
         }
       }).catch(err => {console.log(err)})
     },

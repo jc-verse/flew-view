@@ -6,6 +6,13 @@
   "description": "uniapp",
   "glyphs": [
     {
+      "icon_id": "3406427",
+      "name": "性别",
+      "font_class": "xingbie",
+      "unicode": "e785",
+      "unicode_decimal": 59269
+    },
+    {
       "icon_id": "8681737",
       "name": "删 除",
       "font_class": "shanchu1",

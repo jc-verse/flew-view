@@ -171,11 +171,10 @@ import DiyPicker from '../userInfo/diyPicker';
 import EditGame from '../userInfo/editGame';
 import DiyInpSel from '@/components/forms/diyInputSelect';
 import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, formData, lastHeads } from './const';
-import { joinUrl, getCurPage, analysisFn } from '@/common/utils';
+import { getCurPage, analysisFn } from '@/common/utils';
 import { imgUrl } from '@/common/http';
 import { subjectList, updateCardInfo, selectSchoolList, teamUpGradeList } from '@/common/api';
-import commonMixin from '@/common/mixins/commonMixin';
-import userDataMixin from '@/common/mixins/userDataMixin';
+import unitMixin from '@/common/mixins/unitMixin';
 export default {
   name: 'userInfo',
   components:{ 
@@ -190,7 +189,7 @@ export default {
     EditGame,
     DiyInpSel
   },
-  mixins:[commonMixin, userDataMixin],
+  mixins:[unitMixin],
   data() {
     return {
       formHeads, centerHeads, bottomHeads, tableHead, formData,
@@ -203,7 +202,7 @@ export default {
       },
       subjectList: [],  // 科目list  
       systemList: [], //  课程体系list
-      // totalList: [], // 希望参加的比赛list
+      totalList: [], // 希望参加的比赛list
       matchList: [],
       schoolList: [],
       gradeList:[],
@@ -258,14 +257,6 @@ export default {
       } else {
         errList.push(`请完善标化成绩！`);
       }
-      // formData['standardizedPerformance'].forEach(item => {
-      //   if (item.fraction) {
-      //     regNum.push(item.fraction)
-      //   }
-      //   if (!item.subject) {
-      //     errList.push(`科目不能为空`);
-      //   }
-      // })
       if (regNum.findIndex(item=> reg.test(item)) !== -1) {
         errList.push(`分数不能包含中文！`);
       }
@@ -348,6 +339,7 @@ export default {
     }
   },
   onShow() {
+    this.totalList = this.$store.state.totalList;
     /*获取当前路由*/
     const { type = '' } = getCurPage();
     if (type === 'edit') {
@@ -365,17 +357,6 @@ export default {
     this.getDownList(1);  //科目
     this.getDownList(2);  //体系
     this.teamUpGradeList();
-    // const nickName = uni.getStorageSync('nickName');
-    // if (!this.formData.nikeName && nickName) {
-    //   this.formData.nikeName = nickName;
-    // }
-
-    // uni.getStorage({ key: 'nickName', success:(res)=>{
-    //   const { errMsg = '', data } = res || {};
-    //   if (errMsg && errMsg.includes('ok')) {
-    //     this.formData.nikeName = data;
-    //   }
-    // },fail:(err)=>{console.log(err)}})
   },
   methods:{
     // 表单回显
@@ -534,10 +515,6 @@ export default {
         uni.showToast({ title: showBtn[0],icon:'none' });
         return;
       }
-      // if (!matchList.length) {
-      //   uni.showToast({ title: '希望参加的比赛不能为空',icon:'none' });
-      //   return;
-      // }
       this.throttle(true);
       const matchs = matchList.map((item, index)=>{
         const [ organizeTypeId , organizeTypeSon , organizeTypeSonMatchId  ] = [item[0].id,item[1].id,item[2].id]
@@ -632,9 +609,6 @@ export default {
         }
       }
     },
-    // userData(val) {
-    //   this.formDataFun(val)
-    // }
   }
 }
 </script>

@@ -12,7 +12,7 @@
           <!-- </template>
           <open-data type="userNickName" v-else></open-data> -->
         </div>
-        <div :class='["gender", infoData.sex ==2 ? "nv" : "" ]' :style='styles' v-if="showSex">
+        <div :class='["gender", userSex ]' :style='styles' v-if="infoData.sex">
           <i :class="['iconfont', 'icon_item', icon  ]"></i>
         </div>
       </slot>
@@ -63,9 +63,18 @@ export default {
       const sex  = this.infoData.sex || ''
       return sex && sex != 3 && this.showGender
     },
+    userSex() {
+      const sex  = this.infoData.sex || '';
+      const sexs = {
+        '1':  '',
+        '2': 'nv',
+        '3': 'and',
+      }
+      return sexs[sex]
+    },
     icon() {
       const {infoData} = this;
-      const arr = ['iconxingbie-nan', 'iconxingbie-nv', '']
+      const arr = ['iconxingbie-nan', 'iconxingbie-nv', 'iconxingbie']
       return arr[infoData.sex-1]
     },
     headImg () {
@@ -135,6 +144,11 @@ export default {
     transform: rotate(45deg);
     .icon_item{
       background: rgba(255, 133, 171, .6);
+    }
+  }
+  .and{
+    .icon_item{
+      background: #85D4C3;
     }
   }
 }

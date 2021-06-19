@@ -13,10 +13,6 @@ export const cardList = [
 
 ]
 
-export const genders= {
-  'nan':{ icon:'iconxingbie-nan', id: '1', name:'某某男', value: '' },
-  'nv': { icon:'iconxingbie-nv', id: '2', name:'某某女' , value: 'nv'}
-}
 export const topList= [
   { title: '学校', val: '世界联合学院', id: 1 }, 
   { title: '年纪', val: '10', id: 2 }, 

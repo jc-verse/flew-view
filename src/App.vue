@@ -2,8 +2,8 @@
 // import { joinUrl } from '@/common/utils'
 	export default {
 		globalData:{
-			totalList: [],// 希望参加的比赛
-			userData: {} //用户信息
+			// totalList: [],// 希望参加的比赛
+			// userData: {} //用户信息
 		},
 
 		onLaunch: function() {

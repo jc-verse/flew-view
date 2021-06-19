@@ -31,7 +31,7 @@
             <div v-if='item.type === "select"' >
               <picker placeholder='请选择' @change='change($event, ind, "select", item.code, item.list)' range-key='label' :value="ite[item.code]" :range="item.list">
                 <view class="uni-input" v-if='ite[item.code]'>
-                  {{item.list[ite[item.code]].label || '111'}}
+                  {{item.list[ite[item.code]].label || ''}}
                   <i class="iconfont iconxiala1" style='color:#808080;margin-left: 10rpx'></i>
                 </view>
                 <view v-else style='color:#808080'>请选择</view>
@@ -135,8 +135,6 @@ export default {
 }
 .diyTable{
   .table_box{
-    // width: 100%;
-    // background: red;
     .tb_item{
       padding: 20rpx;
       text-align: center;

@@ -1,15 +1,5 @@
 export const topListFn = (infoData) => {
   const data = infoData || {};
-  // let newPerformance = '';
-  // if (data.standardizedPerformance) {
-  //   const arr = data.standardizedPerformance.split(' ')
-  //   newPerformance = arr.map((item, ind) => {
-  //     if (ind === 1 && Number(item)) {
-  //       return Number(item)
-  //     }
-  //     return item 
-  //   } ).join(' ')
-  // }
   const arr = [
     { title: '学校', val: data.schoolName || '', id: 1 , width: '50%' ,noShow: false}, 
     { title: '年级', val: data.grade || '',          id: 2, width: '50%' ,noShow: false}, 

@@ -37,13 +37,12 @@ import pageSj from '@/components/pageSjNew';
 import { jscode2session, login } from '@/common/api';
 import { setStorage, isLogin, closeLogin } from '@/common/utils';
 import TipPopup from '@/components/cards/tipPopup';
-import {mapState,mapMutations} from 'vuex';
-import userDataMixin from '@/common/mixins/userDataMixin';
+import unitMixin from '@/common/mixins/unitMixin';
 
 export default {
   name:'guidance',
   components:{ bottomLogo, pageSj, TipPopup },
-  mixins:[userDataMixin],
+  mixins:[unitMixin],
   data() {
     return {
       token:'',
@@ -157,6 +156,7 @@ export default {
                     const keys = Object.keys(_this.userInfo)
                     if (keys.length) {
                         _this.getUserInfo();
+                        _this.totalTeamTypeList();
                         uni.redirectTo({ url: '/pages/home/index'})
                     } else {
                       _this.canLogin = true

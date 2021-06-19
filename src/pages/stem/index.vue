@@ -53,11 +53,9 @@ import { joinUrl, getCurPage } from '@/common/utils';
 
 import { teamTypeBranchList, teamTypeCompetition } from '@/common/api';
 import { imgUrl } from '@/common/http';
-import commonMixin from '@/common/mixins/commonMixin'
 export default {
   name:'competition',
   components: { Search, navTab, fabGroup, scrollBox, pageSj },
-  mixins:[commonMixin],
   data() {
     return {
       tabList,

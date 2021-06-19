@@ -44,13 +44,11 @@ import synopsis from './synopsis';
 import { getCurPage, joinUrl } from '@/common/utils';
 import { branchCompetitionUser, teamUpranks } from '@/common/api';
 import { bgColors } from './const';
-import commonMixin from '@/common/mixins/commonMixin'
 
 
 export default {
   name:'sage',
   components: { tagGroup, synopsis, groupItem, fabGroup, scrollBox, pageSj, DiyPopup },
-  mixins:[commonMixin],
   data() {
     return {
       show: false,
@@ -65,7 +63,7 @@ export default {
       type: 1,
       headMsg: {},
 
-      // totalList:[] //mixin 中
+      totalList:[] 
     }
   },
   computed: {
@@ -81,19 +79,13 @@ export default {
       title: matchName || '',
       eTitle: englishName || ''
     }
+    this.totalList = this.$store.state.totalList
+    console.log(1992, this.totalList)
     this.matchId = id
     this.menuType = menuType || 0;
     this.title = title || '';
     uni.setNavigationBarTitle({ title: this.title })
     this.initInfo();
-  },
-  mounted () {
-    /*获取当前路由*/
-    // const { id, title } = getCurPage();
-    // this.menuType = id || 0;
-    // this.title = title || '';
-    // uni.setNavigationBarTitle({ title: this.title })
-    // this.getInfo();
   },
   methods : {
     initInfo (form={}) {

@@ -108,18 +108,15 @@ import GroupItemSqjl from './groupItem_sqjl'
 import GroupItemFqz from './groupItem_fqz'
 
 import ScrollBox from '@/components/scrollBox.vue';
-import userDataMixin from '@/common/mixins/userDataMixin';
 import Rate from '@/components/cards/rate';
 import DiyPopup from '@/components/diyPopup';
 import DiyRate from '@/components/diyRate';
 
 import FabGroup from '@/components/fabGroup';
 import {imgUrl} from '@/common/http';
-import { demoDatas } from './const';
 import { joinUrl, copy } from '@/common/utils';
 import TipPopup from '@/components/cards/tipPopup';
 import { copyWxData } from '@/common/server_qr_wx';
-
 
 import { 
   userInfoReadCount, 
@@ -164,7 +161,6 @@ export default {
     PageJs, ScrollBox, FabGroup, Rate, DiyPopup, TipPopup, DiyRate,
     GroupItemSqz, GroupItemJxz, GroupItemBsq, GroupItemSqjl, GroupItemFqz,
   },
-  mixins:[userDataMixin],
   data() {
     const [copyItem] = copyWxData;
     const QRImg =  imgUrl+ copyItem.qrImg;
@@ -273,13 +269,10 @@ export default {
             if (records.length === this.pages.size && count === this.count) {
               this.current += 1
             }
-          } else {
-            // 调试用
-            // this.cardList= [...demoDatas]
           }
         }
       }).catch(err => {
-        this.cardList= [...demoDatas]
+        this.cardList= []
       })
     },
     // 获取消息数量

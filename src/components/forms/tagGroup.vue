@@ -15,7 +15,7 @@
 <script>
 import TagItem from './tagItem'
 import TagItemCity from './tagItemCityNew'
-import { sexs, grades } from '@/common/enum';
+import { sexs } from '@/common/enum';
 import cityData from '@/static/city1.json';
 import { selectSchoolList, teamUpGradeList, subjectList } from '@/common/api'
 

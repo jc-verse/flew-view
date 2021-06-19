@@ -1,4 +1,4 @@
-import { sexs, grades } from '@/common/enum';
+import { sexs } from '@/common/enum';
 
 export const formHeads = [
   { label: '头像',   code:'avatar', id: '' ,required: false,  params: { ph: '请填写真实姓名',genre:'upload', type: 'text', max: 20 } },
@@ -10,8 +10,8 @@ export const formHeads = [
   { label: '年级',   code:'grade',     id: '' ,required: true,  params: { ph: '请填写年级',    genre:'select', list: [] } },
   { label: '性别',   code:'sex',       id: '' ,required: true,  params: { ph: '请选择性别',    genre:'select', list: sexs } },
   { label: '邮箱',   code:'email',     id: '' ,required: false,  params: { ph: '请填写邮箱',    genre:'input', type: 'email' , max: 35} },
-  { label: '学术帮助',   code:'isAcademic',     id: '' ,required: false,  params: { ph: '',    genre:'checkbox', type: '' , max: 20} },
-  { label: '学校咨询',   code:'isConsulting',     id: '' ,required: false,  params: { ph: '',    genre:'checkbox', type: '' , max: 20} },
+  // { label: '学术帮助',   code:'isAcademic',     id: '' ,required: false,  params: { ph: '',    genre:'checkbox', type: '' , max: 20} },
+  // { label: '学校咨询',   code:'isConsulting',     id: '' ,required: false,  params: { ph: '',    genre:'checkbox', type: '' , max: 20} },
 ]
 
 export const centerHeads =  { 
@@ -80,24 +80,4 @@ export const formData = {
       "subject": "" // 科目id
     }
   ]
-}
-
-
-
-export const  deepChange = (data) => {
-  return  data.map(item => {
-    const obj = {}
-    for (const key in item) {
-      if (Array.isArray(item[key])) {
-        obj['children'] = deepChange(item[key]);
-        // obj[key] = item[key]
-      } else{
-        obj[key] = item[key]
-        if (/(name|sonName|matchName)/.test(key)) {
-          obj['label'] = item[key]
-        }
-      }
-    }
-    return obj;
-  })
 }

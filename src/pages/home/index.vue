@@ -99,8 +99,7 @@ import pageSj from '@/components/pageSjNew';
 import TipPopup from '@/components/cards/tipPopup';
 
 import FabGroup from '@/components/fabGroup';
-import userDataMixin from '@/common/mixins/userDataMixin';
-import commonMixin from '@/common/mixins/commonMixin';
+import unitMixin from '@/common/mixins/unitMixin';
 import { isLogin, toLogin, setStorage, copy } from '@/common/utils'
 import { imgUrl } from '@/common/http'
 import { copyWxData } from '@/common/server_qr_wx';
@@ -108,7 +107,7 @@ import { copyWxData } from '@/common/server_qr_wx';
 export default {
   name: 'home',
   components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup, TipPopup },
-  mixins:[userDataMixin, commonMixin],
+  mixins:[unitMixin],
   data () {
     const [copyItem] = copyWxData;
     const QRImg =  imgUrl+ copyItem.qrImg;
@@ -124,14 +123,14 @@ export default {
     },
     userDataNewFn () {
       const { userInfo } = this.$store.state;
-      // const nickName = uni.getStorageSync('nickName')
-      // if (!userInfo.nikeName && nickName) {
-      //   userInfo.nikeName = nickName
-      // }
       return userInfo
     }
   },
   onLoad() {
+    const { totalList } = this.$store.state;
+    if (!totalList.length) {
+      this.totalTeamTypeList();
+    }
     const count = uni.getStorageSync('count') || 0;
     // 判断首次非登录-进入  
     if (!count && isLogin()) {

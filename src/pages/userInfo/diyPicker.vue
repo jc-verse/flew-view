@@ -112,9 +112,11 @@
 					})
 				}
 			},
+			// 删除
 			deleteItem(ind) {
 				this.checkItems = this.checkItems.filter((item, index) =>index !== ind)
 			},
+			// 关闭弹窗
 			popupclosed(flag) {
 				const { checks, checkItems, className: code } = this;
 				if (flag && checkItems.length) {

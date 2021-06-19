@@ -43,14 +43,7 @@ export default {
   },
   onShow() {
     this.initForm();
-    uni.getStorage({key: 'userId',
-      success:(res)=>{
-        const {data, errMsg} = res;
-        if (/ok/.test(errMsg)) {
-          this.userId = data;
-        }
-      }
-    })
+    this.userId = uni.getStorageSync('userId');
   },
   methods : {
     initForm (form={}) {

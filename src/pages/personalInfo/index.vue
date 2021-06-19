@@ -21,7 +21,6 @@
         <div class="title">我的名片卡</div>
         <div class="card_content">
           <GroupItem @clickBuoy='clickBuoy' :infoData='newFormData'></GroupItem>
-          <!-- <ItemInfo /> -->
         </div>
       </div>
       <div class="unLogin" @click='toLogin'>
@@ -34,7 +33,6 @@
 </template>
 <script>
 import PageJS from '../../components/pageSjNew.vue';
-import ItemInfo from '@/pages/mine/msgItem.vue';
 import FormItem from '@/components/forms/formItem';
 import FormItemBox from '@/components/forms/formItemBox';
 import { userCardInfo, subjectList } from '@/common/api';
@@ -49,7 +47,7 @@ import TipPopup from '@/components/cards/tipPopup';
 import FabGroup from '@/components/fabGroup';
 export default {
   name: 'personalInfo',
-  components: { PageJS, ItemInfo, FabGroup, FormItem, FormItemBox, GroupItem, TipPopup },
+  components: { PageJS, FabGroup, FormItem, FormItemBox, GroupItem, TipPopup },
   data() {
     return {
       formHeads: [
@@ -78,18 +76,7 @@ export default {
     }
   },
   mounted() {
-    // this.getInfo();
-    
     this.getDownList();
-    // uni.getStorage({key: 'avatarUrl',
-    //   success:(res)=>{
-    //     const {data, errMsg} = res;
-    //     if (/ok/.test(errMsg)) {
-    //       // this.headImg = data;
-    //       this.userHead = data
-    //     }
-    //   }
-    // })
   },
   onShow(){
     const url = uni.getStorageSync('toUserInfoUrl')
