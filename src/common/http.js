@@ -1,5 +1,5 @@
 import { joinUrl, getCurPageRoute } from '@/common/utils'
-import { isLogin, setStorage } from './utils'
+import { isLogin, setStorage, closeLogin } from './utils'
 
 // export const baseUrl = 'http://47.101.54.170:8111/server';
 export const baseUrl = 'https://www.sjreach.cn/server';
@@ -55,7 +55,8 @@ function interceptor (code , msg, url) {
             // uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
           }
         } })
-        uni.removeStorage({ key: 'token' })
+        closeLogin();
+        // uni.removeStorage({ key: 'token' })
       }
       break;
     case 1015: //是填写标准信息

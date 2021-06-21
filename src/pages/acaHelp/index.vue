@@ -71,7 +71,7 @@ export default {
       loading: false
     }
   },
-  onShow() {
+  onLoad() {
     this.initFotm();
   },
   methods : {

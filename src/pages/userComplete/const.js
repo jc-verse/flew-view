@@ -64,8 +64,8 @@ export const formData = {
   "curriculumSystem": [ //课程体系
     {
       "fraction": '', // 分数
-      "isConsultingService": 2, // 是否咨询 1.是 2.否
-      "isHelp": 2, // 是否帮助 1.是 2.否
+      // "isConsultingService": 2, // 是否咨询 1.是 2.否
+      // "isHelp": 2, // 是否帮助 1.是 2.否
       "subject": "" // 学科
     }
   ],
@@ -80,8 +80,8 @@ export const formData = {
     {
       "fraction": '',  //分数
       "img": "", //  认证
-      "isConsultingService": 2, //是否咨询 1.是 2.否
-      "isHelp": 2, //  是否帮助 1.是 2.否 ,
+      // "isConsultingService": 2, //是否咨询 1.是 2.否
+      // "isHelp": 2, //  是否帮助 1.是 2.否 ,
       "subject": "" // 科目id
     }
   ]

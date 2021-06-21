@@ -243,7 +243,10 @@ export default {
       } else {
         errList.push(`请完善课程体系！`);
       }
-      const  standardizedFind = formData['standardizedPerformance'].find(item => (item.fraction && item.subject));
+      const  standardizedFind = formData['standardizedPerformance'].find(item => {
+        const nulObj = this.subjectList.find(item => item.subjectName === '无')
+        return (item.fraction && item.subject) || (nulObj && item.subject === nulObj.id)
+      });
       if (standardizedFind) {
         const subjectNameList =  formData['standardizedPerformance'].filter(item => item.subject).map(item=> {
           if (item.fraction) {
@@ -411,7 +414,13 @@ export default {
         const { code, data } = nData || {};
         if (code === 200) {
           const obj = { '1': 'subjectList', '2': 'systemList' };
-          this[obj[type]] = [{label: '请选择', id: '', subjectName:'请选择'}, ...(data || [])];
+          if (type == 1) {
+            const arr = [{label: '请选择', id: '', subjectName:'请选择'}, ...(data || [])]
+            arr.push({label: '无', id: arr.length, subjectName:'无'})
+            this[obj[type]] = arr;
+          } else {
+            this[obj[type]] = [{label: '请选择', id: '', subjectName:'请选择'}, ...(data || [])];
+          }
         }
       })
     },
@@ -524,7 +533,8 @@ export default {
       const isAcademic = formData.isAcademic === true || formData.isAcademic === 1 ? 1 : 2; 
       formData.match = matchs || [];
       const curriculumSystem = formData.curriculumSystem.filter(item => (item.fraction && item.subject)) // 过滤不全的课程体系
-      const standardizedPerformance = formData.standardizedPerformance.filter(item => (item.fraction && item.subject)) // 过滤不全的课程体系
+      const nulObj = this.subjectList.find(item => item.subjectName === '无')
+      const standardizedPerformance = formData.standardizedPerformance.filter(item => (item.fraction && item.subject) || (nulObj && item.subject === nulObj.id)) // 过滤不全的课程体系
       const params = { ...formData, isConsulting, isAcademic, curriculumSystem, standardizedPerformance }
       // console.log(666,standardizedPerformance)
       updateCardInfo(params).then(res => {

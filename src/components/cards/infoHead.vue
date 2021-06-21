@@ -74,7 +74,7 @@ export default {
     },
     icon() {
       const {infoData} = this;
-      const arr = ['iconxingbie-nan', 'iconxingbie-nv', 'iconxingbie']
+      const arr = ['iconxingbie-nan', 'iconxingbie-nv', '']
       return arr[infoData.sex-1]
     },
     headImg () {
@@ -148,7 +148,12 @@ export default {
   }
   .and{
     .icon_item{
-      background: #85D4C3;
+      background-color: #85D4C3;
+      background-image: url('../../static/img1/sex_3.png');
+      width: 44rpx;
+      height: 44rpx;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
     }
   }
 }
