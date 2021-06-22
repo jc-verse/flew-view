@@ -8,6 +8,7 @@
           <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
           <template v-if="cardList.length">
             <group-item v-for="(item, ind) in cardList"  :infoData='item' :key='ind' @clickBuoy='clickBuoy' @clickItem='clickItem(item)'/>
+            <div class="loading" >{{!noConcat? '加载中...' :'到底了'}}</div>
           </template>
           <template v-else>
             <div class="noList">
@@ -91,7 +92,6 @@ export default {
     clickItem(item) {
       uni.setStorage({ key: 'helpInfo' , data: item })
       uni.navigateTo({ url: '/pages/detailInfo/index' })
-
     },
     // 列表查询
     getList(form={}) {
@@ -103,10 +103,13 @@ export default {
         if (code === 200) {
           const { current, pages, records, searchCount, total  } = data;
           if (records && records.length) {
-            this.cardList = [ ...this.cardList , ...records] ;
+            const arr = [ ...this.cardList , ...records]
+            const indexArr = arr.map(item => item.id);
+            const newArr = [...new Set(indexArr)]
+            this.cardList = arr.filter(item => newArr.includes(item.id)) ;
             if (records.length < 10 && records) {
               this.noConcat = true;
-            }else {
+            } else {
               this.current +=1;
             }
           } else  {
@@ -201,6 +204,10 @@ export default {
       transform: translate(-50%, -50%);
       color:#ada9a9;
     }
+  }
+  .loading{
+    margin: 10rpx auto;
+    color: #8f8f8f;
   }
 }
 </style>

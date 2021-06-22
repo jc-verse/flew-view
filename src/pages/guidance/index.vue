@@ -88,11 +88,11 @@ export default {
           // if (flag !== 1) {
             setStorage (res.userInfo)
           // }
-          if (!_this.token) {
+          // if (!_this.token) {
             _this.login()
-          } else {
-            uni.redirectTo({  url: '/pages/home/index', })
-          }
+          // } else {
+          //   uni.redirectTo({  url: '/pages/home/index', })
+          // }
         },
         fail: (err) => {
           _this.canLogin = true;

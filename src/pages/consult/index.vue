@@ -6,8 +6,14 @@
       <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到{{cardList.length || 0}}个关于“{{searchVal}}”的信息</div>
-          <template>
+          <template v-if="cardList.length">
             <group-item v-for="(item, ind) in cardList" :userId='userId' :infoData='item' :key='ind'  @clickBuoy='clickBuoy'/>
+            <div class="loading" >{{!noConcat? '加载中...' :'到底了'}}</div>
+          </template>
+          <template v-else>
+            <div class="noList">
+              暂无咨询记录！
+            </div>
           </template>
         </div>
       </scroll-box>
@@ -68,7 +74,10 @@ export default {
         if (code === 200) {
           const { current, pages, records, searchCount, total  } = data;
           if (records && records.length) {
-            this.cardList = [ ...this.cardList , ...records] ;
+            const arr = [ ...this.cardList , ...records]
+            const indexArr = arr.map(item => item.id);
+            const newArr = [...new Set(indexArr)]
+            this.cardList = arr.filter(item => newArr.includes(item.id)) ;
             if (records.length < 10 && records) {
               this.noConcat = true;
             }else {
@@ -146,10 +155,22 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 20rpx 30rpx;
+    min-height: 100%;
     .list_tip{
       padding-bottom: 20rpx;
       @include fontMixin(24rpx, #6d6c6c)
     }
+  }
+  .noList{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color:#ada9a9;
+    }
+  .loading{
+    margin: 10rpx auto;
+    color: #8f8f8f;
   }
 }
 </style>
