@@ -42,12 +42,14 @@ import GroupItem from './groupItem'
 import { imgUrl } from '@/common/http'
 import { isLogin, toLogin } from '@/common/utils'
 import TipPopup from '@/components/cards/tipPopup';
+import unitMixin from '@/common/mixins/unitMixin';
 
 
 import FabGroup from '@/components/fabGroup';
 export default {
   name: 'personalInfo',
   components: { PageJS, FabGroup, FormItem, FormItemBox, GroupItem, TipPopup },
+  mixins: [unitMixin],
   data() {
     return {
       formHeads: [
@@ -76,6 +78,7 @@ export default {
     }
   },
   mounted() {
+    this.getUserInfo();
     this.getDownList();
   },
   onShow(){

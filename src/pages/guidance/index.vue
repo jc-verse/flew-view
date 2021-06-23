@@ -50,49 +50,27 @@ export default {
       canLogin: true,
       wxInfoData: {},
       loading: false
-
     }
   },
   mounted () {
-    // uni.getStorage({ 
-    //   key: 'token', 
-    //   success:(res) =>{
-    //     const {errMsg, data} = res;
-    //     if (/ok/.test(errMsg) && data) {
-    //       this.token = data;
-    //     }else {
-    //       this.login();
-    //     }
-    //   },
-    //   fail: (err)=>{
-    //     this.login();
-    //   }
-    // })
-    // if (!isLogin()) {
-    //   this.login();
-    // }
   },
   methods: {
     clickIknow(flag) { // flag 1: 不保存用户信息
       
       this.$refs.tipPopup.close();
       setStorage({statement: 'Y'})
+      closeLogin();
 
       const _this = this;
       uni.getUserProfile({
         desc:'登录',
         success: (res) => {
+          console.log(1222, res)
           _this.userInfo = res.userInfo;
           _this.wxInfoData.iv = res.iv;
           _this.wxInfoData.encryptedData = res.encryptedData;
-          // if (flag !== 1) {
-            setStorage (res.userInfo)
-          // }
-          // if (!_this.token) {
-            _this.login()
-          // } else {
-          //   uni.redirectTo({  url: '/pages/home/index', })
-          // }
+          setStorage (res.userInfo)
+          _this.login()
         },
         fail: (err) => {
           _this.canLogin = true;
@@ -100,7 +78,6 @@ export default {
           uni.navigateTo({url: '/pages/home/index'})
         }
       })
-      
     },
     clickBtn() {
       const statement = uni.getStorageSync('statement') || 'N';
@@ -151,12 +128,13 @@ export default {
                   const { code, data: nData } = data;
                   if (code === 200) {
                     setStorage(nData)
+
                     _this.token = nData.token;
                     console.log('token：', nData.token)
                     const keys = Object.keys(_this.userInfo)
                     if (keys.length) {
-                        _this.getUserInfo();
-                        _this.totalTeamTypeList();
+                        _this.getUserInfo({token: nData.token});
+                        _this.totalTeamTypeList({token: nData.token});
                         uni.redirectTo({ url: '/pages/home/index'})
                     } else {
                       _this.canLogin = true

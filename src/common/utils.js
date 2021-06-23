@@ -1,3 +1,4 @@
+import store from '@/store'
 /** 
  * 将url 和 json 拼接成带参url
  * url: String;
@@ -108,6 +109,8 @@ export function isLogin () {
 export function closeLogin () {
   const count = uni.getStorageSync('count');
   const statement = uni.getStorageSync('statement');
+  store.commit('setUserInfo', {})
+  store.commit('setToken', '')
   try {
     uni.clearStorageSync();
   } catch (e) {

@@ -21,8 +21,8 @@ export const teamTypeBranchList = (data) => {
 }
 
 // 竞赛组队 - 组队类型
-export const teamTypeList = (data) => {
-  return  httpAPI('/app/team-up/team-type-list', { data })
+export const teamTypeList = (data, option) => {
+  return  httpAPI('/app/team-up/team-type-list', { data, ...option })
 }
 
 //用户信息 - 科目/课程体系下拉
@@ -36,8 +36,8 @@ export const updateCardInfo = (data) => {
 }
 
 //用户信息 - 名片卡信息
-export const userCardInfo = (data) => {
-  return  httpAPI('/app/user-info/user-business-card-info', { data })
+export const userCardInfo = (data, options) => {
+  return  httpAPI('/app/user-info/user-business-card-info', { data, ...options })
 }
 
 //图片上传
@@ -46,8 +46,8 @@ export const ossUploadImg = (data) => {
 }
 
 //带下级的组队类型
-export const totalTeamTypeList = (data) => {
-  return  httpAPI('/app/team-up/total-team-type-list', { data })
+export const totalTeamTypeList = (data, options) => {
+  return  httpAPI('/app/team-up/total-team-type-list', { data, ...options })
 }
 
 // 希望参与比赛的用户 - SAGE

@@ -1,5 +1,5 @@
 import { userCardInfo, totalTeamTypeList } from '@/common/api';
-import { setStorage, deepChange } from '@/common/utils';
+import { setStorage, deepChange, closeLogin } from '@/common/utils';
 import {mapState,mapMutations} from 'vuex';
 const isObject = (val) => {
   return  Object.prototype.toString.call(val) === "[object Object]"
@@ -12,11 +12,11 @@ export default {
   onLoad() {
   },
   methods: {
-    ...mapMutations([ 'setUserInfo', "setTotalList"]),
+    ...mapMutations([ 'setUserInfo', "setTotalList", 'setToken']),
     // 获取信息
-    getUserInfo() {
+    getUserInfo(options) {
       const avatarUrl = uni.getStorageSync('avatarUrl')
-      userCardInfo().then(res=> {
+      userCardInfo({},options || {}).then(res=> {
         const { data:nData } = res[1];
         const { data, code } = nData;
         if (code === 200) {
@@ -32,8 +32,8 @@ export default {
         }
       }).catch(err => {console.log(err)})
     },
-    totalTeamTypeList () {
-      totalTeamTypeList().then(res => {
+    totalTeamTypeList (options) {
+      totalTeamTypeList({},options || {}).then(res => {
         const {data: nData} = res[1];
         const { data, code } = nData;
         if (code === 200) {
@@ -41,6 +41,9 @@ export default {
         }
       }).catch(err => {console.log(err)})
     },
+    closeLogin () {
+      closeLogin();
+    }
   }
 
 }

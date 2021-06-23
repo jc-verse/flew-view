@@ -1,6 +1,8 @@
 import { joinUrl, getCurPageRoute } from '@/common/utils'
 import { isLogin, setStorage, closeLogin } from './utils'
 
+import store from '@/store'
+
 // export const baseUrl = 'http://47.101.54.170:8111/server';
 export const baseUrl = 'https://www.sjreach.cn/server';
 export const imgUrl = 'http://prod.qiniucdns.sjreach.cn/';
@@ -19,14 +21,15 @@ const headerOptions = {
 // 当配置项中不含有三种回调函数时，将以promise返回数据
 
 export const httpAPI =  ( url, options) => {
-  const token = uni.getStorageSync('token');
-  const { data, header = {}, method  } = options;
+  const { data, header = {}, method, token  } = options;
+  const newToken = uni.getStorageSync('token') || token;
+  console.log(1234343,url, token, uni.getStorageSync('token'))
   let htttpDefaultOpts = {
     url: baseUrl + url,
     data: data,
     header: { 
         ...headerOptions[method || 'POST'],
-        'admin-auth': token,
+        'admin-auth': newToken,
         ...header
     },
     withCredentials: true,
@@ -50,11 +53,15 @@ function interceptor (code , msg, url) {
   switch(code) {
     case 20011: //是登陆已过期
       if (isLogin()) {
+        console.log('msg: ', msg)
         uni.showToast({ title: '登陆已过期', icon:'none', duration: 1000, success: ()=> {
+
           if (!route.includes('guidance')) {
             // uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
           }
         } })
+        store.commit('setUserInfo', {})
+        store.commit('setToken', '')
         closeLogin();
         // uni.removeStorage({ key: 'token' })
       }
