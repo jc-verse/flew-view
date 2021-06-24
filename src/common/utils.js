@@ -81,9 +81,9 @@ export const  deepChange = (data) => {
 export const bsToStrFn = (arr = []) => {
   const list = arr || []
   return list.map(item => {
-    const { createTime, name } = item;
-    const year = createTime.split('-')[0]
-    return `${year} ${name}`
+    const { time, name, wonAwards } = item;
+    const year = time.split('-')[0]
+    return `${year} ${name} ${wonAwards || ''}`
   });
 }
 // 课程体系信息重组

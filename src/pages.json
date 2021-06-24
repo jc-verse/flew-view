@@ -282,7 +282,7 @@
 		},{
 			"path": "pages/detailInfo/index",
 			"style": {
-				"navigationBarTitleText": "标准个人信息",
+				"navigationBarTitleText": "学术帮助",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff",
 				"app-plus": {

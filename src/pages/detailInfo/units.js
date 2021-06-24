@@ -16,8 +16,8 @@ export const topListFn = (infoData) => {
 export const bsToStrFn = (arr = []) => {
   const list = arr || []
   return list.map(item => {
-    const { createTime, name } = item;
-    const year = createTime.split('-')[0]
-    return `${year} ${name}`
+    const { time, name, wonAwards } = item;
+    const year = time.split('-')[0]
+    return `${year} ${name} ${wonAwards || ''}`
   });
 }

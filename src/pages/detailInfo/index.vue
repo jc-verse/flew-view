@@ -9,10 +9,10 @@
           <information :topList='tops'/>
         </div>
         <div class="center">
-          <join-list title='比赛经历' :list='bList'/>
+          <join-list title='比赛经历' :list='bList' v-if="bList.length"/>
           <join-list title='专业方向' :value='cardInfo.professionalDirection' v-if="cardInfo.professionalDirection" type='text' ></join-list>
-          <join-list title='个人留言' :value='cardInfo.personalMessage' v-if="cardInfo.personalMessage" type='text'/>
-          <join-list title='录取大学' :value='cardInfo.schoolName  ' v-if="cardInfo.schoolName  " type='text'/>
+          <join-list title='个人留言' :value='cardInfo.personalMessage || "暂无留言"'  type='text'/>
+          <join-list title='录取大学' :value='cardInfo.admission  ' v-if="cardInfo.admission  " type='text'/>
         </div>
         <div class="bottom">
           <div class="headline">{{ `一对一指导需要收取一定费用哦` }}</div>

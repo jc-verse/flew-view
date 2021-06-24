@@ -23,6 +23,9 @@
                 <div  style=' display: flex; align-items: center; justify-content: flex-end;' v-else>{{formData.schoolName || ''}}</div>
               </DiyInpSel>
             </form-item>
+            <template slot='diy'>
+              <div class="tip_msg" v-if="ite.params.tipMsg" >{{ ite.params.tipMsg }}</div>
+            </template>
           </form-item-box>
         </div>
 
@@ -37,6 +40,7 @@
             title="课程体系" 
             :tableHead='tableHead_sy' 
             :tableData='formData["curriculumSystem"]'
+            :showRequired='true'
             className='curriculumSystem'  
             class="tb_item"
             @changeTable='changeFn'
@@ -82,6 +86,7 @@
             @changeTable='changeFn'
             @deleteItem='deleteItem'
             :maxNum='6'
+            :showRequired='true'
           >
             <div class="g_list" slot='list'>
               <template v-for='(items,ind) in formData["standardizedPerformance"]' >
@@ -204,7 +209,7 @@ export default {
       systemList: [], //  课程体系list
       totalList: [], // 希望参加的比赛list
       matchList: [],
-      schoolList: [],
+      schoolList: [{id: '1', label: '缺省',name: '缺省', city: ''}],
       gradeList:[],
 
       canClick: true,
@@ -218,8 +223,8 @@ export default {
   computed:{
     // 校验 
     showBtn () {
-      const { formHeads, bottomHeads,  centerHeads, formData, right } = this;
-      const rates = [...formHeads, ...bottomHeads,centerHeads, right ];
+      const { formHeads, bottomHeads,  centerHeads, formData, right, systems } = this;
+      const rates = [...formHeads, ...bottomHeads,centerHeads, right, systems ];
       const errList = [];
       const regNum = [];
       var reg = /[\u4e00-\u9fa5]/;
@@ -401,9 +406,10 @@ export default {
         const { data:nData } = res[1] || {};
         const { code, data } = nData || {};
         if (code === 200) {
-          this.schoolList = (data || []).map(item=>{
+          const arr = (data || []).map(item=>{
             return { ...item, label: item.name }
           })
+          this.schoolList = [{id: '1', label: '缺省',name: '缺省', city: ''}, ...arr]
         }
       })
     },
@@ -733,5 +739,11 @@ export default {
   .delete{
     @include fontMixin(28rpx)
   }
+}
+.tip_msg{
+  color: red;
+  font-size: 24rpx;
+  text-align: right;
+  padding-top:20rpx;
 }
 </style>

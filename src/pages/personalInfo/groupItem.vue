@@ -10,7 +10,7 @@
       <div class="center">
         <join-list title='比赛经历' :list='bList' v-if="bList.length"/>
 
-        <join-list title='个人留言' :value='infoData.personalMessage' v-if="infoData.personalMessage" type='text'/>
+        <join-list title='个人留言' :value='infoData.personalMessage || "暂无留言"' v-if="infoData.personalMessage" type='text'/>
       </div>
     </div>
 

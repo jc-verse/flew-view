@@ -1,6 +1,6 @@
 <template>
   <div class="courseSystem">
-    <div class="header required">
+    <div class="header" :class="[showRequired ?'required': '']">
       <div class="title">{{title}}：</div>
       <slot name='diy'></slot>
       <slot name='right'></slot>
@@ -50,6 +50,10 @@ export default {
     },
     maxNum:{
       type: Number,
+    },
+    showRequired: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

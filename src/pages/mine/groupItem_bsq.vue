@@ -18,7 +18,7 @@
       <div class="center">
         <join-list title='比赛经历'       :list='bList' v-if="cardStatu.showInfo.includes(1) && bList.length"/>
         <join-list title='希望参加的比赛'  :list='tags'  v-if="cardStatu.showInfo.includes(3) && tags.length" type='tag'/>
-        <join-list title='个人留言'        :value='msg'  v-if="cardStatu.showInfo.includes(2) && msg" type='text'/>
+        <join-list title='个人留言'        :value='msg  || "暂无留言"'  v-if="cardStatu.showInfo.includes(2) && msg" type='text'/>
       </div>
     </div>
     <TipPopup :title="popupStatu.title" ref='tipPopup' :msg="popupStatu.msg" @confirm='confirm'/>
