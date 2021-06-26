@@ -119,6 +119,9 @@ export const statusScreen = (infoData, userId) => {
           break;
         case 5:
           statuInfo.tip = `您的申请已经完成`;
+          if (academicEvaluate == 2) {
+            statuInfo.showInfo = [9];
+          }
           break;
         default:
           break;

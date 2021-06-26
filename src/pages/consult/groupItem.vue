@@ -1,5 +1,5 @@
 <template>
-  <div class="group_info_item">
+  <div class="group_info_item" @click.stop='clickItem'>
   
     <infoHead :infoData='infoData'>
       <template slot="right"> 
@@ -7,7 +7,7 @@
           <div v-if="infoData.isConsulting == 2" @click.stop="clickBuoy(1)">申请服务</div>
           <div v-if='infoData.isConsulting == 1' class="disable">{{'申请中'}}</div>
           <div v-if='infoData.isConsulting == 3' class="disable">{{'进行中'}}</div>
-          <!-- <div class="orange" @click.stop="clickBuoy(2)">查看评价</div> -->
+          <div class="orange" @click.stop="clickBuoy(2)">查看评价</div>
         </div>
       </template>
     </infoHead>
@@ -25,6 +25,7 @@
     <!-- <div class="buoy" v-if="userId != infoData.id"  @click.stop="clickBuoy(1)"> 申请服务 </div> -->
     <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/>
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+    <DiyRate ref='diyRate' :rateData='rateForm' :readonly='true' :headList='headList'></DiyRate>
   </div>
 </template>
 
@@ -35,10 +36,18 @@ import information from '@/components/cards/information';
 import CrewInfo from '@/components/cards/crewInfo';
 import TipPopup from '@/components/cards/tipPopup';
 import { bsToStrFn, bsToStrFun } from '@/common/utils';
-import { isLogin, toLogin } from '@/common/utils'
+import { academicGetEvaluate, selectCurriculumSystem } from '@/common/api';
+import DiyRate from '@/components/diyRate';
+import { isLogin, toLogin } from '@/common/utils';
+const headList = [
+  { title: '讲解清晰', value: '', code: 'dimension1' },
+  { title: '情况熟悉', value: '', code: 'dimension2' },
+  { title: '态度友好', value: '', code: 'dimension3' },
+  { title: '认真仔细', value: '', code: 'dimension4' },
+]
 export default {
   name: 'group_item',
-  components: { infoHead, information, joinList, CrewInfo, TipPopup },
+  components: { infoHead, information, joinList, CrewInfo, TipPopup, DiyRate },
   props: {
     infoData: {
       type: Object,
@@ -47,24 +56,24 @@ export default {
     totalList:{
       type: Array,
       default: ()=>[]
-    },
-    userId: {
-      type: String,
-      default: ''
     }
   },
   data () {
+    
     return {
       type: 1,
-      toUserInfoUrl: ''
+      rateForm: {},
+      toUserInfoUrl: '',
+      loading: false,
+      headList,
     }
   },
   computed : {
     tops() {
       const { infoData } = this;
       const arr = [
-        { title: '学校',    val: infoData.schoolName || '', id: 1 }, 
-        { title: '年级',    val: infoData.grade || '',          id: 2 }, 
+        { title: '学校', val: infoData.schoolName || '', id: 1 }, 
+        { title: '年级', val: infoData.grade || '',          id: 2 }, 
         { title: '课程', val: infoData.curriculumSystem || '', id: 4 }, 
         { title: '标化', val: infoData.standardizedPerformance || '',           id: 3 }, 
         { title: '专业', val: infoData.professionalDirection || '', id: 4 }, 
@@ -82,20 +91,55 @@ export default {
   methods:{
     toLogin,
     // 点击服务申请！
+    
+    // 节流
+    throttle(flag) {
+      if (flag) {
+        this.loading = true;
+        uni.showLoading()
+      } else {
+        this.loading = false;
+        uni.hideLoading()
+      }
+    },
+    academicGetEvaluate(serviceUserId) {
+      if (this.loading) return;
+      this.throttle(true)
+      academicGetEvaluate({serviceUserId, moduleType: 3}).then(res => {
+        const {data: nData} = res[1];
+        const { code, data, success } = nData || {};
+        this.throttle(false)
+        if (code === 200 && success) {
+          this.rateForm = data
+          this.$refs.diyRate.show()
+        }
+      }).catch(err => {
+        console.log(err);
+        this.throttle(false)
+      })
+    },
     clickBuoy (type) {
       if (!isLogin()) {
         this.$refs.noLogin.show()
         return 
       }
       const  toUserInfoUrl = uni.getStorageSync('toUserInfoUrl');
-      if (toUserInfoUrl) {
-        this.toUserInfoUrl = toUserInfoUrl;
-        this.$refs.toUserInfo.show();
-      } else {
-        this.type = type;
-        this.$refs.tipPopup.show()
+      this.type = type;
+      switch (type) {
+        case 1:
+          if (toUserInfoUrl) {
+            this.toUserInfoUrl = toUserInfoUrl;
+            this.$refs.toUserInfo.show();
+          } else {
+            this.$refs.tipPopup.show()
+          }
+          break;
+        case 2:
+          this.academicGetEvaluate(this.infoData.id)
+          break;
+        default:
+          break;
       }
-      
     },
     // 跳转信息录入
     toUserInfo (flag) {
@@ -111,6 +155,12 @@ export default {
       const { type } = this
       this.$emit('clickBuoy', type, this.infoData)
     },
+    clickItem() {
+      if (!isLogin()) {
+        return 
+      }
+      this.$emit('clickItem')
+    }
   }
 
 }

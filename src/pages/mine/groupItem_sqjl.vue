@@ -39,8 +39,7 @@ import information from '@/components/cards/information';
 import Rate from '@/components/cards/rate';
 import CrewInfo from '@/components/cards/crewInfo';
 import DiyPopup from '@/components/diyPopup';
-import { bsToStrFn, topListFn } from './units';
-import { statusScreen, joinName } from './units';
+import { bsToStrFn, topListFn, statusScreen, joinName } from './units';
 import TipPopup from '@/components/cards/tipPopup';
 import { isLogin, toLogin } from '@/common/utils'
 export default {

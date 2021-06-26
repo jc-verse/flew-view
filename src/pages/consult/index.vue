@@ -7,7 +7,7 @@
         <div class="group_info_list">
           <div class='list_tip' v-show='searchVal'>搜索到{{cardList.length || 0}}个关于“{{searchVal}}”的信息</div>
           <template v-if="cardList.length">
-            <group-item v-for="(item, ind) in cardList" :userId='userId' :infoData='item' :key='ind'  @clickBuoy='clickBuoy'/>
+            <group-item v-for="(item, ind) in cardList" :userId='userId' :infoData='item' :key='ind'  @clickBuoy='clickBuoy' @clickItem='clickItem(item)'/>
             <div class="loading" >{{!noConcat? '加载中...' :'到底了'}}</div>
           </template>
           <template v-else>
@@ -47,7 +47,7 @@ export default {
       loading: false
     }
   },
-  onShow() {
+  onLoad() {
     this.initForm();
     this.userId = uni.getStorageSync('userId');
   },
@@ -139,7 +139,11 @@ export default {
         default:
           break;
       }
-    }
+    },
+    clickItem(item) {
+      uni.setStorage({ key: 'helpInfo' , data: item })
+      uni.navigateTo({ url: '/pages/consultDetail/index' })
+    },
   },
 }
 </script>

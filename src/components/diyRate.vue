@@ -40,6 +40,15 @@ export default {
     title: {
       type: String,
       default: '评价'
+    },
+    headList: {
+      type: Array,
+      default: () => [
+        { title: '知识水平', value: '', code: 'dimension1' },
+        { title: '理解程度', value: '', code: 'dimension2' },
+        { title: '讲课态度', value: '', code: 'dimension3' },
+        { title: '授课效率', value: '', code: 'dimension4' },
+      ]
     }
   },
 
@@ -52,12 +61,7 @@ export default {
         "dimension3": 3,
         "dimension4": 3,
       },
-      rateHeads: [
-        { title: '知识水平', value: '', code: 'dimension1' },
-        { title: '理解程度', value: '', code: 'dimension2' },
-        { title: '讲课态度', value: '', code: 'dimension3' },
-        { title: '授课效率', value: '', code: 'dimension4' },
-      ],
+      rateHeads: [],
       count: 0
     }
   },
@@ -66,6 +70,9 @@ export default {
       const {rateForm, rateData} = this;
       return Object.keys(rateData).length ? rateData : rateForm
     }
+  },
+  created() {
+    this.rateHeads = [...this.headList]
   },
   mounted() {
     // this.$refs.popup.show()

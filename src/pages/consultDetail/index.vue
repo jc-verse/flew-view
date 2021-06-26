@@ -16,7 +16,7 @@
         </div>
         <div class="foot">
           <div class="foot_left">
-            <div class="l_title">学术帮助：</div>
+            <div class="l_title">学校信息咨询：</div>
             <div class="l_content" v-html="tipMsg"></div>
           </div>
           <div class="foot_right">
@@ -53,10 +53,8 @@ import {imgUrl} from '@/common/http'
 import {copy} from '@/common/utils'
 import { copyWxData } from '@/common/server_qr_wx';
 const tipMsg =  `
-  <p>一对一200/一个小时（一对二、三另计）</p>
-  <p>现在正式课：八折</p>
-  <p>预约试听课：60/半小时</p>
-  <p>部分授课学长学姐，有免费课名额</p>
+  <p>一对一100/半小时</p>
+  <p>现在咨询：八折</p>
   <p>八折优惠时间至2021年8月30日</p>
 `
 export default {

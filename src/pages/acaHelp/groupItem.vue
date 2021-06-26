@@ -24,7 +24,7 @@
     <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
     <TipPopup title="提示" ref='toUserInfo' msg="需要填写个人信息？" @confirm='toUserInfo(true)' @close='toUserInfo(false)'/>
 
-    <TipPopup title="选择学科" ref='subjectPopup'  @confirm='confirm'>
+    <TipPopup title="选择学科" ref='subjectPopup'  @confirm='confirm' v-if="systemList.length">
       <template slot='content'>
         <div class="content_box">
           <picker @change="bindPickerChange" :value="index" range-key='label' :range="systemList" selector-type='select'>
@@ -33,18 +33,6 @@
         </div>
       </template>
     </TipPopup>
-    <!-- <TipPopup title="选择学科" ref='subjectPopup'  @confirm='confirm'>
-      <template slot='content'>
-        <div class="content_box">
-          <scroll-view class="select_box" :scroll-y="true" :show-scrollbar='true'>
-            <div :class="['select_item', checkList.includes(i.id) ? 'check': '']" v-for='i in systemList' :key='i' @click="checkItem(i.id)">
-              {{i.label}}
-              <i class="iconfont iconziyuanldpi icon"></i>
-            </div>
-          </scroll-view>
-        </div>
-      </template>
-    </TipPopup> -->
     <DiyRate ref='diyRate' :rateData='rateForm' :readonly='true'></DiyRate>
   </div>
 </template>
@@ -105,20 +93,21 @@ export default {
     },
   },
   mounted() {
-    this.selectCurriculumSystem();
+    // this.selectCurriculumSystem();
   },
   methods:{
     toLogin,
-    checkItem(id) {
-      const { checkList } = this;
-      if (checkList.includes(id)) {
-        this.checkList = checkList.filter(item => item!= id)
-      } else {
-        this.checkList.push(id);
-      }
+    // checkItem(id) {
+    //   const { checkList } = this;
+    //   if (checkList.includes(id)) {
+    //     this.checkList = checkList.filter(item => item!= id)
+    //   } else {
+    //     this.checkList.push(id);
+    //   }
 
-    },
+    // },
     selectCurriculumSystem() {
+      const _this = this
       selectCurriculumSystem({serviceUserId : this.infoData.id}).then(res => {
         const {data: nData} = res[1];
         const { code, data, success } = nData || {};
@@ -126,9 +115,16 @@ export default {
           if (Array.isArray(data)) {
             const arr = data.map(item => ({ ...item, label: item.subject  }))
             this.systemList = arr || []
+            
           }
         }
-      }).catch(err=>{console.log(err)})
+      })
+      .then(()=> {
+        this.$nextTick(()=> {
+          _this.$refs.subjectPopup.show();
+        })
+      })
+      .catch(err=>{console.log(err)})
     },
     bindPickerChange: function(e) {
         console.log('picker发送选择改变，携带值为', e.target.value)
@@ -147,7 +143,7 @@ export default {
     academicGetEvaluate(serviceUserId ) {
       if (this.loading) return;
       this.throttle(true)
-      academicGetEvaluate({serviceUserId}).then(res => {
+      academicGetEvaluate({serviceUserId, moduleType: 2}).then(res => {
         const {data: nData} = res[1];
         const { code, data, success } = nData || {};
         this.throttle(false)
@@ -174,7 +170,11 @@ export default {
             this.toUserInfoUrl = toUserInfoUrl;
             this.$refs.toUserInfo.show();
           } else {
-            this.$refs.subjectPopup.show();
+            if (!this.systemList.length) {
+              this.selectCurriculumSystem()
+            } else {
+              this.$refs.subjectPopup.show();
+            }
           }
           break;
         case 2:

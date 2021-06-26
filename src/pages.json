@@ -298,6 +298,24 @@
 				}
 			}
 		},{
+			"path": "pages/consultDetail/index",
+			"style": {
+				"navigationBarTitleText": "学校咨询",
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
+		},{
 			"path": "pages/userComplete/index",
 			"style": {
 				"navigationBarTitleText": "完善个人信息",
@@ -395,6 +413,10 @@
 			{
 				"name": "详情信息-detailInfo", 
 				"path": "pages/detailInfo/index"
+			},
+			{
+				"name": "学校咨询-detailInfo", 
+				"path": "pages/consultDetail/index"
 			},
 			{
 				"name": "自主发起-autonomously", 

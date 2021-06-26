@@ -1,5 +1,6 @@
 import { joinUrl, getCurPageRoute } from '@/common/utils'
 import { isLogin, setStorage, closeLogin } from './utils'
+import encrypt from '@/assets/js/jsencrypt'
 
 import store from '@/store'
 
@@ -18,15 +19,22 @@ const headerOptions = {
   }
 }
 
+// const cryptStr = encrypt.encryptLong(str)
+// console.log('加密后的结果：', cryptStr)
+
+// const originalStr = encrypt.decryptLong(cryptStr)
+// console.log('解密后的原始数据：', originalStr)
 // 当配置项中不含有三种回调函数时，将以promise返回数据
 
 export const httpAPI =  ( url, options) => {
   const { data, header = {}, method, token  } = options;
   const newToken = uni.getStorageSync('token') || token;
   console.log(1234343,url, token, uni.getStorageSync('token'))
+  let datas = data;
+  // datas = encrypt.encryptLong(JSON.stringify(data))
   let htttpDefaultOpts = {
     url: baseUrl + url,
-    data: data,
+    data: datas,
     header: { 
         ...headerOptions[method || 'POST'],
         'admin-auth': newToken,

@@ -95,6 +95,7 @@
     </div>
   </DiyPopup> -->
   <DiyRate ref='diyRate' :rateData='rateForm' @confirmRate='confirmRate'></DiyRate>
+  <DiyRate ref='diyRate2' :rateData='rateForm2' @confirmRate='confirmRate2' :headList='headList'></DiyRate>
 
   </PageJs>
 </template>
@@ -117,6 +118,7 @@ import {imgUrl} from '@/common/http';
 import { joinUrl, copy } from '@/common/utils';
 import TipPopup from '@/components/cards/tipPopup';
 import { copyWxData } from '@/common/server_qr_wx';
+import { rateConsults } from './const'
 
 import { 
   userInfoReadCount, 
@@ -165,8 +167,10 @@ export default {
     const [copyItem] = copyWxData;
     const QRImg =  imgUrl+ copyItem.qrImg;
     const rateForm = { ...rateFormInit }
+    const rateForm2 = { ...rateFormInit }
     return {
-      QRImg, copyItem, rateForm,
+      QRImg, copyItem, rateForm, rateForm2,
+      headList: rateConsults,
       vipNum: 0,
       actived: '2',
       ReadCount: 0,
@@ -556,8 +560,16 @@ export default {
         this.throttle(false)
       })
     },
-    // 确定评价
+    // 学术帮助-确定评价
     confirmRate (rateData) {
+      const params = {
+        relationshipId: this.userRelationshipId,
+        ...rateData
+      }
+      this.academicEvaluate(params)
+    },
+    // 学校咨询-确定评价
+    confirmRate2 (rateData) {
       const params = {
         relationshipId: this.userRelationshipId,
         ...rateData
@@ -622,8 +634,12 @@ export default {
           console.log('联系客服',data)
           break;
         case 9: // 评价
-          this.userRelationshipId = userRelationshipId
-          this.$refs.diyRate.show()
+          this.userRelationshipId = userRelationshipId;
+          if (type == 2) {
+            this.$refs.diyRate.show()
+          } else if (type == 3) {
+            this.$refs.diyRate2.show()
+          }
           break;
         case 10: // 自主发起-完成
           this.activityComplete(activityId)

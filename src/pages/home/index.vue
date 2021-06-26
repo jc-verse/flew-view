@@ -104,6 +104,8 @@ import { isLogin, toLogin, setStorage, copy } from '@/common/utils'
 import { imgUrl } from '@/common/http'
 import { copyWxData } from '@/common/server_qr_wx';
 
+import encrypt from '@/assets/js/jsencrypt'
+
 export default {
   name: 'home',
   components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup, TipPopup },
@@ -137,6 +139,14 @@ export default {
       setStorage({count: count + 1})
       this.statuList= [1,2,3,4,5,];
     }
+  },
+  mounted () {
+    const str = {a:199}
+    const cryptStr = encrypt.encryptLong(str)
+    console.log('加密后的结果：', cryptStr)
+
+    const originalStr = encrypt.decryptLong(cryptStr)
+    console.log('解密后的原始数据：', originalStr)
   },
   methods: {
     copy,

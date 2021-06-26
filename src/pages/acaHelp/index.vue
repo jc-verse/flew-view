@@ -146,17 +146,7 @@ export default {
         .catch(err=>{
           this.throttle(false)
         })
-        
     },
-    // academicGetEvaluate(serviceUserId ) {
-    //   academicGetEvaluate({serviceUserId}).then(res => {
-    //     const {data: nData} = res[1];
-    //     const { code, data, success } = nData || {};
-    //     if (code === 200 && success) {
-    //       this.rateForm = data
-    //     }
-    //   })
-    // },
     lower() {
       if (this.noConcat) return ;
       this.getList();
