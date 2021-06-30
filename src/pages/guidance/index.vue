@@ -55,6 +55,10 @@ export default {
   mounted () {
   },
   methods: {
+    initData () {
+      this.getCity();
+      this.getServerQR();
+    },
     clickIknow(flag) { // flag 1: 不保存用户信息
       
       this.$refs.tipPopup.close();
@@ -75,6 +79,7 @@ export default {
         fail: (err) => {
           _this.canLogin = true;
           console.log("未授权",err);
+          _this.initData()
           uni.navigateTo({url: '/pages/home/index'})
         }
       })
@@ -91,6 +96,7 @@ export default {
     },
     visitorModule() {
       closeLogin();
+      this.initData()
       uni.navigateTo({url: '/pages/home/index'})
     },
     // 节流
@@ -135,6 +141,7 @@ export default {
                     if (keys.length) {
                         _this.getUserInfo({token: nData.token});
                         _this.totalTeamTypeList({token: nData.token});
+                        _this.initData()
                         uni.redirectTo({ url: '/pages/home/index'})
                     } else {
                       _this.canLogin = true

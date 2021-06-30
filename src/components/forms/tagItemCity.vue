@@ -14,7 +14,6 @@
 
 <script>
 import {uniDataPicker} from '@dcloudio/uni-ui';
-import cityData from '@/static/city1.json';
 export default {
   name: 'tag_item',
   components:{ uniDataPicker },

@@ -73,7 +73,6 @@ import { isLogin, toLogin, copy } from '@/common/utils'
 import { styles } from './const';
 import { bsToStrFn, topListFn, joinName } from './units';
 import { imgUrl } from '@/common/http'
-import { copyWxData } from '@/common/server_qr_wx';
 const popups = {
   '4': { title: '退出组队', msg: '是否确认退出组队！', type: 4 },
   '5': { title: '完成', msg: '是否确认完成！', type: 5 },
@@ -171,15 +170,20 @@ export default {
     }
   },
   data () {
-    const [copyItem] = copyWxData;
-    const QRImg =  imgUrl+ copyItem.qrImg;
     return {
-      QRImg, copyItem,
+      QRImg: '', 
+      copyItem: {},
       showList: false,
       showInfo: false,
       type: 4,
       detailData: {}
     }
+  },
+  onLoad() {
+    const { copyWxData } = this.$store.state.QRData;
+    const [ copyItem ] = copyWxData;
+    this.QRImg = imgUrl+ copyItem.qrImg;
+    this.copyItem = copyItem;
   },
   computed : {
     tops() {

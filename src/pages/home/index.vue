@@ -102,19 +102,17 @@ import FabGroup from '@/components/fabGroup';
 import unitMixin from '@/common/mixins/unitMixin';
 import { isLogin, toLogin, setStorage, copy } from '@/common/utils'
 import { imgUrl } from '@/common/http'
-import { copyWxData } from '@/common/server_qr_wx';
 
-import encrypt from '@/assets/js/jsencrypt'
+// import encrypt from '@/assets/js/jsencrypt'
 
 export default {
   name: 'home',
   components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup, TipPopup },
   mixins:[unitMixin],
   data () {
-    const [copyItem] = copyWxData;
-    const QRImg =  imgUrl+ copyItem.qrImg;
     return {
-      QRImg, copyItem,
+      QRImgL: '',
+      copyItem: {},
       statuList: [],
       active: 1,
     }
@@ -129,6 +127,11 @@ export default {
     }
   },
   onLoad() {
+    const { copyWxData } = this.$store.state.QRData;
+    const [ copyItem ] = copyWxData;
+    this.QRImg = imgUrl+ copyItem.qrImg;
+    this.copyItem = copyItem;
+
     const { totalList } = this.$store.state;
     if (!totalList.length) {
       this.totalTeamTypeList();
@@ -140,14 +143,7 @@ export default {
       this.statuList= [1,2,3,4,5,];
     }
   },
-  mounted () {
-    const str = {a:199}
-    const cryptStr = encrypt.encryptLong(str)
-    console.log('加密后的结果：', cryptStr)
-
-    const originalStr = encrypt.decryptLong(cryptStr)
-    console.log('解密后的原始数据：', originalStr)
-  },
+  mounted () {},
   methods: {
     copy,
     toLogin,

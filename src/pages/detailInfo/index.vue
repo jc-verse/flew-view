@@ -51,25 +51,23 @@ import joinList from '@/components/cards/joinList';
 import { topListFn, bsToStrFn } from './units';
 import {imgUrl} from '@/common/http'
 import {copy} from '@/common/utils'
-import { copyWxData } from '@/common/server_qr_wx';
 const tipMsg =  `
-  <p>一对一200/一个小时（一对二、三另计）</p>
-  <p>现在正式课：八折</p>
-  <p>预约试听课：60/半小时</p>
-  <p>部分授课学长学姐，有免费课名额</p>
-  <p>八折优惠时间至2021年8月30日</p>
+  <p>一对一218元/小时</p>
+  <p>一对多价格另计</p>
+  <p>近期活动优惠请咨询客服</p>
+  <p>或关注微信公众号:</p>
+  <p>视无域|界无疆</p>
 `
 export default {
   name:'detail_info',
   components: {  scrollBox, fabGroup, bottomLogo, infoHead, information, joinList, pageSj },
   data() {
-    const [ copyItem ] = copyWxData;
     return {
       show: false,
       index: 0,
       cardInfo: {},
-      QRImg: imgUrl+ copyItem.qrImg,
-      copyItem,
+      QRImg: "",
+      copyItem: {},
       tipMsg
     }
   },
@@ -82,6 +80,12 @@ export default {
       const arr = bsToStrFn(competitionExperience);
       return arr;
     },
+  },
+  onLoad() {
+    const { copyWxData } = this.$store.state.QRData;
+    const [ copyItem ] = copyWxData;
+    this.QRImg = imgUrl+ copyItem.qrImg;
+    this.copyItem = copyItem;
   },
   onShow () {
     const this_ = this
@@ -151,10 +155,11 @@ $color:#B3B3B4;
     flex-grow: 1;
     height: 100%;
     font-size: 26rpx;
-    @include flex_(space-around, start, column);
+    @include flex_(center, start, column);
     .l_title{
       font-size: 28rpx;
       font-weight: 600;
+      margin-bottom: 20rpx;
     }
   }
   .foot_right{

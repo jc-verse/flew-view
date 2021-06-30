@@ -1,4 +1,4 @@
-import { httpAPI } from './http'
+import { httpAPI, httpJson } from './http'
 
 // 登录注册
 export const login = (data) => {
@@ -221,4 +221,13 @@ export const exitTeam = (data) => {
 // 自主发起-踢出活动（发起者）
 export const kickTeam = (data) => {
   return  httpAPI('/app/activity/kick-team', { data })
+}
+// 获取城市学校联动列表
+export const  cityList = () => {
+  return httpJson('city.json')
+}
+
+// 获取客服相关信息
+export const  serverQR = () => {
+  return httpJson('server_qr_wx.json')
 }

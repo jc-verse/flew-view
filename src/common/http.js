@@ -5,7 +5,8 @@ import encrypt from '@/assets/js/jsencrypt'
 import store from '@/store'
 
 // export const baseUrl = 'http://47.101.54.170:8111/server';
-export const baseUrl = 'https://www.sjreach.cn/server';
+export const baseUrl = 'https://www.sjreach.cn/server'; // 生产
+// export const baseUrl = 'https://dev.sjreach.cn/server'; // 测试
 export const imgUrl = 'http://prod.qiniucdns.sjreach.cn/';
 const headerOptions = {
   'POST': {
@@ -18,26 +19,28 @@ const headerOptions = {
     'Content-Type': 'application/x-www-form-urlencoded',
   }
 }
-
-// const cryptStr = encrypt.encryptLong(str)
-// console.log('加密后的结果：', cryptStr)
-
-// const originalStr = encrypt.decryptLong(cryptStr)
-// console.log('解密后的原始数据：', originalStr)
-// 当配置项中不含有三种回调函数时，将以promise返回数据
+// 不加密
+const noJMList = [ '/app/oss/upload' ] 
 
 export const httpAPI =  ( url, options) => {
-  const { data, header = {}, method, token  } = options;
+  const { data: qData, header = {}, method, token  } = options;
+  let datas = {} 
+  if (!noJMList.includes(url)) {
+    datas = { json: encrypt.encryptLong(JSON.stringify(qData || '')) } // 数据加密
+  } else {
+    datas = qData;
+  }
   const newToken = uni.getStorageSync('token') || token;
-  console.log(1234343,url, token, uni.getStorageSync('token'))
-  let datas = data;
-  // datas = encrypt.encryptLong(JSON.stringify(data))
+  // const newToken = '76C77C71273A5A01B1CBF4DB814E39A27CCFC1063003686E677158436BD1B8A8C66779801850E2C0033D0980BF4201A9' ;
+  console.log(1234343,url, token, uni.getStorageSync('token'),qData)
+  // let datas = qData;
+  
   let htttpDefaultOpts = {
     url: baseUrl + url,
     data: datas,
     header: { 
         ...headerOptions[method || 'POST'],
-        'admin-auth': newToken,
+        'admin-auth': newToken || '',
         ...header
     },
     withCredentials: true,
@@ -50,11 +53,11 @@ export const httpAPI =  ( url, options) => {
     return res
   });
 }
-const serverList = [
-  '/app/team-up/ranks',
-  '/app/academic/apply-service',
-  '/app/consulting/apply-service',
-]
+// const serverList = [
+//   '/app/team-up/ranks',
+//   '/app/academic/apply-service',
+//   '/app/consulting/apply-service',
+// ]
 //  拦截特殊状态 
 function interceptor (code , msg, url) {
   const route = getCurPageRoute() || '';
@@ -62,30 +65,31 @@ function interceptor (code , msg, url) {
     case 20011: //是登陆已过期
       if (isLogin()) {
         console.log('msg: ', msg)
-        uni.showToast({ title: '登陆已过期', icon:'none', duration: 1000, success: ()=> {
-
-          if (!route.includes('guidance')) {
-            // uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
-          }
-        } })
+        uni.showToast({ title: '登陆已过期', icon:'none', duration: 1000 })
         store.commit('setUserInfo', {})
         store.commit('setToken', '')
         closeLogin();
-        // uni.removeStorage({ key: 'token' })
       }
       break;
     case 1015: //是填写标准信息
     // toUserInfoUrl
       setStorage({ toUserInfoUrl: '/pages/userInfo/index' })
-      // if (!route.includes('userInfo') && serverList.includes(url)) {
-      //   uni.navigateTo({ url: joinUrl('/pages/userInfo/index') });
-      // }
       break;
     case 1018: //是完善个人信息
       setStorage({ toUserInfoUrl: '/pages/userComplete/index' })
-      // if (!route.includes('userComplete') && serverList.includes(url)) {
-      //   uni.navigateTo({ url: joinUrl('/pages/userComplete/index') });
-      // }
       break;
   }
+}
+
+
+export const httpJson = (fileName) => {
+  return uni.request({
+    url: `${imgUrl}${fileName}`,//json数据地址
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(res => {
+    const { data } = res[1];
+    return data
+  })
 }

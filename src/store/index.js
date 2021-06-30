@@ -7,6 +7,8 @@ const store = new Vuex.Store({
       userInfo: {},
       totalList: [],
       token: '',
+      cityList: [],
+      QRData: {}
       // isLogin: ''
     },
     mutations: {
@@ -21,6 +23,12 @@ const store = new Vuex.Store({
         state.token = provider || '';
         setStorage({ token: provider })
       },
+      setCityList(state, provider) {
+        state.cityList = provider || [];
+      }, 
+      setQRData(state, provider) {
+        state.QRData = provider || {};
+      }, 
       // setIsLogin(state, provider) {
       //   state.isLogin = provider;
       // },

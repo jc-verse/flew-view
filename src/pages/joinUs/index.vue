@@ -51,21 +51,25 @@ import { textMsg } from './const';
 import FabGroup from '@/components/fabGroup';
 import { imgUrl } from '@/common/http'
 import { copy } from '@/common/utils';
-import { copyWxData } from '@/common/server_qr_wx';
 export default {
   name:'about_us', 
   components: { scrollBox, bottomLogo, pageSj, FabGroup },
   data () {
-    const [ copyItem ] = copyWxData;
     return {
       textMsg,
       isH5: false,
       QRList: [
         // { code:require('@/static/img1/QR_code.png'), title: '长按识别二维码加入我们的大家庭', id:1 },
-        { code: imgUrl+ copyItem.qrImg, title: '长按保存客服二维码', id:2 },
+        { code: '', title: '长按保存客服二维码', id:2 },
       ],
-      copyItem
+      copyItem: {}
     }
+  },
+  onLoad () {
+    const { copyWxData } = this.$store.state.QRData;
+    const [ copyItem ] = copyWxData;
+    this.QRList = this.QRList.map(item => ({...item, code: imgUrl+ copyItem.qrImg }));
+    this.copyItem = copyItem;
   },
   mounted() {
   },

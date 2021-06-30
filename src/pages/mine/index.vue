@@ -117,7 +117,6 @@ import FabGroup from '@/components/fabGroup';
 import {imgUrl} from '@/common/http';
 import { joinUrl, copy } from '@/common/utils';
 import TipPopup from '@/components/cards/tipPopup';
-import { copyWxData } from '@/common/server_qr_wx';
 import { rateConsults } from './const'
 
 import { 
@@ -164,12 +163,12 @@ export default {
     GroupItemSqz, GroupItemJxz, GroupItemBsq, GroupItemSqjl, GroupItemFqz,
   },
   data() {
-    const [copyItem] = copyWxData;
-    const QRImg =  imgUrl+ copyItem.qrImg;
     const rateForm = { ...rateFormInit }
     const rateForm2 = { ...rateFormInit }
     return {
-      QRImg, copyItem, rateForm, rateForm2,
+      QRImg: '', 
+      copyItem: {},
+      rateForm, rateForm2,
       headList: rateConsults,
       vipNum: 0,
       actived: '2',
@@ -219,6 +218,11 @@ export default {
     }
   },
   onLoad() {
+    const { copyWxData } = this.$store.state.QRData;
+    const [ copyItem ] = copyWxData;
+    this.QRImg = imgUrl+ copyItem.qrImg;
+    this.copyItem = copyItem;
+
     const toUserInfoUrl = uni.getStorageSync('toUserInfoUrl')
     if (toUserInfoUrl) {
       this.toUserInfoUrl = toUserInfoUrl;

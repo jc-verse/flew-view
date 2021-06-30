@@ -1,4 +1,4 @@
-import { userCardInfo, totalTeamTypeList } from '@/common/api';
+import { userCardInfo, totalTeamTypeList, cityList, serverQR } from '@/common/api';
 import { setStorage, deepChange, closeLogin } from '@/common/utils';
 import {mapState,mapMutations} from 'vuex';
 const isObject = (val) => {
@@ -12,8 +12,8 @@ export default {
   onLoad() {
   },
   methods: {
-    ...mapMutations([ 'setUserInfo', "setTotalList", 'setToken']),
-    // 获取信息
+    ...mapMutations([ 'setUserInfo', "setTotalList", 'setToken', 'setCityList', 'setQRData']),
+    // 获取用户信息
     getUserInfo(options) {
       const avatarUrl = uni.getStorageSync('avatarUrl')
       userCardInfo({},options || {}).then(res=> {
@@ -32,6 +32,7 @@ export default {
         }
       }).catch(err => {console.log(err)})
     },
+    // 获取全部学校列表
     totalTeamTypeList (options) {
       totalTeamTypeList({},options || {}).then(res => {
         const {data: nData} = res[1];
@@ -43,6 +44,16 @@ export default {
     },
     closeLogin () {
       closeLogin();
+    },
+    getCity() {
+      cityList().then(res => {
+        this.setCityList(res)
+      })
+    },
+    getServerQR() {
+      serverQR().then(res => {
+        this.setQRData(res)
+      })
     }
   }
 

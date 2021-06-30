@@ -5,7 +5,7 @@
       <tag-group @changeValue='changeTag' :showList='[1,2,3,5,6,4]'></tag-group>
       <scroll-box :num='2' @lower='lower'>
         <div class="group_info_list">
-          <div class='list_tip' v-show='searchVal'>搜索到3个关于“{{searchVal}}”的信息</div>
+          <div class='list_tip' v-show='searchVal'>搜索到{{ cardList.length || 0 }}个关于“{{searchVal}}”的信息</div>
           <template v-if="cardList.length">
             <group-item v-for="(item, ind) in cardList"  :infoData='item' :key='ind' @clickBuoy='clickBuoy' @clickItem='clickItem(item)'/>
             <div class="loading" >{{!noConcat? '加载中...' :'到底了'}}</div>
@@ -95,6 +95,7 @@ export default {
     },
     // 列表查询
     getList(form={}) {
+      this.throttle(true);
       const { current, size, searchVal } = this;
       const params = { current, size, ...form, nikeName:searchVal };
       academicHelpList(params).then(res => {
@@ -115,7 +116,12 @@ export default {
           } else  {
             this.noConcat = true;
           }
+          this.$nextTick(()=>{
+            this.throttle(false)
+          })
         }
+      }).catch(err => {
+        this.throttle(false)
       })
     },
     // 节流

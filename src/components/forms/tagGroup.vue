@@ -16,7 +16,6 @@
 import TagItem from './tagItem'
 import TagItemCity from './tagItemCityNew'
 import { sexs } from '@/common/enum';
-import cityData from '@/static/city1.json';
 import { selectSchoolList, teamUpGradeList, subjectList } from '@/common/api'
 
 export default {
@@ -36,11 +35,11 @@ export default {
     return {
       index: 0,
       tagList: [
-        { label: '城市', id: 1 , code: 'city',      defalutVal:'',  list: cityData, ph: '地区'},
+        { label: '城市', id: 1 , code: 'city',      defalutVal:'',  list: [], ph: '地区'},
         { label: '学校', id: 2 , code: 'schoolName',defalutVal:'',  list:[] ,       ph: '学校'},
         { label: '性别', id: 3 , code: 'sex',       defalutVal:'',  list: sexs ,    ph: '性别'},
         { label: '课程体系', id: 6 , code: 'subId',     defalutVal:'',  list: [],   ph: '课程体系'},
-        { label: '科目', id: 5 , code: 'subId1',     defalutVal:'',  list: [],   ph: '科目'},
+        { label: '标化', id: 5 , code: 'subId1',     defalutVal:'',  list: [],   ph: '标化'},
         { label: '年级', id: 4 , code: 'grade',     defalutVal:'',  list: [],   ph: '年级'},
       ],
       cityName: '',
@@ -55,8 +54,14 @@ export default {
   },
   computed: {
     tags () {
-      const { tagList, showList } = this;
-      return tagList.filter(item => item.list.length && showList.includes(item.id))
+      const { tagList, showList, $store } = this;
+      const { cityList } = $store.state
+      return tagList.filter(item => {
+        if (item.code ==='city') {
+          item.list = cityList
+        }
+        return item.list.length && showList.includes(item.id)
+      })
     },
   },
   mounted() {
@@ -110,7 +115,7 @@ export default {
           const arr = (data || [])
             .map(item => ({...item ,label: item.subjectName }))
           if (arr.length) {
-            arr.unshift({label: type == 1? '请选择科目': '请选择课程体系', id: ''})
+            arr.unshift({label: type == 1? '请选择标化': '请选择课程体系', id: ''})
           } 
           this.tagList = this.tagList.map(item => {
             if (item.id == obj[type]) {

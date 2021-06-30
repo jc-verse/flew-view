@@ -66,6 +66,7 @@ export default {
       }
     },
     getInfo(form={}) {
+      this.throttle(true);
       const { current, size, searchVal } = this;
       const params = { current, size, ...form, nikeName:searchVal };
       consultingList(params).then(res => {
@@ -87,6 +88,9 @@ export default {
             this.noConcat = true;
           }
         }
+        this.$nextTick(()=>{ this.throttle(false) })
+      }).catch(err => {
+        this.throttle(false)
       })
     },
     // 节流
