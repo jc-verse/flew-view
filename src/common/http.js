@@ -4,10 +4,12 @@ import encrypt from '@/assets/js/jsencrypt'
 
 import store from '@/store'
 
-// export const baseUrl = 'http://47.101.54.170:8111/server';
-export const baseUrl = 'https://www.sjreach.cn/server'; // 生产
-// export const baseUrl = 'https://dev.sjreach.cn/server'; // 测试
-export const imgUrl = 'https://prod.qiniucdns.sjreach.cn/';
+// export const baseUrl = 'https://www.sjreach.cn/server'; // 生产
+export const baseUrl = 'https://dev.sjreach.cn/server'; // 测试
+
+export const imgUrl = 'https://prod.qiniucdns.sjreach.cn/'; // 七牛云资源链接
+
+
 const headerOptions = {
   'POST': {
     'Accept': 'application/json',
