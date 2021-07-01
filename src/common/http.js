@@ -7,7 +7,7 @@ import store from '@/store'
 // export const baseUrl = 'http://47.101.54.170:8111/server';
 export const baseUrl = 'https://www.sjreach.cn/server'; // 生产
 // export const baseUrl = 'https://dev.sjreach.cn/server'; // 测试
-export const imgUrl = 'http://prod.qiniucdns.sjreach.cn/';
+export const imgUrl = 'https://prod.qiniucdns.sjreach.cn/';
 const headerOptions = {
   'POST': {
     'Accept': 'application/json',
@@ -19,21 +19,17 @@ const headerOptions = {
     'Content-Type': 'application/x-www-form-urlencoded',
   }
 }
-// 不加密
-const noJMList = [ '/app/oss/upload' ] 
+// 请求数据拦截
+const dataFn = (url, data) => {
+  const noJMList = [ '/app/oss/upload', '/app/user-info/update-business-card-info' ] 
+  return noJMList.includes(url) ? data : { json: encrypt.encryptLong(JSON.stringify(data || '')) }
+}
 
 export const httpAPI =  ( url, options) => {
   const { data: qData, header = {}, method, token  } = options;
-  let datas = {} 
-  if (!noJMList.includes(url)) {
-    datas = { json: encrypt.encryptLong(JSON.stringify(qData || '')) } // 数据加密
-  } else {
-    datas = qData;
-  }
   const newToken = uni.getStorageSync('token') || token;
-  // const newToken = '76C77C71273A5A01B1CBF4DB814E39A27CCFC1063003686E677158436BD1B8A8C66779801850E2C0033D0980BF4201A9' ;
   console.log(1234343,url, token, uni.getStorageSync('token'),qData)
-  // let datas = qData;
+  const datas = dataFn(url, qData);
   
   let htttpDefaultOpts = {
     url: baseUrl + url,

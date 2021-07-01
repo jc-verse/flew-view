@@ -47,7 +47,9 @@ export default {
     },
     getCity() {
       cityList().then(res => {
-        this.setCityList(res)
+        if (Array.isArray(res)) {
+          this.setCityList(res)
+        }
       })
     },
     getServerQR() {

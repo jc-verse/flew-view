@@ -52,7 +52,7 @@ import { topListFn, bsToStrFn } from './units';
 import {imgUrl} from '@/common/http'
 import {copy} from '@/common/utils'
 const tipMsg =  `
-  <p>一对一98元/半小时</p>
+  <p>一对一58元/半小时</p>
   <p>近期活动优惠请咨询客服</p>
   <p>或关注微信公众号:</p>
   <p>视无域|界无疆</p>

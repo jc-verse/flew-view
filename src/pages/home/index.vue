@@ -111,7 +111,7 @@ export default {
   mixins:[unitMixin],
   data () {
     return {
-      QRImgL: '',
+      QRImg: '',
       copyItem: {},
       statuList: [],
       active: 1,
@@ -122,15 +122,18 @@ export default {
       return this.statuList.length
     },
     userDataNewFn () {
-      const { userInfo } = this.$store.state;
+      const { userInfo, QRData } = this.$store.state;
+      const { copyWxData } = QRData
+      if (copyWxData) {
+        const [ copyItem ] = copyWxData;
+        this.QRImg = imgUrl+ copyItem.qrImg;
+        this.copyItem = copyItem; 
+      }
       return userInfo
     }
   },
   onLoad() {
-    const { copyWxData } = this.$store.state.QRData;
-    const [ copyItem ] = copyWxData;
-    this.QRImg = imgUrl+ copyItem.qrImg;
-    this.copyItem = copyItem;
+    
 
     const { totalList } = this.$store.state;
     if (!totalList.length) {

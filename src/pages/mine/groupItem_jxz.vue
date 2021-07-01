@@ -179,7 +179,13 @@ export default {
       detailData: {}
     }
   },
-  onLoad() {
+  onShow() {
+    // const { copyWxData } = this.$store.state.QRData;
+    // const [ copyItem ] = copyWxData;
+    // this.QRImg = imgUrl+ copyItem.qrImg;
+    // this.copyItem = copyItem;
+  },
+  mounted() {
     const { copyWxData } = this.$store.state.QRData;
     const [ copyItem ] = copyWxData;
     this.QRImg = imgUrl+ copyItem.qrImg;

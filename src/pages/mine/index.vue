@@ -22,7 +22,7 @@
           </div>
           <div class="vip_num">
             <span class="text">会员号：</span>
-            <span class="num">{{userDataNewFn.vipNum || ''}}</span>
+            <span class="num">{{vipNum}}</span>
             <span class="desc" v-if="realInfo.id > 2">(已认证)</span>
           </div>
         </div>
@@ -170,7 +170,7 @@ export default {
       copyItem: {},
       rateForm, rateForm2,
       headList: rateConsults,
-      vipNum: 0,
+      // vipNum: 0,
       actived: '2',
       ReadCount: 0,
       navList: [
@@ -215,6 +215,11 @@ export default {
     userDataNewFn () {
       const { userInfo } = this.$store.state;
       return userInfo || {}
+    },
+    vipNum  () {
+      const { vipNum } = this.userDataNewFn || {}
+      console.log( 1, 'userDataNewFn' ,this.userDataNewFn)
+      return vipNum || ''
     }
   },
   onLoad() {
