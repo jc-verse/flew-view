@@ -31,6 +31,7 @@
                   <div class="msg">{{'在校学生一对一答疑'}}</div>
                 </div>
                 <div class="left_t_bg"></div>
+                <div class="sale_tip_1"></div>
               </div>
               <!-- 4 -->
               <div class="left_b" @click="clickCard(4)" :class="[masklen && active!==3?'masking':'']">
@@ -50,6 +51,7 @@
                   <div class="msg">{{'学霸的学习方法与解题思路'}}</div>
                 </div>
                 <div class="right_t_bg"></div>
+                <div class="sale_tip_2"></div>
               </div>
               <!-- 5 -->
               <div class="right_b" @click="clickCard(5)" :class="[masklen && active!==5?'masking':'']">
@@ -102,8 +104,6 @@ import FabGroup from '@/components/fabGroup';
 import unitMixin from '@/common/mixins/unitMixin';
 import { isLogin, toLogin, setStorage, copy } from '@/common/utils'
 import { imgUrl } from '@/common/http'
-
-// import encrypt from '@/assets/js/jsencrypt'
 
 export default {
   name: 'home',
@@ -312,6 +312,16 @@ export default {
             // @include img_fill;
             @include img_bg('http://prod.qiniucdns.sjreach.cn/web-2.png');
           }
+          .sale_tip_1{
+            width: 112rpx;
+            height:112rpx;
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-right: -8rpx;
+            margin-top: -6rpx;
+            @include img_bg('http://prod.qiniucdns.sjreach.cn/sale_1.png');
+          }
         }
         .left_b{
           height:260rpx;
@@ -350,6 +360,16 @@ export default {
             @include abs_rb;
             @include img_bg('http://prod.qiniucdns.sjreach.cn/web-3.png');
             // @include img_fill;
+          }
+          .sale_tip_2{
+            width: 112rpx;
+            height:112rpx;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            margin-left: -8rpx;
+            margin-bottom: -6rpx;
+            @include img_bg('http://prod.qiniucdns.sjreach.cn/sale_2.png');
           }
         }
         .right_b{

@@ -164,3 +164,13 @@ export const copy = (value) => {
     }
   });
 }
+
+export const filterForm = (obj) => {
+  const form = {}
+  for (var key in obj) {
+    if (obj[key] || obj[key] === 0) {
+      form[key] = obj[key]
+    }
+  }
+  return form 
+}

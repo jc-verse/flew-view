@@ -31,6 +31,7 @@ import pageSj from '@/components/pageSjNew';
 import tagGroup from '@/components/forms/tagGroup';
 import fabGroup from '@/components/fabGroup';
 import { consultingList, consultingApplyService } from '@/common/api';
+import { filterForm } from '@/common/utils'
 
 export default {
   name:'consult',
@@ -68,7 +69,8 @@ export default {
     getInfo(form={}) {
       this.throttle(true);
       const { current, size, searchVal } = this;
-      const params = { current, size, ...form, nikeName:searchVal };
+      const schoolName = (form.schoolName || '').replace(/\s*/g,"");
+      const params = filterForm({ current, size, ...form, schoolName, nikeName:searchVal });
       consultingList(params).then(res => {
         const {data: nData} = res[1];
         const { code, data } = nData || {};

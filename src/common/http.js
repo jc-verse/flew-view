@@ -1,13 +1,13 @@
 import { joinUrl, getCurPageRoute } from '@/common/utils'
+import config from '@/config/index'
 import { isLogin, setStorage, closeLogin } from './utils'
-import encrypt from '@/assets/js/jsencrypt'
+import { jseFnEncrypt } from './jsencrypt/index'
 
 import store from '@/store'
 
-// export const baseUrl = 'https://www.sjreach.cn/server'; // 生产
-export const baseUrl = 'https://dev.sjreach.cn/server'; // 测试
+export const baseUrl = config.apiUrl;
 
-export const imgUrl = 'https://prod.qiniucdns.sjreach.cn/'; // 七牛云资源链接
+export const imgUrl = config.imageUrl; 
 
 
 const headerOptions = {
@@ -24,7 +24,7 @@ const headerOptions = {
 // 请求数据拦截
 const dataFn = (url, data) => {
   const noJMList = [ '/app/oss/upload', '/app/user-info/update-business-card-info' ] 
-  return noJMList.includes(url) ? data : { json: encrypt.encryptLong(JSON.stringify(data || '')) }
+  return noJMList.includes(url) ? data : jseFnEncrypt(data || '')
 }
 
 export const httpAPI =  ( url, options) => {
@@ -32,7 +32,6 @@ export const httpAPI =  ( url, options) => {
   const newToken = uni.getStorageSync('token') || token;
   console.log(1234343,url, token, uni.getStorageSync('token'),qData)
   const datas = dataFn(url, qData);
-  
   let htttpDefaultOpts = {
     url: baseUrl + url,
     data: datas,

@@ -17,7 +17,13 @@
         <div class="foot">
           <div class="foot_left">
             <div class="l_title">学术帮助：</div>
-            <div class="l_content" v-html="tipMsg"></div>
+            <div class="l_content">
+              <p>一对一 218元/时（限促:<span class="maney">178</span>元)</p>
+              <p>一对多 价格另计</p>
+              <p>更多优惠请咨询客服</p>
+              <p>或关注微信公众号:</p>
+              <p>视无域I界无疆</p>
+            </div>
           </div>
           <div class="foot_right">
             <div class="r_t"> 报名请长按保存客服二维码添加微信</div>
@@ -51,13 +57,6 @@ import joinList from '@/components/cards/joinList';
 import { topListFn, bsToStrFn } from './units';
 import {imgUrl} from '@/common/http'
 import {copy} from '@/common/utils'
-const tipMsg =  `
-  <p>一对一218元/小时</p>
-  <p>一对多价格另计</p>
-  <p>近期活动优惠请咨询客服</p>
-  <p>或关注微信公众号:</p>
-  <p>视无域|界无疆</p>
-`
 export default {
   name:'detail_info',
   components: {  scrollBox, fabGroup, bottomLogo, infoHead, information, joinList, pageSj },
@@ -68,7 +67,6 @@ export default {
       cardInfo: {},
       QRImg: "",
       copyItem: {},
-      tipMsg
     }
   },
   computed : {
@@ -175,6 +173,12 @@ $color:#B3B3B4;
       height: 200rpx;
       @include img_fill;
     }
+  }
+}
+.l_content{
+  .maney{
+    font-size: 32rpx;
+    font-weight: bold;
   }
 }
 </style>

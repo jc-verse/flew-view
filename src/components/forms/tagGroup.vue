@@ -5,7 +5,7 @@
           <template v-if="item.code === 'city'">
             <TagItemCity :ind='ind' :item='item' @changeCity="changeFn"/>
           </template>
-          <template v-else-if="item.code !== 'city' && item.list.length">
+          <template v-else-if="item.code !== 'city' && item.list.length> 1">
             <TagItem :ind='ind' :item='item' @changeItem='changeFn'/>
           </template>
         </div>
@@ -81,9 +81,12 @@ export default {
         const {data: nData} = res[1];
         const { code, data } = nData;
         if (code === 200 && data.length) {
-          const arr = (data || []).map(item => ({...item, label: item.name}));
+          const arr = (data || []).map(item => ({...item, label: (item.name).replace(/\s*/g,"")}));
           arr.unshift({ label: '请选择学校' , id: ''})
           this.tagList[1].list = arr;
+        } else {
+          this.tagList[1].list = [{ label: '请选择学校' , id: ''}];
+          this.$emit('changeValue', this.form )
         }
       }).catch(err => {console.log(err)})
     },
@@ -127,13 +130,12 @@ export default {
       })
     },
     changeFn(id, code, value) {
+      console.log(1992, id, code,value)
       switch (id) {
         case 1:
-          if (value.length) {
-            this.cityName = value
-            this.selectSchoolList();
-          }
-          
+          this.form['schoolName'] = ''
+          this.cityName = value
+          this.selectSchoolList();
           break;
         case 2:
           this.form[code] = value.name;

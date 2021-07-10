@@ -36,6 +36,17 @@ export default {
     clickD (falg) {
       this.down = !this.down;
     }
+  },
+  watch: {
+    'item.list': {
+      handler(val, oldVal) {
+        if (this.item.id == 2) {
+          const { item, index } = this;
+          this.index = 0;
+          this.$emit('changeItem', item.id, item.code, '')
+        }
+      }
+    }
   }
 }
 </script>

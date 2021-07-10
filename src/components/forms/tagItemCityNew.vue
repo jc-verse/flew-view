@@ -52,7 +52,7 @@ export default {
         if (bVal || bVal=== 0) {
           const b = arr2.find((ite,ind) => ind === bVal);
           console.log('b', b)
-          if (b.value) {
+          if (b && b.value) {
             checkName += `/${b.name}`;
           }
         }

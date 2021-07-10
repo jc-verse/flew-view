@@ -52,6 +52,7 @@ import fabGroup from '@/components/fabGroup';
 import { academicHelpList, academicApplyService } from '@/common/api';
 import DiyPopup from '@/components/diyPopup';
 import DiyRate from '@/components/diyRate';
+import { filterForm } from '@/common/utils'
 export default {
   name:'acaHelp',
   components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj, DiyPopup, DiyRate },
@@ -97,7 +98,7 @@ export default {
     getList(form={}) {
       this.throttle(true);
       const { current, size, searchVal } = this;
-      const params = { current, size, ...form, nikeName:searchVal };
+      const params = filterForm({ current, size, ...form, nikeName:searchVal });
       academicHelpList(params).then(res => {
         const {data: nData} = res[1];
         const { code, data } = nData || {};
