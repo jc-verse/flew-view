@@ -1,19 +1,18 @@
 <template>
-  <div>
-  </div>
+  <div> </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      count: 0
-    }
-  },
-  methods: {
-    countFn () {
-      this.count++
-    }
+  export default {
+    data() {
+      return {
+        count: 0,
+      }
+    },
+    methods: {
+      countFn() {
+        this.count++
+      },
+    },
   }
-}
 </script>

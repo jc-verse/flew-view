@@ -4,17 +4,16 @@
   </div>
 </template>
 
-<style lang='scss' scoped>
-  .b_logo{
+<style lang="scss" scoped>
+  .b_logo {
     width: 100%;
     padding: 10px 0;
     display: flex;
     justify-content: center;
-    .img_box{
+    .img_box {
       height: 70rpx;
       width: 358rpx;
       @include img_bg('http://prod.qiniucdns.sjreach.cn/web-7.png');
     }
   }
 </style>
-

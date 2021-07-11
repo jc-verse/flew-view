@@ -1,26 +1,31 @@
 <template>
-  <div class="group_info_item" :style='{background: statusInfo.bgColor}'>
-
-    <div class="msg_title" :class="[showTitle?'ellipsis': '']" @click="clickTitle">{{ statusInfo.title }}</div>
-    <infoHead :infoData='statusInfo.cardInfo' headStyles='width:70rpx;height:70rpx' fontSize='34'>
-      <template slot="right"> 
+  <div class="group_info_item" :style="{ background: statusInfo.bgColor }">
+    <div class="msg_title" :class="[showTitle ? 'ellipsis' : '']" @click="clickTitle">{{
+      statusInfo.title
+    }}</div>
+    <infoHead :infoData="statusInfo.cardInfo" headStyles="width:70rpx;height:70rpx" fontSize="34">
+      <template slot="right">
         <div class="btn_box">
-          <div class="" v-if="statusInfo.showInfo.includes(9)" @click="clickBuoy(9)" >评价</div>
+          <div class="" v-if="statusInfo.showInfo.includes(9)" @click="clickBuoy(9)">评价</div>
         </div>
       </template>
     </infoHead>
 
     <div class="content">
       <!-- 个人信息 -->
-      <information :topList='tops'/>
+      <information :topList="tops" />
       <!-- 团队成员信息 -->
-      <div class="group_infos" v-if='slaveList.length && statusInfo.showSlaveList'>
-        <div class="team_member" @click="showInfo=!showInfo">
-          <div class="left">团队成员：{{slaveList}}</div>
-          <i @click='showList = !showList' class='iconfont iconxiala' :class="[!showList? 'icon_active': '']"></i>
+      <div class="group_infos" v-if="slaveList.length && statusInfo.showSlaveList">
+        <div class="team_member" @click="showInfo = !showInfo">
+          <div class="left">团队成员：{{ slaveList }}</div>
+          <i
+            @click="showList = !showList"
+            class="iconfont iconxiala"
+            :class="[!showList ? 'icon_active' : '']"
+          ></i>
         </div>
         <!-- 团队成员信息 :styles='{background: "rgba(255,255,255,0)"}' -->
-        <CrewInfo  :info='ite' v-for="(ite, ind) in infoData.slave" :key='ind' v-show="showInfo"/>
+        <CrewInfo :info="ite" v-for="(ite, ind) in infoData.slave" :key="ind" v-show="showInfo" />
       </div>
       <!-- 当前状态 -->
       <div class="group_infos" v-if="statusInfo.tip">
@@ -28,275 +33,275 @@
       </div>
     </div>
 
-    <TipPopup title="操作提示" ref='noLogin' msg="是否登录后执行操作？" @confirm='toLogin'/>
+    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
   </div>
 </template>
 
 <script>
-import joinList from '@/components/cards/joinList';
-import infoHead from '@/components/cards/infoHead';
-import information from '@/components/cards/information';
-import Rate from '@/components/cards/rate';
-import CrewInfo from '@/components/cards/crewInfo';
-import DiyPopup from '@/components/diyPopup';
-import { bsToStrFn, topListFn, statusScreen, joinName } from './units';
-import TipPopup from '@/components/cards/tipPopup';
-import { isLogin, toLogin } from '@/common/utils'
-export default {
-  name: 'group_item',
-  components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo, TipPopup },
-  props: {
-    infoData : {
-      type:Object,
-      default:()=>({})
+  import joinList from '@/components/cards/joinList'
+  import infoHead from '@/components/cards/infoHead'
+  import information from '@/components/cards/information'
+  import Rate from '@/components/cards/rate'
+  import CrewInfo from '@/components/cards/crewInfo'
+  import DiyPopup from '@/components/diyPopup'
+  import { bsToStrFn, topListFn, statusScreen, joinName } from './units'
+  import TipPopup from '@/components/cards/tipPopup'
+  import { isLogin, toLogin } from '@/common/utils'
+  export default {
+    name: 'group_item',
+    components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo, TipPopup },
+    props: {
+      infoData: {
+        type: Object,
+        default: () => ({}),
+      },
+      userId: {
+        type: String,
+        default: '',
+      },
     },
-    userId : {
-      type: String,
-      default: ''
-    }
-  },
 
-  data () {
-    return {
-      showTitle: true,
-      showInfo: false,
-      showList: false,
-      type: 0,
-  // "relationshipId": 0
-    }
-  },
-  computed : {
-    tops() {
-      const { statusInfo } = this;
-      const arr = topListFn(statusInfo.cardInfo);
-      return arr
-    },
-    statusInfo() {
-      const { userId, infoData } = this;
-      return statusScreen(infoData, userId)
-    },
-    slaveList () {
-      const slave = this.infoData.slave || [];
-      return joinName(slave) || ''
-    },
-  },
-  methods:{
-    toLogin,
-    clickTitle() {
-      this.showTitle = !this.showTitle;
-    },
-    // 点击组队申请！
-    clickBuoy (type) {
-      if (!isLogin()) {
-        this.$refs.noLogin.show()
-        return 
+    data() {
+      return {
+        showTitle: true,
+        showInfo: false,
+        showList: false,
+        type: 0,
+        // "relationshipId": 0
       }
-      this.type = type;
-      switch (type) {
-        case 8:
-        case 9:
-          this.$emit('clickBtn', type, { data: this.infoData })
-          // this.$refs.diyRate.show()
-          break;
-        default:
-          break;
-      }
-    }
-  },
-}
+    },
+    computed: {
+      tops() {
+        const { statusInfo } = this
+        const arr = topListFn(statusInfo.cardInfo)
+        return arr
+      },
+      statusInfo() {
+        const { userId, infoData } = this
+        return statusScreen(infoData, userId)
+      },
+      slaveList() {
+        const slave = this.infoData.slave || []
+        return joinName(slave) || ''
+      },
+    },
+    methods: {
+      toLogin,
+      clickTitle() {
+        this.showTitle = !this.showTitle
+      },
+      // 点击组队申请！
+      clickBuoy(type) {
+        if (!isLogin()) {
+          this.$refs.noLogin.show()
+          return
+        }
+        this.type = type
+        switch (type) {
+          case 8:
+          case 9:
+            this.$emit('clickBtn', type, { data: this.infoData })
+            // this.$refs.diyRate.show()
+            break
+          default:
+            break
+        }
+      },
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
-@import url("/static/fonts/iconfont.css");
-.group_info_item{
-  background: #FFFFFF;
-  border-radius: 8px;
-  padding: 40rpx 30rpx 40rpx;
-  margin-bottom: 20rpx;
-  position: relative;
+  @import url('/static/fonts/iconfont.css');
+  .group_info_item {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 40rpx 30rpx 40rpx;
+    margin-bottom: 20rpx;
+    position: relative;
 
-  .event_tip{
+    .event_tip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 20rpx;
+      background: rgba(255, 215, 131, 0.2);
+      border-radius: 30rpx 0px 30rpx 0;
+      @include fontMixin(28rpx, #e59024);
+    }
+    .msg_title {
+      @include fontMixin(32rpx, #000000, bold);
+      line-height: 44rpx;
+      margin-bottom: 30rpx;
+      padding-right: 30rpx;
+    }
+    .ellipsis {
+      @include ellipsis;
+    }
+    .content > div:not(:last-child) {
+      border-bottom: 2rpx solid #eceef6;
+    }
+    .team_member {
+      display: flex;
+      @include flex_center;
+      @include fontMixin(30rpx, #676fdf, 400);
+      .left {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      i {
+        padding: 24rpx;
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .icon_active {
+        transform: rotate(-90deg);
+      }
+    }
+    .btn_box {
+      // position: absolute;
+      // top: 136rpx;
+      // right: 0;
+      display: flex;
+      justify-content: revert;
+      flex-direction: row-reverse;
+      .buoy,
+      .evaluate {
+        background: #eeeeee;
+        padding: 10rpx 20rpx;
+        @include fontMixin(28rpx, #666666);
+      }
+      .buoy {
+        border-radius: 30rpx 0 0 30rpx;
+        @include fontMixin(28rpx, #666666);
+      }
+      .yes {
+        background: rgba(92, 134, 242, 0.1);
+        color: rgb(92, 134, 242);
+      }
+      .evaluate {
+        border-radius: 30rpx;
+        margin-right: 10rpx;
+      }
+    }
+
+    .tip_msg {
+      padding-top: 20rpx;
+      @include fontMixin(30rpx, #676fdf);
+    }
+  }
+  .tip_box {
+    width: 500rpx;
+    // height: 300rpx;
+    background: #ffffff;
     position: absolute;
-    left: 0;
-    top: 0;
-    padding: 20rpx;
-    background: rgba(255, 215, 131, .2);
-    border-radius: 30rpx 0px 30rpx 0;
-    @include fontMixin(28rpx, #E59024)
-  }
-  .msg_title {
-    @include fontMixin(32rpx,#000000,bold );
-    line-height: 44rpx;
-    margin-bottom: 30rpx;
-    padding-right: 30rpx;
-  }
-  .ellipsis{
-    @include ellipsis;
-  }
-  .content>div:not(:last-child){
-    border-bottom: 2rpx solid #ECEEF6;
-  }
-  .team_member{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
     display: flex;
-    @include flex_center;
-    @include fontMixin(30rpx, #676FDF ,400);
-    .left{
-      overflow: hidden;
-      text-overflow:ellipsis;
-      white-space: nowrap;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20rpx;
+    .title {
+      padding: 20rpx;
+      font-weight: bold;
+      width: 100%;
+      text-align: center;
+      // border-bottom: 1px solid #f5f5f5;
     }
-    i{ 
-      padding: 24rpx;
-      color: rgba(0, 0, 0, 0.3)
+    .msg {
+      padding: 10rpx;
+      min-height: 80rpx;
+      width: 100%;
+      text-align: center;
     }
-    .icon_active{
-      transform: rotate(-90deg);
+    .btns {
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      padding: 10rpx 0 20rpx;
+      .yes,
+      .no {
+        text-align: center;
+        border-radius: 30rpx;
+        border: 1px solid rgba(92, 134, 242, 0.2);
+        width: 150rpx;
+        padding: 10rpx;
+      }
+      .yes {
+        background: rgba(92, 134, 242, 0.2);
+        color: #5c86f2;
+      }
+      .no {
+        border-color: auto;
+      }
     }
   }
-  .btn_box{
-    // position: absolute;
-    // top: 136rpx;
-    // right: 0;
+
+  // .group_infos{
+  //   border-top: 2rpx solid rgba(0, 0, 0,.1);
+  // }
+
+  .rate_box {
     display: flex;
-    justify-content: revert;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    .rate_item {
+      padding: 40rpx;
+      @include flex_center;
+      flex-direction: column;
+      // @include fontMixin(32rpx, #000, bold);
+      .rate_title {
+        padding: 10rpx;
+      }
+    }
+  }
+  .group_infos {
+    border-top: 2rpx solid #eceef6;
+    .team_member {
+      display: flex;
+      @include flex_center;
+      justify-content: space-between;
+      @include fontMixin(30rpx, #676fdf, 400);
+      .left {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      i {
+        padding: 24rpx;
+        color: rgba(0, 0, 0, 0.3);
+      }
+      .icon_active {
+        transform: rotate(-90deg);
+      }
+    }
+  }
+  .btn_box {
+    display: flex;
     flex-direction: row-reverse;
-    .buoy, .evaluate{
-      background: #eeeeee ;
-      padding: 10rpx 20rpx;
-      @include fontMixin(28rpx, #666666 );
-    }
-    .buoy{
-      border-radius: 30rpx 0 0 30rpx;
-      @include fontMixin(28rpx, #666666 );
-    }
-    .yes{
-      background: rgba(92, 134, 242, .1);
-      color: rgb(92, 134, 242);
-    }
-    .evaluate{
+    margin-right: -30rpx;
+    > div {
+      padding: 10rpx 10rpx;
       border-radius: 30rpx;
+      background: #eeeeee;
+      @include fontMixin(26rpx, #666666);
+    }
+    & > div:first-child {
+      border-radius: 30rpx 0 0 30rpx;
+    }
+    & > div:not(:first-child) {
       margin-right: 10rpx;
     }
-  }
-  
-  
-  .tip_msg{
-    padding-top: 20rpx;
-    @include fontMixin(30rpx,#676FDF)
-  }
-}
-.tip_box{
-  width: 500rpx;
-  // height: 300rpx;
-  background: #ffffff;
-  position: absolute;
-  top:50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 101;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 20rpx;
-  .title{
-    padding: 20rpx;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-    // border-bottom: 1px solid #f5f5f5;
-  }
-  .msg{
-    padding: 10rpx;
-    min-height: 80rpx;
-    width: 100%;
-    text-align: center;
-  }
-  .btns{
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    padding: 10rpx 0 20rpx;
-    .yes, .no{
-      text-align: center;
-      border-radius: 30rpx;
-      border: 1px solid rgba(92, 134, 242, 0.2);
-      width: 150rpx;
-      padding: 10rpx;
+    .disable {
+      filter: grayscale(100%);
     }
-    .yes{
-      background: rgba(92, 134, 242, 0.2);
-      color: #5C86F2
-    };
-    .no{
-      border-color: auto;
+    .blue {
+      background: rgba(92, 134, 242, 0.1);
+      color: rgb(92, 134, 242);
     }
   }
-}
-
-// .group_infos{
-//   border-top: 2rpx solid rgba(0, 0, 0,.1);
-// }
-
-.rate_box{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  .rate_item{
-    padding: 40rpx;
-    @include flex_center;
-    flex-direction: column;
-    // @include fontMixin(32rpx, #000, bold);
-    .rate_title{
-      padding: 10rpx;
-    }
-  }
-}
-.group_infos{
-  border-top: 2rpx solid #ECEEF6;
-  .team_member{
-    display: flex;
-    @include flex_center;
-    justify-content: space-between;
-    @include fontMixin(30rpx, #676FDF ,400);
-    .left{
-      overflow: hidden;
-      text-overflow:ellipsis;
-      white-space: nowrap;
-    }
-    i{ 
-      padding: 24rpx;
-      color: rgba(0, 0, 0, 0.3)
-    }
-    .icon_active{
-      transform: rotate(-90deg);
-    }
-  }
-  
-}
-.btn_box{
-  display: flex;
-  flex-direction: row-reverse;
-  margin-right: -30rpx;
-  > div {
-    padding: 10rpx 10rpx;
-    border-radius: 30rpx;
-    background: #eeeeee ;
-    @include fontMixin(26rpx, #666666 );
-  }
-  &>div:first-child{
-    border-radius: 30rpx 0 0 30rpx;
-  }
-  &>div:not(:first-child){
-    margin-right: 10rpx;
-  }
-  .disable{
-    filter: grayscale(100%);
-  }
-  .blue{
-    background: rgba(92, 134, 242, .1);
-    color: rgb(92, 134, 242);
-  }
-}
 </style>
