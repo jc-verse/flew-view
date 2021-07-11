@@ -6,7 +6,10 @@
         <text class="header__subheading">视界帮你快速找到队友</text>
       </div>
       <div class="header__append">
-        <image class="header__illustration" src="@/static/illustration/home_header.png" />
+        <image
+          class="header__illustration"
+          src="@/static/illustration/home_header.png"
+        />
       </div>
     </div>
     <div class="section">
@@ -17,8 +20,15 @@
 
       <div class="section__content">
         <div class="categories-wrapper">
-          <div v-for="(category, index) in categories" :key="index" class="category-card">
-            <image class="category-card__image" :src="category.imageUrl"></image>
+          <div
+            v-for="(category, index) in categories"
+            :key="index"
+            class="category-card"
+          >
+            <image
+              class="category-card__image"
+              :src="category.imageUrl"
+            ></image>
             <text class="category-card__text">{{ category.name }}</text>
           </div>
         </div>
@@ -42,14 +52,14 @@
 </template>
 
 <script>
-  import categories from './categories'
+  import categories from './categories';
   export default {
     data() {
       return {
         categories: categories,
-      }
+      };
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
