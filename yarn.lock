@@ -7559,6 +7559,11 @@ jsdom@^15.2.1:
     ws "^7.0.0"
     xml-name-validator "^3.0.0"
 
+jsencrypt@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/jsencrypt/-/jsencrypt-3.2.0.tgz#09242aabf1984165dcd7698fe6ed163be77c05f8"
+  integrity sha512-Y/WBrCYRP1A2I1OEXxqurO+W3AC5uXhiArprpYQ0Y8/1Dc3NaiINAyCLx7HzXGwN7xvW3s5xpeOTdwD7lD1SQQ==
+
 jsesc@^2.5.1:
   version "2.5.2"
   resolved "https://registry.npm.taobao.org/jsesc/download/jsesc-2.5.2.tgz?cache=0&sync_timestamp=1603891232110&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjsesc%2Fdownload%2Fjsesc-2.5.2.tgz#80564d2e483dacf6e8ef209650a67df3f0c283a4"
@@ -12945,6 +12950,11 @@ ws@^7.0.0, ws@^7.2.3, ws@~7.4.2:
   version "7.4.4"
   resolved "https://registry.npm.taobao.org/ws/download/ws-7.4.4.tgz?cache=0&sync_timestamp=1615063746103&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fws%2Fdownload%2Fws-7.4.4.tgz#383bc9742cb202292c9077ceab6f6047b17f2d59"
   integrity sha1-ODvJdCyyAikskHfOq29gR7F/LVk=
+
+wxmp-rsa@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/wxmp-rsa/-/wxmp-rsa-1.1.1.tgz#b708fcd7aa171e38655df88be02065bb7fed70dc"
+  integrity sha512-H+IHQcmVqqGUSHp/a7qtSsH49YKHoU++WNziHIi2r/q6KlM+myKjXnQkH/2DR3ZzTbZXBfm17uCgjj/A31hmLg==
 
 x-domhandler@^2.4.2:
   version "2.4.2"

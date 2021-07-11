@@ -1,8 +1,25 @@
 {
+	"tabBar": {
+		"color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+	"backgroundColor": "#ffffff",
+	"list": [{
+		"pagePath": "pages/home/index",
+        "iconPath": "static/tabbar/home-outline.png",
+        "selectedIconPath": "static/tabbar/home.png",
+        "text": "组件"
+	},{
+		"pagePath": "pages/stem/index",
+        "iconPath": "static/tabbar/home-outline.png",
+        "selectedIconPath": "static/tabbar/home.png",
+        "text": "组件"
+	}]
+	},
 	"pages": [
 		
 		{
-			"path": "pages/guidance/index",
+			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "视界 | Reach",
 				"navigationBarTextStyle": "black",
@@ -18,8 +35,9 @@
 					}
 				}
 			}
-		},{
-			"path": "pages/home/index",
+		},
+		{
+			"path": "pages/guidance/index",
 			"style": {
 				"navigationBarTitleText": "视界 | Reach",
 				"navigationBarTextStyle": "black",
