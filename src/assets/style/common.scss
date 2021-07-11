@@ -1,30 +1,30 @@
 /* 公共样式 */
-// 
+//
 @mixin img_fill {
-	img{
-		width: 100%;
-		height: 100%;
-	}
-  image{
+  img {
     width: 100%;
-		height: 100%;
+    height: 100%;
+  }
+  image {
+    width: 100%;
+    height: 100%;
   }
 }
 // 居中
-@mixin flex_center{
+@mixin flex_center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 // 字体样式
-@mixin fontMixin($size:28rpx, $color: #131415, $wei:auto) {
+@mixin fontMixin($size: 28rpx, $color: #131415, $wei: auto) {
   font-size: $size;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: $wei;
   color: $color;
 }
 // 字体样式2
-@mixin fontMixin2($size:28rpx, $color: #131415, $wei:auto) {
+@mixin fontMixin2($size: 28rpx, $color: #131415, $wei: auto) {
   font-size: $size;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: $wei;
@@ -32,34 +32,34 @@
 }
 // 悬浮手势
 @mixin pointer {
-	cursor:pointer
+  cursor: pointer;
 }
 // 隐藏显示省略号
-@mixin ellipsis{
+@mixin ellipsis {
   overflow: hidden;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 // 背景图片
-@mixin img_bg ($img: '', $color:''){
+@mixin img_bg($img: '', $color: '') {
   background-color: $color;
   background-image: url($img);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 
-@mixin flex_($j:center,$a:center, $d: auto) {
+@mixin flex_($j: center, $a: center, $d: auto) {
   display: flex;
   justify-content: $j;
   align-items: $a;
   flex-direction: $d;
 }
 
-.isH5{
-  height: calc(100vh - 88rpx );
+.isH5 {
+  height: calc(100vh - 88rpx);
 }
 
-.required::before{
+.required::before {
   content: '*';
   position: absolute;
   left: -20rpx;
