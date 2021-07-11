@@ -4,7 +4,7 @@
 
     <div class="cList" v-if="type === 'list'">
       <div class="c_item" v-for="(ite, ind) in list" :key="ind">{{
-        ite || ""
+        ite || ''
       }}</div>
     </div>
 
@@ -14,13 +14,13 @@
           :class="['tag_item', ind % 2 ? 'tag_item_tow' : '']"
           v-for="(ite, ind) in list"
           :key="ind"
-          >{{ ite || "" }}</div
+          >{{ ite || '' }}</div
         >
       </slot>
     </div>
 
     <div class="tag_text" v-if="type === 'text'">
-      <div>{{ value || "" }}</div>
+      <div>{{ value || '' }}</div>
     </div>
 
     <div class="tag_list" v-if="type === 'diy'">
@@ -31,12 +31,12 @@
 
 <script>
   export default {
-    name: "join_list",
+    name: 'join_list',
     props: {
-      title: { type: String, default: "标题" },
+      title: { type: String, default: '标题' },
       list: { type: Array, default: () => [] },
-      type: { type: String, default: "list" }, // text/tag/list
-      value: { type: String, default: "文案" },
+      type: { type: String, default: 'list' }, // text/tag/list
+      value: { type: String, default: '文案' },
     },
   };
 </script>

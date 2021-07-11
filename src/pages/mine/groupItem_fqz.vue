@@ -3,7 +3,7 @@
     <!-- <div class="event_tip">
       我申请的
     </div> -->
-    <div class="msg_title">{{ cardStatu.title || "" }}</div>
+    <div class="msg_title">{{ cardStatu.title || '' }}</div>
     <infoHead
       :infoData="infoData"
       headStyles="width:70rpx;height:70rpx"
@@ -91,20 +91,20 @@
 </template>
 
 <script>
-  import joinList from "@/components/cards/joinList";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import DiyPopup from "@/components/diyPopup";
-  import CrewInfo from "@/components/cards/crewInfo";
-  import { bsToStrFn, topListFn, joinName } from "./units";
-  import { isLogin, toLogin } from "@/common/utils";
-  import TipPopup from "@/components/cards/tipPopup";
+  import joinList from '@/components/cards/joinList';
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import DiyPopup from '@/components/diyPopup';
+  import CrewInfo from '@/components/cards/crewInfo';
+  import { bsToStrFn, topListFn, joinName } from './units';
+  import { isLogin, toLogin } from '@/common/utils';
+  import TipPopup from '@/components/cards/tipPopup';
 
-  function filterSFn(val, userId) {
-    const { type, matchName, nikeName, activityName, state } = val;
-    let obj = { title: "", bgColor: "rgba(255, 247, 232, 0.8)", showInfo: [] }; // 1 比赛经历  2个人留言  3 希望参加
+  function filterSFn(val) {
+    const { activityName, state } = val;
+    let obj = { title: '', bgColor: 'rgba(255, 247, 232, 0.8)', showInfo: [] }; // 1 比赛经历  2个人留言  3 希望参加
     obj.title =
-      "自主活动：" + activityName ? `我发起了${activityName}活动` : "";
+      '自主活动：' + activityName ? `我发起了${activityName}活动` : '';
     if (state == 1) {
       obj.showInfo = [10, 11];
     }
@@ -112,7 +112,7 @@
   }
 
   export default {
-    name: "group_item",
+    name: 'group_item',
     components: {
       infoHead,
       information,
@@ -128,12 +128,12 @@
       },
       userId: {
         type: String,
-        default: "",
+        default: '',
       },
     },
     data() {
       return {
-        info: "",
+        info: '',
         showList: false,
         showInfo: false,
         show1: true,
@@ -149,7 +149,7 @@
       },
       slaveList() {
         const slave = this.cardStatu.memberVoList || [];
-        return joinName(slave) || "";
+        return joinName(slave) || '';
       },
       cardStatu() {
         return filterSFn(this.infoData, this.userId);
@@ -162,12 +162,12 @@
       },
       close(flag) {
         if (flag) {
-          this.$emit("clickBtn", 1, { data: this.infoData });
+          this.$emit('clickBtn', 1, { data: this.infoData });
         }
         this.$refs.popup.hide();
       },
       confirm() {
-        this.$emit("clickBtn", this.type, { data: this.infoData });
+        this.$emit('clickBtn', this.type, { data: this.infoData });
       },
       // 点击组队申请！
       clickBuoy(type) {
@@ -181,7 +181,7 @@
             this.$refs.tipPopup.show();
             break;
           case 11:
-            this.$emit("clickBtn", type, { data: this.infoData });
+            this.$emit('clickBtn', type, { data: this.infoData });
             break;
         }
       },
@@ -190,7 +190,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

@@ -1,7 +1,7 @@
 <template>
   <div class="group_info_item" :style="{ background: cardStatu.bgColor || '' }">
     <div class="event_tip">被申请的</div>
-    <div class="msg_title">{{ cardStatu.title || "" }}</div>
+    <div class="msg_title">{{ cardStatu.title || '' }}</div>
     <infoHead
       :infoData="infoData"
       headStyles="width:70rpx;height:70rpx"
@@ -55,24 +55,23 @@
 </template>
 
 <script>
-  import joinList from "@/components/cards/joinList";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import DiyPopup from "@/components/diyPopup";
-  import TipPopup from "@/components/cards/tipPopup";
-  import { styles } from "./const";
-  import { bsToStrFn, topListFn } from "./units";
-  import { isLogin, toLogin } from "@/common/utils";
+  import joinList from '@/components/cards/joinList';
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import TipPopup from '@/components/cards/tipPopup';
+  import { styles } from './const';
+  import { bsToStrFn, topListFn } from './units';
+  import { isLogin, toLogin } from '@/common/utils';
   const popups = {
-    2: { title: "通过", msg: "是否确认通过申请！", type: 2 },
-    3: { title: "拒绝", msg: "是否确认拒绝申请！", type: 3 },
+    2: { title: '通过', msg: '是否确认通过申请！', type: 2 },
+    3: { title: '拒绝', msg: '是否确认拒绝申请！', type: 3 },
   };
 
   function filterSFn(val) {
     const { type, matchName, nikeName, activity, subject } = val;
-    console.log("【119】是卡片的全部数据");
+    console.log('【119】是卡片的全部数据');
     console.log(119, val);
-    let obj = { title: "", bgColor: styles[type].bg, showInfo: [] }; // 1 比赛经历  2个人留言  3 希望参加
+    let obj = { title: '', bgColor: styles[type].bg, showInfo: [] }; // 1 比赛经历  2个人留言  3 希望参加
     if (type == 1) {
       obj.title = `竞赛组队：${nikeName}向您发起${matchName}的竞赛组队`;
       obj.showInfo = [1, 3];
@@ -88,8 +87,8 @@
     return obj;
   }
   export default {
-    name: "group_item",
-    components: { infoHead, information, joinList, DiyPopup, TipPopup },
+    name: 'group_item',
+    components: { infoHead, information, joinList, TipPopup },
     props: {
       infoData: {
         type: Object,
@@ -97,7 +96,7 @@
       },
       userId: {
         type: String,
-        default: "",
+        default: '',
       },
     },
     data() {
@@ -113,11 +112,11 @@
         return bsToStrFn(this.infoData.competitionExperience);
       },
       tags() {
-        return (this.infoData.matchList || "").split(",");
+        return (this.infoData.matchList || '').split(',');
       },
       msg() {
         const { personalMessage } = this.infoData;
-        const massage = personalMessage ? personalMessage : "暂未添加个人留言";
+        const massage = personalMessage ? personalMessage : '暂未添加个人留言';
         return massage;
       },
       popupStatu() {
@@ -140,14 +139,14 @@
       },
       confirm() {
         const { infoData, type } = this;
-        this.$emit("clickBtn", type, { data: infoData });
+        this.$emit('clickBtn', type, { data: infoData });
       },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

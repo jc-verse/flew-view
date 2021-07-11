@@ -28,10 +28,10 @@
 </template>
 
 <script>
-  import Rate from "@/components/cards/rate";
-  import DiyPopup from "@/components/diyPopup";
+  import Rate from '@/components/cards/rate';
+  import DiyPopup from '@/components/diyPopup';
   export default {
-    name: "group_item",
+    name: 'group_item',
     components: { DiyPopup, Rate },
     props: {
       rateData: {
@@ -44,15 +44,15 @@
       },
       title: {
         type: String,
-        default: "评价",
+        default: '评价',
       },
       headList: {
         type: Array,
         default: () => [
-          { title: "知识水平", value: "", code: "dimension1" },
-          { title: "理解程度", value: "", code: "dimension2" },
-          { title: "讲课态度", value: "", code: "dimension3" },
-          { title: "授课效率", value: "", code: "dimension4" },
+          { title: '知识水平', value: '', code: 'dimension1' },
+          { title: '理解程度', value: '', code: 'dimension2' },
+          { title: '讲课态度', value: '', code: 'dimension3' },
+          { title: '授课效率', value: '', code: 'dimension4' },
         ],
       },
     },
@@ -90,7 +90,7 @@
         console.log(883, flag);
         if (flag === true) {
           const { rateForm } = this;
-          this.$emit("confirmRate", rateForm);
+          this.$emit('confirmRate', rateForm);
           this.rateForm = {
             dimension1: 3,
             dimension2: 3,
@@ -111,7 +111,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   .rate_box {
     display: flex;
     flex-direction: column;

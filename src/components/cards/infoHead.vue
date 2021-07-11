@@ -19,7 +19,7 @@
           }"
         >
           <!-- <template v-if="!isUser"> -->
-          {{ infoData.nikeName || "" }}
+          {{ infoData.nikeName || '' }}
           <!-- </template>
           <open-data type="userNickName" v-else></open-data> -->
         </div>
@@ -36,9 +36,9 @@
 </template>
 
 <script>
-  import { imgUrl } from "@/common/http";
+  import { imgUrl } from '@/common/http';
   export default {
-    name: "info_head",
+    name: 'info_head',
     props: {
       infoData: {
         type: Object,
@@ -46,11 +46,11 @@
       },
       headStyles: {
         type: String,
-        default: "width: 100rpx;height: 100rpx",
+        default: 'width: 100rpx;height: 100rpx',
       },
       styles: {
         type: String,
-        default: "",
+        default: '',
       },
       showGender: {
         type: Boolean,
@@ -71,30 +71,30 @@
     },
     computed: {
       showSex() {
-        const sex = this.infoData.sex || "";
+        const sex = this.infoData.sex || '';
         return sex && sex != 3 && this.showGender;
       },
       userSex() {
-        const sex = this.infoData.sex || "";
+        const sex = this.infoData.sex || '';
         const sexs = {
-          1: "",
-          2: "nv",
-          3: "and",
+          1: '',
+          2: 'nv',
+          3: 'and',
         };
         return sexs[sex];
       },
       icon() {
         const { infoData } = this;
-        const arr = ["iconxingbie-nan", "iconxingbie-nv", ""];
+        const arr = ['iconxingbie-nan', 'iconxingbie-nv', ''];
         return arr[infoData.sex - 1];
       },
       headImg() {
         const { avatar } = this.infoData;
         let url =
-          "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132";
+          'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132';
         if (/(http|https)/.test(avatar)) {
           url = avatar;
-        } else if (avatar && avatar !== "default_img.png") {
+        } else if (avatar && avatar !== 'default_img.png') {
           url = imgUrl + avatar;
         }
         return url;
@@ -104,7 +104,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   @mixin font_1 {
     font-size: 36rpx;
     font-family: PingFangSC-Medium, PingFang SC;
@@ -161,7 +161,7 @@
     .and {
       .icon_item {
         background-color: #85d4c3;
-        background-image: url("../../static/img1/sex_3.png");
+        background-image: url('../../static/img1/sex_3.png');
         width: 44rpx;
         height: 44rpx;
         background-size: 100% 100%;

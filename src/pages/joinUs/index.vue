@@ -47,16 +47,16 @@
 </template>
 
 <script>
-  import scrollBox from "@/components/scrollBox";
-  import pageSj from "@/components/pageSjNew";
-  import bottomLogo from "@/components/bottomLogo";
-  import { textMsg } from "./const";
+  import scrollBox from '@/components/scrollBox';
+  import pageSj from '@/components/pageSjNew';
+  import bottomLogo from '@/components/bottomLogo';
+  import { textMsg } from './const';
 
-  import FabGroup from "@/components/fabGroup";
-  import { imgUrl } from "@/common/http";
-  import { copy } from "@/common/utils";
+  import FabGroup from '@/components/fabGroup';
+  import { imgUrl } from '@/common/http';
+  import { copy } from '@/common/utils';
   export default {
-    name: "about_us",
+    name: 'about_us',
     components: { scrollBox, bottomLogo, pageSj, FabGroup },
     data() {
       return {
@@ -64,7 +64,7 @@
         isH5: false,
         QRList: [
           // { code:require('@/static/img1/QR_code.png'), title: '长按识别二维码加入我们的大家庭', id:1 },
-          { code: "", title: "长按保存客服二维码", id: 2 },
+          { code: '', title: '长按保存客服二维码', id: 2 },
         ],
         copyItem: {},
       };
@@ -98,7 +98,7 @@
       .header_img {
         height: 320rpx;
         width: 100%;
-        @include img_bg("http://prod.qiniucdns.sjreach.cn/web-17.png");
+        @include img_bg('http://prod.qiniucdns.sjreach.cn/web-17.png');
       }
       .text_box {
         padding: 30rpx;

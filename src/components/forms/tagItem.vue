@@ -7,7 +7,7 @@
     :range="item.list"
   >
     <view class="tag_item">
-      <span>{{ itemVal.label || "" }}</span>
+      <span>{{ itemVal.label || '' }}</span>
       <span
         class="iconfont iconxiala icon_item"
         :class="[down ? 'icon_active' : '']"
@@ -18,7 +18,7 @@
 
 <script>
   export default {
-    name: "tag_item",
+    name: 'tag_item',
     props: {
       item: { type: Object, default: () => ({}) },
     },
@@ -36,23 +36,23 @@
     },
     methods: {
       onchange: function (e) {
-        const { item, index } = this;
+        const { item } = this;
         const { id, code } = item;
         this.index = e.detail.value;
-        this.$emit("changeItem", id, code, item.list[e.detail.value]);
+        this.$emit('changeItem', id, code, item.list[e.detail.value]);
         // this.clickD(false)
       },
-      clickD(falg) {
+      clickD() {
         this.down = !this.down;
       },
     },
     watch: {
-      "item.list": {
-        handler(val, oldVal) {
+      'item.list': {
+        handler() {
           if (this.item.id == 2) {
-            const { item, index } = this;
+            const { item } = this;
             this.index = 0;
-            this.$emit("changeItem", item.id, item.code, "");
+            this.$emit('changeItem', item.id, item.code, '');
           }
         },
       },

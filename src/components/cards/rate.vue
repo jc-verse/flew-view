@@ -56,7 +56,7 @@
 
 <script>
   // #ifdef APP-NVUE
-  const dom = uni.requireNativePlugin("dom");
+  const dom = uni.requireNativePlugin('dom');
   // #endif
   /**
    * Rate 评分
@@ -78,7 +78,7 @@
    */
 
   export default {
-    name: "UniRate",
+    name: 'UniRate',
     props: {
       isFill: {
         // 星星的类型，是否镂空
@@ -88,17 +88,17 @@
       color: {
         // 星星未选中的颜色
         type: String,
-        default: "#ececec",
+        default: '#ececec',
       },
       activeColor: {
         // 星星选中状态颜色
         type: String,
-        default: "#ffca3e",
+        default: '#ffca3e',
       },
       disabledColor: {
         // 星星禁用状态颜色
         type: String,
-        default: "#c0c0c0",
+        default: '#c0c0c0',
       },
       size: {
         // 星星的大小
@@ -143,7 +143,7 @@
     },
     data() {
       return {
-        valueSync: "",
+        valueSync: '',
         userMouseFristMove: true,
         userRated: false,
         userLastRate: 1,
@@ -163,15 +163,15 @@
         for (let i = 0; i < this.max; i++) {
           if (floorValue > i) {
             starList.push({
-              activeWitch: "100%",
+              activeWitch: '100%',
             });
           } else if (ceilValue - 1 === i) {
             starList.push({
-              activeWitch: (value - floorValue) * 100 + "%",
+              activeWitch: (value - floorValue) * 100 + '%',
             });
           } else {
             starList.push({
-              activeWitch: "0",
+              activeWitch: '0',
             });
           }
         }
@@ -229,7 +229,7 @@
         if (!this.IsPC()) return;
         if (this.userRated) return;
         if (this.userMouseFristMove) {
-          console.log("---mousemove----", this.valueSync);
+          console.log('---mousemove----', this.valueSync);
           this.userLastRate = this.valueSync;
           this.userMouseFristMove = false;
         }
@@ -238,7 +238,7 @@
         this._getRateCount(clientX);
         // #endif
       },
-      mouseleave(e) {
+      mouseleave() {
         // #ifdef H5
         if (!this.IsPC()) return;
         if (this.readonly || this.disabled || !this.touchable) return;
@@ -253,12 +253,12 @@
       IsPC() {
         var userAgentInfo = navigator.userAgent;
         var Agents = [
-          "Android",
-          "iPhone",
-          "SymbianOS",
-          "Windows Phone",
-          "iPad",
-          "iPod",
+          'Android',
+          'iPhone',
+          'SymbianOS',
+          'Windows Phone',
+          'iPad',
+          'iPod',
         ];
         var flag = true;
         for (let v = 0; v < Agents.length - 1; v++) {
@@ -276,8 +276,8 @@
        */
       _getRateCount(clientX) {
         const size = Number(this.size);
-        if (size === NaN) {
-          return new Error("size 属性只能设置为数字");
+        if (isNaN(size)) {
+          return new Error('size 属性只能设置为数字');
         }
         const rateMoveRange = clientX - this._rateBoxLeft;
         let index = parseInt(rateMoveRange / (size + this.margin));
@@ -306,8 +306,8 @@
        * 触发动态修改
        */
       _onChange() {
-        this.$emit("input", this.valueSync);
-        this.$emit("change", {
+        this.$emit('input', this.valueSync);
+        this.$emit('change', {
           value: this.valueSync,
         });
       },
@@ -319,7 +319,7 @@
         uni
           .createSelectorQuery()
           .in(this)
-          .select(".uni-rate")
+          .select('.uni-rate')
           .boundingClientRect()
           .exec((ret) => {
             if (ret) {
@@ -328,7 +328,7 @@
           });
         // #endif
         // #ifdef APP-NVUE
-        dom.getComponentRect(this.$refs["uni-rate"], (ret) => {
+        dom.getComponentRect(this.$refs['uni-rate'], (ret) => {
           const size = ret.size;
           if (size) {
             this._rateBoxLeft = size.left;

@@ -27,28 +27,28 @@
 </template>
 
 <script>
-  import scrollBox from "@/components/scrollBox";
-  import pageSj from "@/components/scrollBox";
-  import navTab from "@/components/navTab";
-  import fabGroup from "@/components/fabGroup";
-  import cardItem from "./cardItem";
-  import TipPopup from "@/components/cards/tipPopup";
-  import { cardList } from "@/components/const";
-  import { isLogin, toLogin } from "@/common/utils";
-  import { activityList } from "@/common/api";
-  import { joinUrl, getCurPage } from "@/common/utils";
+  import scrollBox from '@/components/scrollBox';
+  import pageSj from '@/components/scrollBox';
+  import navTab from '@/components/navTab';
+  import fabGroup from '@/components/fabGroup';
+  import cardItem from './cardItem';
+  import TipPopup from '@/components/cards/tipPopup';
+  import { cardList } from '@/components/const';
+  import { isLogin, toLogin } from '@/common/utils';
+  import { activityList } from '@/common/api';
+  import { joinUrl, getCurPage } from '@/common/utils';
   // 1.公益 2.艺术 3.体育 4.学术 5.综合 6.其他
   const tabList = [
-    { id: "", label: "全部" },
-    { id: 1, label: "公益" },
-    { id: 2, label: "艺术" },
-    { id: 3, label: "体育" },
-    { id: 4, label: "学术" },
-    { id: 5, label: "综合" },
-    { id: 6, label: "其他" },
+    { id: '', label: '全部' },
+    { id: 1, label: '公益' },
+    { id: 2, label: '艺术' },
+    { id: 3, label: '体育' },
+    { id: 4, label: '学术' },
+    { id: 5, label: '综合' },
+    { id: 6, label: '其他' },
   ];
   export default {
-    name: "autonomously",
+    name: 'autonomously',
     components: { scrollBox, navTab, fabGroup, cardItem, pageSj, TipPopup },
     data() {
       return {
@@ -62,7 +62,7 @@
     onLoad() {
       const { pageType } = getCurPage();
       console.log(988, pageType);
-      if (pageType === "add") {
+      if (pageType === 'add') {
         this.initForm();
       }
     },
@@ -78,7 +78,7 @@
           this.$refs.noLogin.show();
           return;
         }
-        uni.navigateTo({ url: "/pages/initiateProcess/index" });
+        uni.navigateTo({ url: '/pages/initiateProcess/index' });
       },
       clickBtn(item) {
         if (!isLogin()) {
@@ -88,7 +88,7 @@
         const { activityId } = item;
         const type = tabList[this.tabIndex].id;
         uni.navigateTo({
-          url: joinUrl("/pages/detailGroup/index", { activityId, type }),
+          url: joinUrl('/pages/detailGroup/index', { activityId, type }),
         });
       },
       // 点击memu
@@ -142,7 +142,7 @@
         width: 160rpx;
         height: 160rpx;
         @include flex_center;
-        @include img_bg("http://prod.qiniucdns.sjreach.cn/web-23.png");
+        @include img_bg('http://prod.qiniucdns.sjreach.cn/web-23.png');
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="group_info_item" :style="{ background: cardStatu.bgColor }">
-    <div class="msg_title">{{ cardStatu.title || "" }}</div>
+    <div class="msg_title">{{ cardStatu.title || '' }}</div>
     <infoHead
       :infoData="cardInfo"
       headStyles="width:70rpx;height:70rpx"
@@ -53,7 +53,7 @@
         type="diy"
       >
         <template slot="diy" style="margin-bottom: 20rpx">
-          <span class="copy">手机号：{{ phoneOrMobile || "" }}</span>
+          <span class="copy">手机号：{{ phoneOrMobile || '' }}</span>
           <span class="copy_btn" @click="copy(phoneOrMobile)">复制</span>
         </template>
       </join-list>
@@ -112,22 +112,22 @@
 </template>
 
 <script>
-  import joinList from "@/components/cards/joinList";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import CrewInfo from "@/components/cards/crewInfo";
-  import TipPopup from "@/components/cards/tipPopup";
-  import { isLogin, toLogin, copy } from "@/common/utils";
-  import { styles } from "./const";
-  import { topListFn, joinName } from "./units";
-  import { imgUrl } from "@/common/http";
+  import joinList from '@/components/cards/joinList';
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import CrewInfo from '@/components/cards/crewInfo';
+  import TipPopup from '@/components/cards/tipPopup';
+  import { isLogin, toLogin, copy } from '@/common/utils';
+  import { styles } from './const';
+  import { topListFn, joinName } from './units';
+  import { imgUrl } from '@/common/http';
   const popups = {
-    4: { title: "退出组队", msg: "是否确认退出组队！", type: 4 },
-    5: { title: "完成", msg: "是否确认完成！", type: 5 },
-    6: { title: "停止组队", msg: "是否停止组队!", type: 6 },
-    7: { title: "开启组队", msg: "是否开启组队!", type: 7 },
-    8: { title: "联系客服", msg: "是否联系客服!", type: 8 },
-    12: { title: "退出活动", msg: "是否退出活动!", type: 12 },
+    4: { title: '退出组队', msg: '是否确认退出组队！', type: 4 },
+    5: { title: '完成', msg: '是否确认完成！', type: 5 },
+    6: { title: '停止组队', msg: '是否停止组队!', type: 6 },
+    7: { title: '开启组队', msg: '是否开启组队!', type: 7 },
+    8: { title: '联系客服', msg: '是否联系客服!', type: 8 },
+    12: { title: '退出活动', msg: '是否退出活动!', type: 12 },
   };
   function filterSFn(val, userId) {
     const {
@@ -143,21 +143,21 @@
       phone,
     } = val;
     const obj = {
-      title: "",
+      title: '',
       bgColor: styles[type].bg,
       showInfo: [],
       showTask: false,
       slavelist: [],
       showPhone: false,
       showMobile: false,
-      QRMsg: "",
+      QRMsg: '',
     }; // 1 比赛经历  2个人留言  3 希望参加
     console.log(
-      "我是用户id：" + userId,
-      ";我是队长Id：" + id,
-      `;我是不是队长：${userId === id ? "是" : "不是"}`,
+      '我是用户id：' + userId,
+      ';我是队长Id：' + id,
+      `;我是不是队长：${userId === id ? '是' : '不是'}`,
     );
-    console.log("【119】是卡片的全部数据");
+    console.log('【119】是卡片的全部数据');
     console.log(119, val);
 
     if (type === 1) {
@@ -235,7 +235,7 @@
     return obj;
   }
   export default {
-    name: "group_item",
+    name: 'group_item',
     components: { infoHead, information, joinList, CrewInfo, TipPopup },
     props: {
       infoData: {
@@ -244,12 +244,12 @@
       },
       userId: {
         type: String,
-        default: "",
+        default: '',
       },
     },
     data() {
       return {
-        QRImg: "",
+        QRImg: '',
         copyItem: {},
         showList: false,
         showInfo: false,
@@ -275,7 +275,7 @@
       },
       slaveList() {
         const slave = this.cardStatu.slavelist || [];
-        return joinName(slave || []) || "";
+        return joinName(slave || []) || '';
       },
       popupStatu() {
         return popups[this.type];
@@ -311,7 +311,7 @@
       showBtnList() {
         const { showInfo } = this.cardStatu;
         if (showInfo.includes(13)) {
-          return [{ code: 13, label: "移除" }];
+          return [{ code: 13, label: '移除' }];
         } else {
           return [];
         }
@@ -319,7 +319,7 @@
       phoneOrMobile() {
         const { infoData, cardStatu } = this;
         const { phone, mobile } = infoData;
-        let num = "";
+        let num = '';
         if (cardStatu.showPhone) {
           num = phone;
         }
@@ -345,11 +345,11 @@
       },
       confirm() {
         const { infoData, type } = this;
-        this.$emit("clickBtn", type, { data: infoData });
+        this.$emit('clickBtn', type, { data: infoData });
       },
       delConfirm() {
         const { detailData, type } = this;
-        this.$emit("clickBtn", type, { data: detailData });
+        this.$emit('clickBtn', type, { data: detailData });
       },
       clickBtnFn(type, data) {
         this.detailData = data;
@@ -361,7 +361,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

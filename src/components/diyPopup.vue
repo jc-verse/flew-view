@@ -47,7 +47,7 @@
    * @event {Function} popuphide 弹出的选择窗口关闭时触发此事件
    */
   export default {
-    name: "diyPopup",
+    name: 'diyPopup',
     props: {
       options: {
         type: [Object, Array],
@@ -57,12 +57,12 @@
       },
       popupTitle: {
         type: String,
-        default: "请选择",
+        default: '请选择',
       },
       styles: {
         type: Object,
         default: () => ({
-          top: "20%",
+          top: '20%',
         }),
       },
       noUp: {
@@ -80,11 +80,11 @@
     methods: {
       show() {
         this.isOpened = true;
-        this.$emit("popupopened");
+        this.$emit('popupopened');
       },
       hide(flag) {
         this.isOpened = false;
-        this.$emit("popupclosed", flag);
+        this.$emit('popupclosed', flag);
       },
       handleInput() {
         this.show();

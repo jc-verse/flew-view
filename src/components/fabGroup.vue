@@ -22,11 +22,10 @@
     </movable-view>
   </movable-area>
 </template>
+
 <script>
-  import { uniFab } from "@dcloudio/uni-ui";
-  import { isLogin, toLogin } from "@/common/utils";
+  import { isLogin, toLogin } from '@/common/utils';
   export default {
-    components: { uniFab },
     props: {
       shows: {
         type: Array,
@@ -36,10 +35,10 @@
     data() {
       return {
         list: [
-          { icon: "iconuser", id: 1 },
-          { icon: "iconzhuye", id: 2 },
-          { icon: "iconkefu", id: 4, name: "联系客服" },
-          { icon: "icontuichu1", id: 3, name: "注销" },
+          { icon: 'iconuser', id: 1 },
+          { icon: 'iconzhuye', id: 2 },
+          { icon: 'iconkefu', id: 4, name: '联系客服' },
+          { icon: 'icontuichu1', id: 3, name: '注销' },
         ],
         isLogin: true,
       };
@@ -59,23 +58,23 @@
     methods: {
       toLogin,
       clickFn(ind, item) {
-        this.$emit("clickItem", item);
+        this.$emit('clickItem', item);
         switch (item.id) {
           case 1:
             if (isLogin()) {
-              uni.navigateTo({ url: "/pages/mine/index" }); // 我的
+              uni.navigateTo({ url: '/pages/mine/index' }); // 我的
             } else {
-              this.$emit("noLogin");
+              this.$emit('noLogin');
             }
             break;
           case 2:
-            uni.navigateTo({ url: "/pages/home/index" });
+            uni.navigateTo({ url: '/pages/home/index' });
             break;
           case 3:
-            this.$emit("unLogin");
+            this.$emit('unLogin');
             break;
           case 4:
-            this.$emit("QRPopup");
+            this.$emit('QRPopup');
             break;
         }
       },
@@ -83,7 +82,7 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
 
   .movable_box {
     position: fixed;

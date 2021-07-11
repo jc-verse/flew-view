@@ -14,7 +14,7 @@
 
 <script>
   export default {
-    name: "formItemBox",
+    name: 'formItemBox',
     props: {
       ite: {
         type: Object,
@@ -40,7 +40,7 @@
       position: relative;
     }
     .required::before {
-      content: "*";
+      content: '*';
       position: absolute;
       left: -20rpx;
       top: 50%;

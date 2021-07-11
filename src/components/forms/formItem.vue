@@ -2,7 +2,7 @@
   <div class="formItem">
     <!-- 文本 -->
     <template v-if="headInit.params.genre === 'text'">
-      {{ formData[headInit.code] || "" }}
+      {{ formData[headInit.code] || '' }}
     </template>
     <!-- input -->
     <template v-if="headInit.params.genre === 'input'">
@@ -115,12 +115,11 @@
 </template>
 
 <script>
-  import UploadImg from "./upload";
-  import combox from "./combox";
-  import DiyInpSel from "./diyInputSelect";
+  import UploadImg from './upload';
+  import combox from './combox';
   export default {
-    name: "formItem",
-    components: { combox, UploadImg, DiyInpSel },
+    name: 'formItem',
+    components: { combox, UploadImg },
     data() {
       return {};
     },
@@ -136,7 +135,7 @@
           arr.find((item) => {
             return item.id === val || item.label === val;
           }) || {};
-        return item.label || "";
+        return item.label || '';
       },
     },
     mounted() {},
@@ -144,32 +143,27 @@
       comboxFn() {},
       change(e, type, code) {
         const { value } = e.target || {};
-        let val = value || "";
+        let val = value || '';
         switch (type) {
-          case "checkout":
+          case 'checkout':
             val = !!value.length;
             break;
-          case "date":
-          case "input":
+          case 'date':
+          case 'input':
             val = value;
             break;
-          case "upload":
-            val = e.name || "";
+          case 'upload':
+            val = e.name || '';
             break;
-          case "select":
+          case 'select':
             const { list } = this.headInit.params || {};
             const ite = list.find((item, index) => index == value) || {};
-
-            if (code === "grade") {
-              val = ite.label;
-            } else {
-              val = ite.id;
-            }
+            val = code === 'grade' ? ite.label : ite.id;
             break;
           default:
             break;
         }
-        this.$emit("change", { data: val, code });
+        this.$emit('change', { data: val, code });
       },
     },
   };

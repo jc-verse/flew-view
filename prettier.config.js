@@ -1,5 +1,6 @@
 module.exports = {
   jsxSingleQuote: true,
+  singleQuote: true,
   trailingComma: 'all',
   proseWrap: 'never',
   htmlWhitespaceSensitivity: 'strict',

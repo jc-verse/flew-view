@@ -12,17 +12,17 @@
 </template>
 
 <script>
-  import { uniDataPicker } from "@dcloudio/uni-ui";
+  import { uniDataPicker } from '@dcloudio/uni-ui';
   export default {
-    name: "tag_item",
+    name: 'tag_item',
     components: { uniDataPicker },
     props: {
       item: { type: Object, default: () => ({}) },
     },
     computed: {
       checkCity() {
-        const [a, b, c] = this.formData;
-        return Object.keys(b ? b : {}).length ? b.name : "请选择";
+        const b = this.formData[1];
+        return Object.keys(b ? b : {}).length ? b.name : '请选择';
       },
     },
     mounted() {},
@@ -36,10 +36,10 @@
       onchange(e) {
         const { id, code } = this.item;
         this.formData = e.detail.value;
-        this.$emit("changeCity", id, code, e.detail.value);
+        this.$emit('changeCity', id, code, e.detail.value);
       },
       onnodeclick(e) {
-        console.log("onnodeclick", e);
+        console.log('onnodeclick', e);
       },
     },
   };

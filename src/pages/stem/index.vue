@@ -18,8 +18,8 @@
                   <img :src="item.url || defalutImg" alt="" />
                 </div>
                 <div class="card_r">
-                  <div>{{ item.label || "" }}</div>
-                  <div class="englisName">{{ item.englishName || "" }}</div>
+                  <div>{{ item.label || '' }}</div>
+                  <div class="englisName">{{ item.englishName || '' }}</div>
                 </div>
               </div>
             </div>
@@ -38,8 +38,8 @@
                   <img :src="item.url || defalutImg" alt="" />
                 </div>
                 <div class="card_r">
-                  <div>{{ item.matchName || "" }}</div>
-                  <div class="englisName">{{ item.englishName || "" }}</div>
+                  <div>{{ item.matchName || '' }}</div>
+                  <div class="englisName">{{ item.englishName || '' }}</div>
                 </div>
               </div>
             </div>
@@ -52,34 +52,34 @@
 </template>
 
 <script>
-  import Search from "@/components/forms/search";
-  import scrollBox from "@/components/scrollBox";
-  import pageSj from "@/components/pageSjNew";
+  import Search from '@/components/forms/search';
+  import scrollBox from '@/components/scrollBox';
+  import pageSj from '@/components/pageSjNew';
 
-  import navTab from "@/components/navTab";
-  import fabGroup from "@/components/fabGroup";
-  import { tabList, cardList, memus } from "./const";
-  import { joinUrl, getCurPage } from "@/common/utils";
+  import navTab from '@/components/navTab';
+  import fabGroup from '@/components/fabGroup';
+  import { tabList, cardList } from './const';
+  import { joinUrl, getCurPage } from '@/common/utils';
 
-  import { teamTypeBranchList, teamTypeCompetition } from "@/common/api";
-  import { imgUrl } from "@/common/http";
+  import { teamTypeBranchList, teamTypeCompetition } from '@/common/api';
+  import { imgUrl } from '@/common/http';
   export default {
-    name: "competition",
+    name: 'competition',
     components: { Search, navTab, fabGroup, scrollBox, pageSj },
     data() {
       return {
         tabList,
         cardList,
-        defalutImg: require("@/static/img1/poster.png"),
+        defalutImg: require('@/static/img1/poster.png'),
 
-        menuType: "1",
-        title: "",
+        menuType: '1',
+        title: '',
         tabIndex: 0,
         tabs: [],
         cards: [],
 
         // searchCards:[], //用于卡片搜索的集合
-        searchValue: "",
+        searchValue: '',
 
         size: 10,
         current: 1,
@@ -112,7 +112,7 @@
 
       const { id, title } = getCurPage();
       this.menuType = id || 0;
-      this.title = title || "";
+      this.title = title || '';
       uni.setNavigationBarTitle({ title: this.title });
       this.getList(this.menuType);
     },
@@ -141,14 +141,14 @@
           current,
           organizeTypeSonId: id || tabs[tabIndex].id,
           size,
-          keyword: searchValue || "",
+          keyword: searchValue || '',
         };
         teamTypeCompetition(params)
           .then((res) => {
             const { data: nData } = res[1];
             const { data, code } = nData || {};
             if (code === 200) {
-              const { size, total, pages, records } = data;
+              const { total, records } = data;
               const { cards } = this;
               this.cards = cards.concat(records || []);
               if (total > cards.length) {
@@ -176,8 +176,8 @@
         const { title, menuType, tabs, tabIndex } = this;
         tabs[tabIndex].id;
         const query = { ...item, title, menuType }; //id: menuType
-        this.$refs.search.value = "";
-        uni.navigateTo({ url: joinUrl("/pages/sage/index", query) });
+        this.$refs.search.value = '';
+        uni.navigateTo({ url: joinUrl('/pages/sage/index', query) });
       },
       // 点击memu
       clickItme(item, index) {

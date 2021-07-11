@@ -4,7 +4,7 @@
       >【{{ info.type | filterType }}】</div
     >
     <div class="msg_content" :class="[showDetail ? '' : 'ellipsis']">
-      {{ info.content || "" }}
+      {{ info.content || '' }}
     </div>
     <div class="unRead" v-if="info.status == 1"></div>
     <div
@@ -31,12 +31,12 @@
     filters: {
       filterType(val) {
         const types = {
-          1: "被申请",
-          2: "申请中反馈",
-          3: "发起中反馈",
-          4: "申请组队被申请",
+          1: '被申请',
+          2: '申请中反馈',
+          3: '发起中反馈',
+          4: '申请组队被申请',
         };
-        return types[val] || "";
+        return types[val] || '';
       },
     },
     methods: {

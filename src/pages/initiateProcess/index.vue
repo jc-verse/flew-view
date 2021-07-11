@@ -41,143 +41,143 @@
 </template>
 
 <script>
-  import pageSj from "@/components/pageSjNew";
+  import pageSj from '@/components/pageSjNew';
 
-  import formItem from "@/components/forms/formItem";
-  import formItemBox from "@/components/forms/formItemBox";
-  import { launchActivity } from "@/common/api";
+  import formItem from '@/components/forms/formItem';
+  import formItemBox from '@/components/forms/formItemBox';
+  import { launchActivity } from '@/common/api';
   const arr = [
-    { label: "请选择", id: "" },
-    { label: "公益", id: 1 },
-    { label: "艺术", id: 2 },
-    { label: "体育", id: 3 },
-    { label: "学术", id: 4 },
-    { label: "综合", id: 5 },
-    { label: "其他", id: 6 },
+    { label: '请选择', id: '' },
+    { label: '公益', id: 1 },
+    { label: '艺术', id: 2 },
+    { label: '体育', id: 3 },
+    { label: '学术', id: 4 },
+    { label: '综合', id: 5 },
+    { label: '其他', id: 6 },
   ];
   const toDateTime = (date) => {
     return new Date(date).getTime();
   };
   export default {
-    name: "initiateProcess",
+    name: 'initiateProcess',
     components: { pageSj, formItem, formItemBox },
     data() {
       return {
-        value: "",
+        value: '',
         formHeads: [
           {
-            label: "发起者",
-            code: "name",
-            id: "",
+            label: '发起者',
+            code: 'name',
+            id: '',
             required: false,
-            params: { ph: "请填写", genre: "input", type: "text", max: 20 },
+            params: { ph: '请填写', genre: 'input', type: 'text', max: 20 },
             disabled: true,
           },
           {
-            label: "活动名称",
-            code: "activityName",
-            id: "",
+            label: '活动名称',
+            code: 'activityName',
+            id: '',
             required: true,
-            params: { ph: "请填写", genre: "input", type: "text", max: 30 },
+            params: { ph: '请填写', genre: 'input', type: 'text', max: 30 },
           },
           {
-            label: "活动类型",
-            code: "activityType",
-            id: "",
+            label: '活动类型',
+            code: 'activityType',
+            id: '',
             required: true,
             params: {
-              ph: "请选择",
-              genre: "select",
-              type: "text",
+              ph: '请选择',
+              genre: 'select',
+              type: 'text',
               max: 20,
               list: arr,
             },
           },
           {
-            label: "开始时间",
-            code: "startTime",
-            id: "",
+            label: '开始时间',
+            code: 'startTime',
+            id: '',
             required: true,
-            params: { ph: "请选择", genre: "date", type: "text", max: 20 },
+            params: { ph: '请选择', genre: 'date', type: 'text', max: 20 },
           },
           {
-            label: "结束时间",
-            code: "endTime",
-            id: "",
+            label: '结束时间',
+            code: 'endTime',
+            id: '',
             required: true,
-            params: { ph: "请选择", genre: "date", type: "text", max: 20 },
+            params: { ph: '请选择', genre: 'date', type: 'text', max: 20 },
           },
           {
-            label: "地点",
-            code: "address",
-            id: "",
+            label: '地点',
+            code: 'address',
+            id: '',
             required: true,
-            params: { ph: "请填写", genre: "input", type: "text", max: 20 },
+            params: { ph: '请填写', genre: 'input', type: 'text', max: 20 },
           },
           {
-            label: "活动简介",
-            code: "activityInfo",
-            id: "",
+            label: '活动简介',
+            code: 'activityInfo',
+            id: '',
             required: true,
             params: {
-              ph: "请填写活动简介",
-              genre: "textarea",
-              type: "text",
+              ph: '请填写活动简介',
+              genre: 'textarea',
+              type: 'text',
               max: 100,
             },
           },
           {
-            label: "参与人数",
-            code: "num",
-            id: "",
+            label: '参与人数',
+            code: 'num',
+            id: '',
             required: true,
-            params: { ph: "请填写", genre: "input", type: "text", max: 20 },
+            params: { ph: '请填写', genre: 'input', type: 'text', max: 20 },
           },
           {
-            label: "招募要求",
-            code: "requirement",
-            id: "",
+            label: '招募要求',
+            code: 'requirement',
+            id: '',
             required: false,
             params: {
-              ph: "请填写招募要求",
-              genre: "textarea",
-              type: "text",
+              ph: '请填写招募要求',
+              genre: 'textarea',
+              type: 'text',
               max: 100,
             },
           },
           {
-            label: "联系方式",
-            code: "phone",
-            id: "",
+            label: '联系方式',
+            code: 'phone',
+            id: '',
             required: true,
             params: {
-              ph: "请填写手机号码",
-              genre: "input",
-              type: "text",
+              ph: '请填写手机号码',
+              genre: 'input',
+              type: 'text',
               max: 11,
             },
           },
           {
-            label: "备注",
-            code: "remarks",
-            id: "",
+            label: '备注',
+            code: 'remarks',
+            id: '',
             required: false,
-            params: { ph: "请填写", genre: "input", type: "text", max: 20 },
+            params: { ph: '请填写', genre: 'input', type: 'text', max: 20 },
           },
         ],
         canClick: true,
         formData: {
-          name: "",
-          activityInfo: "",
-          activityName: "",
-          activityType: "",
-          address: "",
-          endTime: "",
-          num: "",
-          remarks: "",
-          requirement: "",
-          startTime: "",
-          phone: "",
+          name: '',
+          activityInfo: '',
+          activityName: '',
+          activityType: '',
+          address: '',
+          endTime: '',
+          num: '',
+          remarks: '',
+          requirement: '',
+          startTime: '',
+          phone: '',
         },
       };
     },
@@ -203,11 +203,11 @@
           errArr.push(`结束时间不能早于开始时间！`);
         }
         if (Object.keys(ite).length) {
-          if (ite.params.genre === "input" || ite.params.genre === "textarea") {
+          if (ite.params.genre === 'input' || ite.params.genre === 'textarea') {
             errArr.push(`${ite.label}不能为空！`);
           } else if (
-            ite.params.genre === "select" ||
-            ite.params.genre === "date"
+            ite.params.genre === 'select' ||
+            ite.params.genre === 'date'
           ) {
             errArr.push(`请选择${ite.label}！`);
           }
@@ -227,9 +227,9 @@
     },
     methods: {
       submit() {
-        const { errList, formData } = this;
+        const { errList } = this;
         if (errList.length) {
-          uni.showToast({ title: errList[0], icon: "none" });
+          uni.showToast({ title: errList[0], icon: 'none' });
           return;
         }
         this.canClick = false;
@@ -242,14 +242,14 @@
         launchActivity(params)
           .then((res) => {
             const { data: nData } = res[1];
-            const { data, code, msg } = nData;
+            const { code, msg } = nData;
             if (code === 200) {
               uni.showToast({
-                title: msg || "",
-                success: (res) => {
+                title: msg || '',
+                success: () => {
                   setTimeout(function () {
                     uni.redirectTo({
-                      url: "/pages/autonomously/index?pageType=add",
+                      url: '/pages/autonomously/index?pageType=add',
                       success: () => {
                         _this.canClick = true;
                       },
@@ -260,7 +260,7 @@
             } else {
               uni.showToast({
                 title: msg,
-                icon: "none",
+                icon: 'none',
                 success: () => {
                   _this.canClick = true;
                 },
@@ -275,10 +275,10 @@
       // 改变表单
       changeFn({ data, code, type }) {
         switch (type) {
-          case "add":
+          case 'add':
             this.formData[code].push(data);
             break;
-          case "join":
+          case 'join':
             let arr = [];
             const { matchList } = this;
             data.forEach((item) => {
@@ -295,8 +295,8 @@
             });
             this.matchList = matchList.concat(arr);
             break;
-          case "inpSel":
-            this.formData[code] = data.name || "";
+          case 'inpSel':
+            this.formData[code] = data.name || '';
             break;
           default:
             this.formData[code] = data;

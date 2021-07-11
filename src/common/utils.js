@@ -1,4 +1,4 @@
-import store from "@/store";
+import store from '@/store';
 /**
  * 将url 和 json 拼接成带参url
  * url: String;
@@ -25,16 +25,16 @@ export const joinUrl = (url, data = {}) => {
 
 // 获取当前页面路由信息
 export const getCurPage = () => {
-  let pages = getCurrentPages();
-  let curPage = pages[pages.length - 1];
-  let curParam = curPage.options || (curPage.$route || {}).query;
+  const pages = getCurrentPages();
+  const curPage = pages[pages.length - 1];
+  const curParam = curPage.options || (curPage.$route || {}).query;
   return curParam;
 };
 
 // 获取当前页面路由
 export const getCurPageRoute = () => {
-  let pages = getCurrentPages();
-  let curPage = pages[pages.length - 1];
+  const pages = getCurrentPages();
+  const curPage = pages[pages.length - 1];
   return curPage.route;
 };
 
@@ -64,12 +64,12 @@ export const deepChange = (data) => {
     const obj = {};
     for (const key in item) {
       if (Array.isArray(item[key])) {
-        obj["children"] = deepChange(item[key]);
+        obj['children'] = deepChange(item[key]);
         // obj[key] = item[key]
       } else {
         obj[key] = item[key];
         if (/(name|sonName|matchName)/.test(key)) {
-          obj["label"] = item[key];
+          obj['label'] = item[key];
         }
       }
     }
@@ -82,8 +82,8 @@ export const bsToStrFn = (arr = []) => {
   const list = arr || [];
   return list.map((item) => {
     const { time, name, wonAwards } = item;
-    const year = time.split("-")[0];
-    return `${year} ${name} ${wonAwards || ""}`;
+    const year = time.split('-')[0];
+    return `${year} ${name} ${wonAwards || ''}`;
   });
 };
 // 课程体系信息重组
@@ -102,15 +102,15 @@ export function setStorage(obj) {
 }
 // 判断登录
 export function isLogin() {
-  const token = uni.getStorageSync("token");
+  const token = uni.getStorageSync('token');
   return !!token;
 }
 // 退出登录
 export function closeLogin() {
-  const count = uni.getStorageSync("count");
-  const statement = uni.getStorageSync("statement");
-  store.commit("setUserInfo", {});
-  store.commit("setToken", "");
+  const count = uni.getStorageSync('count');
+  const statement = uni.getStorageSync('statement');
+  store.commit('setUserInfo', {});
+  store.commit('setToken', '');
   try {
     uni.clearStorageSync();
   } catch (e) {
@@ -122,26 +122,26 @@ export function closeLogin() {
 }
 // 返回引导页
 export function toLogin() {
-  uni.navigateTo({ url: joinUrl("/pages/guidance/index") });
+  uni.navigateTo({ url: joinUrl('/pages/guidance/index') });
   closeLogin();
 }
 
 // 时间转换格式
 export function formatDate(time, formatStr) {
   if (!time) {
-    return "";
+    return '';
   }
   let date = new Date(time);
   let Y = date.getFullYear();
   let M =
     date.getMonth() + 1 < 10
-      ? "0" + (date.getMonth() + 1)
+      ? '0' + (date.getMonth() + 1)
       : date.getMonth() + 1;
-  let D = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
   let h = date.getHours();
   let m = date.getMinutes();
   let s = date.getSeconds();
-  formatStr = formatStr || "YYYY-MM-DD H:m:s";
+  formatStr = formatStr || 'YYYY-MM-DD H:m:s';
   return formatStr.replace(/YYYY|MM|DD|H|m|s/gi, function (matches) {
     return {
       YYYY: Y,
@@ -160,7 +160,7 @@ export const copy = (value) => {
     success: function (res) {
       uni.getClipboardData({
         success: function (res) {
-          uni.showToast({ title: "复制成功" });
+          uni.showToast({ title: '复制成功' });
         },
       });
     },

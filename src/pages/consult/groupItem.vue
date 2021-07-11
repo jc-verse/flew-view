@@ -7,10 +7,10 @@
             >申请服务</div
           >
           <div v-if="infoData.isConsulting == 1" class="disable">{{
-            "申请中"
+            '申请中'
           }}</div>
           <div v-if="infoData.isConsulting == 3" class="disable">{{
-            "进行中"
+            '进行中'
           }}</div>
           <div class="orange" @click.stop="clickBuoy(2)">查看评价</div>
         </div>
@@ -60,28 +60,28 @@
 </template>
 
 <script>
-  import joinList from "@/components/cards/joinList";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import CrewInfo from "@/components/cards/crewInfo";
-  import TipPopup from "@/components/cards/tipPopup";
-  import { bsToStrFn, bsToStrFun } from "@/common/utils";
-  import { academicGetEvaluate, selectCurriculumSystem } from "@/common/api";
-  import DiyRate from "@/components/diyRate";
-  import { isLogin, toLogin } from "@/common/utils";
+  import joinList from '@/components/cards/joinList';
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import TipPopup from '@/components/cards/tipPopup';
+  import { bsToStrFun } from '@/common/utils';
+  import { academicGetEvaluate } from '@/common/api';
+  import DiyRate from '@/components/diyRate';
+  import { isLogin, toLogin } from '@/common/utils';
+
   const headList = [
-    { title: "讲解清晰", value: "", code: "dimension1" },
-    { title: "情况熟悉", value: "", code: "dimension2" },
-    { title: "态度友好", value: "", code: "dimension3" },
-    { title: "认真仔细", value: "", code: "dimension4" },
+    { title: '讲解清晰', value: '', code: 'dimension1' },
+    { title: '情况熟悉', value: '', code: 'dimension2' },
+    { title: '态度友好', value: '', code: 'dimension3' },
+    { title: '认真仔细', value: '', code: 'dimension4' },
   ];
+
   export default {
-    name: "group_item",
+    name: 'group_item',
     components: {
       infoHead,
       information,
       joinList,
-      CrewInfo,
       TipPopup,
       DiyRate,
     },
@@ -99,7 +99,7 @@
       return {
         type: 1,
         rateForm: {},
-        toUserInfoUrl: "",
+        toUserInfoUrl: '',
         loading: false,
         headList,
       };
@@ -108,17 +108,17 @@
       tops() {
         const { infoData } = this;
         const arr = [
-          { title: "学校", val: infoData.schoolName || "", id: 1 },
-          { title: "年级", val: infoData.grade || "", id: 2 },
-          { title: "课程", val: infoData.curriculumSystem || "", id: 4 },
-          { title: "标化", val: infoData.standardizedPerformance || "", id: 3 },
-          { title: "专业", val: infoData.professionalDirection || "", id: 4 },
-          { title: "成绩", val: infoData.schoolRecord || "", id: 3 },
+          { title: '学校', val: infoData.schoolName || '', id: 1 },
+          { title: '年级', val: infoData.grade || '', id: 2 },
+          { title: '课程', val: infoData.curriculumSystem || '', id: 4 },
+          { title: '标化', val: infoData.standardizedPerformance || '', id: 3 },
+          { title: '专业', val: infoData.professionalDirection || '', id: 4 },
+          { title: '成绩', val: infoData.schoolRecord || '', id: 3 },
           {
-            title: "评价",
+            title: '评价',
             val: infoData.star || 0,
             id: 5,
-            code: "rate",
+            code: 'rate',
             readonly: true,
           },
         ];
@@ -167,7 +167,7 @@
           this.$refs.noLogin.show();
           return;
         }
-        const toUserInfoUrl = uni.getStorageSync("toUserInfoUrl");
+        const toUserInfoUrl = uni.getStorageSync('toUserInfoUrl');
         this.type = type;
         switch (type) {
           case 1:
@@ -189,28 +189,28 @@
       toUserInfo(flag) {
         if (flag) {
           uni.navigateTo({ url: this.toUserInfoUrl });
-          this.toUserInfoUrl = "";
+          this.toUserInfoUrl = '';
         } else {
-          uni.showToast({ title: "请录入信息后, 申请服务!", icon: "none" });
+          uni.showToast({ title: '请录入信息后, 申请服务!', icon: 'none' });
         }
       },
       // 点击确定
       confirm() {
         const { type } = this;
-        this.$emit("clickBuoy", type, this.infoData);
+        this.$emit('clickBuoy', type, this.infoData);
       },
       clickItem() {
         if (!isLogin()) {
           return;
         }
-        this.$emit("clickItem");
+        this.$emit('clickItem');
       },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

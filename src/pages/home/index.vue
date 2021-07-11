@@ -25,8 +25,8 @@
             >
               <div class="top">
                 <div class="title_msg">
-                  <div class="title">{{ "竞赛组队" }}</div>
-                  <div class="msg">{{ "寻找志同道合的朋友" }}</div>
+                  <div class="title">{{ '竞赛组队' }}</div>
+                  <div class="msg">{{ '寻找志同道合的朋友' }}</div>
                 </div>
               </div>
               <div class="top_bg"></div>
@@ -41,8 +41,8 @@
                 :class="[masklen && active !== 2 ? 'masking' : '']"
               >
                 <div class="title_msg">
-                  <div class="title">{{ "学校信息咨询" }}</div>
-                  <div class="msg">{{ "在校学生一对一答疑" }}</div>
+                  <div class="title">{{ '学校信息咨询' }}</div>
+                  <div class="msg">{{ '在校学生一对一答疑' }}</div>
                 </div>
                 <div class="left_t_bg"></div>
                 <div class="sale_tip_1"></div>
@@ -54,8 +54,8 @@
                 :class="[masklen && active !== 3 ? 'masking' : '']"
               >
                 <div class="title_msg">
-                  <div class="title">{{ "关于我们" }}</div>
-                  <div class="msg">{{ "来看看我们能给你的帮助" }}</div>
+                  <div class="title">{{ '关于我们' }}</div>
+                  <div class="msg">{{ '来看看我们能给你的帮助' }}</div>
                 </div>
                 <div class="left_b_bg"> </div>
               </div>
@@ -68,8 +68,8 @@
                 :class="[masklen && active !== 4 ? 'masking' : '']"
               >
                 <div class="title_msg">
-                  <div class="title">{{ "学术帮助" }}</div>
-                  <div class="msg">{{ "学霸的学习方法与解题思路" }}</div>
+                  <div class="title">{{ '学术帮助' }}</div>
+                  <div class="msg">{{ '学霸的学习方法与解题思路' }}</div>
                 </div>
                 <div class="right_t_bg"></div>
                 <div class="sale_tip_2"></div>
@@ -81,8 +81,8 @@
                 :class="[masklen && active !== 5 ? 'masking' : '']"
               >
                 <div class="title_msg">
-                  <div class="title">{{ "加入我们" }}</div>
-                  <div class="msg">{{ "欢迎加入我们的团队" }}</div>
+                  <div class="title">{{ '加入我们' }}</div>
+                  <div class="msg">{{ '欢迎加入我们的团队' }}</div>
                 </div>
                 <div class="right_b_bg"></div>
               </div>
@@ -140,24 +140,24 @@
 </template>
 
 <script>
-  import infoHead from "@/components/cards/infoHead";
-  import bottomLogo from "@/components/bottomLogo";
-  import scrollBox from "@/components/scrollBox";
-  import pageSj from "@/components/pageSjNew";
-  import TipPopup from "@/components/cards/tipPopup";
+  import infoHead from '@/components/cards/infoHead';
+  import bottomLogo from '@/components/bottomLogo';
+  import scrollBox from '@/components/scrollBox';
+  import pageSj from '@/components/pageSjNew';
+  import TipPopup from '@/components/cards/tipPopup';
 
-  import FabGroup from "@/components/fabGroup";
-  import unitMixin from "@/common/mixins/unitMixin";
-  import { isLogin, toLogin, setStorage, copy } from "@/common/utils";
-  import { imgUrl } from "@/common/http";
+  import FabGroup from '@/components/fabGroup';
+  import unitMixin from '@/common/mixins/unitMixin';
+  import { isLogin, toLogin, setStorage, copy } from '@/common/utils';
+  import { imgUrl } from '@/common/http';
 
   export default {
-    name: "home",
+    name: 'home',
     components: { infoHead, bottomLogo, scrollBox, pageSj, FabGroup, TipPopup },
     mixins: [unitMixin],
     data() {
       return {
-        QRImg: "",
+        QRImg: '',
         copyItem: {},
         statuList: [],
         active: 1,
@@ -183,7 +183,7 @@
       if (!totalList.length) {
         this.totalTeamTypeList();
       }
-      const count = uni.getStorageSync("count") || 0;
+      const count = uni.getStorageSync('count') || 0;
       // 判断首次非登录-进入
       if (!count && isLogin()) {
         setStorage({ count: count + 1 });
@@ -203,7 +203,7 @@
       // 点击 头像进入-> 我的页面
       clickIcon() {
         if (isLogin()) {
-          uni.navigateTo({ url: "/pages/mine/index" }); // 我的
+          uni.navigateTo({ url: '/pages/mine/index' }); // 我的
         } else {
           this.$refs.noLogin.show();
         }
@@ -211,11 +211,11 @@
       // 点击卡片
       clickCard(val) {
         const routers = {
-          1: "/pages/competition/index", // 竞赛组队
-          2: "/pages/consult/index", // 学校信息咨询
-          3: "/pages/acaHelp/index", // 关于我们
-          4: "/pages/aboutUs/index", // 学术帮助
-          5: "/pages/joinUs/index", // 加入我们
+          1: '/pages/competition/index', // 竞赛组队
+          2: '/pages/consult/index', // 学校信息咨询
+          3: '/pages/acaHelp/index', // 关于我们
+          4: '/pages/aboutUs/index', // 学术帮助
+          5: '/pages/joinUs/index', // 加入我们
         };
         uni.navigateTo({ url: routers[val] });
       },
@@ -308,7 +308,7 @@
             border-radius: 12px;
             padding: 15% 0 0 20rpx;
             box-sizing: border-box;
-            @include img_bg("http://prod.qiniucdns.sjreach.cn/web-6.png");
+            @include img_bg('http://prod.qiniucdns.sjreach.cn/web-6.png');
             // @include img_bg('@/static/img1/bg_6.png');
             .title_msg {
               .title {
@@ -326,7 +326,7 @@
             right: -10rpx;
             width: 566rpx;
             height: 400rpx;
-            @include img_bg("http://prod.qiniucdns.sjreach.cn/web-1.png");
+            @include img_bg('http://prod.qiniucdns.sjreach.cn/web-1.png');
             // @include img_fill
           }
         }
@@ -354,7 +354,7 @@
               height: 100%;
               @include abs_lb;
               // @include img_fill;
-              @include img_bg("http://prod.qiniucdns.sjreach.cn/web-2.png");
+              @include img_bg('http://prod.qiniucdns.sjreach.cn/web-2.png');
             }
             .sale_tip_1 {
               width: 112rpx;
@@ -364,7 +364,7 @@
               right: 0;
               margin-right: -8rpx;
               margin-top: -6rpx;
-              @include img_bg("http://prod.qiniucdns.sjreach.cn/sale_1.png");
+              @include img_bg('http://prod.qiniucdns.sjreach.cn/sale_1.png');
             }
           }
           .left_b {
@@ -379,7 +379,7 @@
               width: 100%;
               @include abs_lb;
               // @include img_fill;
-              @include img_bg("http://prod.qiniucdns.sjreach.cn/web-4.png");
+              @include img_bg('http://prod.qiniucdns.sjreach.cn/web-4.png');
             }
           }
         }
@@ -402,7 +402,7 @@
               width: 100%;
               height: 100%;
               @include abs_rb;
-              @include img_bg("http://prod.qiniucdns.sjreach.cn/web-3.png");
+              @include img_bg('http://prod.qiniucdns.sjreach.cn/web-3.png');
               // @include img_fill;
             }
             .sale_tip_2 {
@@ -413,7 +413,7 @@
               bottom: 0;
               margin-left: -8rpx;
               margin-bottom: -6rpx;
-              @include img_bg("http://prod.qiniucdns.sjreach.cn/sale_2.png");
+              @include img_bg('http://prod.qiniucdns.sjreach.cn/sale_2.png');
             }
           }
           .right_b {
@@ -428,7 +428,7 @@
               height: 100%;
               @include abs_rb;
               // @include img_fill;
-              @include img_bg("http://prod.qiniucdns.sjreach.cn/web-5.png");
+              @include img_bg('http://prod.qiniucdns.sjreach.cn/web-5.png');
             }
           }
         }

@@ -54,7 +54,7 @@
                 :range="item.list"
               >
                 <view class="uni-input" v-if="ite[item.code]">
-                  {{ item.list[ite[item.code]].label || "" }}
+                  {{ item.list[ite[item.code]].label || '' }}
                   <i
                     class="iconfont iconxiala1"
                     style="color: #808080; margin-left: 10rpx"
@@ -99,10 +99,10 @@
 </template>
 
 <script>
-  import UploadImage from "@/components/forms/upload";
-  import TipPopup from "@/components/cards/tipPopup";
+  import UploadImage from '@/components/forms/upload';
+  import TipPopup from '@/components/cards/tipPopup';
   export default {
-    name: "diyTable",
+    name: 'diyTable',
     components: { UploadImage, TipPopup },
     props: {
       heads: { type: Array, default: () => [] },
@@ -126,38 +126,37 @@
     },
     methods: {
       confirm() {
-        this.$emit("deleteItem", this.delIndex);
+        this.$emit('deleteItem', this.delIndex);
       },
       change(e, index, type, code, list) {
         const { value } = e.target || {};
         switch (type) {
-          case "checkout":
+          case 'checkout':
             this.datas[index][code] = !!value.length ? 1 : 2;
             break;
-          case "input":
+          case 'input':
             this.datas[index][code] = value;
             break;
-          case "select":
+          case 'select':
             const val = list.find((item, ind) => ind == value) || {};
             if (val.disable && this.tableDataList[index][code] != value) {
-              this.datas[index][code] = "";
-              uni.showToast({ title: "无法重复选择", icon: "none" });
+              this.datas[index][code] = '';
+              uni.showToast({ title: '无法重复选择', icon: 'none' });
               return;
             }
             this.datas[index][code] = val.id;
             break;
-          case "upload":
+          case 'upload':
             this.datas[index][code] = e.link;
             break;
-          case "edit":
+          case 'edit':
             this.delIndex = index;
             this.$refs.tipPopup.show();
             return;
-            break;
           default:
             break;
         }
-        this.$emit("change", this.datas);
+        this.$emit('change', this.datas);
       },
     },
   };

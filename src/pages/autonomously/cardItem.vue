@@ -1,7 +1,7 @@
 <template>
   <div class="card_item">
     <div class="header_box" @click="clickCard">
-      <span class="title">{{ infoData.activityName || "" }}</span>
+      <span class="title">{{ infoData.activityName || '' }}</span>
       <span class="down">
         <i
           class="iconfont iconxiala icon_item"
@@ -35,12 +35,12 @@
 </template>
 
 <script>
-  import joinList from "@/components/cards/joinList";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import { copy } from "@/common/utils";
+  import joinList from '@/components/cards/joinList';
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import { copy } from '@/common/utils';
   export default {
-    name: "cardItem",
+    name: 'cardItem',
     components: { infoHead, information, joinList },
     props: {
       infoData: {
@@ -57,16 +57,16 @@
       tops() {
         const { infoData } = this;
         const arr = [
-          { title: "学校", val: infoData.schoolName || "", id: 1 },
-          { title: "年级", val: infoData.grade || "", id: 2 },
-          { title: "课程", val: infoData.curriculumSystem || "", id: 4 },
-          { title: "标化", val: infoData.standardizedPerformance || "", id: 3 },
+          { title: '学校', val: infoData.schoolName || '', id: 1 },
+          { title: '年级', val: infoData.grade || '', id: 2 },
+          { title: '课程', val: infoData.curriculumSystem || '', id: 4 },
+          { title: '标化', val: infoData.standardizedPerformance || '', id: 3 },
         ];
         return arr;
       },
       newInfoData() {
         const data = { ...this.infoData };
-        data.nikeName = `发起者：${data.nikeName || data.nickName || ""}`;
+        data.nikeName = `发起者：${data.nikeName || data.nickName || ''}`;
         return data;
       },
     },
@@ -76,7 +76,7 @@
         this.down = !this.down;
       },
       clickFag() {
-        this.$emit("clickBtn", this.infoData);
+        this.$emit('clickBtn', this.infoData);
       },
     },
   };

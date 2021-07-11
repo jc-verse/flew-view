@@ -19,10 +19,8 @@
 </template>
 
 <script>
-  import { uniDataPicker } from "@dcloudio/uni-ui";
   export default {
-    name: "tag_item",
-    components: { uniDataPicker },
+    name: 'tag_item',
     props: {
       item: { type: Object, default: () => ({}) },
     },
@@ -42,8 +40,8 @@
           (list.find((item, index) => index === values[0] - 1) || {})
             .children || [];
         return [
-          [{ name: "请选择", value: "" }, ...list],
-          [{ name: "请选择", value: "" }, ...arr2],
+          [{ name: '请选择', value: '' }, ...list],
+          [{ name: '请选择', value: '' }, ...arr2],
         ];
       },
       checkName() {
@@ -51,16 +49,16 @@
         const { cityList, newValue } = this;
         const [aVal, bVal] = newValue;
         const [arr1, arr2] = cityList;
-        let checkName = "";
+        let checkName = '';
         if (aVal || aVal === 0) {
           const a = arr1.find((ite, ind) => ind === aVal);
-          console.log("a", a);
+          console.log('a', a);
           if (a.value) {
             checkName = a.name;
           }
           if (bVal || bVal === 0) {
             const b = arr2.find((ite, ind) => ind === bVal);
-            console.log("b", b);
+            console.log('b', b);
             if (b && b.value) {
               checkName += `/${b.name}`;
             }
@@ -73,8 +71,8 @@
       onchange(e) {
         const { id, code } = this.item;
         this.newValue = e.detail.value;
-        const queryName = this.checkName.replace("/", "");
-        this.$emit("changeCity", id, code, queryName);
+        const queryName = this.checkName.replace('/', '');
+        this.$emit('changeCity', id, code, queryName);
       },
       columnchange(e) {
         //改变选项

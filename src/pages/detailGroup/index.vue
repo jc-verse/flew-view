@@ -75,19 +75,19 @@
 </template>
 
 <script>
-  import scrollBox from "@/components/scrollBox";
-  import fabGroup from "@/components/fabGroup";
-  import bottomLogo from "@/components/bottomLogo";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import joinList from "@/components/cards/joinList";
-  import { isLogin, toLogin } from "@/common/utils";
-  import TipPopup from "@/components/cards/tipPopup";
-  import { getCurPage } from "@/common/utils";
-  import { activityList, attendActivity } from "@/common/api";
-  import member from "./member";
+  import scrollBox from '@/components/scrollBox';
+  import fabGroup from '@/components/fabGroup';
+  import bottomLogo from '@/components/bottomLogo';
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import joinList from '@/components/cards/joinList';
+  import { isLogin, toLogin } from '@/common/utils';
+  import TipPopup from '@/components/cards/tipPopup';
+  import { getCurPage } from '@/common/utils';
+  import { activityList, attendActivity } from '@/common/api';
+  import member from './member';
   export default {
-    name: "detail_info",
+    name: 'detail_info',
     components: {
       scrollBox,
       fabGroup,
@@ -110,10 +110,10 @@
       tops() {
         const { infoData } = this;
         const arr = [
-          { title: "学校", val: infoData.schoolName || "", id: 1 },
-          { title: "年级", val: infoData.grade || "", id: 2 },
-          { title: "课程", val: infoData.curriculumSystem || "", id: 4 },
-          { title: "标化", val: infoData.standardizedPerformance || "", id: 3 },
+          { title: '学校', val: infoData.schoolName || '', id: 1 },
+          { title: '年级', val: infoData.grade || '', id: 2 },
+          { title: '课程', val: infoData.curriculumSystem || '', id: 4 },
+          { title: '标化', val: infoData.standardizedPerformance || '', id: 3 },
         ];
         return arr;
       },
@@ -132,7 +132,7 @@
       getInfo(activityId, type) {
         const params = {
           activityId,
-          type: type || "",
+          type: type || '',
           current: 1,
           size: 10,
         };
@@ -185,7 +185,7 @@
               this.infoData = records[0] || {};
               uni.showToast({ title: msg });
             } else {
-              uni.showToast({ title: msg, icon: "none" });
+              uni.showToast({ title: msg, icon: 'none' });
             }
           })
           .catch((err) => {
@@ -199,7 +199,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   $color: #b3b3b4;
   .detail_info {
     display: flex;

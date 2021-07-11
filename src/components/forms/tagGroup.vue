@@ -13,13 +13,13 @@
   </div>
 </template>
 <script>
-  import TagItem from "./tagItem";
-  import TagItemCity from "./tagItemCityNew";
-  import { sexs } from "@/common/enum";
-  import { selectSchoolList, teamUpGradeList, subjectList } from "@/common/api";
+  import TagItem from './tagItem';
+  import TagItemCity from './tagItemCityNew';
+  import { sexs } from '@/common/enum';
+  import { selectSchoolList, teamUpGradeList, subjectList } from '@/common/api';
 
   export default {
-    name: "TagItem",
+    name: 'TagItem',
     components: { TagItem, TagItemCity },
     props: {
       list: {
@@ -28,7 +28,7 @@
       },
       showList: {
         type: Array,
-        default: [1, 2, 3, 4],
+        default: () => [1, 2, 3, 4],
       },
     },
     data() {
@@ -36,61 +36,61 @@
         index: 0,
         tagList: [
           {
-            label: "城市",
+            label: '城市',
             id: 1,
-            code: "city",
-            defalutVal: "",
+            code: 'city',
+            defalutVal: '',
             list: [],
-            ph: "地区",
+            ph: '地区',
           },
           {
-            label: "学校",
+            label: '学校',
             id: 2,
-            code: "schoolName",
-            defalutVal: "",
+            code: 'schoolName',
+            defalutVal: '',
             list: [],
-            ph: "学校",
+            ph: '学校',
           },
           {
-            label: "性别",
+            label: '性别',
             id: 3,
-            code: "sex",
-            defalutVal: "",
+            code: 'sex',
+            defalutVal: '',
             list: sexs,
-            ph: "性别",
+            ph: '性别',
           },
           {
-            label: "课程体系",
+            label: '课程体系',
             id: 6,
-            code: "subId",
-            defalutVal: "",
+            code: 'subId',
+            defalutVal: '',
             list: [],
-            ph: "课程体系",
+            ph: '课程体系',
           },
           {
-            label: "标化",
+            label: '标化',
             id: 5,
-            code: "subId1",
-            defalutVal: "",
+            code: 'subId1',
+            defalutVal: '',
             list: [],
-            ph: "标化",
+            ph: '标化',
           },
           {
-            label: "年级",
+            label: '年级',
             id: 4,
-            code: "grade",
-            defalutVal: "",
+            code: 'grade',
+            defalutVal: '',
             list: [],
-            ph: "年级",
+            ph: '年级',
           },
         ],
-        cityName: "",
+        cityName: '',
         form: {
-          schoolName: "",
-          sex: "",
-          grade: "",
-          subId: "",
-          subId1: "",
+          schoolName: '',
+          sex: '',
+          grade: '',
+          subId: '',
+          subId1: '',
         },
       };
     },
@@ -99,7 +99,7 @@
         const { tagList, showList, $store } = this;
         const { cityList } = $store.state;
         return tagList.filter((item) => {
-          if (item.code === "city") {
+          if (item.code === 'city') {
             item.list = cityList;
           }
           return item.list.length && showList.includes(item.id);
@@ -118,21 +118,21 @@
     methods: {
       // 获取学校列表
       selectSchoolList() {
-        const { cityName, tagList } = this;
-        selectSchoolList({ keyword: cityName || "" })
+        const { cityName } = this;
+        selectSchoolList({ keyword: cityName || '' })
           .then((res) => {
             const { data: nData } = res[1];
             const { code, data } = nData;
             if (code === 200 && data.length) {
               const arr = (data || []).map((item) => ({
                 ...item,
-                label: item.name.replace(/\s*/g, ""),
+                label: item.name.replace(/\s*/g, ''),
               }));
-              arr.unshift({ label: "请选择学校", id: "" });
+              arr.unshift({ label: '请选择学校', id: '' });
               this.tagList[1].list = arr;
             } else {
-              this.tagList[1].list = [{ label: "请选择学校", id: "" }];
-              this.$emit("changeValue", this.form);
+              this.tagList[1].list = [{ label: '请选择学校', id: '' }];
+              this.$emit('changeValue', this.form);
             }
           })
           .catch((err) => {
@@ -150,7 +150,7 @@
                 ...item,
                 label: item.name,
               }));
-              arr.unshift({ label: "请选择年级", id: "" });
+              arr.unshift({ label: '请选择年级', id: '' });
               this.tagList = this.tagList.map((item) => {
                 if (item.id == 4) {
                   item.list = arr;
@@ -178,8 +178,8 @@
             }));
             if (arr.length) {
               arr.unshift({
-                label: type == 1 ? "请选择标化" : "请选择课程体系",
-                id: "",
+                label: type == 1 ? '请选择标化' : '请选择课程体系',
+                id: '',
               });
             }
             this.tagList = this.tagList.map((item) => {
@@ -195,20 +195,20 @@
         console.log(1992, id, code, value);
         switch (id) {
           case 1:
-            this.form["schoolName"] = "";
+            this.form['schoolName'] = '';
             this.cityName = value;
             this.selectSchoolList();
             break;
           case 2:
             this.form[code] = value.name;
-            this.$emit("changeValue", this.form);
+            this.$emit('changeValue', this.form);
             break;
           case 3:
           case 4:
           case 5:
           case 6:
             this.form[code] = value.id;
-            this.$emit("changeValue", this.form);
+            this.$emit('changeValue', this.form);
             break;
           default:
             break;

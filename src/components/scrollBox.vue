@@ -17,7 +17,7 @@
 
 <script>
   export default {
-    name: "scrollBox",
+    name: 'scrollBox',
     data() {
       return {
         topNum: 0,
@@ -46,7 +46,7 @@
     },
     mounted() {
       this.createSelectorQuery()
-        .select("#scrollBox")
+        .select('#scrollBox')
         .boundingClientRect((res) => {
           // 获取当前dom 到顶部的距离
           this.topNum += res.top;
@@ -67,24 +67,24 @@
       });
     },
     methods: {
-      upper(e) {
+      upper() {
         // console.log(e)
       },
-      lower(e) {
-        this.$emit("lower");
+      lower() {
+        this.$emit('lower');
       },
       scroll(e) {
-        this.$emit("scroll", e);
+        this.$emit('scroll', e);
         this.old.scrollTop = e.detail.scrollTop;
       },
-      goTop: function (e) {
+      goTop: function () {
         this.scrollTop = this.old.scrollTop;
         this.$nextTick(function () {
           this.scrollTop = 0;
         });
         uni.showToast({
-          icon: "none",
-          title: "纵向滚动 scrollTop 值已被修改为 0",
+          icon: 'none',
+          title: '纵向滚动 scrollTop 值已被修改为 0',
         });
       },
     },

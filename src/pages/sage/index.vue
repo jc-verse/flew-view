@@ -35,20 +35,20 @@
 </template>
 
 <script>
-  import pageSj from "@/components/pageSjNew";
-  import DiyPopup from "@/components/diyPopup";
-  import scrollBox from "@/components/scrollBox";
-  import fabGroup from "@/components/fabGroup";
-  import tagGroup from "@/components/forms/tagGroup";
-  import groupItem from "./groupItem";
-  import synopsis from "./synopsis";
+  import pageSj from '@/components/pageSjNew';
+  import DiyPopup from '@/components/diyPopup';
+  import scrollBox from '@/components/scrollBox';
+  import fabGroup from '@/components/fabGroup';
+  import tagGroup from '@/components/forms/tagGroup';
+  import groupItem from './groupItem';
+  import synopsis from './synopsis';
 
-  import { getCurPage, joinUrl } from "@/common/utils";
-  import { branchCompetitionUser, teamUpranks } from "@/common/api";
-  import { bgColors } from "./const";
+  import { getCurPage, joinUrl } from '@/common/utils';
+  import { branchCompetitionUser, teamUpranks } from '@/common/api';
+  import { bgColors } from './const';
 
   export default {
-    name: "sage",
+    name: 'sage',
     components: {
       tagGroup,
       synopsis,
@@ -62,8 +62,8 @@
       return {
         show: false,
         index: 0,
-        menuType: "1",
-        matchId: "", //比赛id
+        menuType: '1',
+        matchId: '', //比赛id
         cardList: [],
 
         current: 1,
@@ -86,14 +86,14 @@
       const { englishName, matchName, id, title, menuType } =
         getCurPage() || {};
       this.headMsg = {
-        title: matchName || "",
-        eTitle: englishName || "",
+        title: matchName || '',
+        eTitle: englishName || '',
       };
       this.totalList = this.$store.state.totalList;
       console.log(1992, this.totalList);
       this.matchId = id;
       this.menuType = menuType || 0;
-      this.title = title || "";
+      this.title = title || '';
       uni.setNavigationBarTitle({ title: this.title });
       this.initInfo();
     },
@@ -105,19 +105,19 @@
         this.getInfo(form);
       },
       getInfo(form = {}) {
-        const { menuType, current, matchId } = this;
+        const { current, matchId } = this;
         const params = {
           current,
           organizeTypeSonMatchId: matchId,
           size: 10,
           ...form,
         };
-        console.log("我是竞赛组队赛选参数：", JSON.stringify(params));
+        console.log('我是竞赛组队赛选参数：', JSON.stringify(params));
         branchCompetitionUser(params).then((res) => {
           const { data: nData } = res[1];
           const { data, code } = nData;
           if (code === 200) {
-            const { current, pages, records, searchCount, total } = data;
+            const { records } = data;
             if (records && records.length) {
               this.cardList = [...this.cardList, ...records];
               if (records.length < 10) {
@@ -140,15 +140,15 @@
         teamUpranks(params)
           .then((res) => {
             const { data: nData } = res[1];
-            const { code, data, msg, success } = nData;
+            const { code, msg, success } = nData;
             if (code === 200) {
               if (success) {
                 uni.showToast({ title: msg });
               } else {
-                uni.showToast({ title: msg, icon: "none" });
+                uni.showToast({ title: msg, icon: 'none' });
               }
             } else {
-              uni.showToast({ title: msg, icon: "none" });
+              uni.showToast({ title: msg, icon: 'none' });
             }
           })
           .catch((err) => {
@@ -176,11 +176,11 @@
         if (flag) {
           if (this.type == 1) {
             uni.navigateTo({
-              url: joinUrl("/pages/userInfo/index", { type: "edit" }),
+              url: joinUrl('/pages/userInfo/index', { type: 'edit' }),
             });
           } else {
             uni.navigateTo({
-              url: joinUrl("/pages/userComplete/index", { type: "edit" }),
+              url: joinUrl('/pages/userComplete/index', { type: 'edit' }),
             });
           }
         }
@@ -190,7 +190,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   $color: #b3b3b4;
   .page_box {
     display: flex;

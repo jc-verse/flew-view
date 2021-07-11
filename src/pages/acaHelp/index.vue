@@ -23,7 +23,7 @@
               @clickBuoy="clickBuoy"
               @clickItem="clickItem(item)"
             />
-            <div class="loading">{{ !noConcat ? "加载中..." : "到底了" }}</div>
+            <div class="loading">{{ !noConcat ? '加载中...' : '到底了' }}</div>
           </template>
           <template v-else>
             <div class="noList"> 暂无学术帮助！ </div>
@@ -55,18 +55,16 @@
 </template>
 
 <script>
-  import groupItem from "./groupItem";
-  import search from "@/components/forms/search";
-  import scrollBox from "@/components/scrollBox";
-  import pageSj from "@/components/pageSjNew";
-  import tagGroup from "@/components/forms/tagGroup";
-  import fabGroup from "@/components/fabGroup";
-  import { academicHelpList, academicApplyService } from "@/common/api";
-  import DiyPopup from "@/components/diyPopup";
-  import DiyRate from "@/components/diyRate";
-  import { filterForm } from "@/common/utils";
+  import groupItem from './groupItem';
+  import search from '@/components/forms/search';
+  import scrollBox from '@/components/scrollBox';
+  import pageSj from '@/components/pageSjNew';
+  import tagGroup from '@/components/forms/tagGroup';
+  import fabGroup from '@/components/fabGroup';
+  import { academicHelpList, academicApplyService } from '@/common/api';
+  import { filterForm } from '@/common/utils';
   export default {
-    name: "acaHelp",
+    name: 'acaHelp',
     components: {
       tagGroup,
       scrollBox,
@@ -74,12 +72,10 @@
       search,
       groupItem,
       pageSj,
-      DiyPopup,
-      DiyRate,
     },
     data() {
       return {
-        searchVal: "",
+        searchVal: '',
         cardList: [],
 
         current: 1,
@@ -112,8 +108,8 @@
         }
       },
       clickItem(item) {
-        uni.setStorage({ key: "helpInfo", data: item });
-        uni.navigateTo({ url: "/pages/detailInfo/index" });
+        uni.setStorage({ key: 'helpInfo', data: item });
+        uni.navigateTo({ url: '/pages/detailInfo/index' });
       },
       // 列表查询
       getList(form = {}) {
@@ -130,7 +126,7 @@
             const { data: nData } = res[1];
             const { code, data } = nData || {};
             if (code === 200) {
-              const { current, pages, records, searchCount, total } = data;
+              const { records } = data;
               if (records && records.length) {
                 const arr = [...this.cardList, ...records];
                 const indexArr = arr.map((item) => item.id);
@@ -149,7 +145,7 @@
               });
             }
           })
-          .catch((err) => {
+          .catch(() => {
             this.throttle(false);
           });
       },
@@ -169,16 +165,16 @@
         academicApplyService({ serviceUserId, id })
           .then((res) => {
             const { data: nData } = res[1];
-            const { code, data, success, msg } = nData || {};
+            const { code, msg } = nData || {};
             this.throttle(false);
             if (code === 200) {
               uni.showToast({ title: msg });
               this.initFotm();
             } else {
-              uni.showToast({ title: msg, icon: "none" });
+              uni.showToast({ title: msg, icon: 'none' });
             }
           })
-          .catch((err) => {
+          .catch(() => {
             this.throttle(false);
           });
       },

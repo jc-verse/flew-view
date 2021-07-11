@@ -1,7 +1,7 @@
 <template>
   <div class="group_info_item" :style="{ background: cardStatu.bgColor || '' }">
     <div class="event_tip">我申请的</div>
-    <div class="msg_title">{{ cardStatu.title || "" }}</div>
+    <div class="msg_title">{{ cardStatu.title || '' }}</div>
     <infoHead
       :infoData="infoData"
       headStyles="width:70rpx;height:70rpx"
@@ -60,19 +60,18 @@
 </template>
 
 <script>
-  import joinList from "@/components/cards/joinList";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import DiyPopup from "@/components/diyPopup";
-  import TipPopup from "@/components/cards/tipPopup";
-  import { styles } from "./const";
-  import { bsToStrFn, topListFn } from "./units";
-  import { isLogin, toLogin } from "@/common/utils";
+  import joinList from '@/components/cards/joinList';
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import TipPopup from '@/components/cards/tipPopup';
+  import { styles } from './const';
+  import { bsToStrFn, topListFn } from './units';
+  import { isLogin, toLogin } from '@/common/utils';
 
   function filterSFn(val) {
     const { type, matchName, nikeName, activity = {}, subject } = val;
-    let obj = { title: "", bgColor: styles[type].bg, showInfo: [] }; // 1 比赛经历  2个人留言  3 希望参加
-    console.log("【119】是卡片的全部数据");
+    let obj = { title: '', bgColor: styles[type].bg, showInfo: [] }; // 1 比赛经历  2个人留言  3 希望参加
+    console.log('【119】是卡片的全部数据');
     console.log(119, val);
     if (type == 1) {
       obj.title = `竞赛组队：向${nikeName}发起${matchName}的竞赛组队`;
@@ -84,13 +83,13 @@
       obj.title = `学校咨询：向${nikeName}提出学校咨询`;
       obj.showInfo = [1, 2];
     } else if (type == 4) {
-      obj.title = `自主活动：申请加入${activity.name || ""}`;
+      obj.title = `自主活动：申请加入${activity.name || ''}`;
     }
     return obj;
   }
   export default {
-    name: "group_item",
-    components: { infoHead, information, joinList, DiyPopup, TipPopup },
+    name: 'group_item',
+    components: { infoHead, information, joinList, TipPopup },
     props: {
       infoData: {
         type: Object,
@@ -115,16 +114,16 @@
       },
       tags() {
         const { matchList } = this.infoData || {};
-        const arr = (matchList || "").split(",");
+        const arr = (matchList || '').split(',');
         return arr;
       },
       msg() {
         const { infoData } = this;
-        let massage = "";
+        let massage = '';
         if (infoData.personalMessage) {
           massage = infoData.personalMessage;
         } else {
-          massage = "暂未添加个人留言";
+          massage = '暂未添加个人留言';
         }
         return massage;
       },
@@ -146,14 +145,14 @@
       // 点击确认
       confirm() {
         const { infoData, type } = this;
-        this.$emit("clickBtn", type, { data: infoData });
+        this.$emit('clickBtn', type, { data: infoData });
       },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

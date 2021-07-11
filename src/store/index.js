@@ -1,15 +1,15 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import { setStorage, isLogin, closeLogin } from "@/common/utils";
-import city from "@/static/city.json";
-import QRData from "@/static/server_qr_wx.json";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { setStorage } from '@/common/utils';
+import city from '@/static/city.json';
+import QRData from '@/static/server_qr_wx.json';
 
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     userInfo: {},
     totalList: [],
-    token: "",
+    token: '',
     cityList: city || [],
     QRData: QRData || {},
     // isLogin: ''
@@ -23,7 +23,7 @@ const store = new Vuex.Store({
       state.totalList = provider;
     },
     setToken(state, provider) {
-      state.token = provider || "";
+      state.token = provider || '';
       setStorage({ token: provider });
     },
     setCityList(state, provider) {

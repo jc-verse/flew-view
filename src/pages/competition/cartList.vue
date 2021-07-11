@@ -10,7 +10,7 @@
     >
       <div class="title_box">
         <div class="title">{{ item.name }}</div>
-        <div class="subhead">{{ item.asName || "" }}</div>
+        <div class="subhead">{{ item.asName || '' }}</div>
       </div>
       <i
         class="item_icon"
@@ -21,8 +21,8 @@
 </template>
 
 <script>
-  import { imgUrl } from "@/common/http";
-  import { colorList } from "./const";
+  import { imgUrl } from '@/common/http';
+  import { colorList } from './const';
   export default {
     data() {
       return {
@@ -37,7 +37,7 @@
     },
     computed: {
       newList() {
-        const newArr = this.list.map((item, index) => {
+        const newArr = this.list.map((item) => {
           const cIndex = colorList.findIndex((ite) => ite.id === item.id);
           const obj = {
             ...colorList[cIndex],
@@ -52,10 +52,10 @@
     methods: {
       clickItem(item) {
         if (item.disable) {
-          uni.showToast({ title: "模块未开放，敬请期待！", icon: "none" });
+          uni.showToast({ title: '模块未开放，敬请期待！', icon: 'none' });
           return;
         }
-        this.$emit("clickItem", item);
+        this.$emit('clickItem', item);
       },
     },
   };
@@ -99,7 +99,7 @@
       right: 0;
       bottom: 0;
       // @include img_fill;
-      @include img_bg("http://prod.qiniucdns.sjreach.cn/web-1.png");
+      @include img_bg('http://prod.qiniucdns.sjreach.cn/web-1.png');
     }
     .title_box {
       .title {

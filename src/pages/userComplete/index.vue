@@ -51,7 +51,7 @@
                     justify-content: flex-end;
                   "
                   v-else
-                  >{{ formData.schoolName || "" }}</div
+                  >{{ formData.schoolName || '' }}</div
                 >
               </DiyInpSel>
             </form-item>
@@ -270,16 +270,16 @@
 </template>
 
 <script>
-  import scrollBox from "@/components/scrollBox";
-  import pageSj from "@/components/pageSjNew";
-  import CourseSystem from "../userInfo/courseSystem";
-  import formItem from "@/components/forms/formItem";
-  import formItemBox from "@/components/forms/formItemBox";
-  import FabGroup from "@/components/fabGroup";
-  import DiyPopup from "@/components/diyPopup";
-  import DiyPicker from "../userInfo/diyPicker";
-  import EditGame from "../userInfo/editGame";
-  import DiyInpSel from "@/components/forms/diyInputSelect";
+  import scrollBox from '@/components/scrollBox';
+  import pageSj from '@/components/pageSjNew';
+  import CourseSystem from '../userInfo/courseSystem';
+  import formItem from '@/components/forms/formItem';
+  import formItemBox from '@/components/forms/formItemBox';
+  import FabGroup from '@/components/fabGroup';
+  import DiyPopup from '@/components/diyPopup';
+  import DiyPicker from '../userInfo/diyPicker';
+  import EditGame from '../userInfo/editGame';
+  import DiyInpSel from '@/components/forms/diyInputSelect';
   import {
     formHeads,
     bottomHeads,
@@ -288,18 +288,18 @@
     tableHead2,
     formData,
     lastHeads,
-  } from "./const";
-  import { getCurPage, analysisFn } from "@/common/utils";
-  import { imgUrl } from "@/common/http";
+  } from './const';
+  import { getCurPage, analysisFn } from '@/common/utils';
+  import { imgUrl } from '@/common/http';
   import {
     subjectList,
     updateCardInfo,
     selectSchoolList,
     teamUpGradeList,
-  } from "@/common/api";
-  import unitMixin from "@/common/mixins/unitMixin";
+  } from '@/common/api';
+  import unitMixin from '@/common/mixins/unitMixin';
   export default {
-    name: "userInfo",
+    name: 'userInfo',
     components: {
       scrollBox,
       CourseSystem,
@@ -331,20 +331,20 @@
         systemList: [], //  课程体系list
         totalList: [], // 希望参加的比赛list
         matchList: [],
-        schoolList: [{ id: "1", label: "缺省", name: "缺省", city: "" }],
+        schoolList: [{ id: '1', label: '缺省', name: '缺省', city: '' }],
         gradeList: [],
 
         canClick: true,
 
         right: {
-          label: "体系认证",
-          code: "curriculumSystemAuthUrl",
-          id: "",
+          label: '体系认证',
+          code: 'curriculumSystemAuthUrl',
+          id: '',
           required: false,
           params: {
-            ph: "请选择您希望参加的比赛",
-            genre: "upload",
-            type: "text",
+            ph: '请选择您希望参加的比赛',
+            genre: 'upload',
+            type: 'text',
             max: 20,
           },
         },
@@ -380,11 +380,11 @@
           }
         });
 
-        const systemFind = formData["curriculumSystem"].find(
+        const systemFind = formData['curriculumSystem'].find(
           (item) => item.fraction && item.subject,
         );
         if (systemFind) {
-          const subjectNameList = formData["curriculumSystem"]
+          const subjectNameList = formData['curriculumSystem']
             .filter((item) => item.subject)
             .map((item) => {
               if (item.fraction) {
@@ -398,10 +398,10 @@
         } else {
           errList.push(`请完善课程体系！`);
         }
-        const standardizedFind = formData["standardizedPerformance"].find(
+        const standardizedFind = formData['standardizedPerformance'].find(
           (item) => {
             const nulObj = this.subjectList.find(
-              (item) => item.subjectName === "无",
+              (item) => item.subjectName === '无',
             );
             return (
               (item.fraction && item.subject) ||
@@ -410,7 +410,7 @@
           },
         );
         if (standardizedFind) {
-          const subjectNameList = formData["standardizedPerformance"]
+          const subjectNameList = formData['standardizedPerformance']
             .filter((item) => item.subject)
             .map((item) => {
               if (item.fraction) {
@@ -448,18 +448,18 @@
             label: item.subjectName,
           })) || [];
         return {
-          label: "课程体系",
-          code: "curriculumSystemType",
-          id: "",
+          label: '课程体系',
+          code: 'curriculumSystemType',
+          id: '',
           required: true,
-          params: { ph: "请选择", genre: "select", list: list },
+          params: { ph: '请选择', genre: 'select', list: list },
         };
       },
       // 体系表头
       tableHead_sy() {
         const arr = tableHead.map((item) => {
           const obj = { ...item } || {};
-          if (obj.code === "subject") {
+          if (obj.code === 'subject') {
             obj.list = this.subjects;
           }
           return obj;
@@ -470,7 +470,7 @@
       tableHead_bh() {
         const arr = tableHead2.map((item) => {
           const obj = { ...item } || {};
-          if (obj.code === "subject") {
+          if (obj.code === 'subject') {
             obj.list = this.subjects;
           }
           return obj;
@@ -480,9 +480,9 @@
       imgUrl() {
         const { avatar } = this.formData;
         let url =
-          "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132";
-        if (avatar === "default_img.png") {
-          url = "";
+          'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132';
+        if (avatar === 'default_img.png') {
+          url = '';
         } else if (/http/.test(avatar)) {
           url = avatar;
         } else if (avatar) {
@@ -493,7 +493,7 @@
       formHeadList() {
         const { gradeList } = this;
         return formHeads.map((item) => {
-          if (item.code == "grade") {
+          if (item.code == 'grade') {
             item.params.list = gradeList || [];
           }
           return item;
@@ -503,7 +503,7 @@
         const { curriculumSystemAuthUrl } = this.formData;
         let arr = [];
         if (curriculumSystemAuthUrl) {
-          arr = curriculumSystemAuthUrl.split(",");
+          arr = curriculumSystemAuthUrl.split(',');
         }
         return arr;
       },
@@ -520,13 +520,13 @@
     onShow() {
       this.totalList = this.$store.state.totalList;
       /*获取当前路由*/
-      const { type = "" } = getCurPage();
-      if (type === "edit") {
+      const { type = '' } = getCurPage();
+      if (type === 'edit') {
         this.isEdit = true;
         // this.getInfo();
         this.formDataFun();
       } else {
-        const nickName = uni.getStorageSync("nickName");
+        const nickName = uni.getStorageSync('nickName');
         if (!this.formData.nikeName && nickName) {
           this.formData.nikeName = nickName;
         }
@@ -548,7 +548,7 @@
           const obj = {
             ...user,
             competitionExperience: user.competitionExperienceList || [],
-            curriculumSystemType: Number(user.curriculumSystem) || "",
+            curriculumSystemType: Number(user.curriculumSystem) || '',
             curriculumSystem: user.curriculumSystemList || [],
             standardizedPerformance: user.standardizedPerformanceList || [],
 
@@ -560,7 +560,7 @@
             this.userCount += 1;
           }
         }
-        const nickName = uni.getStorageSync("nickName");
+        const nickName = uni.getStorageSync('nickName');
         if (!this.formData.nikeName && nickName) {
           this.formData.nikeName = nickName;
         }
@@ -572,7 +572,7 @@
           return;
         }
         const params = {
-          keyword: val || "",
+          keyword: val || '',
         };
         selectSchoolList(params).then((res) => {
           const { data: nData } = res[1] || {};
@@ -582,7 +582,7 @@
               return { ...item, label: item.name };
             });
             this.schoolList = [
-              { id: "1", label: "缺省", name: "缺省", city: "" },
+              { id: '1', label: '缺省', name: '缺省', city: '' },
               ...arr,
             ];
           }
@@ -595,17 +595,17 @@
           const { data: nData } = res[1];
           const { code, data } = nData || {};
           if (code === 200) {
-            const obj = { 1: "subjectList", 2: "systemList" };
+            const obj = { 1: 'subjectList', 2: 'systemList' };
             if (type == 1) {
               const arr = [
-                { label: "请选择", id: "", subjectName: "请选择" },
+                { label: '请选择', id: '', subjectName: '请选择' },
                 ...(data || []),
               ];
-              arr.push({ label: "无", id: arr.length, subjectName: "无" });
+              arr.push({ label: '无', id: arr.length, subjectName: '无' });
               this[obj[type]] = arr;
             } else {
               this[obj[type]] = [
-                { label: "请选择", id: "", subjectName: "请选择" },
+                { label: '请选择', id: '', subjectName: '请选择' },
                 ...(data || []),
               ];
             }
@@ -623,7 +623,7 @@
                 ...item,
                 label: item.name,
               }));
-              arr.unshift({ label: "请选择年级", id: "" });
+              arr.unshift({ label: '请选择年级', id: '' });
               this.gradeList = arr;
             }
           })
@@ -634,7 +634,7 @@
       // 改变表单
       changeFn({ data, code, type }) {
         switch (type) {
-          case "add":
+          case 'add':
             const ind = this.compIndex;
             if (this.compIndex == -1) {
               this.formData[code].push(data);
@@ -645,7 +645,7 @@
             }
             this.compIndex = -1;
             break;
-          case "join":
+          case 'join':
             let arr = [];
             const { matchList } = this;
             data.forEach((item) => {
@@ -662,16 +662,16 @@
             });
             this.matchList = matchList.concat(arr);
             break;
-          case "inpSel":
-            this.formData[code] = data.name || "";
+          case 'inpSel':
+            this.formData[code] = data.name || '';
             break;
           default:
-            if (code === "curriculumSystemAuthUrl") {
+            if (code === 'curriculumSystemAuthUrl') {
               const { curriculumSystemAuthUrl } = this.formData;
               this.formData[code] = curriculumSystemAuthUrl
                 ? `${curriculumSystemAuthUrl},${data}`
                 : data;
-            } else if (code === "isConsulting" || code === "isAcademic") {
+            } else if (code === 'isConsulting' || code === 'isAcademic') {
               this.formData[code] = data ? 1 : 2;
             } else {
               this.formData[code] = data;
@@ -700,7 +700,7 @@
       deleteUrl(ind, ite) {
         const { systemImgList } = this;
         const newArr = systemImgList.filter((item) => ite !== item);
-        this.formData.curriculumSystemAuthUrl = newArr.join(",");
+        this.formData.curriculumSystemAuthUrl = newArr.join(',');
       },
       // 展示列表
       showFn(name) {
@@ -725,7 +725,7 @@
         const { autList, formData, showBtn, matchList } = this;
         if (showBtn.length) {
           // 校验
-          uni.showToast({ title: showBtn[0], icon: "none" });
+          uni.showToast({ title: showBtn[0], icon: 'none' });
           return;
         }
         this.throttle(true);
@@ -746,7 +746,7 @@
           (item) => item.fraction && item.subject,
         ); // 过滤不全的课程体系
         const nulObj = this.subjectList.find(
-          (item) => item.subjectName === "无",
+          (item) => item.subjectName === '无',
         );
         const standardizedPerformance = formData.standardizedPerformance.filter(
           (item) =>
@@ -768,21 +768,21 @@
             _this.throttle(false);
             if (code === 200) {
               uni.showToast({
-                title: msg || "",
+                title: msg || '',
                 success: (res) => {
                   setTimeout(function () {
                     uni.navigateBack({
                       delta: 1,
                       success: () => {
                         _this.getUserInfo();
-                        uni.removeStorage({ key: "toUserInfoUrl" });
+                        uni.removeStorage({ key: 'toUserInfoUrl' });
                       },
                     });
                   }, 1000);
                 },
               });
             } else {
-              uni.showToast({ title: msg, icon: "none" });
+              uni.showToast({ title: msg, icon: 'none' });
             }
           })
           .catch((err) => {
@@ -795,7 +795,7 @@
         switch (statu) {
           case 1:
             const { link, name } = data;
-            this.showFn("aut");
+            this.showFn('aut');
             this.autList.push({ label: name, url: link });
             break;
 
@@ -809,7 +809,7 @@
       deleteSta(index, code) {
         this.formData[code].map((item, ind) => {
           if (ind === index) {
-            item.img = "";
+            item.img = '';
           }
           return item;
         });
@@ -835,7 +835,7 @@
         }
       },
       // 希望参加的比赛回显
-      "formData.match": {
+      'formData.match': {
         handler(val) {
           const { isEdit, totalList } = this;
           if (isEdit && totalList.length) {

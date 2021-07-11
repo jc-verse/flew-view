@@ -25,22 +25,22 @@
 </template>
 
 <script>
-  import DiyPopup from "@/components/diyPopup";
+  import DiyPopup from '@/components/diyPopup';
   export default {
-    name: "tipPopup",
+    name: 'tipPopup',
     // props: ['title', 'msg', 'type',],
     props: {
       title: {
         type: String,
-        default: "",
+        default: '',
       },
       msg: {
         type: String,
-        default: "",
+        default: '',
       },
       type: {
         type: String,
-        default: "",
+        default: '',
       },
       width: {
         type: Number,
@@ -53,7 +53,7 @@
       close(flag) {
         if (flag) {
           const { type } = this;
-          this.$emit("confirm", type);
+          this.$emit('confirm', type);
         }
         this.$refs.popup.hide();
       },

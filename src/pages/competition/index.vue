@@ -14,19 +14,18 @@
 </template>
 
 <script>
-  import Search from "@/components/forms/search";
-  import scrollBox from "@/components/scrollBox";
-  import FabGroup from "@/components/fabGroup";
-  import pageSj from "@/components/pageSjNew";
+  import scrollBox from '@/components/scrollBox';
+  import FabGroup from '@/components/fabGroup';
+  import pageSj from '@/components/pageSjNew';
 
-  import { joinUrl } from "@/common/utils";
-  import { teamTypeList } from "@/common/api";
+  import { joinUrl } from '@/common/utils';
+  import { teamTypeList } from '@/common/api';
 
-  import CartList from "./cartList";
+  import CartList from './cartList';
 
   export default {
-    name: "competition",
-    components: { Search, CartList, scrollBox, pageSj, FabGroup },
+    name: 'competition',
+    components: { CartList, scrollBox, pageSj, FabGroup },
     data() {
       return {
         list: [],
@@ -70,13 +69,13 @@
           case 5:
           case 6:
           case 7:
-            uni.navigateTo({ url: joinUrl("/pages/stem/index", item) });
+            uni.navigateTo({ url: joinUrl('/pages/stem/index', item) });
             break;
           case 8:
             uni.navigateTo({
-              url: joinUrl("/pages/autonomously/index", {
+              url: joinUrl('/pages/autonomously/index', {
                 ...item,
-                pageType: "add",
+                pageType: 'add',
               }),
             });
             break;
@@ -91,7 +90,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   $color: #b3b3b4;
   .competition {
     display: flex;

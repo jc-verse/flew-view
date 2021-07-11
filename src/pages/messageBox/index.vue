@@ -19,21 +19,21 @@
   </PageJS>
 </template>
 <script>
-  import PageJS from "@/components/pageSjNew.vue";
-  import ScrollBox from "@/components/scrollBox.vue";
-  import FabGroup from "@/components/fabGroup";
-  import MessageItem from "./messageItem.vue";
+  import PageJS from '@/components/pageSjNew.vue';
+  import ScrollBox from '@/components/scrollBox.vue';
+  import FabGroup from '@/components/fabGroup';
+  import MessageItem from './messageItem.vue';
 
-  import { formatDate } from "@/common/utils";
+  import { formatDate } from '@/common/utils';
 
-  import { userInfoMyMsgList, userInfoClickRead } from "@/common/api";
+  import { userInfoMyMsgList, userInfoClickRead } from '@/common/api';
   function isToday(date) {
     return (
       new Date().toString().substr(0, 15) === date.toString().substr(0, 15)
     );
   }
   export default {
-    name: "message-center",
+    name: 'message-center',
     components: { PageJS, MessageItem, FabGroup, ScrollBox },
     data() {
       return {
@@ -68,15 +68,11 @@
             const { data: nData } = res[1];
             const { code, data } = nData;
             if (code === 200) {
-              const { current, pages, records, searchCount, total } = data;
+              const { records, total } = data;
               const { list } = this;
               if (list.length < total) {
                 this.list = [...list, ...records]
-                  .sort((a, b) => {
-                    const pTime = new Date(a.createTime).getTime();
-                    const nTime = new Date(b.createTime).getTime();
-                    return b - a;
-                  })
+                  .sort((a, b) => b - a)
                   .map((ite, ind, arr) => {
                     // 60s 内的消息不展示时间
                     const item = { ...ite, showTime: true };
@@ -103,12 +99,12 @@
         const { unReadList } = this;
         if (!unReadList.length) return;
         const params = {
-          msgId: unReadList.join(","),
+          msgId: unReadList.join(','),
         };
         userInfoClickRead(params)
           .then((res) => {
             const { data: nData } = res[1];
-            const { code, data, success } = nData;
+            const { code, success } = nData;
             if (code === 200 && success) {
               this.signRead();
             }
@@ -140,7 +136,7 @@
       filterTime(val) {
         const time = new Date(val);
         const flag = isToday(time);
-        return formatDate(time.getTime(), flag ? "H:m" : "YYYY-MM-DD H:m");
+        return formatDate(time.getTime(), flag ? 'H:m' : 'YYYY-MM-DD H:m');
       },
     },
   };

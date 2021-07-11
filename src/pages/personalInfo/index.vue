@@ -55,21 +55,21 @@
   </PageJS>
 </template>
 <script>
-  import PageJS from "../../components/pageSjNew.vue";
-  import FormItem from "@/components/forms/formItem";
-  import FormItemBox from "@/components/forms/formItemBox";
-  import { userCardInfo, subjectList } from "@/common/api";
-  import { sexs } from "@/common/enum";
-  import { joinUrl, getCurPage } from "@/common/utils";
-  import GroupItem from "./groupItem";
-  import { imgUrl } from "@/common/http";
-  import { isLogin, toLogin } from "@/common/utils";
-  import TipPopup from "@/components/cards/tipPopup";
-  import unitMixin from "@/common/mixins/unitMixin";
+  import PageJS from '../../components/pageSjNew.vue';
+  import FormItem from '@/components/forms/formItem';
+  import FormItemBox from '@/components/forms/formItemBox';
+  import { subjectList } from '@/common/api';
+  import { sexs } from '@/common/enum';
+  import { joinUrl } from '@/common/utils';
+  import GroupItem from './groupItem';
+  import { imgUrl } from '@/common/http';
+  import { isLogin, toLogin } from '@/common/utils';
+  import TipPopup from '@/components/cards/tipPopup';
+  import unitMixin from '@/common/mixins/unitMixin';
 
-  import FabGroup from "@/components/fabGroup";
+  import FabGroup from '@/components/fabGroup';
   export default {
-    name: "personalInfo",
+    name: 'personalInfo',
     components: {
       PageJS,
       FabGroup,
@@ -83,94 +83,94 @@
       return {
         formHeads: [
           {
-            label: "昵称",
-            code: "nikeName",
-            id: "",
+            label: '昵称',
+            code: 'nikeName',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "微信用户", genre: "text", type: "text", max: 20 },
+            params: { ph: '微信用户', genre: 'text', type: 'text', max: 20 },
           },
           {
-            label: "微信号",
-            code: "wxNum",
-            id: "",
+            label: '微信号',
+            code: 'wxNum',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "无", genre: "input", type: "text", max: 20 },
+            params: { ph: '无', genre: 'input', type: 'text', max: 20 },
           },
           // { label: '生日',   code: 'birthday', id: '', required: false, params: { ph: '请填写生日',  genre:'date', type: 'text', max: 20 } },
           {
-            label: "年级",
-            code: "grade",
-            id: "",
+            label: '年级',
+            code: 'grade',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "", genre: "input", type: "text", max: 20 },
+            params: { ph: '', genre: 'input', type: 'text', max: 20 },
           },
           {
-            label: "性别",
-            code: "sex",
-            id: "",
+            label: '性别',
+            code: 'sex',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "请选择", genre: "select", list: sexs },
+            params: { ph: '请选择', genre: 'select', list: sexs },
           },
           {
-            label: "邮箱",
-            code: "email",
-            id: "",
+            label: '邮箱',
+            code: 'email',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "暂无邮箱", genre: "input", type: "email", max: 20 },
+            params: { ph: '暂无邮箱', genre: 'input', type: 'email', max: 20 },
           },
         ],
         formHeads2: [
           {
-            label: "昵称",
-            code: "nikeName",
-            id: "",
+            label: '昵称',
+            code: 'nikeName',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "微信用户", genre: "input", type: "text", max: 20 },
+            params: { ph: '微信用户', genre: 'input', type: 'text', max: 20 },
           },
           {
-            label: "微信号",
-            code: "wxNum",
-            id: "",
+            label: '微信号',
+            code: 'wxNum',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "无", genre: "input", type: "text", max: 20 },
+            params: { ph: '无', genre: 'input', type: 'text', max: 20 },
           },
           // { label: '生日',   code: 'birthday', id: '', required: false, params: { ph: '请填写生日',  genre:'date', type: 'text', max: 20 } },
           {
-            label: "年级",
-            code: "grade",
-            id: "",
+            label: '年级',
+            code: 'grade',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "无", genre: "input", type: "text", max: 20 },
+            params: { ph: '无', genre: 'input', type: 'text', max: 20 },
           },
           {
-            label: "性别",
-            code: "sex",
-            id: "",
+            label: '性别',
+            code: 'sex',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "无", genre: "input", list: sexs },
+            params: { ph: '无', genre: 'input', list: sexs },
           },
           {
-            label: "邮箱",
-            code: "email",
-            id: "",
+            label: '邮箱',
+            code: 'email',
+            id: '',
             disabled: true,
             required: false,
-            params: { ph: "无", genre: "input", type: "email", max: 20 },
+            params: { ph: '无', genre: 'input', type: 'email', max: 20 },
           },
         ],
 
         formData: {},
         // headImg: '',
-        userHead: "",
+        userHead: '',
         systemList: [],
         showInfoForm: false,
         // userDataNewFn: {}// mixin中
@@ -181,12 +181,12 @@
       this.getDownList();
     },
     onShow() {
-      const url = uni.getStorageSync("toUserInfoUrl");
+      const url = uni.getStorageSync('toUserInfoUrl');
       this.showInfoForm = isLogin() && !url;
     },
     computed: {
       newFormData() {
-        const { formData, systemList, userDataNewFn } = this;
+        const { systemList, userDataNewFn } = this;
         const obj = { ...userDataNewFn };
         if (systemList.length) {
           const item =
@@ -199,10 +199,10 @@
         const { avatar } = this.userDataNewFn;
         let url =
           this.userHead ||
-          "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132";
+          'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132';
         if (/(http|https)/.test(avatar)) {
           url = avatar;
-        } else if (avatar && avatar !== "default_img.png") {
+        } else if (avatar && avatar !== 'default_img.png') {
           url = imgUrl + avatar;
         }
         return url;
@@ -241,7 +241,7 @@
       //   }).catch(err => {console.log(err)})
       // },
       // 改变表单
-      changeFn({ data, code }) {
+      changeFn() {
         // this.userDataNewFn[code] = data;
       },
 
@@ -250,29 +250,29 @@
           this.$refs.noLogin.show();
           return;
         }
-        let url = "userInfo";
+        let url = 'userInfo';
         switch (val) {
           case 1:
-            url = "userInfo";
+            url = 'userInfo';
             break;
           case 2:
-            url = "userComplete";
+            url = 'userComplete';
             break;
           default:
             break;
         }
         uni.navigateTo({
-          url: joinUrl(`/pages/${url}/index`, { type: "edit" }),
+          url: joinUrl(`/pages/${url}/index`, { type: 'edit' }),
         });
       },
 
       editClick(item) {
         const { id } = item;
-        console.log("---item: ", item, id);
+        console.log('---item: ', item, id);
       },
       saveItemData(item) {
         const { text } = item;
-        console.log("------回车保存", text);
+        console.log('------回车保存', text);
       },
       sexChange(val, item) {
         const {

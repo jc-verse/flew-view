@@ -49,7 +49,7 @@
       </div>
       <!-- 当前状态 -->
       <div class="group_infos" v-if="statusInfo.tip">
-        <div class="tip_msg"> {{ statusInfo.tip || "" }}</div>
+        <div class="tip_msg"> {{ statusInfo.tip || '' }}</div>
       </div>
     </div>
 
@@ -63,23 +63,17 @@
 </template>
 
 <script>
-  import joinList from "@/components/cards/joinList";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import Rate from "@/components/cards/rate";
-  import CrewInfo from "@/components/cards/crewInfo";
-  import DiyPopup from "@/components/diyPopup";
-  import { bsToStrFn, topListFn, statusScreen, joinName } from "./units";
-  import TipPopup from "@/components/cards/tipPopup";
-  import { isLogin, toLogin } from "@/common/utils";
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import CrewInfo from '@/components/cards/crewInfo';
+  import { topListFn, statusScreen, joinName } from './units';
+  import TipPopup from '@/components/cards/tipPopup';
+  import { isLogin, toLogin } from '@/common/utils';
   export default {
-    name: "group_item",
+    name: 'group_item',
     components: {
       infoHead,
       information,
-      joinList,
-      DiyPopup,
-      Rate,
       CrewInfo,
       TipPopup,
     },
@@ -90,7 +84,7 @@
       },
       userId: {
         type: String,
-        default: "",
+        default: '',
       },
     },
 
@@ -115,7 +109,7 @@
       },
       slaveList() {
         const slave = this.infoData.slave || [];
-        return joinName(slave) || "";
+        return joinName(slave) || '';
       },
     },
     methods: {
@@ -133,7 +127,7 @@
         switch (type) {
           case 8:
           case 9:
-            this.$emit("clickBtn", type, { data: this.infoData });
+            this.$emit('clickBtn', type, { data: this.infoData });
             // this.$refs.diyRate.show()
             break;
           default:
@@ -145,7 +139,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

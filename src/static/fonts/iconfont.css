@@ -1,12 +1,12 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 2492272 */
-  src: url("~@/static/fonts/iconfont.woff2?t=1624116487778") format("woff2"),
-    url("~@/static/fonts/iconfont.woff?t=1624116487778") format("woff"),
-    url("~@/static/fonts/iconfont.ttf?t=1624116487778") format("truetype");
+  font-family: 'iconfont'; /* Project id 2492272 */
+  src: url('~@/static/fonts/iconfont.woff2?t=1624116487778') format('woff2'),
+    url('~@/static/fonts/iconfont.woff?t=1624116487778') format('woff'),
+    url('~@/static/fonts/iconfont.ttf?t=1624116487778') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
+  font-family: 'iconfont' !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
@@ -14,85 +14,85 @@
 }
 
 .iconxingbie:before {
-  content: "\e785";
+  content: '\e785';
 }
 
 .iconshanchu1:before {
-  content: "\e600";
+  content: '\e600';
 }
 
 .icontuichu1:before {
-  content: "\e601";
+  content: '\e601';
 }
 
 .icontuichu:before {
-  content: "\e710";
+  content: '\e710';
 }
 
 .iconkefu:before {
-  content: "\e632";
+  content: '\e632';
 }
 
 .iconrenzheng:before {
-  content: "\e6ea";
+  content: '\e6ea';
 }
 
 .iconshanchu:before {
-  content: "\e6d7";
+  content: '\e6d7';
 }
 
 .icontupianshangchuan:before {
-  content: "\e639";
+  content: '\e639';
 }
 
 .iconziyuanldpi:before {
-  content: "\e614";
+  content: '\e614';
 }
 
 .iconjiahao:before {
-  content: "\e721";
+  content: '\e721';
 }
 
 .iconB-pingfen:before {
-  content: "\e729";
+  content: '\e729';
 }
 
 .iconxiala1:before {
-  content: "\e611";
+  content: '\e611';
 }
 
 .iconarrow_right:before {
-  content: "\e761";
+  content: '\e761';
 }
 
 .icondingwei:before {
-  content: "\e61e";
+  content: '\e61e';
 }
 
 .iconbiaoqiankuozhan_xiaoxi-339:before {
-  content: "\ebc4";
+  content: '\ebc4';
 }
 
 .iconxingbie-nv:before {
-  content: "\e615";
+  content: '\e615';
 }
 
 .iconxingbie-nan:before {
-  content: "\e628";
+  content: '\e628';
 }
 
 .iconxiala:before {
-  content: "\e6f3";
+  content: '\e6f3';
 }
 
 .iconuser:before {
-  content: "\e6e0";
+  content: '\e6e0';
 }
 
 .iconzhuye:before {
-  content: "\e63c";
+  content: '\e63c';
 }
 
 .iconsearch:before {
-  content: "\e64f";
+  content: '\e64f';
 }

@@ -54,14 +54,14 @@
 </template>
 
 <script>
-  import DiyPopup from "@/components/diyPopup";
+  import DiyPopup from '@/components/diyPopup';
   export default {
-    name: "diyPicker",
+    name: 'diyPicker',
     components: { DiyPopup },
     props: {
       popupTitle: {
         type: String,
-        default: "请选择",
+        default: '请选择',
       },
       datas: {
         type: Array,
@@ -69,23 +69,23 @@
       },
       className: {
         type: String,
-        default: "",
+        default: '',
       },
     },
     data() {
       return {
         isOpened: false,
-        checks: ["", "", ""], // 各级被选中的下标
+        checks: ['', '', ''], // 各级被选中的下标
         checkList: [], // 备选项
         checkItems: [], // 已选中的
         rightNum: 0,
-        newId: "item_0",
+        newId: 'item_0',
       };
     },
     computed: {
       lists() {
         const { datas, checks } = this;
-        const [a, b, c] = checks;
+        const [a, b] = checks;
         let arr = [datas, [], []];
         if ((a || a === 0) && datas[a]) {
           arr[1] = datas[a].children;
@@ -126,7 +126,7 @@
           if (ind === inde) {
             return index;
           } else if (ind < inde) {
-            return "";
+            return '';
           } else {
             return item;
           }
@@ -161,9 +161,9 @@
 
           this.checkItems = [];
           this.checkItem(this.lists[0], checks[0], 0);
-          this.checks = ["", "", ""];
+          this.checks = ['', '', ''];
 
-          this.$emit("addList", { data, code, type: "join" });
+          this.$emit('addList', { data, code, type: 'join' });
         }
       },
     },

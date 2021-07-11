@@ -59,18 +59,18 @@
 </template>
 
 <script>
-  import scrollBox from "@/components/scrollBox";
-  import pageSj from "@/components/pageSjNew";
-  import fabGroup from "@/components/fabGroup";
-  import bottomLogo from "@/components/bottomLogo";
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
-  import joinList from "@/components/cards/joinList";
-  import { topListFn, bsToStrFn } from "./units";
-  import { imgUrl } from "@/common/http";
-  import { copy } from "@/common/utils";
+  import scrollBox from '@/components/scrollBox';
+  import pageSj from '@/components/pageSjNew';
+  import fabGroup from '@/components/fabGroup';
+  import bottomLogo from '@/components/bottomLogo';
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
+  import joinList from '@/components/cards/joinList';
+  import { topListFn, bsToStrFn } from './units';
+  import { imgUrl } from '@/common/http';
+  import { copy } from '@/common/utils';
   export default {
-    name: "detail_info",
+    name: 'detail_info',
     components: {
       scrollBox,
       fabGroup,
@@ -85,7 +85,7 @@
         show: false,
         index: 0,
         cardInfo: {},
-        QRImg: "",
+        QRImg: '',
         copyItem: {},
       };
     },
@@ -108,7 +108,7 @@
     onShow() {
       const this_ = this;
       uni.getStorage({
-        key: "helpInfo",
+        key: 'helpInfo',
         success: (res) => {
           const { errMsg, data } = res;
           if (/ok/.test(errMsg) && data) {
@@ -124,7 +124,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
   $color: #b3b3b4;
   .detail_info {
     display: flex;

@@ -1,7 +1,7 @@
 const colors = {
-  1: "rgba(255, 247, 232, 0.8)",
-  2: "rgba(211, 247, 244, 0.33)",
-  3: "rgba(235, 245, 255, 0.8)",
+  1: 'rgba(255, 247, 232, 0.8)',
+  2: 'rgba(211, 247, 244, 0.33)',
+  3: 'rgba(235, 245, 255, 0.8)',
 };
 // 状态筛选
 export const statusScreen = (infoData, userId) => {
@@ -17,18 +17,18 @@ export const statusScreen = (infoData, userId) => {
     subject,
   } = infoData;
   console.log(
-    "我是用户id：" + userId,
-    "我是申请人Id：" + slaves.id,
-    "我是被申请人id:" + id,
-    "我是不是队长：" + userId == id ? "是" : "不是",
+    '我是用户id：' + userId,
+    '我是申请人Id：' + slaves.id,
+    '我是被申请人id:' + id,
+    '我是不是队长：' + userId == id ? '是' : '不是',
   );
-  console.log("【119】是卡片的全部数据");
+  console.log('【119】是卡片的全部数据');
   console.log(119, infoData);
   const statuInfo = {
-    title: "",
-    tip: "",
-    btnCode: "",
-    bgColor: colors[type] || "rgba(211,247,244,1)",
+    title: '',
+    tip: '',
+    btnCode: '',
+    bgColor: colors[type] || 'rgba(211,247,244,1)',
     showInfo: [], // 8  联系客服 ; 9 评价
     showSlaveList: false,
     cardInfo: infoData,
@@ -201,18 +201,18 @@ export const statusScreen = (infoData, userId) => {
 };
 // 成员拼接
 export const joinName = (slave) => {
-  if (!slave) return "";
+  if (!slave) return '';
   return slave.reduce((i, j) => {
-    return i ? i + "/" + j.nikeName : i + j.nikeName;
-  }, "");
+    return i ? i + '/' + j.nikeName : i + j.nikeName;
+  }, '');
 };
 // 将比赛信息重组
 export const bsToStrFn = (arr = []) => {
   const list = arr || [];
   return list.map((item) => {
     const { time, name, wonAwards } = item;
-    const year = time.split("-")[0];
-    return `${year} ${name} ${wonAwards || ""}`;
+    const year = time.split('-')[0];
+    return `${year} ${name} ${wonAwards || ''}`;
   });
 };
 
@@ -220,36 +220,36 @@ export const topListFn = (infoData) => {
   const data = infoData || {};
   const arr = [
     {
-      title: "学校",
-      val: data.schoolName || "",
+      title: '学校',
+      val: data.schoolName || '',
       id: 1,
-      width: "50%",
+      width: '50%',
       noShow: false,
     },
     {
-      title: "年级",
-      val: data.grade || "",
+      title: '年级',
+      val: data.grade || '',
       id: 2,
-      width: "50%",
+      width: '50%',
       noShow: false,
     },
     {
-      title: "标化",
-      val: data.standardizedPerformance || "",
+      title: '标化',
+      val: data.standardizedPerformance || '',
       id: 3,
-      width: "50%",
+      width: '50%',
       noShow: false,
     },
     {
-      title: "课程",
-      val: data.curriculumSystem || "",
+      title: '课程',
+      val: data.curriculumSystem || '',
       id: 4,
-      width: "50%",
+      width: '50%',
       noShow: false,
     },
-    { title: "专业", val: data.professionalDirection || "", id: 4 },
-    { title: "成绩", val: data.schoolRecord || "", id: 3 },
-    { title: "评价", val: data.star || 0, id: 5, code: "rate", readonly: true },
+    { title: '专业', val: data.professionalDirection || '', id: 4 },
+    { title: '成绩', val: data.schoolRecord || '', id: 3 },
+    { title: '评价', val: data.star || 0, id: 5, code: 'rate', readonly: true },
   ];
   return arr;
 };

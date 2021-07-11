@@ -7,10 +7,10 @@
 </template>
 
 <script>
-  import infoHead from "@/components/cards/infoHead";
-  import information from "@/components/cards/information";
+  import infoHead from '@/components/cards/infoHead';
+  import information from '@/components/cards/information';
   export default {
-    name: "member",
+    name: 'member',
     components: { infoHead, information },
     props: {
       infoData: {
@@ -25,10 +25,10 @@
       tops() {
         const { infoData } = this;
         const arr = [
-          { title: "学校", val: infoData.schoolName || "", id: 1 },
-          { title: "年级", val: infoData.grade || "", id: 2 },
-          { title: "课程", val: infoData.curriculumSystem || "", id: 4 },
-          { title: "标化", val: infoData.standardizedPerformance || "", id: 3 },
+          { title: '学校', val: infoData.schoolName || '', id: 1 },
+          { title: '年级', val: infoData.grade || '', id: 2 },
+          { title: '课程', val: infoData.curriculumSystem || '', id: 4 },
+          { title: '标化', val: infoData.standardizedPerformance || '', id: 3 },
         ];
         return arr;
       },

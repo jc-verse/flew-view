@@ -32,8 +32,8 @@
               <div class="item_box">
                 <i class="iconfont icondingwei icon_item"></i>
                 <div class="value_box">
-                  <div class="title">{{ "黄湖熟互殴中学" || item }}</div>
-                  <div class="title_1">{{ "深圳市福田区" || item + 1 }}</div>
+                  <div class="title">{{ '黄湖熟互殴中学' || item }}</div>
+                  <div class="title_1">{{ '深圳市福田区' || item + 1 }}</div>
                 </div>
               </div>
             </slot>
@@ -57,19 +57,19 @@
    * @property {String} value 组合框的值
    */
   export default {
-    name: "uniCombox",
+    name: 'uniCombox',
     props: {
       label: {
         type: String,
-        default: "",
+        default: '',
       },
       labelWidth: {
         type: String,
-        default: "auto",
+        default: 'auto',
       },
       placeholder: {
         type: String,
-        default: "",
+        default: '',
       },
       candidates: {
         type: Array,
@@ -79,22 +79,22 @@
       },
       emptyTips: {
         type: String,
-        default: "无匹配项",
+        default: '无匹配项',
       },
       value: {
         type: [String, Number],
-        default: "",
+        default: '',
       },
     },
     data() {
       return {
         showSelector: false,
-        inputVal: "",
+        inputVal: '',
       };
     },
     computed: {
       labelStyle() {
-        if (this.labelWidth === "auto") {
+        if (this.labelWidth === 'auto') {
           return {};
         }
         return {
@@ -133,11 +133,11 @@
       onSelectorClick(index) {
         this.inputVal = this.filterCandidates[index];
         this.showSelector = false;
-        this.$emit("input", this.inputVal);
+        this.$emit('input', this.inputVal);
       },
       onInput() {
         setTimeout(() => {
-          this.$emit("input", this.inputVal);
+          this.$emit('input', this.inputVal);
         });
       },
     },
@@ -212,7 +212,7 @@
 
   .uni-combox__selector::before {
     /* #ifndef APP-NVUE */
-    content: "";
+    content: '';
     /* #endif */
     position: absolute;
     width: 0;

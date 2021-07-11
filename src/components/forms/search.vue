@@ -18,9 +18,9 @@
 </template>
 
 <script>
-  import { uniSearchBar } from "@dcloudio/uni-ui";
+  import { uniSearchBar } from '@dcloudio/uni-ui';
   export default {
-    name: "search",
+    name: 'search',
     components: { uniSearchBar },
     props: {
       propertys: {
@@ -30,25 +30,25 @@
       },
       pValue: {
         type: String,
-        default: "",
+        default: '',
       },
     },
     data() {
       return {
-        value: "",
+        value: '',
       };
     },
     methods: {
       changeFn() {
-        this.$emit("change", this.value);
+        this.$emit('change', this.value);
       },
       clickFn() {
-        this.$emit("click", this.value);
+        this.$emit('click', this.value);
       },
     },
     watch: {
       pValue: {
-        handler(newVal, oldVal) {
+        handler(newVal) {
           this.value = newVal;
         },
         immediate: true,
@@ -57,7 +57,7 @@
   };
 </script>
 <style lang="scss" scoped>
-  @import url("/static/fonts/iconfont.css");
+  @import url('/static/fonts/iconfont.css');
 
   $color: #999999;
   .diy_search_box {

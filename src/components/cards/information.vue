@@ -23,10 +23,10 @@
 
 <script>
   // import {uniRate} from '@dcloudio/uni-ui'
-  import rate from "@/components/cards/rate";
-  import uniRate from "@dcloudio/uni-ui/lib/uni-rate/uni-rate.vue";
+  import rate from '@/components/cards/rate';
+
   export default {
-    name: "information",
+    name: 'information',
     components: { rate },
     props: {
       topList: {
@@ -41,6 +41,7 @@
     },
   };
 </script>
+
 <style lang="scss" scoped>
   .information {
     display: flex;

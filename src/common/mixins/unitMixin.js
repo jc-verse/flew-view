@@ -3,12 +3,10 @@ import {
   totalTeamTypeList,
   cityList,
   serverQR,
-} from "@/common/api";
-import { setStorage, deepChange, closeLogin } from "@/common/utils";
-import { mapState, mapMutations } from "vuex";
-const isObject = (val) => {
-  return Object.prototype.toString.call(val) === "[object Object]";
-};
+} from '@/common/api';
+import { setStorage, deepChange, closeLogin } from '@/common/utils';
+import { mapMutations } from 'vuex';
+
 export default {
   data() {
     return {};
@@ -16,22 +14,22 @@ export default {
   onLoad() {},
   methods: {
     ...mapMutations([
-      "setUserInfo",
-      "setTotalList",
-      "setToken",
-      "setCityList",
-      "setQRData",
+      'setUserInfo',
+      'setTotalList',
+      'setToken',
+      'setCityList',
+      'setQRData',
     ]),
     // 获取用户信息
     getUserInfo(options) {
-      const avatarUrl = uni.getStorageSync("avatarUrl");
+      const avatarUrl = uni.getStorageSync('avatarUrl');
       userCardInfo({}, options || {})
         .then((res) => {
           const { data: nData } = res[1];
           const { data, code } = nData;
           if (code === 200) {
-            data.wxCode = data.wxNum || "";
-            data.name = data.userName || "";
+            data.wxCode = data.wxNum || '';
+            data.name = data.userName || '';
             if (!data.avatar && avatarUrl) {
               data.avatar = avatarUrl;
             }

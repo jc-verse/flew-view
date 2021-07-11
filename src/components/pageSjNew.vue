@@ -16,7 +16,7 @@
 
 <script>
   export default {
-    name: "pageSjNew",
+    name: 'pageSjNew',
     data() {
       return {
         topNum: 0,
@@ -27,13 +27,13 @@
     props: {
       styles: {
         type: Object,
-        default: () => ({ background: "" }),
+        default: () => ({ background: '' }),
       },
     },
     computed: {
       customBarH() {
         const { topNum } = this;
-        return topNum ? `calc(100vh - ${topNum * 2}rpx)` : "100vh";
+        return topNum ? `calc(100vh - ${topNum * 2}rpx)` : '100vh';
       },
     },
     mounted() {
@@ -63,7 +63,7 @@
         console.log(e);
       },
       scroll(e) {
-        this.$emit("scroll", e);
+        this.$emit('scroll', e);
         this.old.scrollTop = e.detail.scrollTop;
       },
       goTop: function (e) {
@@ -72,8 +72,8 @@
           this.scrollTop = 0;
         });
         uni.showToast({
-          icon: "none",
-          title: "纵向滚动 scrollTop 值已被修改为 0",
+          icon: 'none',
+          title: '纵向滚动 scrollTop 值已被修改为 0',
         });
       },
     },

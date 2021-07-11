@@ -24,13 +24,13 @@
 </template>
 
 <script>
-  import scrollBox from "@/components/scrollBox";
-  import pageSj from "@/components/scrollBox";
-  import bottomLogo from "@/components/bottomLogo";
-  import FabGroup from "@/components/fabGroup";
-  import { textMsg, tipMsg } from "./const";
+  import scrollBox from '@/components/scrollBox';
+  import pageSj from '@/components/scrollBox';
+  import bottomLogo from '@/components/bottomLogo';
+  import FabGroup from '@/components/fabGroup';
+  import { textMsg, tipMsg } from './const';
   export default {
-    name: "about_us",
+    name: 'about_us',
     components: { bottomLogo, scrollBox, pageSj, FabGroup },
     data() {
       return {
@@ -47,7 +47,7 @@
       .header_img {
         height: 320rpx;
         width: 100%;
-        @include img_bg("http://prod.qiniucdns.sjreach.cn/web-16.png");
+        @include img_bg('http://prod.qiniucdns.sjreach.cn/web-16.png');
       }
       .text_box {
         padding: 30rpx;
