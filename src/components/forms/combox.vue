@@ -16,7 +16,10 @@
       <!-- <uni-icons class="uni-combox__input-arrow" type="arrowdown" size="14" @click="toggleSelector"></uni-icons> -->
       <view class="uni-combox__selector" v-if="showSelector">
         <scroll-view scroll-y="true" class="uni-combox__selector-scroll">
-          <view class="uni-combox__selector-empty" v-if="filterCandidatesLength === 0">
+          <view
+            class="uni-combox__selector-empty"
+            v-if="filterCandidatesLength === 0"
+          >
             <text class="item_box">{{ emptyTips }}</text>
           </view>
           <view
@@ -29,8 +32,8 @@
               <div class="item_box">
                 <i class="iconfont icondingwei icon_item"></i>
                 <div class="value_box">
-                  <div class="title">{{ '黄湖熟互殴中学' || item }}</div>
-                  <div class="title_1">{{ '深圳市福田区' || item + 1 }}</div>
+                  <div class="title">{{ "黄湖熟互殴中学" || item }}</div>
+                  <div class="title_1">{{ "深圳市福田区" || item + 1 }}</div>
                 </div>
               </div>
             </slot>
@@ -54,91 +57,91 @@
    * @property {String} value 组合框的值
    */
   export default {
-    name: 'uniCombox',
+    name: "uniCombox",
     props: {
       label: {
         type: String,
-        default: '',
+        default: "",
       },
       labelWidth: {
         type: String,
-        default: 'auto',
+        default: "auto",
       },
       placeholder: {
         type: String,
-        default: '',
+        default: "",
       },
       candidates: {
         type: Array,
         default() {
-          return []
+          return [];
         },
       },
       emptyTips: {
         type: String,
-        default: '无匹配项',
+        default: "无匹配项",
       },
       value: {
         type: [String, Number],
-        default: '',
+        default: "",
       },
     },
     data() {
       return {
         showSelector: false,
-        inputVal: '',
-      }
+        inputVal: "",
+      };
     },
     computed: {
       labelStyle() {
-        if (this.labelWidth === 'auto') {
-          return {}
+        if (this.labelWidth === "auto") {
+          return {};
         }
         return {
           width: this.labelWidth,
-        }
+        };
       },
       filterCandidates() {
         return this.candidates.filter((item) => {
-          return item.toString().indexOf(this.inputVal) > -1
-        })
+          return item.toString().indexOf(this.inputVal) > -1;
+        });
       },
       filterCandidatesLength() {
-        return this.filterCandidates.length
+        return this.filterCandidates.length;
       },
     },
     watch: {
       value: {
         handler(newVal) {
-          this.inputVal = newVal
+          this.inputVal = newVal;
         },
         immediate: true,
       },
     },
     methods: {
       toggleSelector() {
-        this.showSelector = !this.showSelector
+        this.showSelector = !this.showSelector;
       },
       onFocus() {
-        this.showSelector = true
+        this.showSelector = true;
       },
       onBlur() {
         setTimeout(() => {
-          this.showSelector = false
-        }, 153)
+          this.showSelector = false;
+        }, 153);
       },
       onSelectorClick(index) {
-        this.inputVal = this.filterCandidates[index]
-        this.showSelector = false
-        this.$emit('input', this.inputVal)
+        this.inputVal = this.filterCandidates[index];
+        this.showSelector = false;
+        this.$emit("input", this.inputVal);
       },
       onInput() {
         setTimeout(() => {
-          this.$emit('input', this.inputVal)
-        })
+          this.$emit("input", this.inputVal);
+        });
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -209,7 +212,7 @@
 
   .uni-combox__selector::before {
     /* #ifndef APP-NVUE */
-    content: '';
+    content: "";
     /* #endif */
     position: absolute;
     width: 0;

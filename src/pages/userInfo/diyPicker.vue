@@ -26,15 +26,26 @@
       </scroll-view>
       <!-- picker  集合 -->
       <div class="list_box">
-        <scroll-view class="list_i" v-for="(ite, ind) in lists" :key="ind" :scroll-y="true">
+        <scroll-view
+          class="list_i"
+          v-for="(ite, ind) in lists"
+          :key="ind"
+          :scroll-y="true"
+        >
           <div
             class="list_item"
             @click="checkItem(ite, index, ind)"
             v-for="(item, index) in ite"
             :key="index"
           >
-            <div class="left" :style="{ color: item.check ? '#007aff' : '' }">{{ item.label }}</div>
-            <i class="iconfont iconjiahao" style="color: #007aff" v-show="ind === 2"></i>
+            <div class="left" :style="{ color: item.check ? '#007aff' : '' }">{{
+              item.label
+            }}</div>
+            <i
+              class="iconfont iconjiahao"
+              style="color: #007aff"
+              v-show="ind === 2"
+            ></i>
           </div>
         </scroll-view>
       </div>
@@ -43,14 +54,14 @@
 </template>
 
 <script>
-  import DiyPopup from '@/components/diyPopup'
+  import DiyPopup from "@/components/diyPopup";
   export default {
-    name: 'diyPicker',
+    name: "diyPicker",
     components: { DiyPopup },
     props: {
       popupTitle: {
         type: String,
-        default: '请选择',
+        default: "请选择",
       },
       datas: {
         type: Array,
@@ -58,35 +69,40 @@
       },
       className: {
         type: String,
-        default: '',
+        default: "",
       },
     },
     data() {
       return {
         isOpened: false,
-        checks: ['', '', ''], // 各级被选中的下标
+        checks: ["", "", ""], // 各级被选中的下标
         checkList: [], // 备选项
         checkItems: [], // 已选中的
         rightNum: 0,
-        newId: 'item_0',
-      }
+        newId: "item_0",
+      };
     },
     computed: {
       lists() {
-        const { datas, checks } = this
-        const [a, b, c] = checks
-        let arr = [datas, [], []]
+        const { datas, checks } = this;
+        const [a, b, c] = checks;
+        let arr = [datas, [], []];
         if ((a || a === 0) && datas[a]) {
-          arr[1] = datas[a].children
+          arr[1] = datas[a].children;
         } else {
-          arr[1] = []
+          arr[1] = [];
         }
-        if ((b || b === 0) && datas[a] && datas[a].children && datas[a].children[b]) {
-          arr[2] = datas[a].children[b].children
+        if (
+          (b || b === 0) &&
+          datas[a] &&
+          datas[a].children &&
+          datas[a].children[b]
+        ) {
+          arr[2] = datas[a].children[b].children;
         } else {
-          arr[2] = []
+          arr[2] = [];
         }
-        return arr
+        return arr;
       },
     },
     methods: {
@@ -95,62 +111,64 @@
         // 修改数据
         data = data.map((item, indx) => {
           if (index === indx) {
-            item.check = !item.check
+            item.check = !item.check;
             if (item.check) {
-              const { label, id } = item
-              this.checkList[ind] = { label, id }
+              const { label, id } = item;
+              this.checkList[ind] = { label, id };
             }
           } else {
-            item.check = false
+            item.check = false;
           }
-          return item
-        })
+          return item;
+        });
         // 初始化选中
         this.checks = this.checks.map((item, inde) => {
           if (ind === inde) {
-            return index
+            return index;
           } else if (ind < inde) {
-            return ''
+            return "";
           } else {
-            return item
+            return item;
           }
-        })
+        });
         // 重复判断
         let flag = this.checkItems.some((item) => {
-          const [i, c] = [item[2] || {}, this.checkList[2] || {}]
-          const bol = i.id === c.id && i.label === c.label
-          return bol
-        })
+          const [i, c] = [item[2] || {}, this.checkList[2] || {}];
+          const bol = i.id === c.id && i.label === c.label;
+          return bol;
+        });
         // add
         if (ind === 2 && !flag) {
-          const arr = [...this.checkList]
-          this.checkItems.push(arr)
-          const this_ = this
+          const arr = [...this.checkList];
+          this.checkItems.push(arr);
+          const this_ = this;
           this.$nextTick(() => {
-            this_.newId = `item_${this_.checkItems.length - 1}`
-          })
+            this_.newId = `item_${this_.checkItems.length - 1}`;
+          });
         }
       },
       // 删除
       deleteItem(ind) {
-        this.checkItems = this.checkItems.filter((item, index) => index !== ind)
+        this.checkItems = this.checkItems.filter(
+          (item, index) => index !== ind,
+        );
       },
       // 关闭弹窗
       popupclosed(flag) {
-        const { checks, checkItems, className: code } = this
+        const { checks, checkItems, className: code } = this;
         if (flag && checkItems.length) {
-          const data = [...checkItems]
+          const data = [...checkItems];
 
-          this.checkItems = []
-          this.checkItem(this.lists[0], checks[0], 0)
-          this.checks = ['', '', '']
+          this.checkItems = [];
+          this.checkItem(this.lists[0], checks[0], 0);
+          this.checks = ["", "", ""];
 
-          this.$emit('addList', { data, code, type: 'join' })
+          this.$emit("addList", { data, code, type: "join" });
         }
       },
     },
     watch: {},
-  }
+  };
 </script>
 
 <style scoped lang="scss">

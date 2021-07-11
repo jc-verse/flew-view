@@ -60,64 +60,72 @@
 </template>
 
 <script>
-  import scrollBox from '@/components/scrollBox'
-  import pageSj from '@/components/pageSjNew'
-  import fabGroup from '@/components/fabGroup'
-  import bottomLogo from '@/components/bottomLogo'
-  import infoHead from '@/components/cards/infoHead'
-  import information from '@/components/cards/information'
-  import joinList from '@/components/cards/joinList'
-  import { topListFn, bsToStrFn } from './units'
-  import { imgUrl } from '@/common/http'
-  import { copy } from '@/common/utils'
+  import scrollBox from "@/components/scrollBox";
+  import pageSj from "@/components/pageSjNew";
+  import fabGroup from "@/components/fabGroup";
+  import bottomLogo from "@/components/bottomLogo";
+  import infoHead from "@/components/cards/infoHead";
+  import information from "@/components/cards/information";
+  import joinList from "@/components/cards/joinList";
+  import { topListFn, bsToStrFn } from "./units";
+  import { imgUrl } from "@/common/http";
+  import { copy } from "@/common/utils";
   export default {
-    name: 'detail_info',
-    components: { scrollBox, fabGroup, bottomLogo, infoHead, information, joinList, pageSj },
+    name: "detail_info",
+    components: {
+      scrollBox,
+      fabGroup,
+      bottomLogo,
+      infoHead,
+      information,
+      joinList,
+      pageSj,
+    },
     data() {
       return {
         show: false,
         index: 0,
         cardInfo: {},
-        QRImg: '',
+        QRImg: "",
         copyItem: {},
-      }
+      };
     },
     computed: {
       tops() {
-        return topListFn(this.cardInfo)
+        return topListFn(this.cardInfo);
       },
       bList() {
-        const { competitionExperience } = this.cardInfo
-        const arr = bsToStrFn(competitionExperience)
-        return arr
+        const { competitionExperience } = this.cardInfo;
+        const arr = bsToStrFn(competitionExperience);
+        return arr;
       },
     },
     onLoad() {
-      const { copyWxData } = this.$store.state.QRData
-      const [copyItem] = copyWxData
-      this.QRImg = imgUrl + copyItem.qrImg
-      this.copyItem = copyItem
+      const { copyWxData } = this.$store.state.QRData;
+      const [copyItem] = copyWxData;
+      this.QRImg = imgUrl + copyItem.qrImg;
+      this.copyItem = copyItem;
     },
     onShow() {
-      const this_ = this
+      const this_ = this;
       uni.getStorage({
-        key: 'helpInfo',
+        key: "helpInfo",
         success: (res) => {
-          const { errMsg, data } = res
+          const { errMsg, data } = res;
           if (/ok/.test(errMsg) && data) {
-            this_.cardInfo = data
+            this_.cardInfo = data;
           }
         },
-      })
+      });
     },
     methods: {
       copy,
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   $color: #b3b3b4;
   .detail_info {
     display: flex;

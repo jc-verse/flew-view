@@ -9,7 +9,11 @@
     </view>
     <!-- 内容区域 -->
 
-    <view class="uni-data-tree-dialog" :style="{ top: styles.top }" v-if="isOpened && !noUp">
+    <view
+      class="uni-data-tree-dialog"
+      :style="{ top: styles.top }"
+      v-if="isOpened && !noUp"
+    >
       <view class="dialog-caption">
         <view class="title-area">
           <text class="dialog-title">{{ popupTitle }}</text>
@@ -17,7 +21,10 @@
         <!-- 左侧关闭 -->
         <view class="dialog-close" @click.stop="handleClose(false)">
           <view class="dialog-close-plus" data-id="close"></view>
-          <view class="dialog-close-plus dialog-close-rotate" data-id="close"></view>
+          <view
+            class="dialog-close-plus dialog-close-rotate"
+            data-id="close"
+          ></view>
         </view>
         <!-- 右侧确定 -->
         <view class="dialog-confirm" @click.stop="handleClose(true)">确定</view>
@@ -40,22 +47,22 @@
    * @event {Function} popuphide 弹出的选择窗口关闭时触发此事件
    */
   export default {
-    name: 'diyPopup',
+    name: "diyPopup",
     props: {
       options: {
         type: [Object, Array],
         default() {
-          return {}
+          return {};
         },
       },
       popupTitle: {
         type: String,
-        default: '请选择',
+        default: "请选择",
       },
       styles: {
         type: Object,
         default: () => ({
-          top: '20%',
+          top: "20%",
         }),
       },
       noUp: {
@@ -67,26 +74,26 @@
       return {
         isOpened: false,
         inputSelected: [],
-      }
+      };
     },
     created() {},
     methods: {
       show() {
-        this.isOpened = true
-        this.$emit('popupopened')
+        this.isOpened = true;
+        this.$emit("popupopened");
       },
       hide(flag) {
-        this.isOpened = false
-        this.$emit('popupclosed', flag)
+        this.isOpened = false;
+        this.$emit("popupclosed", flag);
       },
       handleInput() {
-        this.show()
+        this.show();
       },
       handleClose(bol) {
-        this.hide(bol)
+        this.hide(bol);
       },
     },
-  }
+  };
 </script>
 
 <style scoped lang="scss">

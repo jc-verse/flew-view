@@ -1,3 +1,3 @@
 module.exports = {
-  transpileDependencies: ['uni-simple-router'],
-}
+  transpileDependencies: ["uni-simple-router"],
+};

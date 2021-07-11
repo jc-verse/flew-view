@@ -1,5 +1,10 @@
 <template>
-  <DiyPopup ref="popup" :popupTitle="title" @popupclosed="popupclosed" :styles="{ top: '38%' }">
+  <DiyPopup
+    ref="popup"
+    :popupTitle="title"
+    @popupclosed="popupclosed"
+    :styles="{ top: '38%' }"
+  >
     <template slot="content">
       <div class="rate_box">
         <div class="rate_item" v-for="(item, index) in rateHeads" :key="index">
@@ -23,10 +28,10 @@
 </template>
 
 <script>
-  import Rate from '@/components/cards/rate'
-  import DiyPopup from '@/components/diyPopup'
+  import Rate from "@/components/cards/rate";
+  import DiyPopup from "@/components/diyPopup";
   export default {
-    name: 'group_item',
+    name: "group_item",
     components: { DiyPopup, Rate },
     props: {
       rateData: {
@@ -39,15 +44,15 @@
       },
       title: {
         type: String,
-        default: '评价',
+        default: "评价",
       },
       headList: {
         type: Array,
         default: () => [
-          { title: '知识水平', value: '', code: 'dimension1' },
-          { title: '理解程度', value: '', code: 'dimension2' },
-          { title: '讲课态度', value: '', code: 'dimension3' },
-          { title: '授课效率', value: '', code: 'dimension4' },
+          { title: "知识水平", value: "", code: "dimension1" },
+          { title: "理解程度", value: "", code: "dimension2" },
+          { title: "讲课态度", value: "", code: "dimension3" },
+          { title: "授课效率", value: "", code: "dimension4" },
         ],
       },
     },
@@ -63,50 +68,50 @@
         },
         rateHeads: [],
         count: 0,
-      }
+      };
     },
     computed: {
       newRate() {
-        const { rateForm, rateData } = this
-        return Object.keys(rateData).length ? rateData : rateForm
+        const { rateForm, rateData } = this;
+        return Object.keys(rateData).length ? rateData : rateForm;
       },
     },
     created() {
-      this.rateHeads = [...this.headList]
+      this.rateHeads = [...this.headList];
     },
     mounted() {
       // this.$refs.popup.show()
     },
     methods: {
       changeRate(e, code) {
-        this.rateForm[code] = e.value
+        this.rateForm[code] = e.value;
       },
       popupclosed(flag) {
-        console.log(883, flag)
+        console.log(883, flag);
         if (flag === true) {
-          const { rateForm } = this
-          this.$emit('confirmRate', rateForm)
+          const { rateForm } = this;
+          this.$emit("confirmRate", rateForm);
           this.rateForm = {
             dimension1: 3,
             dimension2: 3,
             dimension3: 3,
             dimension4: 3,
-          }
-          this.count += 1
+          };
+          this.count += 1;
           this.$nextTick(() => {
-            this.count = 0
-          })
+            this.count = 0;
+          });
         }
       },
       show() {
-        this.$refs.popup.show()
+        this.$refs.popup.show();
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   .rate_box {
     display: flex;
     flex-direction: column;

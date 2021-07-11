@@ -7,12 +7,12 @@
     data() {
       return {
         count: 0,
-      }
+      };
     },
     methods: {
       countFn() {
-        this.count++
+        this.count++;
       },
     },
-  }
+  };
 </script>

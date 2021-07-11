@@ -1,8 +1,10 @@
 <template>
   <div class="message_item">
-    <div class="msg_title" v-if="info.type">【{{ info.type | filterType }}】</div>
+    <div class="msg_title" v-if="info.type"
+      >【{{ info.type | filterType }}】</div
+    >
     <div class="msg_content" :class="[showDetail ? '' : 'ellipsis']">
-      {{ info.content || '' }}
+      {{ info.content || "" }}
     </div>
     <div class="unRead" v-if="info.status == 1"></div>
     <div
@@ -24,25 +26,25 @@
     data() {
       return {
         showDetail: false,
-      }
+      };
     },
     filters: {
       filterType(val) {
         const types = {
-          1: '被申请',
-          2: '申请中反馈',
-          3: '发起中反馈',
-          4: '申请组队被申请',
-        }
-        return types[val] || ''
+          1: "被申请",
+          2: "申请中反馈",
+          3: "发起中反馈",
+          4: "申请组队被申请",
+        };
+        return types[val] || "";
       },
     },
     methods: {
       clickDetail() {
-        this.showDetail = !this.showDetail
+        this.showDetail = !this.showDetail;
       },
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .message_item {

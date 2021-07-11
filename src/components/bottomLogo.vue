@@ -13,7 +13,7 @@
     .img_box {
       height: 70rpx;
       width: 358rpx;
-      @include img_bg('http://prod.qiniucdns.sjreach.cn/web-7.png');
+      @include img_bg("http://prod.qiniucdns.sjreach.cn/web-7.png");
     }
   }
 </style>

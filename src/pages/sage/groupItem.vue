@@ -21,12 +21,24 @@
           ></i>
         </div>
         <!-- 团队成员信息 -->
-        <CrewInfo :info="ite" v-for="(ite, ind) in infoData.slave" :key="ind" v-show="showInfo" />
+        <CrewInfo
+          :info="ite"
+          v-for="(ite, ind) in infoData.slave"
+          :key="ind"
+          v-show="showInfo"
+        />
       </div>
     </div>
 
-    <div class="buoy" v-if="infoData.rank == 2" @click="clickBuoy(infoData)"> 申请组队 </div>
-    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
+    <div class="buoy" v-if="infoData.rank == 2" @click="clickBuoy(infoData)">
+      申请组队
+    </div>
+    <TipPopup
+      title="操作提示"
+      ref="noLogin"
+      msg="是否登录后执行操作？"
+      @confirm="toLogin"
+    />
     <TipPopup
       title="提示"
       ref="toUserInfo"
@@ -38,15 +50,15 @@
 </template>
 
 <script>
-  import joinList from '@/components/cards/joinList'
-  import infoHead from '@/components/cards/infoHead'
-  import information from '@/components/cards/information'
-  import CrewInfo from '@/components/cards/crewInfo'
-  import TipPopup from '@/components/cards/tipPopup'
-  import { isLogin, toLogin } from '@/common/utils'
+  import joinList from "@/components/cards/joinList";
+  import infoHead from "@/components/cards/infoHead";
+  import information from "@/components/cards/information";
+  import CrewInfo from "@/components/cards/crewInfo";
+  import TipPopup from "@/components/cards/tipPopup";
+  import { isLogin, toLogin } from "@/common/utils";
 
   export default {
-    name: 'group_item',
+    name: "group_item",
     components: { infoHead, information, joinList, CrewInfo, TipPopup },
     props: {
       infoData: {
@@ -60,79 +72,85 @@
     },
     data() {
       return {
-        info: '',
+        info: "",
         showList: false,
         showInfo: false,
-        toUserInfoUrl: '',
-      }
+        toUserInfoUrl: "",
+      };
     },
     computed: {
       tops() {
-        const { infoData } = this
+        const { infoData } = this;
         const arr = [
-          { title: '学校', val: infoData.schoolName || '', id: 1 },
-          { title: '年级', val: infoData.grade || '', id: 2 },
-          { title: '课程', val: infoData.curriculumSystem || '', id: 4 },
-          { title: '标化', val: infoData.standardizedPerformance || '', id: 3 },
-          { title: '专业', val: infoData.professionalDirection || '', id: 4 },
-          { title: '成绩', val: infoData.schoolRecord || '', id: 3 },
-          { title: '评价', val: infoData.star || 0, id: 5, code: 'rate', readonly: true },
-        ]
-        return arr
+          { title: "学校", val: infoData.schoolName || "", id: 1 },
+          { title: "年级", val: infoData.grade || "", id: 2 },
+          { title: "课程", val: infoData.curriculumSystem || "", id: 4 },
+          { title: "标化", val: infoData.standardizedPerformance || "", id: 3 },
+          { title: "专业", val: infoData.professionalDirection || "", id: 4 },
+          { title: "成绩", val: infoData.schoolRecord || "", id: 3 },
+          {
+            title: "评价",
+            val: infoData.star || 0,
+            id: 5,
+            code: "rate",
+            readonly: true,
+          },
+        ];
+        return arr;
       },
       bList() {
-        const { competitionExperience } = this.infoData
-        const arr = (competitionExperience || []).map((item) => item.name)
-        return arr
+        const { competitionExperience } = this.infoData;
+        const arr = (competitionExperience || []).map((item) => item.name);
+        return arr;
       },
       tags() {
-        const { totalList, infoData } = this
-        const { match, matchList } = infoData || {}
-        const arr = (matchList || '').split(',')
-        return arr
+        const { totalList, infoData } = this;
+        const { match, matchList } = infoData || {};
+        const arr = (matchList || "").split(",");
+        return arr;
       },
       slaveList() {
-        const slave = this.infoData.slave || []
+        const slave = this.infoData.slave || [];
         return slave.reduce((i, j) => {
-          return i ? i + '/' + j.nikeName : i + j.nikeName
-        }, '')
+          return i ? i + "/" + j.nikeName : i + j.nikeName;
+        }, "");
       },
     },
     methods: {
       toLogin,
       clickDown() {
-        this.showList = !this.showList
+        this.showList = !this.showList;
       },
       // 跳转信息录入
       toUserInfo(flag) {
         if (flag) {
-          uni.navigateTo({ url: this.toUserInfoUrl })
-          this.toUserInfoUrl = ''
+          uni.navigateTo({ url: this.toUserInfoUrl });
+          this.toUserInfoUrl = "";
         } else {
-          uni.showToast({ title: '请录入信息后, 申请服务!', icon: 'none' })
+          uni.showToast({ title: "请录入信息后, 申请服务!", icon: "none" });
         }
       },
       // 点击组队申请！
       clickBuoy(type) {
         if (!isLogin()) {
-          this.$refs.noLogin.show()
-          return
+          this.$refs.noLogin.show();
+          return;
         }
 
-        const toUserInfoUrl = uni.getStorageSync('toUserInfoUrl')
+        const toUserInfoUrl = uni.getStorageSync("toUserInfoUrl");
         if (toUserInfoUrl) {
-          this.toUserInfoUrl = toUserInfoUrl
-          this.$refs.toUserInfo.show()
+          this.toUserInfoUrl = toUserInfoUrl;
+          this.$refs.toUserInfo.show();
         } else {
-          this.$emit('clickBuoy', type)
+          this.$emit("clickBuoy", type);
         }
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

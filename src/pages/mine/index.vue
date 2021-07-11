@@ -21,11 +21,16 @@
           <div class="user_info">
             <div class="user_name_level">
               <span class="name">
-                {{ userDataNewFn.nikeName || '' }}
+                {{ userDataNewFn.nikeName || "" }}
                 <!-- <open-data v-if="!userDataNewFn.nikeName" type="userNickName" ></open-data> -->
               </span>
               <span class="level">
-                <Rate :size="18" :value="userDataNewFn.star || 0" :max="5" :readonly="true"></Rate>
+                <Rate
+                  :size="18"
+                  :value="userDataNewFn.star || 0"
+                  :max="5"
+                  :readonly="true"
+                ></Rate>
               </span>
             </div>
             <div class="vip_num">
@@ -47,7 +52,10 @@
               @click="navClick(item)"
               :class="['item_content', item.id === actived ? 'actived' : '']"
             >
-              <div class="img_box" :style="{ 'background-image': `url(${item.icon})` }"></div>
+              <div
+                class="img_box"
+                :style="{ 'background-image': `url(${item.icon})` }"
+              ></div>
               <div class="item_label">{{ item.label }}</div>
             </div>
           </div>
@@ -107,7 +115,12 @@
       </div>
     </div>
     <FabGroup :shows="[2, 4]" @QRPopup="QRPopup" />
-    <TipPopup title="提示" ref="toUserInfo" msg="需要填写个人信息？" @confirm="toUserInfo(true)" />
+    <TipPopup
+      title="提示"
+      ref="toUserInfo"
+      msg="需要填写个人信息？"
+      @confirm="toUserInfo(true)"
+    />
     <TipPopup title="联系客服" ref="QRPopup">
       <template #content>
         <div class="qr_img">
@@ -130,7 +143,11 @@
       </div>
     </div>
   </DiyPopup> -->
-    <DiyRate ref="diyRate" :rateData="rateForm" @confirmRate="confirmRate"></DiyRate>
+    <DiyRate
+      ref="diyRate"
+      :rateData="rateForm"
+      @confirmRate="confirmRate"
+    ></DiyRate>
     <DiyRate
       ref="diyRate2"
       :rateData="rateForm2"
@@ -140,24 +157,24 @@
   </PageJs>
 </template>
 <script>
-  import PageJs from '../../components/pageSjNew.vue'
+  import PageJs from "../../components/pageSjNew.vue";
 
-  import GroupItemSqz from './groupItem_sqz'
-  import GroupItemJxz from './groupItem_jxz'
-  import GroupItemBsq from './groupItem_bsq'
-  import GroupItemSqjl from './groupItem_sqjl'
-  import GroupItemFqz from './groupItem_fqz'
+  import GroupItemSqz from "./groupItem_sqz";
+  import GroupItemJxz from "./groupItem_jxz";
+  import GroupItemBsq from "./groupItem_bsq";
+  import GroupItemSqjl from "./groupItem_sqjl";
+  import GroupItemFqz from "./groupItem_fqz";
 
-  import ScrollBox from '@/components/scrollBox.vue'
-  import Rate from '@/components/cards/rate'
-  import DiyPopup from '@/components/diyPopup'
-  import DiyRate from '@/components/diyRate'
+  import ScrollBox from "@/components/scrollBox.vue";
+  import Rate from "@/components/cards/rate";
+  import DiyPopup from "@/components/diyPopup";
+  import DiyRate from "@/components/diyRate";
 
-  import FabGroup from '@/components/fabGroup'
-  import { imgUrl } from '@/common/http'
-  import { joinUrl, copy } from '@/common/utils'
-  import TipPopup from '@/components/cards/tipPopup'
-  import { rateConsults } from './const'
+  import FabGroup from "@/components/fabGroup";
+  import { imgUrl } from "@/common/http";
+  import { joinUrl, copy } from "@/common/utils";
+  import TipPopup from "@/components/cards/tipPopup";
+  import { rateConsults } from "./const";
 
   import {
     userInfoReadCount,
@@ -180,7 +197,7 @@
     activityComplete, // 完成
     exitTeam, // 自主发起- 成员-退出
     kickTeam, // 自主发起- 发起者-踢出
-  } from '@/common/api'
+  } from "@/common/api";
 
   const requests = {
     1: userInfoApply, // 被申请
@@ -188,13 +205,13 @@
     3: userInfoContinued, // 进行中
     4: activityList, // 发起中
     5: userInfoApplyRecord, // 申请记录
-  }
+  };
   const rateFormInit = {
     dimension1: 3,
     dimension2: 3,
     dimension3: 3,
     dimension4: 3,
-  }
+  };
   export default {
     components: {
       PageJs,
@@ -211,23 +228,43 @@
       GroupItemFqz,
     },
     data() {
-      const rateForm = { ...rateFormInit }
-      const rateForm2 = { ...rateFormInit }
+      const rateForm = { ...rateFormInit };
+      const rateForm2 = { ...rateFormInit };
       return {
-        QRImg: '',
+        QRImg: "",
         copyItem: {},
         rateForm,
         rateForm2,
         headList: rateConsults,
         // vipNum: 0,
-        actived: '2',
+        actived: "2",
         ReadCount: 0,
         navList: [
-          { label: '申请中', id: '2', icon: 'http://prod.qiniucdns.sjreach.cn/web-36.png' },
-          { label: '被申请', id: '1', icon: 'http://prod.qiniucdns.sjreach.cn/web-35.png' },
-          { label: '进行中', id: '3', icon: 'http://prod.qiniucdns.sjreach.cn/web-18.png' },
-          { label: '发起中', id: '4', icon: 'http://prod.qiniucdns.sjreach.cn/web-19.png' },
-          { label: '申请记录', id: '5', icon: 'http://prod.qiniucdns.sjreach.cn/web-20.png' },
+          {
+            label: "申请中",
+            id: "2",
+            icon: "http://prod.qiniucdns.sjreach.cn/web-36.png",
+          },
+          {
+            label: "被申请",
+            id: "1",
+            icon: "http://prod.qiniucdns.sjreach.cn/web-35.png",
+          },
+          {
+            label: "进行中",
+            id: "3",
+            icon: "http://prod.qiniucdns.sjreach.cn/web-18.png",
+          },
+          {
+            label: "发起中",
+            id: "4",
+            icon: "http://prod.qiniucdns.sjreach.cn/web-19.png",
+          },
+          {
+            label: "申请记录",
+            id: "5",
+            icon: "http://prod.qiniucdns.sjreach.cn/web-20.png",
+          },
         ],
 
         cardList: [],
@@ -236,57 +273,57 @@
           size: 10,
         },
         count: 0,
-        toUserInfoUrl: '',
+        toUserInfoUrl: "",
         loading: false,
-        userRelationshipId: '',
-      }
+        userRelationshipId: "",
+      };
     },
     computed: {
       realInfo() {
-        const { realInfo } = this.userDataNewFn || {}
+        const { realInfo } = this.userDataNewFn || {};
         const list = {
-          1: { isReal: false, id: 1, class: '' },
-          2: { isReal: true, id: 2, class: '' },
-          3: { isReal: true, id: 3, class: 'icon_active' },
-        }
-        return list[realInfo || 1]
+          1: { isReal: false, id: 1, class: "" },
+          2: { isReal: true, id: 2, class: "" },
+          3: { isReal: true, id: 3, class: "icon_active" },
+        };
+        return list[realInfo || 1];
       },
       headImg() {
-        const { avatar } = this.userDataNewFn
+        const { avatar } = this.userDataNewFn;
         let url =
-          'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
+          "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132";
         if (/(http|https)/.test(avatar)) {
-          url = avatar || ''
-        } else if (avatar !== 'default_img.png' && avatar) {
-          url = imgUrl + avatar
+          url = avatar || "";
+        } else if (avatar !== "default_img.png" && avatar) {
+          url = imgUrl + avatar;
         }
-        return url
+        return url;
       },
       userDataNewFn() {
-        const { userInfo } = this.$store.state
-        return userInfo || {}
+        const { userInfo } = this.$store.state;
+        return userInfo || {};
       },
       vipNum() {
-        const { vipNum } = this.userDataNewFn || {}
-        console.log(1, 'userDataNewFn', this.userDataNewFn)
-        return vipNum || ''
+        const { vipNum } = this.userDataNewFn || {};
+        console.log(1, "userDataNewFn", this.userDataNewFn);
+        return vipNum || "";
       },
     },
     onLoad() {
-      const { copyWxData } = this.$store.state.QRData
-      const [copyItem] = copyWxData
-      this.QRImg = imgUrl + copyItem.qrImg
-      this.copyItem = copyItem
+      const { copyWxData } = this.$store.state.QRData;
+      const [copyItem] = copyWxData;
+      this.QRImg = imgUrl + copyItem.qrImg;
+      this.copyItem = copyItem;
 
-      const toUserInfoUrl = uni.getStorageSync('toUserInfoUrl')
+      const toUserInfoUrl = uni.getStorageSync("toUserInfoUrl");
       if (toUserInfoUrl) {
-        this.toUserInfoUrl = toUserInfoUrl
-        this.$refs.toUserInfo.show()
+        this.toUserInfoUrl = toUserInfoUrl;
+        this.$refs.toUserInfo.show();
       }
     },
     onShow() {
-      this.userInfoReadCount()
-      this.initForm()
+      this.userInfoReadCount();
+      this.initForm();
     },
     methods: {
       copy,
@@ -294,489 +331,508 @@
         this.pages = {
           current: 1,
           size: 10,
-        }
-        this.cardList = []
-        this.count++
-        this.getCards(val || '', this.count)
+        };
+        this.cardList = [];
+        this.count++;
+        this.getCards(val || "", this.count);
       },
       navClick(item) {
-        const { id } = item
-        if (!id) return
-        this.actived = id
+        const { id } = item;
+        if (!id) return;
+        this.actived = id;
       },
       jumpTo(val) {
         const urls = {
-          1: '/pages/personalInfo/index',
-          2: '/pages/messageBox/index',
-        }
-        uni.navigateTo({ url: urls[val] })
+          1: "/pages/personalInfo/index",
+          2: "/pages/messageBox/index",
+        };
+        uni.navigateTo({ url: urls[val] });
       },
       goToBack() {
-        uni.navigateBack({ delta: 1 })
+        uni.navigateBack({ delta: 1 });
       },
       getCards(val, count) {
-        const { actived, pages } = this
-        const i = val || actived
+        const { actived, pages } = this;
+        const i = val || actived;
         if (actived == 4) {
-          pages.status = 1
+          pages.status = 1;
         }
         requests[i](pages)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, msg } = nData
+            const { data: nData } = res[1];
+            const { code, data, msg } = nData;
             if (code === 200) {
-              const { records } = data
+              const { records } = data;
               if (records && records.length) {
                 if (count === this.count) {
-                  this.cardList = [...this.cardList, ...records]
+                  this.cardList = [...this.cardList, ...records];
                 }
-                if (records.length === this.pages.size && count === this.count) {
-                  this.current += 1
+                if (
+                  records.length === this.pages.size &&
+                  count === this.count
+                ) {
+                  this.current += 1;
                 }
               }
             }
           })
           .catch((err) => {
-            this.cardList = []
-          })
+            this.cardList = [];
+          });
       },
       // 获取消息数量
       userInfoReadCount() {
         userInfoReadCount()
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data } = nData
+            const { data: nData } = res[1];
+            const { code, data } = nData;
             if (code === 200) {
-              this.ReadCount = data
+              this.ReadCount = data;
             }
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       },
       // 取消申请
       userInfoCancelMatch(id) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         const params = {
           userRelationshipId: id,
-        }
-        console.log('取消申请-参数：' + JSON.stringify(params))
+        };
+        console.log("取消申请-参数：" + JSON.stringify(params));
         userInfoCancelMatch(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success } = nData;
+            this.throttle(false);
             if (code === 200 && success) {
-              uni.showToast({ title: '取消成功！' })
-              this.initForm()
+              uni.showToast({ title: "取消成功！" });
+              this.initForm();
             } else {
-              uni.showToast({ title: '取消失败，请重试！', icon: 'none' })
+              uni.showToast({ title: "取消失败，请重试！", icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 竞赛组队-接受/拒绝申请
       userInfoPower(type, id) {
-        if (this.loading) return
-        this.throttle(true)
-        const params = { type, userRelationshipId: id }
-        console.log('竞赛组队-接受/拒绝申请-参数：' + JSON.stringify(params))
+        if (this.loading) return;
+        this.throttle(true);
+        const params = { type, userRelationshipId: id };
+        console.log("竞赛组队-接受/拒绝申请-参数：" + JSON.stringify(params));
         userInfoPower(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none' })
-              this.initForm()
+              uni.showToast({
+                title: `已${type == 1 ? "接受" : "拒绝"}申请`,
+                icon: "none",
+              });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 学术帮助-接受/拒绝申请
       academicOperationAcademic(type, id) {
-        if (this.loading) return
-        this.throttle(true)
-        const params = { type, userRelationshipId: id }
-        console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
+        if (this.loading) return;
+        this.throttle(true);
+        const params = { type, userRelationshipId: id };
+        console.log("学术帮助-接受/拒绝申请-参数：" + JSON.stringify(params));
         academicOperationAcademic(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none' })
-              this.initForm()
+              uni.showToast({
+                title: `已${type == 1 ? "接受" : "拒绝"}申请`,
+                icon: "none",
+              });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 学校咨询-接受/拒绝申请
       consultingOperation(type, id) {
-        if (this.loading) return
-        this.throttle(true)
-        const params = { type, userRelationshipId: id }
-        console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
+        if (this.loading) return;
+        this.throttle(true);
+        const params = { type, userRelationshipId: id };
+        console.log("学术帮助-接受/拒绝申请-参数：" + JSON.stringify(params));
         consultingOperation(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none' })
-              this.initForm()
+              uni.showToast({
+                title: `已${type == 1 ? "接受" : "拒绝"}申请`,
+                icon: "none",
+              });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 自主发起-接受/拒绝申请
       operationActivity(type, id) {
-        if (this.loading) return
-        this.throttle(true)
-        const params = { type, userRelationshipId: id }
-        console.log('学术帮助-接受/拒绝申请-参数：' + JSON.stringify(params))
+        if (this.loading) return;
+        this.throttle(true);
+        const params = { type, userRelationshipId: id };
+        console.log("学术帮助-接受/拒绝申请-参数：" + JSON.stringify(params));
         operationActivity(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: `已${type == 1 ? '接受' : '拒绝'}申请`, icon: 'none' })
-              this.initForm()
+              uni.showToast({
+                title: `已${type == 1 ? "接受" : "拒绝"}申请`,
+                icon: "none",
+              });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 退出组队
       userInfoExitTeam(id) {
-        if (this.loading) return
-        this.throttle(true)
-        const params = { userRelationshipId: id }
-        console.log('退出组队-参数：' + JSON.stringify(params))
+        if (this.loading) return;
+        this.throttle(true);
+        const params = { userRelationshipId: id };
+        console.log("退出组队-参数：" + JSON.stringify(params));
         userInfoExitTeam(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200 && success) {
-              uni.showToast({ title: msg || '', icon: 'none' })
-              this.initForm()
+              uni.showToast({ title: msg || "", icon: "none" });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg || '', icon: 'none' })
+              uni.showToast({ title: msg || "", icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 开启/关闭加入组队
       userInfoOperationMatch(id, type, status) {
-        if (this.loading) return
-        this.throttle(true)
-        const params = { status, type, userRelationshipId: id }
-        console.log('开启/关闭加入组队-参数：' + JSON.stringify(params))
+        if (this.loading) return;
+        this.throttle(true);
+        const params = { status, type, userRelationshipId: id };
+        console.log("开启/关闭加入组队-参数：" + JSON.stringify(params));
         userInfoOperationMatch(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
               if (type == 1) {
-                uni.showToast({ title: msg || '' })
+                uni.showToast({ title: msg || "" });
               } else {
-                uni.showToast({ title: `${status == 1 ? '关闭组队' : '开启组队'}成功！` })
+                uni.showToast({
+                  title: `${status == 1 ? "关闭组队" : "开启组队"}成功！`,
+                });
               }
-              this.initForm()
+              this.initForm();
             } else {
-              uni.showToast({ title: msg || '', icon: 'none' })
+              uni.showToast({ title: msg || "", icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 学术帮助-完成
       academicAcademicComplete(id) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         academicAcademicComplete({ userRelationshipId: id })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: msg })
-              this.initForm()
+              uni.showToast({ title: msg });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 学术帮助-评价
       academicEvaluate(params) {
-        if (this.loading) return
-        this.throttle(true)
-        console.log('我是评价参数：', JSON.stringify(params))
-        const _this = this
+        if (this.loading) return;
+        this.throttle(true);
+        console.log("我是评价参数：", JSON.stringify(params));
+        const _this = this;
         academicEvaluate(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: msg })
-              this.initForm()
+              uni.showToast({ title: msg });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
-            _this.rateForm = { ...rateFormInit }
-            console.log(1231, _this.rateForm, rateFormInit)
+            _this.rateForm = { ...rateFormInit };
+            console.log(1231, _this.rateForm, rateFormInit);
           })
           .catch((err) => {
-            this.throttle(false)
-            console.log(err)
-          })
+            this.throttle(false);
+            console.log(err);
+          });
       },
       // 学校咨询-完成
       consultingComplete(id) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         consultingComplete({ userRelationshipId: id })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: msg || '' })
-              this.initForm()
+              uni.showToast({ title: msg || "" });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg || '', icon: 'none' })
+              uni.showToast({ title: msg || "", icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 自主发起-完成
       activityComplete(activityId) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         activityComplete({ activityId })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: msg || '' })
-              this.initForm()
+              uni.showToast({ title: msg || "" });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg || '', icon: 'none' })
+              uni.showToast({ title: msg || "", icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 自主发起- 成员-退出
       exitTeam(userRelationshipId) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         exitTeam({ userRelationshipId })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: msg || '' })
-              this.initForm()
+              uni.showToast({ title: msg || "" });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg || '', icon: 'none' })
+              uni.showToast({ title: msg || "", icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 自主发起- 发起者-踢出
       kickTeam(userRelationshipId, uid) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         kickTeam({ userRelationshipId, uid })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: msg || '' })
-              this.initForm()
+              uni.showToast({ title: msg || "" });
+              this.initForm();
             } else {
-              uni.showToast({ title: msg || '', icon: 'none' })
+              uni.showToast({ title: msg || "", icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 学术帮助-确定评价
       confirmRate(rateData) {
         const params = {
           relationshipId: this.userRelationshipId,
           ...rateData,
-        }
-        this.academicEvaluate(params)
+        };
+        this.academicEvaluate(params);
       },
       // 学校咨询-确定评价
       confirmRate2(rateData) {
         const params = {
           relationshipId: this.userRelationshipId,
           ...rateData,
-        }
-        this.academicEvaluate(params)
+        };
+        this.academicEvaluate(params);
       },
       clickBtn(btnType, { data, rates }) {
-        const { userRelationshipId, type, activityId, id } = data
+        const { userRelationshipId, type, activityId, id } = data;
         switch (btnType) {
           case 1: // 取消申请
-            console.log('取消申请', data)
-            this.userInfoCancelMatch(userRelationshipId)
-            break
+            console.log("取消申请", data);
+            this.userInfoCancelMatch(userRelationshipId);
+            break;
           case 2: // 通过
-            console.log('通过', data)
+            console.log("通过", data);
             if (type == 1) {
               // 竞赛组队
-              this.userInfoPower(1, userRelationshipId)
+              this.userInfoPower(1, userRelationshipId);
             } else if (type == 2) {
               // 学术帮助
-              this.academicOperationAcademic(1, userRelationshipId)
+              this.academicOperationAcademic(1, userRelationshipId);
             } else if (type == 3) {
-              this.consultingOperation(1, userRelationshipId)
+              this.consultingOperation(1, userRelationshipId);
             } else if (type == 4) {
-              this.operationActivity(1, userRelationshipId)
+              this.operationActivity(1, userRelationshipId);
             }
-            break
+            break;
           case 3: // 拒绝
-            console.log('拒绝', data)
+            console.log("拒绝", data);
             if (type == 1) {
-              this.userInfoPower(2, userRelationshipId)
+              this.userInfoPower(2, userRelationshipId);
             } else if (type == 2) {
-              this.academicOperationAcademic(2, userRelationshipId)
+              this.academicOperationAcademic(2, userRelationshipId);
             } else if (type == 3) {
-              this.consultingOperation(2, userRelationshipId)
+              this.consultingOperation(2, userRelationshipId);
             } else if (type == 4) {
-              this.operationActivity(2, userRelationshipId)
+              this.operationActivity(2, userRelationshipId);
             }
-            break
+            break;
           case 4: // 退出组队
-            console.log('退出组队', data)
-            this.userInfoExitTeam(userRelationshipId)
-            break
+            console.log("退出组队", data);
+            this.userInfoExitTeam(userRelationshipId);
+            break;
           case 5: // 完成
-            console.log('完成', data)
+            console.log("完成", data);
             if (type == 1) {
-              this.userInfoOperationMatch(userRelationshipId, 1, 0)
+              this.userInfoOperationMatch(userRelationshipId, 1, 0);
             } else if (type == 2) {
-              this.academicAcademicComplete(userRelationshipId)
+              this.academicAcademicComplete(userRelationshipId);
             } else if (type == 3) {
-              this.consultingComplete(userRelationshipId)
+              this.consultingComplete(userRelationshipId);
             }
-            break
+            break;
           case 6: // 关闭组队
-            console.log('关闭组队', data)
-            this.userInfoOperationMatch(userRelationshipId, 2, 1)
-            break
+            console.log("关闭组队", data);
+            this.userInfoOperationMatch(userRelationshipId, 2, 1);
+            break;
           case 7: // 开启组队
-            console.log('开启组队', data)
-            this.userInfoOperationMatch(userRelationshipId, 2, 2)
-            break
+            console.log("开启组队", data);
+            this.userInfoOperationMatch(userRelationshipId, 2, 2);
+            break;
 
           case 8: // 联系客服
-            console.log('联系客服', data)
-            break
+            console.log("联系客服", data);
+            break;
           case 9: // 评价
-            this.userRelationshipId = userRelationshipId
+            this.userRelationshipId = userRelationshipId;
             if (type == 2) {
-              this.$refs.diyRate.show()
+              this.$refs.diyRate.show();
             } else if (type == 3) {
-              this.$refs.diyRate2.show()
+              this.$refs.diyRate2.show();
             }
-            break
+            break;
           case 10: // 自主发起-完成
-            this.activityComplete(activityId)
-            break
+            this.activityComplete(activityId);
+            break;
           case 11:
-            uni.navigateTo({ url: joinUrl('/pages/initiateProcess/edit', { activityId }) })
-            break
+            uni.navigateTo({
+              url: joinUrl("/pages/initiateProcess/edit", { activityId }),
+            });
+            break;
           case 12: // 自主发起-退出（成员）
-            console.log(12)
-            this.exitTeam(userRelationshipId)
-            break
+            console.log(12);
+            this.exitTeam(userRelationshipId);
+            break;
           case 13: // 自主发起-移除（发起者）
-            console.log(13, data)
-            this.kickTeam(userRelationshipId, id)
-            break
+            console.log(13, data);
+            this.kickTeam(userRelationshipId, id);
+            break;
           default:
-            break
+            break;
         }
       },
       // 跳转信息录入
       toUserInfo(flag) {
-        uni.navigateTo({ url: this.toUserInfoUrl })
-        this.toUserInfoUrl = ''
+        uni.navigateTo({ url: this.toUserInfoUrl });
+        this.toUserInfoUrl = "";
       },
       // 节流
       throttle(flag) {
         if (flag) {
-          this.loading = true
-          uni.showLoading()
+          this.loading = true;
+          uni.showLoading();
         } else {
-          this.loading = false
-          uni.hideLoading()
+          this.loading = false;
+          uni.hideLoading();
         }
       },
       QRPopup() {
-        this.$refs.QRPopup.show()
+        this.$refs.QRPopup.show();
       },
     },
     watch: {
       actived(val) {
-        this.initForm(val)
+        this.initForm(val);
       },
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .icon {
@@ -801,7 +857,7 @@
       z-index: 5;
       margin: 0 -30rpx;
       padding: 0 30rpx;
-      @include img_bg('http://prod.qiniucdns.sjreach.cn/web-25.png');
+      @include img_bg("http://prod.qiniucdns.sjreach.cn/web-25.png");
     }
 
     .mine_title_wrap {
@@ -858,7 +914,7 @@
         height: 44rpx;
         margin-top: 16rpx;
         position: relative;
-        @include img_bg('http://prod.qiniucdns.sjreach.cn/web-24.png');
+        @include img_bg("http://prod.qiniucdns.sjreach.cn/web-24.png");
 
         .target {
           background: #e65a57;
@@ -940,7 +996,7 @@
 
               &::before {
                 display: block;
-                content: '';
+                content: "";
                 position: absolute;
                 border-top: transparent 20rpx solid;
                 border-right: transparent 32rpx solid;

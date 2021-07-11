@@ -1,6 +1,13 @@
 <template>
-  <div class="crew_info" :style="{ background: styles.background || '#F7F7F7' }">
-    <infoHead :infoData="info" headStyles="width:64rpx;height: 64rpx" styles="font-size: 30rpx">
+  <div
+    class="crew_info"
+    :style="{ background: styles.background || '#F7F7F7' }"
+  >
+    <infoHead
+      :infoData="info"
+      headStyles="width:64rpx;height: 64rpx"
+      styles="font-size: 30rpx"
+    >
       <template slot="right">
         <div class="btn_box">
           <!-- <div class="blue" v-if="cardStatu.showInfo.includes(4)" @click="clickBuoy(4)" >退出组队</div>
@@ -10,7 +17,7 @@
             v-for="(item, ind) in showBtn"
             :key="ind"
             @click="clickBtn(item.code)"
-            >{{ item.label || '' }}</div
+            >{{ item.label || "" }}</div
           >
           <!-- <div class="" v-if="cardStatu.showInfo.includes(13)" @click="clickBuoy(13)" >移除</div> -->
           <!-- <div class="blue" v-if="cardStatu.showInfo.includes(8)" @click="clickBuoy(8)" >联系客服</div> -->
@@ -20,7 +27,7 @@
     <information :topList="tops" />
     <join-list v-if="showMobile" title="联系方式" type="diy">
       <template slot="diy">
-        <span class="copy">手机号：{{ info.mobile || '' }}</span>
+        <span class="copy">手机号：{{ info.mobile || "" }}</span>
         <span class="copy_btn" @click="copy(info.mobile)">复制</span>
       </template>
     </join-list>
@@ -28,12 +35,12 @@
 </template>
 
 <script>
-  import infoHead from '@/components/cards/infoHead'
-  import joinList from '@/components/cards/joinList'
-  import information from '@/components/cards/information'
-  import { copy } from '@/common/utils'
+  import infoHead from "@/components/cards/infoHead";
+  import joinList from "@/components/cards/joinList";
+  import information from "@/components/cards/information";
+  import { copy } from "@/common/utils";
   export default {
-    name: 'crew_info',
+    name: "crew_info",
     components: { infoHead, information, joinList },
     props: {
       info: {
@@ -55,7 +62,7 @@
     },
     computed: {
       tops() {
-        const { info } = this
+        const { info } = this;
         // let newPerformance= ''
         // if (info.standardizedPerformance) {
         //   const arr = info.standardizedPerformance.split(' ')
@@ -67,21 +74,31 @@
         //   } ).join(' ')
         // }
         const arr = [
-          { title: '学校', val: info.schoolName || '', id: 1, width: '50%' },
-          { title: '年级', val: info.grade || '', id: 2, width: '50%' },
-          { title: '课程', val: info.curriculumSystem || '', id: 4, width: '50%' },
-          { title: '标化', val: info.standardizedPerformance || '', id: 3, width: '50%' },
-        ]
-        return arr
+          { title: "学校", val: info.schoolName || "", id: 1, width: "50%" },
+          { title: "年级", val: info.grade || "", id: 2, width: "50%" },
+          {
+            title: "课程",
+            val: info.curriculumSystem || "",
+            id: 4,
+            width: "50%",
+          },
+          {
+            title: "标化",
+            val: info.standardizedPerformance || "",
+            id: 3,
+            width: "50%",
+          },
+        ];
+        return arr;
       },
     },
     methods: {
       copy,
       clickBtn(code) {
-        this.$emit('clickBtn', code, this.info)
+        this.$emit("clickBtn", code, this.info);
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

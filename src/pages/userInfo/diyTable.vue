@@ -54,15 +54,21 @@
                 :range="item.list"
               >
                 <view class="uni-input" v-if="ite[item.code]">
-                  {{ item.list[ite[item.code]].label || '' }}
-                  <i class="iconfont iconxiala1" style="color: #808080; margin-left: 10rpx"></i>
+                  {{ item.list[ite[item.code]].label || "" }}
+                  <i
+                    class="iconfont iconxiala1"
+                    style="color: #808080; margin-left: 10rpx"
+                  ></i>
                 </view>
                 <view v-else style="color: #808080">请选择</view>
               </picker>
             </div>
 
             <div v-if="item.type === 'upload'">
-              <UploadImage @uploadImg="change($event, ind, 'upload', item.code)" :statu="1">
+              <UploadImage
+                @uploadImg="change($event, ind, 'upload', item.code)"
+                :statu="1"
+              >
                 <i
                   class="iconfont icontupianshangchuan"
                   style="font-size: 44rpx; color: #676fdf"
@@ -83,15 +89,20 @@
         </div>
       </div>
     </div>
-    <TipPopup title="操作提示" ref="tipPopup" msg="是否确定删除？" @confirm="confirm" />
+    <TipPopup
+      title="操作提示"
+      ref="tipPopup"
+      msg="是否确定删除？"
+      @confirm="confirm"
+    />
   </div>
 </template>
 
 <script>
-  import UploadImage from '@/components/forms/upload'
-  import TipPopup from '@/components/cards/tipPopup'
+  import UploadImage from "@/components/forms/upload";
+  import TipPopup from "@/components/cards/tipPopup";
   export default {
-    name: 'diyTable',
+    name: "diyTable",
     components: { UploadImage, TipPopup },
     props: {
       heads: { type: Array, default: () => [] },
@@ -99,57 +110,57 @@
     },
     computed: {
       tableHeadList() {
-        const list = this.heads
-        return list
+        const list = this.heads;
+        return list;
       },
       tableDataList() {
-        const list = this.datas
-        return list
+        const list = this.datas;
+        return list;
       },
     },
     mounted() {},
     data() {
       return {
         delIndex: 0,
-      }
+      };
     },
     methods: {
       confirm() {
-        this.$emit('deleteItem', this.delIndex)
+        this.$emit("deleteItem", this.delIndex);
       },
       change(e, index, type, code, list) {
-        const { value } = e.target || {}
+        const { value } = e.target || {};
         switch (type) {
-          case 'checkout':
-            this.datas[index][code] = !!value.length ? 1 : 2
-            break
-          case 'input':
-            this.datas[index][code] = value
-            break
-          case 'select':
-            const val = list.find((item, ind) => ind == value) || {}
+          case "checkout":
+            this.datas[index][code] = !!value.length ? 1 : 2;
+            break;
+          case "input":
+            this.datas[index][code] = value;
+            break;
+          case "select":
+            const val = list.find((item, ind) => ind == value) || {};
             if (val.disable && this.tableDataList[index][code] != value) {
-              this.datas[index][code] = ''
-              uni.showToast({ title: '无法重复选择', icon: 'none' })
-              return
+              this.datas[index][code] = "";
+              uni.showToast({ title: "无法重复选择", icon: "none" });
+              return;
             }
-            this.datas[index][code] = val.id
-            break
-          case 'upload':
-            this.datas[index][code] = e.link
-            break
-          case 'edit':
-            this.delIndex = index
-            this.$refs.tipPopup.show()
-            return
-            break
+            this.datas[index][code] = val.id;
+            break;
+          case "upload":
+            this.datas[index][code] = e.link;
+            break;
+          case "edit":
+            this.delIndex = index;
+            this.$refs.tipPopup.show();
+            return;
+            break;
           default:
-            break
+            break;
         }
-        this.$emit('change', this.datas)
+        this.$emit("change", this.datas);
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -3,12 +3,26 @@
     <!-- <div class="event_tip">
       我申请的
     </div> -->
-    <div class="msg_title">{{ cardStatu.title || '' }}</div>
-    <infoHead :infoData="infoData" headStyles="width:70rpx;height:70rpx" fontSize="34">
+    <div class="msg_title">{{ cardStatu.title || "" }}</div>
+    <infoHead
+      :infoData="infoData"
+      headStyles="width:70rpx;height:70rpx"
+      fontSize="34"
+    >
       <template slot="right">
         <div class="btn_box">
-          <div class="" v-if="cardStatu.showInfo.includes(11)" @click="clickBuoy(11)">修改</div>
-          <div class="blue" v-if="cardStatu.showInfo.includes(10)" @click="clickBuoy(10)">完成</div>
+          <div
+            class=""
+            v-if="cardStatu.showInfo.includes(11)"
+            @click="clickBuoy(11)"
+            >修改</div
+          >
+          <div
+            class="blue"
+            v-if="cardStatu.showInfo.includes(10)"
+            @click="clickBuoy(10)"
+            >完成</div
+          >
           <div class="" v-if="infoData.isActivity == 1">申请中</div>
           <div class="" v-if="infoData.isActivity == 3">进行中</div>
         </div>
@@ -20,8 +34,16 @@
       <information :topList="tops" />
       <!-- 经历 -->
       <div class="center">
-        <join-list title="活动信息" :value="infoData.activityInfo || '暂无活动信息'" type="text" />
-        <join-list title="招募要求" :value="infoData.requirement || '暂无招募要求'" type="text" />
+        <join-list
+          title="活动信息"
+          :value="infoData.activityInfo || '暂无活动信息'"
+          type="text"
+        />
+        <join-list
+          title="招募要求"
+          :value="infoData.requirement || '暂无招募要求'"
+          type="text"
+        />
       </div>
       <!-- 团队成员信息 -->
       <div class="group_infos" v-if="slaveList.length">
@@ -53,34 +75,52 @@
         </div>
       </div>
     </DiyPopup>
-    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
-    <TipPopup title="完成" ref="tipPopup" msg="是否确定完成活动？" @confirm="confirm" />
+    <TipPopup
+      title="操作提示"
+      ref="noLogin"
+      msg="是否登录后执行操作？"
+      @confirm="toLogin"
+    />
+    <TipPopup
+      title="完成"
+      ref="tipPopup"
+      msg="是否确定完成活动？"
+      @confirm="confirm"
+    />
   </div>
 </template>
 
 <script>
-  import joinList from '@/components/cards/joinList'
-  import infoHead from '@/components/cards/infoHead'
-  import information from '@/components/cards/information'
-  import DiyPopup from '@/components/diyPopup'
-  import CrewInfo from '@/components/cards/crewInfo'
-  import { bsToStrFn, topListFn, joinName } from './units'
-  import { isLogin, toLogin } from '@/common/utils'
-  import TipPopup from '@/components/cards/tipPopup'
+  import joinList from "@/components/cards/joinList";
+  import infoHead from "@/components/cards/infoHead";
+  import information from "@/components/cards/information";
+  import DiyPopup from "@/components/diyPopup";
+  import CrewInfo from "@/components/cards/crewInfo";
+  import { bsToStrFn, topListFn, joinName } from "./units";
+  import { isLogin, toLogin } from "@/common/utils";
+  import TipPopup from "@/components/cards/tipPopup";
 
   function filterSFn(val, userId) {
-    const { type, matchName, nikeName, activityName, state } = val
-    let obj = { title: '', bgColor: 'rgba(255, 247, 232, 0.8)', showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
-    obj.title = '自主活动：' + activityName ? `我发起了${activityName}活动` : ''
+    const { type, matchName, nikeName, activityName, state } = val;
+    let obj = { title: "", bgColor: "rgba(255, 247, 232, 0.8)", showInfo: [] }; // 1 比赛经历  2个人留言  3 希望参加
+    obj.title =
+      "自主活动：" + activityName ? `我发起了${activityName}活动` : "";
     if (state == 1) {
-      obj.showInfo = [10, 11]
+      obj.showInfo = [10, 11];
     }
-    return obj
+    return obj;
   }
 
   export default {
-    name: 'group_item',
-    components: { infoHead, information, joinList, DiyPopup, CrewInfo, TipPopup },
+    name: "group_item",
+    components: {
+      infoHead,
+      information,
+      joinList,
+      DiyPopup,
+      CrewInfo,
+      TipPopup,
+    },
     props: {
       infoData: {
         type: Object,
@@ -88,69 +128,69 @@
       },
       userId: {
         type: String,
-        default: '',
+        default: "",
       },
     },
     data() {
       return {
-        info: '',
+        info: "",
         showList: false,
         showInfo: false,
         show1: true,
         type: 0,
-      }
+      };
     },
     computed: {
       tops() {
-        return topListFn(this.infoData)
+        return topListFn(this.infoData);
       },
       bList() {
-        return bsToStrFn(this.infoData.competitionExperience)
+        return bsToStrFn(this.infoData.competitionExperience);
       },
       slaveList() {
-        const slave = this.cardStatu.memberVoList || []
-        return joinName(slave) || ''
+        const slave = this.cardStatu.memberVoList || [];
+        return joinName(slave) || "";
       },
       cardStatu() {
-        return filterSFn(this.infoData, this.userId)
+        return filterSFn(this.infoData, this.userId);
       },
     },
     methods: {
       toLogin,
       clickDown() {
-        this.showList = !this.showList
+        this.showList = !this.showList;
       },
       close(flag) {
         if (flag) {
-          this.$emit('clickBtn', 1, { data: this.infoData })
+          this.$emit("clickBtn", 1, { data: this.infoData });
         }
-        this.$refs.popup.hide()
+        this.$refs.popup.hide();
       },
       confirm() {
-        this.$emit('clickBtn', this.type, { data: this.infoData })
+        this.$emit("clickBtn", this.type, { data: this.infoData });
       },
       // 点击组队申请！
       clickBuoy(type) {
         if (!isLogin()) {
-          this.$refs.noLogin.show()
-          return
+          this.$refs.noLogin.show();
+          return;
         }
-        this.type = type
+        this.type = type;
         switch (type) {
           case 10:
-            this.$refs.tipPopup.show()
-            break
+            this.$refs.tipPopup.show();
+            break;
           case 11:
-            this.$emit('clickBtn', type, { data: this.infoData })
-            break
+            this.$emit("clickBtn", type, { data: this.infoData });
+            break;
         }
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

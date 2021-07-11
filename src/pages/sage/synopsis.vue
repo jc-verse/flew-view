@@ -1,11 +1,14 @@
 <template>
   <div class="synopsis" :style="{ background: info.color || '#C8EDFF' }">
     <div class="head">
-      <div class="title" v-if="info.title">{{ info.title || '' }}</div>
-      <div class="title_en" v-if="info.eTitle">{{ info.eTitle || '' }}</div>
+      <div class="title" v-if="info.title">{{ info.title || "" }}</div>
+      <div class="title_en" v-if="info.eTitle">{{ info.eTitle || "" }}</div>
     </div>
     <div class="r_b">
-      <img :src="info.url || 'http://prod.qiniucdns.sjreach.cn/web-28.png'" alt="" />
+      <img
+        :src="info.url || 'http://prod.qiniucdns.sjreach.cn/web-28.png'"
+        alt=""
+      />
     </div>
 
     <slot></slot>
@@ -13,7 +16,7 @@
 </template>
 <script>
   export default {
-    name: 'synopsis',
+    name: "synopsis",
     props: {
       info: {
         type: Object,
@@ -21,10 +24,10 @@
       },
     },
     data() {
-      return {}
+      return {};
     },
     mounted() {},
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

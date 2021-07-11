@@ -1,11 +1,21 @@
 <template>
-  <DiyPopup @popupclosed="popupclosed" popupTitle="学校" ref="diyPopup" :styles="{ top: '33%' }">
+  <DiyPopup
+    @popupclosed="popupclosed"
+    popupTitle="学校"
+    ref="diyPopup"
+    :styles="{ top: '33%' }"
+  >
     <slot></slot>
     <template slot="content">
       <scroll-view :scroll-x="true">
         <div class="confirm_box">
           <!-- <div class="input_box"> -->
-          <input class="uni-input" focus placeholder="请输入关键字" @input="inputFn" />
+          <input
+            class="uni-input"
+            focus
+            placeholder="请输入关键字"
+            @input="inputFn"
+          />
           <div class="btn" @click="searchInp">搜索</div>
           <!-- </div> -->
         </div>
@@ -19,9 +29,12 @@
             v-for="(item, index) in datas"
             :key="index"
           >
-            <div class="left" :style="{ color: checkItems.id === item.id ? '#007aff' : '' }">
-              <div class="label">{{ item.label || '' }}</div>
-              <div class="fLable">{{ item.city || '' }}</div>
+            <div
+              class="left"
+              :style="{ color: checkItems.id === item.id ? '#007aff' : '' }"
+            >
+              <div class="label">{{ item.label || "" }}</div>
+              <div class="fLable">{{ item.city || "" }}</div>
             </div>
           </div>
         </scroll-view>
@@ -30,14 +43,14 @@
   </DiyPopup>
 </template>
 <script>
-  import DiyPopup from '@/components/diyPopup'
+  import DiyPopup from "@/components/diyPopup";
   export default {
-    name: 'diyPicker',
+    name: "diyPicker",
     components: { DiyPopup },
     props: {
       popupTitle: {
         type: String,
-        default: '请选择',
+        default: "请选择",
       },
       datas: {
         type: Array,
@@ -45,47 +58,51 @@
       },
       className: {
         type: String,
-        default: '',
+        default: "",
       },
     },
     data() {
       return {
         isOpened: true,
-        inpVal: '',
+        inpVal: "",
         checkItems: {},
-      }
+      };
     },
     computed: {},
     mounted() {},
     methods: {
       // 选中某一选项
       checkItem(data, index, ind) {
-        const { checkItems } = this
+        const { checkItems } = this;
         if (checkItems.id === data.id) {
-          this.checkItems = {}
+          this.checkItems = {};
         } else {
-          this.checkItems = data
+          this.checkItems = data;
         }
       },
       popupclosed(flag) {
-        const { checkItems, className } = this
-        const keys = Object.keys(checkItems)
+        const { checkItems, className } = this;
+        const keys = Object.keys(checkItems);
         if (flag && keys.length) {
-          this.$emit('popupclosed', { data: checkItems, code: className, type: 'inpSel' })
+          this.$emit("popupclosed", {
+            data: checkItems,
+            code: className,
+            type: "inpSel",
+          });
         }
       },
       inputFn(e) {
-        this.inpVal = e.target.value || ''
+        this.inpVal = e.target.value || "";
       },
       searchInp() {
-        this.$emit('searchInp', this.inpVal)
+        this.$emit("searchInp", this.inpVal);
         if (!this.inpVal) {
-          this.checkItems = {}
+          this.checkItems = {};
         }
       },
     },
     watch: {},
-  }
+  };
 </script>
 
 <style scoped lang="scss">

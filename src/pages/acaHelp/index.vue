@@ -1,8 +1,15 @@
 <template>
   <page-sj>
     <div class="acaHelp">
-      <search @change="changeVal" :pValue="searchVal" :propertys="{ maxlength: '10' }" />
-      <tag-group @changeValue="changeTag" :showList="[1, 2, 3, 5, 6, 4]"></tag-group>
+      <search
+        @change="changeVal"
+        :pValue="searchVal"
+        :propertys="{ maxlength: '10' }"
+      />
+      <tag-group
+        @changeValue="changeTag"
+        :showList="[1, 2, 3, 5, 6, 4]"
+      ></tag-group>
       <scroll-box :num="2" @lower="lower">
         <div class="group_info_list">
           <div class="list_tip" v-show="searchVal"
@@ -16,7 +23,7 @@
               @clickBuoy="clickBuoy"
               @clickItem="clickItem(item)"
             />
-            <div class="loading">{{ !noConcat ? '加载中...' : '到底了' }}</div>
+            <div class="loading">{{ !noConcat ? "加载中..." : "到底了" }}</div>
           </template>
           <template v-else>
             <div class="noList"> 暂无学术帮助！ </div>
@@ -48,22 +55,31 @@
 </template>
 
 <script>
-  import groupItem from './groupItem'
-  import search from '@/components/forms/search'
-  import scrollBox from '@/components/scrollBox'
-  import pageSj from '@/components/pageSjNew'
-  import tagGroup from '@/components/forms/tagGroup'
-  import fabGroup from '@/components/fabGroup'
-  import { academicHelpList, academicApplyService } from '@/common/api'
-  import DiyPopup from '@/components/diyPopup'
-  import DiyRate from '@/components/diyRate'
-  import { filterForm } from '@/common/utils'
+  import groupItem from "./groupItem";
+  import search from "@/components/forms/search";
+  import scrollBox from "@/components/scrollBox";
+  import pageSj from "@/components/pageSjNew";
+  import tagGroup from "@/components/forms/tagGroup";
+  import fabGroup from "@/components/fabGroup";
+  import { academicHelpList, academicApplyService } from "@/common/api";
+  import DiyPopup from "@/components/diyPopup";
+  import DiyRate from "@/components/diyRate";
+  import { filterForm } from "@/common/utils";
   export default {
-    name: 'acaHelp',
-    components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj, DiyPopup, DiyRate },
+    name: "acaHelp",
+    components: {
+      tagGroup,
+      scrollBox,
+      fabGroup,
+      search,
+      groupItem,
+      pageSj,
+      DiyPopup,
+      DiyRate,
+    },
     data() {
       return {
-        searchVal: '',
+        searchVal: "",
         cardList: [],
 
         current: 1,
@@ -76,112 +92,117 @@
           dimension4: 0,
         },
         loading: false,
-      }
+      };
     },
     onLoad() {
-      this.initFotm()
+      this.initFotm();
     },
     methods: {
       initFotm(form = {}) {
-        this.current = 1
-        this.size = 10
-        this.cardList = []
-        this.noConcat = false
-        this.getList(form)
+        this.current = 1;
+        this.size = 10;
+        this.cardList = [];
+        this.noConcat = false;
+        this.getList(form);
       },
       changeVal(val) {
         if (this.searchVal != val) {
-          this.searchVal = val
-          this.initFotm()
+          this.searchVal = val;
+          this.initFotm();
         }
       },
       clickItem(item) {
-        uni.setStorage({ key: 'helpInfo', data: item })
-        uni.navigateTo({ url: '/pages/detailInfo/index' })
+        uni.setStorage({ key: "helpInfo", data: item });
+        uni.navigateTo({ url: "/pages/detailInfo/index" });
       },
       // 列表查询
       getList(form = {}) {
-        this.throttle(true)
-        const { current, size, searchVal } = this
-        const params = filterForm({ current, size, ...form, nikeName: searchVal })
+        this.throttle(true);
+        const { current, size, searchVal } = this;
+        const params = filterForm({
+          current,
+          size,
+          ...form,
+          nikeName: searchVal,
+        });
         academicHelpList(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data } = nData || {}
+            const { data: nData } = res[1];
+            const { code, data } = nData || {};
             if (code === 200) {
-              const { current, pages, records, searchCount, total } = data
+              const { current, pages, records, searchCount, total } = data;
               if (records && records.length) {
-                const arr = [...this.cardList, ...records]
-                const indexArr = arr.map((item) => item.id)
-                const newArr = [...new Set(indexArr)]
-                this.cardList = arr.filter((item) => newArr.includes(item.id))
+                const arr = [...this.cardList, ...records];
+                const indexArr = arr.map((item) => item.id);
+                const newArr = [...new Set(indexArr)];
+                this.cardList = arr.filter((item) => newArr.includes(item.id));
                 if (records.length < 10 && records) {
-                  this.noConcat = true
+                  this.noConcat = true;
                 } else {
-                  this.current += 1
+                  this.current += 1;
                 }
               } else {
-                this.noConcat = true
+                this.noConcat = true;
               }
               this.$nextTick(() => {
-                this.throttle(false)
-              })
+                this.throttle(false);
+              });
             }
           })
           .catch((err) => {
-            this.throttle(false)
-          })
+            this.throttle(false);
+          });
       },
       // 节流
       throttle(flag) {
         if (flag) {
-          this.loading = true
-          uni.showLoading()
+          this.loading = true;
+          uni.showLoading();
         } else {
-          this.loading = false
-          uni.hideLoading()
+          this.loading = false;
+          uni.hideLoading();
         }
       },
       academicApplyService(serviceUserId, id) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         academicApplyService({ serviceUserId, id })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData || {}
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData || {};
+            this.throttle(false);
             if (code === 200) {
-              uni.showToast({ title: msg })
-              this.initFotm()
+              uni.showToast({ title: msg });
+              this.initFotm();
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            this.throttle(false)
-          })
+            this.throttle(false);
+          });
       },
       lower() {
-        if (this.noConcat) return
-        this.getList()
+        if (this.noConcat) return;
+        this.getList();
       },
       // 改变筛选项
       changeTag(form) {
-        this.initFotm(form)
+        this.initFotm(form);
       },
       // 点击卡片Btn
       clickBuoy(type, data, subjectId) {
-        const { id } = data
+        const { id } = data;
         switch (type) {
           case 1: // 申请服务
-            this.academicApplyService(id, subjectId)
-            break
+            this.academicApplyService(id, subjectId);
+            break;
           default:
-            break
+            break;
         }
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

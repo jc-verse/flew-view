@@ -1,8 +1,12 @@
 <template>
   <div class="group_info_item" :style="{ background: cardStatu.bgColor || '' }">
     <div class="event_tip">被申请的</div>
-    <div class="msg_title">{{ cardStatu.title || '' }}</div>
-    <infoHead :infoData="infoData" headStyles="width:70rpx;height:70rpx" fontSize="34">
+    <div class="msg_title">{{ cardStatu.title || "" }}</div>
+    <infoHead
+      :infoData="infoData"
+      headStyles="width:70rpx;height:70rpx"
+      fontSize="34"
+    >
       <template slot="right">
         <div class="btn_box">
           <div class="blue" @click="clickBuoy(2)"> 通过</div>
@@ -35,46 +39,56 @@
         />
       </div>
     </div>
-    <TipPopup :title="popupStatu.title" ref="tipPopup" :msg="popupStatu.msg" @confirm="confirm" />
-    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
+    <TipPopup
+      :title="popupStatu.title"
+      ref="tipPopup"
+      :msg="popupStatu.msg"
+      @confirm="confirm"
+    />
+    <TipPopup
+      title="操作提示"
+      ref="noLogin"
+      msg="是否登录后执行操作？"
+      @confirm="toLogin"
+    />
   </div>
 </template>
 
 <script>
-  import joinList from '@/components/cards/joinList'
-  import infoHead from '@/components/cards/infoHead'
-  import information from '@/components/cards/information'
-  import DiyPopup from '@/components/diyPopup'
-  import TipPopup from '@/components/cards/tipPopup'
-  import { styles } from './const'
-  import { bsToStrFn, topListFn } from './units'
-  import { isLogin, toLogin } from '@/common/utils'
+  import joinList from "@/components/cards/joinList";
+  import infoHead from "@/components/cards/infoHead";
+  import information from "@/components/cards/information";
+  import DiyPopup from "@/components/diyPopup";
+  import TipPopup from "@/components/cards/tipPopup";
+  import { styles } from "./const";
+  import { bsToStrFn, topListFn } from "./units";
+  import { isLogin, toLogin } from "@/common/utils";
   const popups = {
-    2: { title: '通过', msg: '是否确认通过申请！', type: 2 },
-    3: { title: '拒绝', msg: '是否确认拒绝申请！', type: 3 },
-  }
+    2: { title: "通过", msg: "是否确认通过申请！", type: 2 },
+    3: { title: "拒绝", msg: "是否确认拒绝申请！", type: 3 },
+  };
 
   function filterSFn(val) {
-    const { type, matchName, nikeName, activity, subject } = val
-    console.log('【119】是卡片的全部数据')
-    console.log(119, val)
-    let obj = { title: '', bgColor: styles[type].bg, showInfo: [] } // 1 比赛经历  2个人留言  3 希望参加
+    const { type, matchName, nikeName, activity, subject } = val;
+    console.log("【119】是卡片的全部数据");
+    console.log(119, val);
+    let obj = { title: "", bgColor: styles[type].bg, showInfo: [] }; // 1 比赛经历  2个人留言  3 希望参加
     if (type == 1) {
-      obj.title = `竞赛组队：${nikeName}向您发起${matchName}的竞赛组队`
-      obj.showInfo = [1, 3]
+      obj.title = `竞赛组队：${nikeName}向您发起${matchName}的竞赛组队`;
+      obj.showInfo = [1, 3];
     } else if (type == 2) {
-      obj.title = `学术帮助：${nikeName}向您提出${subject}的学术帮助`
-      obj.showInfo = [1, 2]
+      obj.title = `学术帮助：${nikeName}向您提出${subject}的学术帮助`;
+      obj.showInfo = [1, 2];
     } else if (type == 3) {
-      obj.title = `学校咨询：${nikeName}向您提出学校咨询`
-      obj.showInfo = [1, 2]
+      obj.title = `学校咨询：${nikeName}向您提出学校咨询`;
+      obj.showInfo = [1, 2];
     } else if (type == 4) {
-      obj.title = `自主活动：${nikeName}申请加入${activity.name}`
+      obj.title = `自主活动：${nikeName}申请加入${activity.name}`;
     }
-    return obj
+    return obj;
   }
   export default {
-    name: 'group_item',
+    name: "group_item",
     components: { infoHead, information, joinList, DiyPopup, TipPopup },
     props: {
       infoData: {
@@ -83,34 +97,34 @@
       },
       userId: {
         type: String,
-        default: '',
+        default: "",
       },
     },
     data() {
       return {
         type: 2, // 点击时按钮编码
-      }
+      };
     },
     computed: {
       tops() {
-        return topListFn(this.infoData)
+        return topListFn(this.infoData);
       },
       bList() {
-        return bsToStrFn(this.infoData.competitionExperience)
+        return bsToStrFn(this.infoData.competitionExperience);
       },
       tags() {
-        return (this.infoData.matchList || '').split(',')
+        return (this.infoData.matchList || "").split(",");
       },
       msg() {
-        const { personalMessage } = this.infoData
-        const massage = personalMessage ? personalMessage : '暂未添加个人留言'
-        return massage
+        const { personalMessage } = this.infoData;
+        const massage = personalMessage ? personalMessage : "暂未添加个人留言";
+        return massage;
       },
       popupStatu() {
-        return popups[this.type]
+        return popups[this.type];
       },
       cardStatu() {
-        return filterSFn(this.infoData)
+        return filterSFn(this.infoData);
       },
     },
     methods: {
@@ -118,22 +132,22 @@
       // 点击！
       clickBuoy(type) {
         if (!isLogin()) {
-          this.$refs.noLogin.show()
-          return
+          this.$refs.noLogin.show();
+          return;
         }
-        this.type = type // 2: 点击通过 3: 点击拒绝
-        this.$refs.tipPopup.show()
+        this.type = type; // 2: 点击通过 3: 点击拒绝
+        this.$refs.tipPopup.show();
       },
       confirm() {
-        const { infoData, type } = this
-        this.$emit('clickBtn', type, { data: infoData })
+        const { infoData, type } = this;
+        this.$emit("clickBtn", type, { data: infoData });
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

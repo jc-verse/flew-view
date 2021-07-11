@@ -25,7 +25,9 @@
             />
             <join-list title="组队人数" type="diy">
               <div class="tags" slot="diy">
-                <div class="tag">{{ `${infoData.alreadyNum || 0}/${infoData.num || 0}人` }}</div>
+                <div class="tag">{{
+                  `${infoData.alreadyNum || 0}/${infoData.num || 0}人`
+                }}</div>
               </div>
             </join-list>
             <join-list
@@ -34,9 +36,16 @@
               type="text"
             />
           </div>
-          <div class="memeber_box" v-if="infoData.memberVoList && infoData.memberVoList.length">
+          <div
+            class="memeber_box"
+            v-if="infoData.memberVoList && infoData.memberVoList.length"
+          >
             <div class="me_title">组队成员</div>
-            <member v-for="(item, index) in infoData.memberVoList" :infoData="item" :key="index" />
+            <member
+              v-for="(item, index) in infoData.memberVoList"
+              :infoData="item"
+              :key="index"
+            />
           </div>
 
           <!-- 底部logo -->
@@ -45,28 +54,40 @@
       </scroll-box>
       <fab-group />
       <div class="join_btn">
-        <div class="btn" :class="[!canJoin ? 'noJoin' : '']" @click="joinGroup">申请加入</div>
+        <div class="btn" :class="[!canJoin ? 'noJoin' : '']" @click="joinGroup"
+          >申请加入</div
+        >
       </div>
     </div>
-    <TipPopup title="申请加入" ref="tipPopup" :msg="`是否申请加入活动！`" @confirm="confirm" />
-    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
+    <TipPopup
+      title="申请加入"
+      ref="tipPopup"
+      :msg="`是否申请加入活动！`"
+      @confirm="confirm"
+    />
+    <TipPopup
+      title="操作提示"
+      ref="noLogin"
+      msg="是否登录后执行操作？"
+      @confirm="toLogin"
+    />
   </page-sj>
 </template>
 
 <script>
-  import scrollBox from '@/components/scrollBox'
-  import fabGroup from '@/components/fabGroup'
-  import bottomLogo from '@/components/bottomLogo'
-  import infoHead from '@/components/cards/infoHead'
-  import information from '@/components/cards/information'
-  import joinList from '@/components/cards/joinList'
-  import { isLogin, toLogin } from '@/common/utils'
-  import TipPopup from '@/components/cards/tipPopup'
-  import { getCurPage } from '@/common/utils'
-  import { activityList, attendActivity } from '@/common/api'
-  import member from './member'
+  import scrollBox from "@/components/scrollBox";
+  import fabGroup from "@/components/fabGroup";
+  import bottomLogo from "@/components/bottomLogo";
+  import infoHead from "@/components/cards/infoHead";
+  import information from "@/components/cards/information";
+  import joinList from "@/components/cards/joinList";
+  import { isLogin, toLogin } from "@/common/utils";
+  import TipPopup from "@/components/cards/tipPopup";
+  import { getCurPage } from "@/common/utils";
+  import { activityList, attendActivity } from "@/common/api";
+  import member from "./member";
   export default {
-    name: 'detail_info',
+    name: "detail_info",
     components: {
       scrollBox,
       fabGroup,
@@ -83,27 +104,27 @@
         index: 0,
         infoData: {},
         loading: false,
-      }
+      };
     },
     computed: {
       tops() {
-        const { infoData } = this
+        const { infoData } = this;
         const arr = [
-          { title: '学校', val: infoData.schoolName || '', id: 1 },
-          { title: '年级', val: infoData.grade || '', id: 2 },
-          { title: '课程', val: infoData.curriculumSystem || '', id: 4 },
-          { title: '标化', val: infoData.standardizedPerformance || '', id: 3 },
-        ]
-        return arr
+          { title: "学校", val: infoData.schoolName || "", id: 1 },
+          { title: "年级", val: infoData.grade || "", id: 2 },
+          { title: "课程", val: infoData.curriculumSystem || "", id: 4 },
+          { title: "标化", val: infoData.standardizedPerformance || "", id: 3 },
+        ];
+        return arr;
       },
       canJoin() {
-        const { isActivity } = this.infoData
-        return [2].includes(isActivity)
+        const { isActivity } = this.infoData;
+        return [2].includes(isActivity);
       },
     },
     onShow() {
-      const { activityId, type } = getCurPage()
-      this.getInfo(activityId, type)
+      const { activityId, type } = getCurPage();
+      this.getInfo(activityId, type);
     },
     methods: {
       toLogin,
@@ -111,74 +132,74 @@
       getInfo(activityId, type) {
         const params = {
           activityId,
-          type: type || '',
+          type: type || "",
           current: 1,
           size: 10,
-        }
+        };
         activityList(params).then((res) => {
-          const { data: nData } = res[1]
-          const { data, code } = nData
+          const { data: nData } = res[1];
+          const { data, code } = nData;
           if (code === 200) {
-            const { records } = data
-            this.infoData = records[0] || {}
+            const { records } = data;
+            this.infoData = records[0] || {};
             if (this.infoData.activityName) {
-              uni.setNavigationBarTitle({ title: this.infoData.activityName })
+              uni.setNavigationBarTitle({ title: this.infoData.activityName });
             }
           }
-        })
+        });
       },
       // 节流
       throttle(flag) {
         if (flag) {
-          this.loading = true
-          uni.showLoading()
+          this.loading = true;
+          uni.showLoading();
         } else {
-          this.loading = false
-          uni.hideLoading()
+          this.loading = false;
+          uni.hideLoading();
         }
       },
       joinGroup() {
         if (!this.canJoin) {
-          return
+          return;
         }
         if (!isLogin()) {
-          this.$refs.noLogin.show()
-          return
+          this.$refs.noLogin.show();
+          return;
         }
-        this.$refs.tipPopup.show()
+        this.$refs.tipPopup.show();
       },
       confirm() {
-        this.attendActivity()
+        this.attendActivity();
       },
       attendActivity() {
-        if (this.loading) return
-        this.throttle(true)
-        const { activityId } = this.infoData
+        if (this.loading) return;
+        this.throttle(true);
+        const { activityId } = this.infoData;
         attendActivity({ activityId })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { data, code, msg } = nData
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { data, code, msg } = nData;
+            this.throttle(false);
             if (code === 200) {
-              const { records } = data
-              this.infoData = records[0] || {}
-              uni.showToast({ title: msg })
+              const { records } = data;
+              this.infoData = records[0] || {};
+              uni.showToast({ title: msg });
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-            uni.showToast({ title: err })
-          })
+            console.log(err);
+            this.throttle(false);
+            uni.showToast({ title: err });
+          });
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   $color: #b3b3b4;
   .detail_info {
     display: flex;

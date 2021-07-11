@@ -17,13 +17,13 @@
 
 <script>
   export default {
-    name: 'scrollBox',
+    name: "scrollBox",
     data() {
       return {
         topNum: 0,
         scrollTop: 0,
         old: { scrollTop: 0 },
-      }
+      };
     },
     props: {
       num: {
@@ -37,53 +37,58 @@
     },
     computed: {
       customBarH() {
-        const { topNum, num } = this
+        const { topNum, num } = this;
 
-        return topNum ? `calc(100vh - ${topNum * 2 + 8 + num}rpx)` : `calc(100vh - ${num}rpx)`
+        return topNum
+          ? `calc(100vh - ${topNum * 2 + 8 + num}rpx)`
+          : `calc(100vh - ${num}rpx)`;
       },
     },
     mounted() {
       this.createSelectorQuery()
-        .select('#scrollBox')
+        .select("#scrollBox")
         .boundingClientRect((res) => {
           // 获取当前dom 到顶部的距离
-          this.topNum += res.top
+          this.topNum += res.top;
         })
-        .exec()
+        .exec();
       uni.getSystemInfo({
         success: (e) => {
-          let statusBar = 0
-          let customBar = 0
+          let statusBar = 0;
+          let customBar = 0;
 
           // #ifdef H5
-          statusBar = 0
-          customBar = e.statusBarHeight + 44
+          statusBar = 0;
+          customBar = e.statusBarHeight + 44;
           // #endif
 
-          this.topNum += customBar
+          this.topNum += customBar;
         },
-      })
+      });
     },
     methods: {
       upper(e) {
         // console.log(e)
       },
       lower(e) {
-        this.$emit('lower')
+        this.$emit("lower");
       },
       scroll(e) {
-        this.$emit('scroll', e)
-        this.old.scrollTop = e.detail.scrollTop
+        this.$emit("scroll", e);
+        this.old.scrollTop = e.detail.scrollTop;
       },
       goTop: function (e) {
-        this.scrollTop = this.old.scrollTop
+        this.scrollTop = this.old.scrollTop;
         this.$nextTick(function () {
-          this.scrollTop = 0
-        })
-        uni.showToast({ icon: 'none', title: '纵向滚动 scrollTop 值已被修改为 0' })
+          this.scrollTop = 0;
+        });
+        uni.showToast({
+          icon: "none",
+          title: "纵向滚动 scrollTop 值已被修改为 0",
+        });
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -10,7 +10,12 @@
 
       <div class="rate" v-else>
         {{ `${item.title}：` }}
-        <rate :size="18" :value="item.val || 0" :max="5" :readonly="item.readonly || false"></rate>
+        <rate
+          :size="18"
+          :value="item.val || 0"
+          :max="5"
+          :readonly="item.readonly || false"
+        ></rate>
       </div>
     </div>
   </div>
@@ -18,10 +23,10 @@
 
 <script>
   // import {uniRate} from '@dcloudio/uni-ui'
-  import rate from '@/components/cards/rate'
-  import uniRate from '@dcloudio/uni-ui/lib/uni-rate/uni-rate.vue'
+  import rate from "@/components/cards/rate";
+  import uniRate from "@dcloudio/uni-ui/lib/uni-rate/uni-rate.vue";
   export default {
-    name: 'information',
+    name: "information",
     components: { rate },
     props: {
       topList: {
@@ -31,10 +36,10 @@
     },
     computed: {
       tops() {
-        return this.topList.filter((item) => !!item.val)
+        return this.topList.filter((item) => !!item.val);
       },
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .information {

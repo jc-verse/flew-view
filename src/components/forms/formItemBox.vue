@@ -1,7 +1,9 @@
 <template>
   <div :class="['formItemBox', showB ? 'no_border' : '']">
     <div class="top">
-      <div class="left" :class="[ite.required ? 'required' : '']">{{ ite.label }}</div>
+      <div class="left" :class="[ite.required ? 'required' : '']">{{
+        ite.label
+      }}</div>
       <div class="right">
         <slot></slot>
       </div>
@@ -12,7 +14,7 @@
 
 <script>
   export default {
-    name: 'formItemBox',
+    name: "formItemBox",
     props: {
       ite: {
         type: Object,
@@ -22,11 +24,11 @@
     },
     computed: {},
     data() {
-      return {}
+      return {};
     },
     mounted() {},
     methods: {},
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -38,7 +40,7 @@
       position: relative;
     }
     .required::before {
-      content: '*';
+      content: "*";
       position: absolute;
       left: -20rpx;
       top: 50%;

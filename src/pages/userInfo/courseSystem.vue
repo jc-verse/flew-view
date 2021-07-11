@@ -26,19 +26,19 @@
 </template>
 
 <script>
-  import diyTable from './diyTable'
+  import diyTable from "./diyTable";
   // import TipPopup from '@/components/cards/tipPopup';
   export default {
-    name: 'courseSystem',
+    name: "courseSystem",
     components: { diyTable },
     props: {
       title: {
         type: String,
-        default: '标题',
+        default: "标题",
       },
       className: {
         type: String,
-        default: '',
+        default: "",
       },
       tableData: {
         type: Array,
@@ -64,41 +64,41 @@
     data() {
       return {
         delIndex: 0,
-      }
+      };
     },
     computed: {
       ifAdd() {
-        const { maxNum, tableData } = this
-        return tableData.length < maxNum
+        const { maxNum, tableData } = this;
+        return tableData.length < maxNum;
       },
     },
     methods: {
       // 抛出修改
       tableChange(data) {
-        this.$emit('changeTable', { data, code: this.className || '' })
+        this.$emit("changeTable", { data, code: this.className || "" });
       },
       deleteItem(index) {
-        this.$emit('deleteItem', { index, code: this.className || '' })
+        this.$emit("deleteItem", { index, code: this.className || "" });
       },
       // 新增表格数据模板
       addTableItem() {
-        const obj = {}
-        const { maxNum, tableData } = this
+        const obj = {};
+        const { maxNum, tableData } = this;
         if (!this.ifAdd) {
-          return
+          return;
         }
         this.tableHead.forEach((item) => {
-          if (item.type === 'checkbox') {
-            obj[item.code] = 2
+          if (item.type === "checkbox") {
+            obj[item.code] = 2;
           } else {
-            obj[item.code] = ''
+            obj[item.code] = "";
           }
-        })
-        this.tableData.push(obj)
-        this.tableChange(this.tableData)
+        });
+        this.tableData.push(obj);
+        this.tableChange(this.tableData);
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

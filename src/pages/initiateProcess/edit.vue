@@ -41,152 +41,168 @@
 </template>
 
 <script>
-  import pageSj from '@/components/pageSjNew'
+  import pageSj from "@/components/pageSjNew";
 
-  import formItem from '@/components/forms/formItem'
-  import formItemBox from '@/components/forms/formItemBox'
-  import { activityList, updateActivity } from '@/common/api'
-  import { getCurPage } from '@/common/utils'
+  import formItem from "@/components/forms/formItem";
+  import formItemBox from "@/components/forms/formItemBox";
+  import { activityList, updateActivity } from "@/common/api";
+  import { getCurPage } from "@/common/utils";
 
   export default {
-    name: 'initiateProcess',
+    name: "initiateProcess",
     components: { pageSj, formItem, formItemBox },
     data() {
       return {
-        value: '',
+        value: "",
         formHeads: [
           {
-            label: '活动名称',
-            code: 'activityName',
-            id: '',
+            label: "活动名称",
+            code: "activityName",
+            id: "",
             required: true,
-            params: { ph: '请填写', genre: 'input', type: 'text', max: 30 },
+            params: { ph: "请填写", genre: "input", type: "text", max: 30 },
           },
           {
-            label: '地点',
-            code: 'address',
-            id: '',
+            label: "地点",
+            code: "address",
+            id: "",
             required: true,
-            params: { ph: '请填写', genre: 'input', type: 'text', max: 20 },
+            params: { ph: "请填写", genre: "input", type: "text", max: 20 },
           },
           {
-            label: '活动简介',
-            code: 'activityInfo',
-            id: '',
+            label: "活动简介",
+            code: "activityInfo",
+            id: "",
             required: true,
-            params: { ph: '请填写活动简介', genre: 'textarea', type: 'text', max: 100 },
+            params: {
+              ph: "请填写活动简介",
+              genre: "textarea",
+              type: "text",
+              max: 100,
+            },
           },
           {
-            label: '招募要求',
-            code: 'requirement',
-            id: '',
+            label: "招募要求",
+            code: "requirement",
+            id: "",
             required: false,
-            params: { ph: '请填写招募要求', genre: 'textarea', type: 'text', max: 100 },
+            params: {
+              ph: "请填写招募要求",
+              genre: "textarea",
+              type: "text",
+              max: 100,
+            },
           },
           {
-            label: '联系方式',
-            code: 'phone',
-            id: '',
+            label: "联系方式",
+            code: "phone",
+            id: "",
             required: true,
-            params: { ph: '请填写手机号码', genre: 'input', type: 'text', max: 11 },
+            params: {
+              ph: "请填写手机号码",
+              genre: "input",
+              type: "text",
+              max: 11,
+            },
           },
           {
-            label: '备注',
-            code: 'remarks',
-            id: '',
+            label: "备注",
+            code: "remarks",
+            id: "",
             required: false,
-            params: { ph: '请填写', genre: 'input', type: 'text', max: 20 },
+            params: { ph: "请填写", genre: "input", type: "text", max: 20 },
           },
         ],
         canClick: true,
         formData: {
-          address: '',
-          activityId: '',
-          activityInfo: '',
-          activityName: '',
-          remarks: '',
-          requirement: '',
-          phone: '',
+          address: "",
+          activityId: "",
+          activityInfo: "",
+          activityName: "",
+          remarks: "",
+          requirement: "",
+          phone: "",
         },
-      }
+      };
     },
     onShow() {
-      const { activityId } = getCurPage()
-      this.getInfo(activityId)
+      const { activityId } = getCurPage();
+      this.getInfo(activityId);
     },
     computed: {
       showBtn() {
         const arr =
           this.formHeads.find((item) => {
-            return !this.formData[item.code]
-          }) || []
-        return arr.length === 0
+            return !this.formData[item.code];
+          }) || [];
+        return arr.length === 0;
       },
       errList() {
-        const { formData, formHeads } = this
-        const errArr = []
-        const ite = formHeads.find((item) => item.required && !formData[item.code]) || {}
+        const { formData, formHeads } = this;
+        const errArr = [];
+        const ite =
+          formHeads.find((item) => item.required && !formData[item.code]) || {};
         if (Object.keys(ite).length) {
-          if (ite.params.genre === 'input' || ite.params.genre === 'textarea') {
-            errArr.push(`${ite.label}不能为空！`)
+          if (ite.params.genre === "input" || ite.params.genre === "textarea") {
+            errArr.push(`${ite.label}不能为空！`);
           }
         }
         if (!/^[1][3,4,5,7,8,9][0-9]{9}$/.test(formData.phone)) {
-          errArr.push(`手机号格式不正确`)
+          errArr.push(`手机号格式不正确`);
         }
-        return errArr
+        return errArr;
       },
     },
     methods: {
       submit() {
-        const { errList, formData } = this
+        const { errList, formData } = this;
         if (errList.length) {
-          uni.showToast({ title: errList[0], icon: 'none' })
-          return
+          uni.showToast({ title: errList[0], icon: "none" });
+          return;
         }
-        this.canClick = false
-        this.updateActivity()
+        this.canClick = false;
+        this.updateActivity();
       },
       updateActivity() {
-        const { formData } = this
-        const params = { ...formData, info: formData.activityInfo }
-        const _this = this
+        const { formData } = this;
+        const params = { ...formData, info: formData.activityInfo };
+        const _this = this;
         updateActivity(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { data, code, msg } = nData
+            const { data: nData } = res[1];
+            const { data, code, msg } = nData;
             if (code === 200) {
               uni.showToast({
-                title: msg || '',
+                title: msg || "",
                 success: (res) => {
                   setTimeout(function () {
                     uni.navigateBack({
                       delta: 1,
                       success: () => {
-                        _this.canClick = true
+                        _this.canClick = true;
                       },
-                    })
-                  }, 1000)
+                    });
+                  }, 1000);
                 },
-              })
+              });
             } else {
               uni.showToast({
                 title: msg,
-                icon: 'none',
+                icon: "none",
                 success: () => {
-                  _this.canClick = true
+                  _this.canClick = true;
                 },
-              })
+              });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.canClick = true
-          })
+            console.log(err);
+            this.canClick = true;
+          });
       },
       // 改变表单
       changeFn({ data, code, type }) {
-        this.formData[code] = data
+        this.formData[code] = data;
       },
       // 获取详情
       getInfo(activityId) {
@@ -194,22 +210,22 @@
           activityId,
           current: 1,
           size: 10,
-        }
+        };
         activityList(params).then((res) => {
-          const { data: nData } = res[1]
-          const { data, code } = nData
+          const { data: nData } = res[1];
+          const { data, code } = nData;
           if (code === 200) {
-            const { records } = data
-            const info = records[0] || {}
-            const { formHeads } = this
-            const infoObj = {}
+            const { records } = data;
+            const info = records[0] || {};
+            const { formHeads } = this;
+            const infoObj = {};
             for (let i in formHeads) {
-              infoObj[formHeads[i].code] = info[formHeads[i].code] || ''
+              infoObj[formHeads[i].code] = info[formHeads[i].code] || "";
             }
-            infoObj.activityId = info.activityId
-            this.formData = infoObj
+            infoObj.activityId = info.activityId;
+            this.formData = infoObj;
           }
-        })
+        });
       },
       // changeTextarea(e, item) {
       //   const { value, cursor } = e.detail;
@@ -217,7 +233,7 @@
       //   this.formData[code] = value
       // }
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .initiateProcess {

@@ -3,9 +3,15 @@
     <infoHead :infoData="infoData">
       <template slot="right">
         <div class="btn_box">
-          <div v-if="infoData.isConsulting == 2" @click.stop="clickBuoy(1)">申请服务</div>
-          <div v-if="infoData.isConsulting == 1" class="disable">{{ '申请中' }}</div>
-          <div v-if="infoData.isConsulting == 3" class="disable">{{ '进行中' }}</div>
+          <div v-if="infoData.isConsulting == 2" @click.stop="clickBuoy(1)"
+            >申请服务</div
+          >
+          <div v-if="infoData.isConsulting == 1" class="disable">{{
+            "申请中"
+          }}</div>
+          <div v-if="infoData.isConsulting == 3" class="disable">{{
+            "进行中"
+          }}</div>
           <div class="orange" @click.stop="clickBuoy(2)">查看评价</div>
         </div>
       </template>
@@ -16,7 +22,11 @@
       <!-- 经历 -->
       <div class="center">
         <join-list title="课程体系" :list="bList" />
-        <join-list title="个人留言" :value="infoData.personalMessage || '暂无留言'" type="text" />
+        <join-list
+          title="个人留言"
+          :value="infoData.personalMessage || '暂无留言'"
+          type="text"
+        />
       </div>
     </div>
     <TipPopup
@@ -28,31 +38,53 @@
     />
 
     <!-- <div class="buoy" v-if="userId != infoData.id"  @click.stop="clickBuoy(1)"> 申请服务 </div> -->
-    <TipPopup title="申请服务" ref="tipPopup" msg="是否确认申请服务？" @confirm="confirm" />
-    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
-    <DiyRate ref="diyRate" :rateData="rateForm" :readonly="true" :headList="headList"></DiyRate>
+    <TipPopup
+      title="申请服务"
+      ref="tipPopup"
+      msg="是否确认申请服务？"
+      @confirm="confirm"
+    />
+    <TipPopup
+      title="操作提示"
+      ref="noLogin"
+      msg="是否登录后执行操作？"
+      @confirm="toLogin"
+    />
+    <DiyRate
+      ref="diyRate"
+      :rateData="rateForm"
+      :readonly="true"
+      :headList="headList"
+    ></DiyRate>
   </div>
 </template>
 
 <script>
-  import joinList from '@/components/cards/joinList'
-  import infoHead from '@/components/cards/infoHead'
-  import information from '@/components/cards/information'
-  import CrewInfo from '@/components/cards/crewInfo'
-  import TipPopup from '@/components/cards/tipPopup'
-  import { bsToStrFn, bsToStrFun } from '@/common/utils'
-  import { academicGetEvaluate, selectCurriculumSystem } from '@/common/api'
-  import DiyRate from '@/components/diyRate'
-  import { isLogin, toLogin } from '@/common/utils'
+  import joinList from "@/components/cards/joinList";
+  import infoHead from "@/components/cards/infoHead";
+  import information from "@/components/cards/information";
+  import CrewInfo from "@/components/cards/crewInfo";
+  import TipPopup from "@/components/cards/tipPopup";
+  import { bsToStrFn, bsToStrFun } from "@/common/utils";
+  import { academicGetEvaluate, selectCurriculumSystem } from "@/common/api";
+  import DiyRate from "@/components/diyRate";
+  import { isLogin, toLogin } from "@/common/utils";
   const headList = [
-    { title: '讲解清晰', value: '', code: 'dimension1' },
-    { title: '情况熟悉', value: '', code: 'dimension2' },
-    { title: '态度友好', value: '', code: 'dimension3' },
-    { title: '认真仔细', value: '', code: 'dimension4' },
-  ]
+    { title: "讲解清晰", value: "", code: "dimension1" },
+    { title: "情况熟悉", value: "", code: "dimension2" },
+    { title: "态度友好", value: "", code: "dimension3" },
+    { title: "认真仔细", value: "", code: "dimension4" },
+  ];
   export default {
-    name: 'group_item',
-    components: { infoHead, information, joinList, CrewInfo, TipPopup, DiyRate },
+    name: "group_item",
+    components: {
+      infoHead,
+      information,
+      joinList,
+      CrewInfo,
+      TipPopup,
+      DiyRate,
+    },
     props: {
       infoData: {
         type: Object,
@@ -67,29 +99,35 @@
       return {
         type: 1,
         rateForm: {},
-        toUserInfoUrl: '',
+        toUserInfoUrl: "",
         loading: false,
         headList,
-      }
+      };
     },
     computed: {
       tops() {
-        const { infoData } = this
+        const { infoData } = this;
         const arr = [
-          { title: '学校', val: infoData.schoolName || '', id: 1 },
-          { title: '年级', val: infoData.grade || '', id: 2 },
-          { title: '课程', val: infoData.curriculumSystem || '', id: 4 },
-          { title: '标化', val: infoData.standardizedPerformance || '', id: 3 },
-          { title: '专业', val: infoData.professionalDirection || '', id: 4 },
-          { title: '成绩', val: infoData.schoolRecord || '', id: 3 },
-          { title: '评价', val: infoData.star || 0, id: 5, code: 'rate', readonly: true },
-        ]
-        return arr
+          { title: "学校", val: infoData.schoolName || "", id: 1 },
+          { title: "年级", val: infoData.grade || "", id: 2 },
+          { title: "课程", val: infoData.curriculumSystem || "", id: 4 },
+          { title: "标化", val: infoData.standardizedPerformance || "", id: 3 },
+          { title: "专业", val: infoData.professionalDirection || "", id: 4 },
+          { title: "成绩", val: infoData.schoolRecord || "", id: 3 },
+          {
+            title: "评价",
+            val: infoData.star || 0,
+            id: 5,
+            code: "rate",
+            readonly: true,
+          },
+        ];
+        return arr;
       },
       bList() {
-        const { curriculumSystemList } = this.infoData
-        const arr = bsToStrFun(curriculumSystemList)
-        return arr
+        const { curriculumSystemList } = this.infoData;
+        const arr = bsToStrFun(curriculumSystemList);
+        return arr;
       },
     },
     methods: {
@@ -99,80 +137,80 @@
       // 节流
       throttle(flag) {
         if (flag) {
-          this.loading = true
-          uni.showLoading()
+          this.loading = true;
+          uni.showLoading();
         } else {
-          this.loading = false
-          uni.hideLoading()
+          this.loading = false;
+          uni.hideLoading();
         }
       },
       academicGetEvaluate(serviceUserId) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         academicGetEvaluate({ serviceUserId, moduleType: 3 })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success } = nData || {}
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success } = nData || {};
+            this.throttle(false);
             if (code === 200 && success) {
-              this.rateForm = data
-              this.$refs.diyRate.show()
+              this.rateForm = data;
+              this.$refs.diyRate.show();
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       clickBuoy(type) {
         if (!isLogin()) {
-          this.$refs.noLogin.show()
-          return
+          this.$refs.noLogin.show();
+          return;
         }
-        const toUserInfoUrl = uni.getStorageSync('toUserInfoUrl')
-        this.type = type
+        const toUserInfoUrl = uni.getStorageSync("toUserInfoUrl");
+        this.type = type;
         switch (type) {
           case 1:
             if (toUserInfoUrl) {
-              this.toUserInfoUrl = toUserInfoUrl
-              this.$refs.toUserInfo.show()
+              this.toUserInfoUrl = toUserInfoUrl;
+              this.$refs.toUserInfo.show();
             } else {
-              this.$refs.tipPopup.show()
+              this.$refs.tipPopup.show();
             }
-            break
+            break;
           case 2:
-            this.academicGetEvaluate(this.infoData.id)
-            break
+            this.academicGetEvaluate(this.infoData.id);
+            break;
           default:
-            break
+            break;
         }
       },
       // 跳转信息录入
       toUserInfo(flag) {
         if (flag) {
-          uni.navigateTo({ url: this.toUserInfoUrl })
-          this.toUserInfoUrl = ''
+          uni.navigateTo({ url: this.toUserInfoUrl });
+          this.toUserInfoUrl = "";
         } else {
-          uni.showToast({ title: '请录入信息后, 申请服务!', icon: 'none' })
+          uni.showToast({ title: "请录入信息后, 申请服务!", icon: "none" });
         }
       },
       // 点击确定
       confirm() {
-        const { type } = this
-        this.$emit('clickBuoy', type, this.infoData)
+        const { type } = this;
+        this.$emit("clickBuoy", type, this.infoData);
       },
       clickItem() {
         if (!isLogin()) {
-          return
+          return;
         }
-        this.$emit('clickItem')
+        this.$emit("clickItem");
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

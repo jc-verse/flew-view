@@ -16,24 +16,24 @@
 
 <script>
   export default {
-    name: 'pageSjNew',
+    name: "pageSjNew",
     data() {
       return {
         topNum: 0,
         scrollTop: 0,
         old: { scrollTop: 0 },
-      }
+      };
     },
     props: {
       styles: {
         type: Object,
-        default: () => ({ background: '' }),
+        default: () => ({ background: "" }),
       },
     },
     computed: {
       customBarH() {
-        const { topNum } = this
-        return topNum ? `calc(100vh - ${topNum * 2}rpx)` : '100vh'
+        const { topNum } = this;
+        return topNum ? `calc(100vh - ${topNum * 2}rpx)` : "100vh";
       },
     },
     mounted() {
@@ -43,38 +43,41 @@
       // }).exec()
       uni.getSystemInfo({
         success: (e) => {
-          let statusBar = 0
-          let customBar = 0
+          let statusBar = 0;
+          let customBar = 0;
 
           // #ifdef H5
-          statusBar = 0
-          customBar = e.statusBarHeight + 44
+          statusBar = 0;
+          customBar = e.statusBarHeight + 44;
           // #endif
 
-          this.topNum += customBar
+          this.topNum += customBar;
         },
-      })
+      });
     },
     methods: {
       upper(e) {
-        console.log(e)
+        console.log(e);
       },
       lower(e) {
-        console.log(e)
+        console.log(e);
       },
       scroll(e) {
-        this.$emit('scroll', e)
-        this.old.scrollTop = e.detail.scrollTop
+        this.$emit("scroll", e);
+        this.old.scrollTop = e.detail.scrollTop;
       },
       goTop: function (e) {
-        this.scrollTop = this.old.scrollTop
+        this.scrollTop = this.old.scrollTop;
         this.$nextTick(function () {
-          this.scrollTop = 0
-        })
-        uni.showToast({ icon: 'none', title: '纵向滚动 scrollTop 值已被修改为 0' })
+          this.scrollTop = 0;
+        });
+        uni.showToast({
+          icon: "none",
+          title: "纵向滚动 scrollTop 值已被修改为 0",
+        });
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

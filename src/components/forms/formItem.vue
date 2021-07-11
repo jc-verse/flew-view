@@ -2,7 +2,7 @@
   <div class="formItem">
     <!-- 文本 -->
     <template v-if="headInit.params.genre === 'text'">
-      {{ formData[headInit.code] || '' }}
+      {{ formData[headInit.code] || "" }}
     </template>
     <!-- input -->
     <template v-if="headInit.params.genre === 'input'">
@@ -33,7 +33,10 @@
             {{ formData[headInit.code] | findIndex(headInit.params.list) }}
           </view>
           <view v-else style="color: #808080">请选择</view>
-          <text v-if="showIcon || false" class="iconfont iconjiahao add_icon"></text>
+          <text
+            v-if="showIcon || false"
+            class="iconfont iconjiahao add_icon"
+          ></text>
         </div>
       </picker>
     </template>
@@ -49,7 +52,9 @@
         @change="change($event, 'date', headInit.code)"
         :range="headInit.params.list"
       >
-        <view class="select" v-if="formData[headInit.code]">{{ formData[headInit.code] }}</view>
+        <view class="select" v-if="formData[headInit.code]">{{
+          formData[headInit.code]
+        }}</view>
         <view v-else style="color: #808080">请选择</view>
       </picker>
     </template>
@@ -67,9 +72,15 @@
 
     <!-- upload -->
     <template v-if="headInit.params.genre === 'upload'">
-      <UploadImg @uploadImg="change($event, 'upload', headInit.code)" :statu="1">
+      <UploadImg
+        @uploadImg="change($event, 'upload', headInit.code)"
+        :statu="1"
+      >
         <slot name="upload">
-          <i class="iconfont icontupianshangchuan" style="color: #676fdf; font-size: 50rpx"></i>
+          <i
+            class="iconfont icontupianshangchuan"
+            style="color: #676fdf; font-size: 50rpx"
+          ></i>
         </slot>
       </UploadImg>
     </template>
@@ -104,14 +115,14 @@
 </template>
 
 <script>
-  import UploadImg from './upload'
-  import combox from './combox'
-  import DiyInpSel from './diyInputSelect'
+  import UploadImg from "./upload";
+  import combox from "./combox";
+  import DiyInpSel from "./diyInputSelect";
   export default {
-    name: 'formItem',
+    name: "formItem",
     components: { combox, UploadImg, DiyInpSel },
     data() {
-      return {}
+      return {};
     },
     props: {
       headInit: { type: Object, default: () => ({}) },
@@ -123,45 +134,45 @@
       findIndex(val, arr) {
         const item =
           arr.find((item) => {
-            return item.id === val || item.label === val
-          }) || {}
-        return item.label || ''
+            return item.id === val || item.label === val;
+          }) || {};
+        return item.label || "";
       },
     },
     mounted() {},
     methods: {
       comboxFn() {},
       change(e, type, code) {
-        const { value } = e.target || {}
-        let val = value || ''
+        const { value } = e.target || {};
+        let val = value || "";
         switch (type) {
-          case 'checkout':
-            val = !!value.length
-            break
-          case 'date':
-          case 'input':
-            val = value
-            break
-          case 'upload':
-            val = e.name || ''
-            break
-          case 'select':
-            const { list } = this.headInit.params || {}
-            const ite = list.find((item, index) => index == value) || {}
+          case "checkout":
+            val = !!value.length;
+            break;
+          case "date":
+          case "input":
+            val = value;
+            break;
+          case "upload":
+            val = e.name || "";
+            break;
+          case "select":
+            const { list } = this.headInit.params || {};
+            const ite = list.find((item, index) => index == value) || {};
 
-            if (code === 'grade') {
-              val = ite.label
+            if (code === "grade") {
+              val = ite.label;
             } else {
-              val = ite.id
+              val = ite.id;
             }
-            break
+            break;
           default:
-            break
+            break;
         }
-        this.$emit('change', { data: val, code })
+        this.$emit("change", { data: val, code });
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

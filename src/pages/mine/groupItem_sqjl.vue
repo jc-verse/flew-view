@@ -1,12 +1,24 @@
 <template>
   <div class="group_info_item" :style="{ background: statusInfo.bgColor }">
-    <div class="msg_title" :class="[showTitle ? 'ellipsis' : '']" @click="clickTitle">{{
-      statusInfo.title
-    }}</div>
-    <infoHead :infoData="statusInfo.cardInfo" headStyles="width:70rpx;height:70rpx" fontSize="34">
+    <div
+      class="msg_title"
+      :class="[showTitle ? 'ellipsis' : '']"
+      @click="clickTitle"
+      >{{ statusInfo.title }}</div
+    >
+    <infoHead
+      :infoData="statusInfo.cardInfo"
+      headStyles="width:70rpx;height:70rpx"
+      fontSize="34"
+    >
       <template slot="right">
         <div class="btn_box">
-          <div class="" v-if="statusInfo.showInfo.includes(9)" @click="clickBuoy(9)">评价</div>
+          <div
+            class=""
+            v-if="statusInfo.showInfo.includes(9)"
+            @click="clickBuoy(9)"
+            >评价</div
+          >
         </div>
       </template>
     </infoHead>
@@ -15,7 +27,10 @@
       <!-- 个人信息 -->
       <information :topList="tops" />
       <!-- 团队成员信息 -->
-      <div class="group_infos" v-if="slaveList.length && statusInfo.showSlaveList">
+      <div
+        class="group_infos"
+        v-if="slaveList.length && statusInfo.showSlaveList"
+      >
         <div class="team_member" @click="showInfo = !showInfo">
           <div class="left">团队成员：{{ slaveList }}</div>
           <i
@@ -25,31 +40,49 @@
           ></i>
         </div>
         <!-- 团队成员信息 :styles='{background: "rgba(255,255,255,0)"}' -->
-        <CrewInfo :info="ite" v-for="(ite, ind) in infoData.slave" :key="ind" v-show="showInfo" />
+        <CrewInfo
+          :info="ite"
+          v-for="(ite, ind) in infoData.slave"
+          :key="ind"
+          v-show="showInfo"
+        />
       </div>
       <!-- 当前状态 -->
       <div class="group_infos" v-if="statusInfo.tip">
-        <div class="tip_msg"> {{ statusInfo.tip || '' }}</div>
+        <div class="tip_msg"> {{ statusInfo.tip || "" }}</div>
       </div>
     </div>
 
-    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
+    <TipPopup
+      title="操作提示"
+      ref="noLogin"
+      msg="是否登录后执行操作？"
+      @confirm="toLogin"
+    />
   </div>
 </template>
 
 <script>
-  import joinList from '@/components/cards/joinList'
-  import infoHead from '@/components/cards/infoHead'
-  import information from '@/components/cards/information'
-  import Rate from '@/components/cards/rate'
-  import CrewInfo from '@/components/cards/crewInfo'
-  import DiyPopup from '@/components/diyPopup'
-  import { bsToStrFn, topListFn, statusScreen, joinName } from './units'
-  import TipPopup from '@/components/cards/tipPopup'
-  import { isLogin, toLogin } from '@/common/utils'
+  import joinList from "@/components/cards/joinList";
+  import infoHead from "@/components/cards/infoHead";
+  import information from "@/components/cards/information";
+  import Rate from "@/components/cards/rate";
+  import CrewInfo from "@/components/cards/crewInfo";
+  import DiyPopup from "@/components/diyPopup";
+  import { bsToStrFn, topListFn, statusScreen, joinName } from "./units";
+  import TipPopup from "@/components/cards/tipPopup";
+  import { isLogin, toLogin } from "@/common/utils";
   export default {
-    name: 'group_item',
-    components: { infoHead, information, joinList, DiyPopup, Rate, CrewInfo, TipPopup },
+    name: "group_item",
+    components: {
+      infoHead,
+      information,
+      joinList,
+      DiyPopup,
+      Rate,
+      CrewInfo,
+      TipPopup,
+    },
     props: {
       infoData: {
         type: Object,
@@ -57,7 +90,7 @@
       },
       userId: {
         type: String,
-        default: '',
+        default: "",
       },
     },
 
@@ -68,51 +101,51 @@
         showList: false,
         type: 0,
         // "relationshipId": 0
-      }
+      };
     },
     computed: {
       tops() {
-        const { statusInfo } = this
-        const arr = topListFn(statusInfo.cardInfo)
-        return arr
+        const { statusInfo } = this;
+        const arr = topListFn(statusInfo.cardInfo);
+        return arr;
       },
       statusInfo() {
-        const { userId, infoData } = this
-        return statusScreen(infoData, userId)
+        const { userId, infoData } = this;
+        return statusScreen(infoData, userId);
       },
       slaveList() {
-        const slave = this.infoData.slave || []
-        return joinName(slave) || ''
+        const slave = this.infoData.slave || [];
+        return joinName(slave) || "";
       },
     },
     methods: {
       toLogin,
       clickTitle() {
-        this.showTitle = !this.showTitle
+        this.showTitle = !this.showTitle;
       },
       // 点击组队申请！
       clickBuoy(type) {
         if (!isLogin()) {
-          this.$refs.noLogin.show()
-          return
+          this.$refs.noLogin.show();
+          return;
         }
-        this.type = type
+        this.type = type;
         switch (type) {
           case 8:
           case 9:
-            this.$emit('clickBtn', type, { data: this.infoData })
+            this.$emit("clickBtn", type, { data: this.infoData });
             // this.$refs.diyRate.show()
-            break
+            break;
           default:
-            break
+            break;
         }
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

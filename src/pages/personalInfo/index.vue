@@ -14,7 +14,11 @@
             v-for="(ite, ind) in formHeads"
             :key="ind"
           >
-            <FormItem :headInit="ite" :formData="userDataNewFn" @change="changeFn" />
+            <FormItem
+              :headInit="ite"
+              :formData="userDataNewFn"
+              @change="changeFn"
+            />
           </FormItemBox>
         </template>
         <template v-else>
@@ -25,7 +29,11 @@
             v-for="(ite, ind) in formHeads2"
             :key="ind"
           >
-            <FormItem :headInit="ite" :formData="userDataNewFn" @change="changeFn" />
+            <FormItem
+              :headInit="ite"
+              :formData="userDataNewFn"
+              @change="changeFn"
+            />
           </FormItemBox>
         </template>
       </div>
@@ -37,158 +45,171 @@
       </div>
       <div class="unLogin" @click="toLogin"> 退出登录 </div>
     </div>
-    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
+    <TipPopup
+      title="操作提示"
+      ref="noLogin"
+      msg="是否登录后执行操作？"
+      @confirm="toLogin"
+    />
     <FabGroup />
   </PageJS>
 </template>
 <script>
-  import PageJS from '../../components/pageSjNew.vue'
-  import FormItem from '@/components/forms/formItem'
-  import FormItemBox from '@/components/forms/formItemBox'
-  import { userCardInfo, subjectList } from '@/common/api'
-  import { sexs } from '@/common/enum'
-  import { joinUrl, getCurPage } from '@/common/utils'
-  import GroupItem from './groupItem'
-  import { imgUrl } from '@/common/http'
-  import { isLogin, toLogin } from '@/common/utils'
-  import TipPopup from '@/components/cards/tipPopup'
-  import unitMixin from '@/common/mixins/unitMixin'
+  import PageJS from "../../components/pageSjNew.vue";
+  import FormItem from "@/components/forms/formItem";
+  import FormItemBox from "@/components/forms/formItemBox";
+  import { userCardInfo, subjectList } from "@/common/api";
+  import { sexs } from "@/common/enum";
+  import { joinUrl, getCurPage } from "@/common/utils";
+  import GroupItem from "./groupItem";
+  import { imgUrl } from "@/common/http";
+  import { isLogin, toLogin } from "@/common/utils";
+  import TipPopup from "@/components/cards/tipPopup";
+  import unitMixin from "@/common/mixins/unitMixin";
 
-  import FabGroup from '@/components/fabGroup'
+  import FabGroup from "@/components/fabGroup";
   export default {
-    name: 'personalInfo',
-    components: { PageJS, FabGroup, FormItem, FormItemBox, GroupItem, TipPopup },
+    name: "personalInfo",
+    components: {
+      PageJS,
+      FabGroup,
+      FormItem,
+      FormItemBox,
+      GroupItem,
+      TipPopup,
+    },
     mixins: [unitMixin],
     data() {
       return {
         formHeads: [
           {
-            label: '昵称',
-            code: 'nikeName',
-            id: '',
+            label: "昵称",
+            code: "nikeName",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '微信用户', genre: 'text', type: 'text', max: 20 },
+            params: { ph: "微信用户", genre: "text", type: "text", max: 20 },
           },
           {
-            label: '微信号',
-            code: 'wxNum',
-            id: '',
+            label: "微信号",
+            code: "wxNum",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '无', genre: 'input', type: 'text', max: 20 },
+            params: { ph: "无", genre: "input", type: "text", max: 20 },
           },
           // { label: '生日',   code: 'birthday', id: '', required: false, params: { ph: '请填写生日',  genre:'date', type: 'text', max: 20 } },
           {
-            label: '年级',
-            code: 'grade',
-            id: '',
+            label: "年级",
+            code: "grade",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '', genre: 'input', type: 'text', max: 20 },
+            params: { ph: "", genre: "input", type: "text", max: 20 },
           },
           {
-            label: '性别',
-            code: 'sex',
-            id: '',
+            label: "性别",
+            code: "sex",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '请选择', genre: 'select', list: sexs },
+            params: { ph: "请选择", genre: "select", list: sexs },
           },
           {
-            label: '邮箱',
-            code: 'email',
-            id: '',
+            label: "邮箱",
+            code: "email",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '暂无邮箱', genre: 'input', type: 'email', max: 20 },
+            params: { ph: "暂无邮箱", genre: "input", type: "email", max: 20 },
           },
         ],
         formHeads2: [
           {
-            label: '昵称',
-            code: 'nikeName',
-            id: '',
+            label: "昵称",
+            code: "nikeName",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '微信用户', genre: 'input', type: 'text', max: 20 },
+            params: { ph: "微信用户", genre: "input", type: "text", max: 20 },
           },
           {
-            label: '微信号',
-            code: 'wxNum',
-            id: '',
+            label: "微信号",
+            code: "wxNum",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '无', genre: 'input', type: 'text', max: 20 },
+            params: { ph: "无", genre: "input", type: "text", max: 20 },
           },
           // { label: '生日',   code: 'birthday', id: '', required: false, params: { ph: '请填写生日',  genre:'date', type: 'text', max: 20 } },
           {
-            label: '年级',
-            code: 'grade',
-            id: '',
+            label: "年级",
+            code: "grade",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '无', genre: 'input', type: 'text', max: 20 },
+            params: { ph: "无", genre: "input", type: "text", max: 20 },
           },
           {
-            label: '性别',
-            code: 'sex',
-            id: '',
+            label: "性别",
+            code: "sex",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '无', genre: 'input', list: sexs },
+            params: { ph: "无", genre: "input", list: sexs },
           },
           {
-            label: '邮箱',
-            code: 'email',
-            id: '',
+            label: "邮箱",
+            code: "email",
+            id: "",
             disabled: true,
             required: false,
-            params: { ph: '无', genre: 'input', type: 'email', max: 20 },
+            params: { ph: "无", genre: "input", type: "email", max: 20 },
           },
         ],
 
         formData: {},
         // headImg: '',
-        userHead: '',
+        userHead: "",
         systemList: [],
         showInfoForm: false,
         // userDataNewFn: {}// mixin中
-      }
+      };
     },
     mounted() {
-      this.getUserInfo()
-      this.getDownList()
+      this.getUserInfo();
+      this.getDownList();
     },
     onShow() {
-      const url = uni.getStorageSync('toUserInfoUrl')
-      this.showInfoForm = isLogin() && !url
+      const url = uni.getStorageSync("toUserInfoUrl");
+      this.showInfoForm = isLogin() && !url;
     },
     computed: {
       newFormData() {
-        const { formData, systemList, userDataNewFn } = this
-        const obj = { ...userDataNewFn }
+        const { formData, systemList, userDataNewFn } = this;
+        const obj = { ...userDataNewFn };
         if (systemList.length) {
-          const item = systemList.find((ite) => ite.id == obj.curriculumSystem) || {}
-          obj.curriculumSystem = item.subjectName || obj.curriculumSystem
+          const item =
+            systemList.find((ite) => ite.id == obj.curriculumSystem) || {};
+          obj.curriculumSystem = item.subjectName || obj.curriculumSystem;
         }
-        return obj
+        return obj;
       },
       headImg() {
-        const { avatar } = this.userDataNewFn
+        const { avatar } = this.userDataNewFn;
         let url =
           this.userHead ||
-          'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
+          "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132";
         if (/(http|https)/.test(avatar)) {
-          url = avatar
-        } else if (avatar && avatar !== 'default_img.png') {
-          url = imgUrl + avatar
+          url = avatar;
+        } else if (avatar && avatar !== "default_img.png") {
+          url = imgUrl + avatar;
         }
-        return url
+        return url;
       },
       userDataNewFn() {
-        const { userInfo } = this.$store.state
-        return userInfo
+        const { userInfo } = this.$store.state;
+        return userInfo;
       },
     },
     methods: {
@@ -198,15 +219,15 @@
         //  type: 1 科目   /  2 课程体系
         subjectList({ type: 2 })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data } = nData
+            const { data: nData } = res[1];
+            const { code, data } = nData;
             if (code === 200) {
-              this.systemList = data || []
+              this.systemList = data || [];
             }
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       },
       // 获取信息
       // getInfo() {
@@ -226,47 +247,47 @@
 
       clickBuoy(val) {
         if (!isLogin()) {
-          this.$refs.noLogin.show()
-          return
+          this.$refs.noLogin.show();
+          return;
         }
-        let url = 'userInfo'
+        let url = "userInfo";
         switch (val) {
           case 1:
-            url = 'userInfo'
-            break
+            url = "userInfo";
+            break;
           case 2:
-            url = 'userComplete'
-            break
+            url = "userComplete";
+            break;
           default:
-            break
+            break;
         }
         uni.navigateTo({
-          url: joinUrl(`/pages/${url}/index`, { type: 'edit' }),
-        })
+          url: joinUrl(`/pages/${url}/index`, { type: "edit" }),
+        });
       },
 
       editClick(item) {
-        const { id } = item
-        console.log('---item: ', item, id)
+        const { id } = item;
+        console.log("---item: ", item, id);
       },
       saveItemData(item) {
-        const { text } = item
-        console.log('------回车保存', text)
+        const { text } = item;
+        console.log("------回车保存", text);
       },
       sexChange(val, item) {
         const {
           detail: { value },
-        } = val
-        item.text = value
+        } = val;
+        item.text = value;
       },
       bindDateChange(val, item) {
         const {
           detail: { value },
-        } = val
-        item.text = value
+        } = val;
+        item.text = value;
       },
     },
-  }
+  };
 </script>
 <style scoped lang="scss">
   .person_info_page {

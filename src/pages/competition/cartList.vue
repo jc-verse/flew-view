@@ -10,21 +10,24 @@
     >
       <div class="title_box">
         <div class="title">{{ item.name }}</div>
-        <div class="subhead">{{ item.asName || '' }}</div>
+        <div class="subhead">{{ item.asName || "" }}</div>
       </div>
-      <i class="item_icon" :style="{ 'background-image': `url(${item.iconU})` }"></i>
+      <i
+        class="item_icon"
+        :style="{ 'background-image': `url(${item.iconU})` }"
+      ></i>
     </div>
   </div>
 </template>
 
 <script>
-  import { imgUrl } from '@/common/http'
-  import { colorList } from './const'
+  import { imgUrl } from "@/common/http";
+  import { colorList } from "./const";
   export default {
     data() {
       return {
         // list
-      }
+      };
     },
     props: {
       list: {
@@ -35,27 +38,27 @@
     computed: {
       newList() {
         const newArr = this.list.map((item, index) => {
-          const cIndex = colorList.findIndex((ite) => ite.id === item.id)
+          const cIndex = colorList.findIndex((ite) => ite.id === item.id);
           const obj = {
             ...colorList[cIndex],
             ...item,
             iconU: imgUrl + item.backgroundImg, // 拼接图片路径
-          }
-          return obj
-        })
-        return newArr
+          };
+          return obj;
+        });
+        return newArr;
       },
     },
     methods: {
       clickItem(item) {
         if (item.disable) {
-          uni.showToast({ title: '模块未开放，敬请期待！', icon: 'none' })
-          return
+          uni.showToast({ title: "模块未开放，敬请期待！", icon: "none" });
+          return;
         }
-        this.$emit('clickItem', item)
+        this.$emit("clickItem", item);
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -96,7 +99,7 @@
       right: 0;
       bottom: 0;
       // @include img_fill;
-      @include img_bg('http://prod.qiniucdns.sjreach.cn/web-1.png');
+      @include img_bg("http://prod.qiniucdns.sjreach.cn/web-1.png");
     }
     .title_box {
       .title {

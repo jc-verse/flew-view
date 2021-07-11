@@ -3,9 +3,15 @@
     <infoHead :infoData="infoData">
       <template slot="right">
         <div class="btn_box">
-          <div v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)">申请服务</div>
-          <div v-else-if="infoData.isAcademic == 1" class="disable">{{ '申请中' }}</div>
-          <div v-else-if="infoData.isAcademic == 3" class="disable">{{ '进行中' }}</div>
+          <div v-if="infoData.isAcademic == 2" @click.stop="clickBuoy(1)"
+            >申请服务</div
+          >
+          <div v-else-if="infoData.isAcademic == 1" class="disable">{{
+            "申请中"
+          }}</div>
+          <div v-else-if="infoData.isAcademic == 3" class="disable">{{
+            "进行中"
+          }}</div>
           <div class="orange" @click.stop="clickBuoy(2)">查看评价</div>
         </div>
       </template>
@@ -16,11 +22,20 @@
       <!-- 经历 -->
       <div class="center">
         <join-list title="课程体系" :list="bList" />
-        <join-list title="个人留言" :value="infoData.personalMessage || '暂无留言'" type="text" />
+        <join-list
+          title="个人留言"
+          :value="infoData.personalMessage || '暂无留言'"
+          type="text"
+        />
       </div>
     </div>
     <!-- <TipPopup title="申请服务" ref='tipPopup' msg="是否确认申请服务？" @confirm='confirm'/> -->
-    <TipPopup title="操作提示" ref="noLogin" msg="是否登录后执行操作？" @confirm="toLogin" />
+    <TipPopup
+      title="操作提示"
+      ref="noLogin"
+      msg="是否登录后执行操作？"
+      @confirm="toLogin"
+    />
     <TipPopup
       title="提示"
       ref="toUserInfo"
@@ -29,7 +44,12 @@
       @close="toUserInfo(false)"
     />
 
-    <TipPopup title="选择学科" ref="subjectPopup" @confirm="confirm" v-if="systemList.length">
+    <TipPopup
+      title="选择学科"
+      ref="subjectPopup"
+      @confirm="confirm"
+      v-if="systemList.length"
+    >
       <template slot="content">
         <div class="content_box">
           <picker
@@ -49,18 +69,25 @@
 </template>
 
 <script>
-  import joinList from '@/components/cards/joinList'
-  import infoHead from '@/components/cards/infoHead'
-  import information from '@/components/cards/information'
-  import CrewInfo from '@/components/cards/crewInfo'
-  import TipPopup from '@/components/cards/tipPopup'
-  import { bsToStrFn, bsToStrFun } from '@/common/utils'
-  import { academicGetEvaluate, selectCurriculumSystem } from '@/common/api'
-  import DiyRate from '@/components/diyRate'
-  import { isLogin, toLogin } from '@/common/utils'
+  import joinList from "@/components/cards/joinList";
+  import infoHead from "@/components/cards/infoHead";
+  import information from "@/components/cards/information";
+  import CrewInfo from "@/components/cards/crewInfo";
+  import TipPopup from "@/components/cards/tipPopup";
+  import { bsToStrFn, bsToStrFun } from "@/common/utils";
+  import { academicGetEvaluate, selectCurriculumSystem } from "@/common/api";
+  import DiyRate from "@/components/diyRate";
+  import { isLogin, toLogin } from "@/common/utils";
   export default {
-    name: 'group_item',
-    components: { infoHead, information, joinList, CrewInfo, TipPopup, DiyRate },
+    name: "group_item",
+    components: {
+      infoHead,
+      information,
+      joinList,
+      CrewInfo,
+      TipPopup,
+      DiyRate,
+    },
     props: {
       infoData: {
         type: Object,
@@ -79,28 +106,34 @@
         systemList: [],
         // demoSel,
         checkList: [], // 被选中的id
-        toUserInfoUrl: '',
+        toUserInfoUrl: "",
         loading: false,
-      }
+      };
     },
     computed: {
       tops() {
-        const { infoData } = this
+        const { infoData } = this;
         const arr = [
-          { title: '学校', val: infoData.schoolName || '', id: 1 },
-          { title: '年级', val: infoData.grade || '', id: 2 },
-          { title: '课程', val: infoData.curriculumSystem || '', id: 4 },
-          { title: '标化', val: infoData.standardizedPerformance || '', id: 3 },
-          { title: '专业', val: infoData.professionalDirection || '', id: 4 },
-          { title: '成绩', val: infoData.schoolRecord || '', id: 3 },
-          { title: '评价', val: infoData.star || 0, id: 5, code: 'rate', readonly: true },
-        ]
-        return arr
+          { title: "学校", val: infoData.schoolName || "", id: 1 },
+          { title: "年级", val: infoData.grade || "", id: 2 },
+          { title: "课程", val: infoData.curriculumSystem || "", id: 4 },
+          { title: "标化", val: infoData.standardizedPerformance || "", id: 3 },
+          { title: "专业", val: infoData.professionalDirection || "", id: 4 },
+          { title: "成绩", val: infoData.schoolRecord || "", id: 3 },
+          {
+            title: "评价",
+            val: infoData.star || 0,
+            id: 5,
+            code: "rate",
+            readonly: true,
+          },
+        ];
+        return arr;
       },
       bList() {
-        const { curriculumSystemList } = this.infoData
-        const arr = bsToStrFun(curriculumSystemList)
-        return arr
+        const { curriculumSystemList } = this.infoData;
+        const arr = bsToStrFun(curriculumSystemList);
+        return arr;
       },
     },
     mounted() {
@@ -118,113 +151,116 @@
 
       // },
       selectCurriculumSystem() {
-        const _this = this
+        const _this = this;
         selectCurriculumSystem({ serviceUserId: this.infoData.id })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success } = nData || {}
+            const { data: nData } = res[1];
+            const { code, data, success } = nData || {};
             if (code === 200 && success) {
               if (Array.isArray(data)) {
-                const arr = data.map((item) => ({ ...item, label: item.subject }))
-                this.systemList = arr || []
+                const arr = data.map((item) => ({
+                  ...item,
+                  label: item.subject,
+                }));
+                this.systemList = arr || [];
               }
             }
           })
           .then(() => {
             this.$nextTick(() => {
-              _this.$refs.subjectPopup.show()
-            })
+              _this.$refs.subjectPopup.show();
+            });
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       },
       bindPickerChange: function (e) {
-        console.log('picker发送选择改变，携带值为', e.target.value)
-        this.index = e.target.value
+        console.log("picker发送选择改变，携带值为", e.target.value);
+        this.index = e.target.value;
       },
       // 节流
       throttle(flag) {
         if (flag) {
-          this.loading = true
-          uni.showLoading()
+          this.loading = true;
+          uni.showLoading();
         } else {
-          this.loading = false
-          uni.hideLoading()
+          this.loading = false;
+          uni.hideLoading();
         }
       },
       academicGetEvaluate(serviceUserId) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         academicGetEvaluate({ serviceUserId, moduleType: 2 })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success } = nData || {}
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success } = nData || {};
+            this.throttle(false);
             if (code === 200 && success) {
-              this.rateForm = data
-              this.$refs.diyRate.show()
+              this.rateForm = data;
+              this.$refs.diyRate.show();
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 点击组队申请！
       clickBuoy(type) {
         if (!isLogin()) {
-          this.$refs.noLogin.show()
-          return
+          this.$refs.noLogin.show();
+          return;
         }
-        const toUserInfoUrl = uni.getStorageSync('toUserInfoUrl')
-        this.type = type
+        const toUserInfoUrl = uni.getStorageSync("toUserInfoUrl");
+        this.type = type;
         switch (type) {
           case 1:
             if (toUserInfoUrl) {
-              this.toUserInfoUrl = toUserInfoUrl
-              this.$refs.toUserInfo.show()
+              this.toUserInfoUrl = toUserInfoUrl;
+              this.$refs.toUserInfo.show();
             } else {
               if (!this.systemList.length) {
-                this.selectCurriculumSystem()
+                this.selectCurriculumSystem();
               } else {
-                this.$refs.subjectPopup.show()
+                this.$refs.subjectPopup.show();
               }
             }
-            break
+            break;
           case 2:
-            this.academicGetEvaluate(this.infoData.id)
-            break
+            this.academicGetEvaluate(this.infoData.id);
+            break;
           default:
-            break
+            break;
         }
       },
       // 跳转信息录入
       toUserInfo(flag) {
         if (flag) {
-          uni.navigateTo({ url: this.toUserInfoUrl })
-          this.toUserInfoUrl = ''
+          uni.navigateTo({ url: this.toUserInfoUrl });
+          this.toUserInfoUrl = "";
         } else {
-          uni.showToast({ title: '请录入信息后, 申请服务!', icon: 'none' })
+          uni.showToast({ title: "请录入信息后, 申请服务!", icon: "none" });
         }
       },
       // 点击确定
       confirm() {
-        const { type, index, systemList } = this
-        this.$emit('clickBuoy', type, this.infoData, systemList[index].id)
+        const { type, index, systemList } = this;
+        this.$emit("clickBuoy", type, this.infoData, systemList[index].id);
       },
       clickItem() {
         if (!isLogin()) {
-          return
+          return;
         }
-        this.$emit('clickItem')
+        this.$emit("clickItem");
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   .group_info_item {
     background: #ffffff;
     border-radius: 8px;

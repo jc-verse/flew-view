@@ -13,7 +13,11 @@
             <form-item :headInit="ite" :formData="formData" @change="changeFn">
               <template slot="upload">
                 <div class="box" v-if="imgUrl">
-                  <img :src="imgUrl" alt="" style="width: 100rpx; height: 100rpx" />
+                  <img
+                    :src="imgUrl"
+                    alt=""
+                    style="width: 100rpx; height: 100rpx"
+                  />
                   <!-- <i @click.stop="deleteImg"  class="iconfont iconshanchu icon" style="color:#676FDF;font-size:50rpx"></i> -->
                 </div>
                 <i
@@ -40,20 +44,32 @@
                   v-if="!formData.schoolName"
                   >请选择学校</div
                 >
-                <div style="display: flex; align-items: center; justify-content: flex-end" v-else>{{
-                  formData.schoolName || ''
-                }}</div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                  "
+                  v-else
+                  >{{ formData.schoolName || "" }}</div
+                >
               </DiyInpSel>
             </form-item>
             <template slot="diy">
-              <div class="tip_msg" v-if="ite.params.tipMsg">{{ ite.params.tipMsg }}</div>
+              <div class="tip_msg" v-if="ite.params.tipMsg">{{
+                ite.params.tipMsg
+              }}</div>
             </template>
           </form-item-box>
         </div>
 
         <div class="center">
           <form-item-box :ite="centerHeads" :show-b="true">
-            <form-item :headInit="centerHeads" :formData="formData" @change="changeFn"></form-item>
+            <form-item
+              :headInit="centerHeads"
+              :formData="formData"
+              @change="changeFn"
+            ></form-item>
           </form-item-box>
         </div>
 
@@ -78,10 +94,15 @@
               ></form-item>
             </div>
             <div class="right" slot="right" v-if="systemImgList.length < 8">
-              <form-item :headInit="right" :formData="formData" @change="changeFn">
+              <form-item
+                :headInit="right"
+                :formData="formData"
+                @change="changeFn"
+              >
                 <template slot="upload">
                   <div class="right_box">
-                    {{ `上传认证` }}<i class="iconfont icontupianshangchuan icon"></i>
+                    {{ `上传认证`
+                    }}<i class="iconfont icontupianshangchuan icon"></i>
                   </div>
                 </template>
               </form-item>
@@ -120,10 +141,16 @@
             :maxNum="6"
           >
             <div class="g_list" slot="list">
-              <template v-for="(items, ind) in formData['standardizedPerformance']">
+              <template
+                v-for="(items, ind) in formData['standardizedPerformance']"
+              >
                 <div class="g_item" :key="ind" v-if="items.img">
                   <div class="text">{{ `${ind + 1}. ${items.img}` }}</div>
-                  <div class="delete" @click="deleteSta(ind, 'standardizedPerformance')">删除</div>
+                  <div
+                    class="delete"
+                    @click="deleteSta(ind, 'standardizedPerformance')"
+                    >删除</div
+                  >
                 </div>
               </template>
             </div>
@@ -148,20 +175,28 @@
                 </div>
               </EditGame>
               <div class="g_list" slot="diy">
-                <template v-if="formData.competitionExperience.length && shows.aut">
+                <template
+                  v-if="formData.competitionExperience.length && shows.aut"
+                >
                   <div
                     class="g_item"
                     v-for="(items, ind) in formData.competitionExperience"
                     :key="ind"
                   >
-                    <div class="text" @click="showDetail(ind)">{{ `${items.name}` }}</div>
+                    <div class="text" @click="showDetail(ind)">{{
+                      `${items.name}`
+                    }}</div>
                     <div class="delete" @click="deleteAut(ind)">删除</div>
                   </div>
                   <div class="noList" @click="showFn('aut')">
                     <i class="iconfont iconxiala packUp"></i>
                   </div>
                 </template>
-                <template v-else-if="formData.competitionExperience.length && !shows.aut">
+                <template
+                  v-else-if="
+                    formData.competitionExperience.length && !shows.aut
+                  "
+                >
                   <div class="noList" @click="showFn('aut')">
                     <i class="iconfont iconxiala"></i>
                   </div>
@@ -170,7 +205,11 @@
             </template>
 
             <template v-if="option.code === 'match'">
-              <DiyPicker :datas="totalList" popup-title="希望参加的比赛" @addList="changeFn">
+              <DiyPicker
+                :datas="totalList"
+                popup-title="希望参加的比赛"
+                @addList="changeFn"
+              >
                 <div
                   class=""
                   style="
@@ -184,7 +223,11 @@
               </DiyPicker>
               <div class="g_list" slot="diy">
                 <template v-if="matchList.length && shows.match">
-                  <div class="g_item" v-for="(items, ind) in matchList" :key="ind">
+                  <div
+                    class="g_item"
+                    v-for="(items, ind) in matchList"
+                    :key="ind"
+                  >
                     <div class="text">{{ `${items[2].label}` }}</div>
                     <div class="delete" @click="deleteMatch(ind)">删除</div>
                   </div>
@@ -201,7 +244,9 @@
             </template>
           </form-item-box>
         </div>
-        <div class="btn btn_active" v-if="!showBtn.length" @click="save"> 确定 </div>
+        <div class="btn btn_active" v-if="!showBtn.length" @click="save">
+          确定
+        </div>
         <div class="btn" v-else @click="save"> 确定 </div>
       </div>
     </scroll-box>
@@ -210,23 +255,35 @@
 </template>
 
 <script>
-  import scrollBox from '@/components/scrollBox'
-  import pageSj from '@/components/pageSjNew'
-  import CourseSystem from './courseSystem'
-  import formItem from '@/components/forms/formItem'
-  import formItemBox from '@/components/forms/formItemBox'
-  import FabGroup from '@/components/fabGroup'
-  import DiyPopup from '@/components/diyPopup'
-  import DiyPicker from './diyPicker'
-  import EditGame from './editGame'
-  import DiyInpSel from '@/components/forms/diyInputSelect'
-  import { formHeads, bottomHeads, centerHeads, tableHead, tableHead2, formData } from './const'
-  import { getCurPage, analysisFn } from '@/common/utils'
-  import { imgUrl } from '@/common/http'
-  import { subjectList, updateCardInfo, selectSchoolList, teamUpGradeList } from '@/common/api'
-  import unitMixin from '@/common/mixins/unitMixin'
+  import scrollBox from "@/components/scrollBox";
+  import pageSj from "@/components/pageSjNew";
+  import CourseSystem from "./courseSystem";
+  import formItem from "@/components/forms/formItem";
+  import formItemBox from "@/components/forms/formItemBox";
+  import FabGroup from "@/components/fabGroup";
+  import DiyPopup from "@/components/diyPopup";
+  import DiyPicker from "./diyPicker";
+  import EditGame from "./editGame";
+  import DiyInpSel from "@/components/forms/diyInputSelect";
+  import {
+    formHeads,
+    bottomHeads,
+    centerHeads,
+    tableHead,
+    tableHead2,
+    formData,
+  } from "./const";
+  import { getCurPage, analysisFn } from "@/common/utils";
+  import { imgUrl } from "@/common/http";
+  import {
+    subjectList,
+    updateCardInfo,
+    selectSchoolList,
+    teamUpGradeList,
+  } from "@/common/api";
+  import unitMixin from "@/common/mixins/unitMixin";
   export default {
-    name: 'userInfo',
+    name: "userInfo",
     components: {
       scrollBox,
       CourseSystem,
@@ -257,479 +314,525 @@
         systemList: [], //  课程体系list
         totalList: [], // 希望参加的比赛list
         matchList: [],
-        schoolList: [{ id: '1', label: '缺省', name: '缺省', city: '' }],
+        schoolList: [{ id: "1", label: "缺省", name: "缺省", city: "" }],
         gradeList: [],
 
         canClick: true,
 
         right: {
-          label: '体系认证',
-          code: 'curriculumSystemAuthUrl',
-          id: '',
+          label: "体系认证",
+          code: "curriculumSystemAuthUrl",
+          id: "",
           required: false,
-          params: { ph: '请选择您希望参加的比赛', genre: 'upload', type: 'text', max: 20 },
+          params: {
+            ph: "请选择您希望参加的比赛",
+            genre: "upload",
+            type: "text",
+            max: 20,
+          },
         },
         userCount: 0,
         loading: false,
         compIndex: -1,
-      }
+      };
     },
     computed: {
       // 校验
       showBtn() {
-        const { formHeads, bottomHeads, centerHeads, formData, right, systems } = this
-        const rates = [...formHeads, ...bottomHeads, centerHeads, right, systems]
-        const errList = []
-        const regNum = []
-        var reg = /[\u4e00-\u9fa5]/
+        const {
+          formHeads,
+          bottomHeads,
+          centerHeads,
+          formData,
+          right,
+          systems,
+        } = this;
+        const rates = [
+          ...formHeads,
+          ...bottomHeads,
+          centerHeads,
+          right,
+          systems,
+        ];
+        const errList = [];
+        const regNum = [];
+        var reg = /[\u4e00-\u9fa5]/;
         rates.forEach((item) => {
           if (item.required && !formData[item.code]) {
-            errList.push(`${item.label}不能为空`)
+            errList.push(`${item.label}不能为空`);
           }
-        })
+        });
 
-        const systemFind = formData['curriculumSystem'].find(
-          (item) => item.fraction && item.subject
-        )
+        const systemFind = formData["curriculumSystem"].find(
+          (item) => item.fraction && item.subject,
+        );
         if (systemFind) {
-          const subjectNameList = formData['curriculumSystem']
+          const subjectNameList = formData["curriculumSystem"]
             .filter((item) => item.subject)
             .map((item) => {
               if (item.fraction) {
-                regNum.push(item.fraction)
+                regNum.push(item.fraction);
               }
-              return item.subject
-            })
+              return item.subject;
+            });
           if (subjectNameList.length != [...new Set(subjectNameList)].length) {
-            errList.push(`学科名称不能重复`)
+            errList.push(`学科名称不能重复`);
           }
           // } else {
           // errList.push(`请完善课程体系！`);
         }
-        const standardizedFind = formData['standardizedPerformance'].find((item) => {
-          const nulObj = this.subjectList.find((item) => item.subjectName === '无')
-          return (item.fraction && item.subject) || (nulObj && item.subject === nulObj.id)
-        })
+        const standardizedFind = formData["standardizedPerformance"].find(
+          (item) => {
+            const nulObj = this.subjectList.find(
+              (item) => item.subjectName === "无",
+            );
+            return (
+              (item.fraction && item.subject) ||
+              (nulObj && item.subject === nulObj.id)
+            );
+          },
+        );
         if (standardizedFind) {
-          const subjectNameList = formData['standardizedPerformance']
+          const subjectNameList = formData["standardizedPerformance"]
             .filter((item) => item.subject)
             .map((item) => {
               if (item.fraction) {
-                regNum.push(item.fraction)
+                regNum.push(item.fraction);
               }
-              return item.subject
-            })
+              return item.subject;
+            });
           if (subjectNameList.length != [...new Set(subjectNameList)].length) {
-            errList.push(`科目不能重复选择`)
+            errList.push(`科目不能重复选择`);
           }
           // } else {
           //   errList.push(`请完善标化成绩！`);
         }
         if (regNum.findIndex((item) => reg.test(item)) !== -1) {
-          errList.push(`分数不能包含中文！`)
+          errList.push(`分数不能包含中文！`);
         }
-        return errList
+        return errList;
       },
       // 科目下拉
       subjects() {
-        const { standardizedPerformance } = this.formData
-        const idList = standardizedPerformance.map((item) => item.subject)
+        const { standardizedPerformance } = this.formData;
+        const idList = standardizedPerformance.map((item) => item.subject);
         const arrNew = this.subjectList.map((item) => ({
           ...item,
           label: item.subjectName,
           disable: idList.includes(item.id.toString()),
-        }))
-        return arrNew
+        }));
+        return arrNew;
       },
       // 体系下拉
       systems() {
-        const list = this.systemList.map((item) => ({ ...item, label: item.subjectName })) || []
+        const list =
+          this.systemList.map((item) => ({
+            ...item,
+            label: item.subjectName,
+          })) || [];
         return {
-          label: '课程体系',
-          code: 'curriculumSystemType',
-          id: '',
+          label: "课程体系",
+          code: "curriculumSystemType",
+          id: "",
           required: true,
-          params: { ph: '请选择', genre: 'select', list: list },
-        }
+          params: { ph: "请选择", genre: "select", list: list },
+        };
       },
       // 体系表头
       tableHead_sy() {
         const arr = tableHead.map((item) => {
-          const obj = { ...item } || {}
-          if (obj.code === 'subject') {
-            obj.list = this.subjects
+          const obj = { ...item } || {};
+          if (obj.code === "subject") {
+            obj.list = this.subjects;
           }
-          return obj
-        })
-        return arr
+          return obj;
+        });
+        return arr;
       },
       // 标化表头
       tableHead_bh() {
         const arr = tableHead2.map((item) => {
-          const obj = { ...item } || {}
-          if (obj.code === 'subject') {
-            obj.list = this.subjects
+          const obj = { ...item } || {};
+          if (obj.code === "subject") {
+            obj.list = this.subjects;
           }
-          return obj
-        })
-        return arr
+          return obj;
+        });
+        return arr;
       },
       imgUrl() {
-        const { avatar } = this.formData
+        const { avatar } = this.formData;
         let url =
-          'https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132'
-        if (avatar === 'default_img.png') {
-          url = ''
+          "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132";
+        if (avatar === "default_img.png") {
+          url = "";
         } else if (/http/.test(avatar)) {
-          url = avatar
+          url = avatar;
         } else if (avatar) {
-          url = `${imgUrl}${avatar}`
+          url = `${imgUrl}${avatar}`;
         }
-        return url
+        return url;
       },
       formHeadList() {
-        const { gradeList } = this
+        const { gradeList } = this;
         return formHeads.map((item) => {
-          if (item.code == 'grade') {
-            item.params.list = gradeList || []
+          if (item.code == "grade") {
+            item.params.list = gradeList || [];
           }
-          return item
-        })
+          return item;
+        });
       },
       systemImgList() {
-        const { curriculumSystemAuthUrl } = this.formData
-        let arr = []
+        const { curriculumSystemAuthUrl } = this.formData;
+        let arr = [];
         if (curriculumSystemAuthUrl) {
-          arr = curriculumSystemAuthUrl.split(',')
+          arr = curriculumSystemAuthUrl.split(",");
         }
-        return arr
+        return arr;
       },
       showDetailFn() {
-        const { formData, compIndex } = this
-        const { competitionExperience } = formData
+        const { formData, compIndex } = this;
+        const { competitionExperience } = formData;
         if (!competitionExperience || !competitionExperience[compIndex]) {
-          return {}
+          return {};
         } else {
-          return competitionExperience[compIndex]
+          return competitionExperience[compIndex];
         }
       },
     },
     onShow() {
-      this.totalList = this.$store.state.totalList
+      this.totalList = this.$store.state.totalList;
       /*获取当前路由*/
-      const { type = '' } = getCurPage()
-      if (type === 'edit') {
-        this.isEdit = true
+      const { type = "" } = getCurPage();
+      if (type === "edit") {
+        this.isEdit = true;
         // this.getInfo();
-        this.formDataFun()
+        this.formDataFun();
       } else {
-        const nickName = uni.getStorageSync('nickName')
+        const nickName = uni.getStorageSync("nickName");
         if (!this.formData.nikeName && nickName) {
-          this.formData.nikeName = nickName
+          this.formData.nikeName = nickName;
         }
       }
     },
     mounted() {
-      this.getDownList(1) //科目
-      this.getDownList(2) //体系
-      this.teamUpGradeList()
+      this.getDownList(1); //科目
+      this.getDownList(2); //体系
+      this.teamUpGradeList();
     },
     methods: {
       // 表单回显
       formDataFun(v) {
-        const { userData, userCount } = this
-        const { userInfo } = this.$store.state
-        const user = v || userInfo
-        const keys = Object.keys(user)
+        const { userData, userCount } = this;
+        const { userInfo } = this.$store.state;
+        const user = v || userInfo;
+        const keys = Object.keys(user);
         if (keys.length) {
           const obj = {
             ...user,
             competitionExperience: user.competitionExperienceList || [],
-            curriculumSystemType: Number(user.curriculumSystem) || '',
+            curriculumSystemType: Number(user.curriculumSystem) || "",
             curriculumSystem: user.curriculumSystemList || [],
             standardizedPerformance: user.standardizedPerformanceList || [],
 
             isConsulting: user.isConsulting == 1,
             isAcademic: user.isAcademic == 1,
-          }
+          };
           if (userCount === 0) {
-            this.formData = JSON.parse(JSON.stringify(obj))
-            this.userCount += 1
+            this.formData = JSON.parse(JSON.stringify(obj));
+            this.userCount += 1;
           }
         }
-        const nickName = uni.getStorageSync('nickName')
+        const nickName = uni.getStorageSync("nickName");
         if (!this.formData.nikeName && nickName) {
-          this.formData.nikeName = nickName
+          this.formData.nikeName = nickName;
         }
       },
       // 获取学校列表
       getSchoolList(val) {
         if (!val) {
-          this.schoolList = []
-          return
+          this.schoolList = [];
+          return;
         }
         const params = {
-          keyword: val || '',
-        }
+          keyword: val || "",
+        };
         selectSchoolList(params).then((res) => {
-          const { data: nData } = res[1] || {}
-          const { code, data } = nData || {}
+          const { data: nData } = res[1] || {};
+          const { code, data } = nData || {};
           if (code === 200) {
             const arr = (data || []).map((item) => {
-              return { ...item, label: item.name }
-            })
-            this.schoolList = [{ id: '1', label: '缺省', name: '缺省', city: '' }, ...arr]
+              return { ...item, label: item.name };
+            });
+            this.schoolList = [
+              { id: "1", label: "缺省", name: "缺省", city: "" },
+              ...arr,
+            ];
           }
-        })
+        });
       },
       // 获取科目/课程体系  list
       getDownList(type = 1) {
         //  type: 1 科目   /  2 课程体系
         subjectList({ type }).then((res) => {
-          const { data: nData } = res[1]
-          const { code, data } = nData || {}
+          const { data: nData } = res[1];
+          const { code, data } = nData || {};
           if (code === 200) {
-            const obj = { 1: 'subjectList', 2: 'systemList' }
+            const obj = { 1: "subjectList", 2: "systemList" };
             if (type == 1) {
-              const arr = [{ label: '请选择', id: '', subjectName: '请选择' }, ...(data || [])]
-              arr.push({ label: '无', id: arr.length, subjectName: '无' })
-              this[obj[type]] = arr
+              const arr = [
+                { label: "请选择", id: "", subjectName: "请选择" },
+                ...(data || []),
+              ];
+              arr.push({ label: "无", id: arr.length, subjectName: "无" });
+              this[obj[type]] = arr;
             } else {
               this[obj[type]] = [
-                { label: '请选择', id: '', subjectName: '请选择' },
+                { label: "请选择", id: "", subjectName: "请选择" },
                 ...(data || []),
-              ]
+              ];
             }
           }
-        })
+        });
       },
       // 获取年级
       teamUpGradeList() {
         teamUpGradeList()
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data } = nData
+            const { data: nData } = res[1];
+            const { code, data } = nData;
             if (code === 200 && data.length) {
-              const arr = (data || []).map((item) => ({ ...item, label: item.name }))
-              arr.unshift({ label: '请选择年级', id: '' })
-              this.gradeList = arr
+              const arr = (data || []).map((item) => ({
+                ...item,
+                label: item.name,
+              }));
+              arr.unshift({ label: "请选择年级", id: "" });
+              this.gradeList = arr;
             }
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       },
       // 改变表单
       changeFn({ data, code, type }) {
         switch (type) {
-          case 'add':
-            const ind = this.compIndex
+          case "add":
+            const ind = this.compIndex;
             if (this.compIndex == -1) {
-              this.formData[code].push(data)
+              this.formData[code].push(data);
             } else {
               this.formData[code] = this.formData[code].map((item, index) =>
-                ind === index ? data : item
-              )
+                ind === index ? data : item,
+              );
             }
-            this.compIndex = -1
-            break
-          case 'join':
-            let arr = []
-            const { matchList } = this
+            this.compIndex = -1;
+            break;
+          case "join":
+            let arr = [];
+            const { matchList } = this;
             data.forEach((item) => {
-              let flag
+              let flag;
               matchList.forEach((ite) => {
-                const [i, c] = [item[2], ite[2]]
+                const [i, c] = [item[2], ite[2]];
                 if (i.label === c.label && i.id === c.id) {
-                  flag = i.label === c.label && i.id === c.id
+                  flag = i.label === c.label && i.id === c.id;
                 }
-              })
+              });
               if (!flag) {
-                arr.push(item)
+                arr.push(item);
               }
-            })
-            this.matchList = matchList.concat(arr)
-            break
-          case 'inpSel':
-            this.formData[code] = data.name || ''
-            break
+            });
+            this.matchList = matchList.concat(arr);
+            break;
+          case "inpSel":
+            this.formData[code] = data.name || "";
+            break;
           default:
-            if (code === 'curriculumSystemAuthUrl') {
-              const { curriculumSystemAuthUrl } = this.formData
+            if (code === "curriculumSystemAuthUrl") {
+              const { curriculumSystemAuthUrl } = this.formData;
               this.formData[code] = curriculumSystemAuthUrl
                 ? `${curriculumSystemAuthUrl},${data}`
-                : data
-            } else if (code === 'isConsulting' || code === 'isAcademic') {
-              this.formData[code] = data ? 1 : 2
+                : data;
+            } else if (code === "isConsulting" || code === "isAcademic") {
+              this.formData[code] = data ? 1 : 2;
             } else {
-              this.formData[code] = data
+              this.formData[code] = data;
             }
 
-            break
+            break;
         }
       },
       // 删除表格
       deleteItem({ index, code }) {
-        this.formData[code] = this.formData[code].filter((ite, ind) => ind != index)
+        this.formData[code] = this.formData[code].filter(
+          (ite, ind) => ind != index,
+        );
       },
       // 删除比赛经历
       deleteAut(index) {
         this.formData.competitionExperience = this.formData.competitionExperience.filter(
           (item, ind) => {
-            return ind !== index
-          }
-        )
+            return ind !== index;
+          },
+        );
       },
       deleteMatch(index) {
-        this.matchList = this.matchList.filter((item, ind) => ind !== index)
+        this.matchList = this.matchList.filter((item, ind) => ind !== index);
       },
       deleteUrl(ind, ite) {
-        const { systemImgList } = this
-        const newArr = systemImgList.filter((item) => ite !== item)
-        this.formData.curriculumSystemAuthUrl = newArr.join(',')
+        const { systemImgList } = this;
+        const newArr = systemImgList.filter((item) => ite !== item);
+        this.formData.curriculumSystemAuthUrl = newArr.join(",");
       },
       // 展示列表
       showFn(name) {
-        this.shows[name] = !this.shows[name]
+        this.shows[name] = !this.shows[name];
       },
       // 节流
       throttle(flag) {
         if (flag) {
-          this.loading = true
-          this.canClick = false
-          uni.showLoading()
+          this.loading = true;
+          this.canClick = false;
+          uni.showLoading();
         } else {
-          this.loading = false
-          this.canClick = true
-          uni.hideLoading()
+          this.loading = false;
+          this.canClick = true;
+          uni.hideLoading();
         }
       },
       // 保存
       save() {
-        const _this = this
-        if (!this.canClick || this.loading) return
-        const { autList, formData, showBtn, matchList } = this
+        const _this = this;
+        if (!this.canClick || this.loading) return;
+        const { autList, formData, showBtn, matchList } = this;
         if (showBtn.length) {
           // 校验
-          uni.showToast({ title: showBtn[0], icon: 'none' })
-          return
+          uni.showToast({ title: showBtn[0], icon: "none" });
+          return;
         }
-        this.throttle(true)
+        this.throttle(true);
         const matchs = matchList.map((item, index) => {
           const [organizeTypeId, organizeTypeSon, organizeTypeSonMatchId] = [
             item[0].id,
             item[1].id,
             item[2].id,
-          ]
-          return { organizeTypeId, organizeTypeSon, organizeTypeSonMatchId }
-        })
-        const isConsulting = formData.isConsulting === true || formData.isConsulting === 1 ? 1 : 2
-        const isAcademic = formData.isAcademic === true || formData.isAcademic === 1 ? 1 : 2
-        formData.match = matchs || []
+          ];
+          return { organizeTypeId, organizeTypeSon, organizeTypeSonMatchId };
+        });
+        const isConsulting =
+          formData.isConsulting === true || formData.isConsulting === 1 ? 1 : 2;
+        const isAcademic =
+          formData.isAcademic === true || formData.isAcademic === 1 ? 1 : 2;
+        formData.match = matchs || [];
         const curriculumSystem = formData.curriculumSystem.filter(
-          (item) => item.fraction && item.subject
-        ) // 过滤不全的课程体系
-        const nulObj = this.subjectList.find((item) => item.subjectName === '无')
+          (item) => item.fraction && item.subject,
+        ); // 过滤不全的课程体系
+        const nulObj = this.subjectList.find(
+          (item) => item.subjectName === "无",
+        );
         const standardizedPerformance = formData.standardizedPerformance.filter(
-          (item) => (item.fraction && item.subject) || (nulObj && item.subject === nulObj.id)
-        ) // 过滤不全的课程体系
+          (item) =>
+            (item.fraction && item.subject) ||
+            (nulObj && item.subject === nulObj.id),
+        ); // 过滤不全的课程体系
         const params = {
           ...formData,
           isConsulting,
           isAcademic,
           curriculumSystem,
           standardizedPerformance,
-        }
+        };
         // console.log(666,standardizedPerformance)
         updateCardInfo(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { data, code, msg } = nData
-            _this.throttle(false)
+            const { data: nData } = res[1];
+            const { data, code, msg } = nData;
+            _this.throttle(false);
             if (code === 200) {
               uni.showToast({
-                title: msg || '',
+                title: msg || "",
                 success: (res) => {
                   setTimeout(function () {
                     uni.navigateBack({
                       delta: 1,
                       success: () => {
-                        _this.getUserInfo()
-                        uni.removeStorage({ key: 'toUserInfoUrl' })
+                        _this.getUserInfo();
+                        uni.removeStorage({ key: "toUserInfoUrl" });
                       },
-                    })
-                  }, 1000)
+                    });
+                  }, 1000);
                 },
-              })
+              });
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       // 上传图片
       uploadImg(data, statu) {
         switch (statu) {
           case 1:
-            const { link, name } = data
-            this.showFn('aut')
-            this.autList.push({ label: name, url: link })
-            break
+            const { link, name } = data;
+            this.showFn("aut");
+            this.autList.push({ label: name, url: link });
+            break;
 
           default:
-            break
+            break;
         }
       },
       searchInp(val) {
-        this.getSchoolList(val)
+        this.getSchoolList(val);
       },
       deleteSta(index, code) {
         this.formData[code].map((item, ind) => {
           if (ind === index) {
-            item.img = ''
+            item.img = "";
           }
-          return item
-        })
+          return item;
+        });
       },
       showDetail(index) {
-        console.log(1299, this.$refs)
-        this.compIndex = index
-        this.$refs.editGame[0].show()
+        console.log(1299, this.$refs);
+        this.compIndex = index;
+        this.$refs.editGame[0].show();
       },
     },
 
     watch: {
       // 希望参加的比赛回显
       totalList(val) {
-        const { isEdit, formData } = this
+        const { isEdit, formData } = this;
         if (isEdit) {
-          const list = []
+          const list = [];
           formData.match.forEach((items) => {
-            const arr = analysisFn(val, items) || []
-            list.push(arr)
-          })
-          this.matchList = [...list]
+            const arr = analysisFn(val, items) || [];
+            list.push(arr);
+          });
+          this.matchList = [...list];
         }
       },
       // 希望参加的比赛回显
-      'formData.match': {
+      "formData.match": {
         handler(val) {
-          const { isEdit, totalList } = this
+          const { isEdit, totalList } = this;
           if (isEdit && totalList.length) {
-            const list = []
+            const list = [];
             val.forEach((items) => {
-              const arr = analysisFn(totalList, items) || []
-              list.push(arr)
-            })
-            this.matchList = [...list]
+              const arr = analysisFn(totalList, items) || [];
+              list.push(arr);
+            });
+            this.matchList = [...list];
           }
         },
       },
     },
-  }
+  };
 </script>
 <style lang="scss" scoped>
   .userInfo {

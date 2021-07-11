@@ -2,7 +2,12 @@
   <div>
     <DiyPopup ref="popup" :noUp="true">
       <slot name="content_box">
-        <div class="tip_box" slot="tip" @click.stop :style="{ width: `${width}rpx` }">
+        <div
+          class="tip_box"
+          slot="tip"
+          @click.stop
+          :style="{ width: `${width}rpx` }"
+        >
           <div class="title" v-if="title">{{ title }}</div>
           <slot name="content">
             <div class="msg">{{ msg }}</div>
@@ -20,22 +25,22 @@
 </template>
 
 <script>
-  import DiyPopup from '@/components/diyPopup'
+  import DiyPopup from "@/components/diyPopup";
   export default {
-    name: 'tipPopup',
+    name: "tipPopup",
     // props: ['title', 'msg', 'type',],
     props: {
       title: {
         type: String,
-        default: '',
+        default: "",
       },
       msg: {
         type: String,
-        default: '',
+        default: "",
       },
       type: {
         type: String,
-        default: '',
+        default: "",
       },
       width: {
         type: Number,
@@ -47,16 +52,16 @@
     methods: {
       close(flag) {
         if (flag) {
-          const { type } = this
-          this.$emit('confirm', type)
+          const { type } = this;
+          this.$emit("confirm", type);
         }
-        this.$refs.popup.hide()
+        this.$refs.popup.hide();
       },
       show() {
-        this.$refs.popup.show()
+        this.$refs.popup.show();
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

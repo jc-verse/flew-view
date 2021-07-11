@@ -21,13 +21,19 @@
         />
         <!-- #ifdef APP-NVUE -->
         <view
-          :style="{ width: ((star.activeWitch.replace('%', '') * size) / 100) * 2 + 'rpx' }"
+          :style="{
+            width:
+              ((star.activeWitch.replace('%', '') * size) / 100) * 2 + 'rpx',
+          }"
           class="uni-rate__icon-on"
         >
           <i
             class="iconfont iconB-pingfen"
             style="text-align: left"
-            :style="{ color: disabled ? '#ccc' : activeColor, fontSize: size * 2 + 'rpx' }"
+            :style="{
+              color: disabled ? '#ccc' : activeColor,
+              fontSize: size * 2 + 'rpx',
+            }"
             type="star-filled"
           />
         </view>
@@ -36,7 +42,10 @@
         <view :style="{ width: star.activeWitch }" class="uni-rate__icon-on">
           <i
             class="iconfont iconB-pingfen"
-            :style="{ color: disabled ? disabledColor : activeColor, fontSize: size * 2 + 'rpx' }"
+            :style="{
+              color: disabled ? disabledColor : activeColor,
+              fontSize: size * 2 + 'rpx',
+            }"
           />
         </view>
         <!-- #endif -->
@@ -47,7 +56,7 @@
 
 <script>
   // #ifdef APP-NVUE
-  const dom = uni.requireNativePlugin('dom')
+  const dom = uni.requireNativePlugin("dom");
   // #endif
   /**
    * Rate 评分
@@ -69,7 +78,7 @@
    */
 
   export default {
-    name: 'UniRate',
+    name: "UniRate",
     props: {
       isFill: {
         // 星星的类型，是否镂空
@@ -79,17 +88,17 @@
       color: {
         // 星星未选中的颜色
         type: String,
-        default: '#ececec',
+        default: "#ececec",
       },
       activeColor: {
         // 星星选中状态颜色
         type: String,
-        default: '#ffca3e',
+        default: "#ffca3e",
       },
       disabledColor: {
         // 星星禁用状态颜色
         type: String,
-        default: '#c0c0c0',
+        default: "#c0c0c0",
       },
       size: {
         // 星星的大小
@@ -134,71 +143,71 @@
     },
     data() {
       return {
-        valueSync: '',
+        valueSync: "",
         userMouseFristMove: true,
         userRated: false,
         userLastRate: 1,
-      }
+      };
     },
     watch: {
       value(newVal) {
-        this.valueSync = Number(newVal)
+        this.valueSync = Number(newVal);
       },
     },
     computed: {
       stars() {
-        const value = this.valueSync ? this.valueSync : 0
-        const starList = []
-        const floorValue = Math.floor(value)
-        const ceilValue = Math.ceil(value)
+        const value = this.valueSync ? this.valueSync : 0;
+        const starList = [];
+        const floorValue = Math.floor(value);
+        const ceilValue = Math.ceil(value);
         for (let i = 0; i < this.max; i++) {
           if (floorValue > i) {
             starList.push({
-              activeWitch: '100%',
-            })
+              activeWitch: "100%",
+            });
           } else if (ceilValue - 1 === i) {
             starList.push({
-              activeWitch: (value - floorValue) * 100 + '%',
-            })
+              activeWitch: (value - floorValue) * 100 + "%",
+            });
           } else {
             starList.push({
-              activeWitch: '0',
-            })
+              activeWitch: "0",
+            });
           }
         }
-        return starList
+        return starList;
       },
     },
     created() {
-      this.valueSync = Number(this.value)
-      this._rateBoxLeft = 0
-      this._oldValue = null
+      this.valueSync = Number(this.value);
+      this._rateBoxLeft = 0;
+      this._oldValue = null;
     },
     mounted() {
       setTimeout(() => {
-        this._getSize()
-      }, 100)
+        this._getSize();
+      }, 100);
       // #ifdef H5
-      this.PC = this.IsPC()
+      this.PC = this.IsPC();
       // #endif
     },
     methods: {
       touchstart(e) {
         // #ifdef H5
-        if (this.IsPC()) return
+        if (this.IsPC()) return;
         // #endif
-        if (this.readonly || this.disabled) return
-        const { clientX, screenX } = e.changedTouches[0]
+        if (this.readonly || this.disabled) return;
+        const { clientX, screenX } = e.changedTouches[0];
         // TODO 做一下兼容，只有 Nvue 下才有 screenX，其他平台式 clientX
-        this._getRateCount(clientX || screenX)
+        this._getRateCount(clientX || screenX);
       },
       touchmove(e) {
         // #ifdef H5
-        if (this.IsPC()) return
+        if (this.IsPC()) return;
         // #endif
-        if (this.readonly || this.disabled || !this.touchable) return
-        const { clientX, screenX } = e.changedTouches[0]
-        this._getRateCount(clientX || screenX)
+        if (this.readonly || this.disabled || !this.touchable) return;
+        const { clientX, screenX } = e.changedTouches[0];
+        this._getRateCount(clientX || screenX);
       },
 
       /**
@@ -207,51 +216,58 @@
 
       mousedown(e) {
         // #ifdef H5
-        if (!this.IsPC()) return
-        if (this.readonly || this.disabled) return
-        const { clientX } = e
-        this.userLastRate = this.valueSync
-        this._getRateCount(clientX)
-        this.userRated = true
+        if (!this.IsPC()) return;
+        if (this.readonly || this.disabled) return;
+        const { clientX } = e;
+        this.userLastRate = this.valueSync;
+        this._getRateCount(clientX);
+        this.userRated = true;
         // #endif
       },
       mousemove(e) {
         // #ifdef H5
-        if (!this.IsPC()) return
-        if (this.userRated) return
+        if (!this.IsPC()) return;
+        if (this.userRated) return;
         if (this.userMouseFristMove) {
-          console.log('---mousemove----', this.valueSync)
-          this.userLastRate = this.valueSync
-          this.userMouseFristMove = false
+          console.log("---mousemove----", this.valueSync);
+          this.userLastRate = this.valueSync;
+          this.userMouseFristMove = false;
         }
-        if (this.readonly || this.disabled || !this.touchable) return
-        const { clientX } = e
-        this._getRateCount(clientX)
+        if (this.readonly || this.disabled || !this.touchable) return;
+        const { clientX } = e;
+        this._getRateCount(clientX);
         // #endif
       },
       mouseleave(e) {
         // #ifdef H5
-        if (!this.IsPC()) return
-        if (this.readonly || this.disabled || !this.touchable) return
+        if (!this.IsPC()) return;
+        if (this.readonly || this.disabled || !this.touchable) return;
         if (this.userRated) {
-          this.userRated = false
-          return
+          this.userRated = false;
+          return;
         }
-        this.valueSync = this.userLastRate
+        this.valueSync = this.userLastRate;
         // #endif
       },
       // #ifdef H5
       IsPC() {
-        var userAgentInfo = navigator.userAgent
-        var Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod']
-        var flag = true
+        var userAgentInfo = navigator.userAgent;
+        var Agents = [
+          "Android",
+          "iPhone",
+          "SymbianOS",
+          "Windows Phone",
+          "iPad",
+          "iPod",
+        ];
+        var flag = true;
         for (let v = 0; v < Agents.length - 1; v++) {
           if (userAgentInfo.indexOf(Agents[v]) > 0) {
-            flag = false
-            break
+            flag = false;
+            break;
           }
         }
-        return flag
+        return flag;
       },
       // #endif
 
@@ -259,41 +275,41 @@
        * 获取星星个数
        */
       _getRateCount(clientX) {
-        const size = Number(this.size)
+        const size = Number(this.size);
         if (size === NaN) {
-          return new Error('size 属性只能设置为数字')
+          return new Error("size 属性只能设置为数字");
         }
-        const rateMoveRange = clientX - this._rateBoxLeft
-        let index = parseInt(rateMoveRange / (size + this.margin))
-        index = index < 0 ? 0 : index
-        index = index > this.max ? this.max : index
-        const range = parseInt(rateMoveRange - (size + this.margin) * index)
-        let value = 0
-        if (this._oldValue === index && !this.PC) return
-        this._oldValue = index
+        const rateMoveRange = clientX - this._rateBoxLeft;
+        let index = parseInt(rateMoveRange / (size + this.margin));
+        index = index < 0 ? 0 : index;
+        index = index > this.max ? this.max : index;
+        const range = parseInt(rateMoveRange - (size + this.margin) * index);
+        let value = 0;
+        if (this._oldValue === index && !this.PC) return;
+        this._oldValue = index;
         if (this.allowHalf) {
           if (range > size / 2) {
-            value = index + 1
+            value = index + 1;
           } else {
-            value = index + 0.5
+            value = index + 0.5;
           }
         } else {
-          value = index + 1
+          value = index + 1;
         }
 
-        value = Math.max(0.5, Math.min(value, this.max))
-        this.valueSync = value
-        this._onChange()
+        value = Math.max(0.5, Math.min(value, this.max));
+        this.valueSync = value;
+        this._onChange();
       },
 
       /**
        * 触发动态修改
        */
       _onChange() {
-        this.$emit('input', this.valueSync)
-        this.$emit('change', {
+        this.$emit("input", this.valueSync);
+        this.$emit("change", {
           value: this.valueSync,
-        })
+        });
       },
       /**
        * 获取星星距离屏幕左侧距离
@@ -303,25 +319,25 @@
         uni
           .createSelectorQuery()
           .in(this)
-          .select('.uni-rate')
+          .select(".uni-rate")
           .boundingClientRect()
           .exec((ret) => {
             if (ret) {
-              this._rateBoxLeft = ret[0].left
+              this._rateBoxLeft = ret[0].left;
             }
-          })
+          });
         // #endif
         // #ifdef APP-NVUE
-        dom.getComponentRect(this.$refs['uni-rate'], (ret) => {
-          const size = ret.size
+        dom.getComponentRect(this.$refs["uni-rate"], (ret) => {
+          const size = ret.size;
           if (size) {
-            this._rateBoxLeft = size.left
+            this._rateBoxLeft = size.left;
           }
-        })
+        });
         // #endif
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

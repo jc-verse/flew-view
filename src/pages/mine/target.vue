@@ -8,15 +8,15 @@
 
 <script>
   const randomColor = [
-    { color: '#E59024', bg: '#FFF2DA' },
-    { color: '#5C86F2', bg: '' },
-  ]
+    { color: "#E59024", bg: "#FFF2DA" },
+    { color: "#5C86F2", bg: "" },
+  ];
 
   export default {
     props: {
       text: {
         type: String,
-        default: 'AMEA',
+        default: "AMEA",
       },
       idx: {
         type: [Number],
@@ -24,33 +24,33 @@
       },
       types: {
         type: String,
-        default: '1',
+        default: "1",
       },
       direction: {
         type: String,
-        default: 'l',
+        default: "l",
       },
     },
     data() {
-      return {}
+      return {};
     },
     computed: {
       getSty() {
-        if (this.types !== '1') {
+        if (this.types !== "1") {
           return {
-            color: '#666',
-            bg: '#eee',
-          }
+            color: "#666",
+            bg: "#eee",
+          };
         }
-        const { idx } = this
-        const _l = randomColor.length
-        const _n = idx % _l
-        const { color, bg } = randomColor[_n]
-        return { color, bg }
+        const { idx } = this;
+        const _l = randomColor.length;
+        const _n = idx % _l;
+        const { color, bg } = randomColor[_n];
+        return { color, bg };
       },
     },
     methods: {},
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

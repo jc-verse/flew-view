@@ -35,27 +35,35 @@
 </template>
 
 <script>
-  import pageSj from '@/components/pageSjNew'
-  import DiyPopup from '@/components/diyPopup'
-  import scrollBox from '@/components/scrollBox'
-  import fabGroup from '@/components/fabGroup'
-  import tagGroup from '@/components/forms/tagGroup'
-  import groupItem from './groupItem'
-  import synopsis from './synopsis'
+  import pageSj from "@/components/pageSjNew";
+  import DiyPopup from "@/components/diyPopup";
+  import scrollBox from "@/components/scrollBox";
+  import fabGroup from "@/components/fabGroup";
+  import tagGroup from "@/components/forms/tagGroup";
+  import groupItem from "./groupItem";
+  import synopsis from "./synopsis";
 
-  import { getCurPage, joinUrl } from '@/common/utils'
-  import { branchCompetitionUser, teamUpranks } from '@/common/api'
-  import { bgColors } from './const'
+  import { getCurPage, joinUrl } from "@/common/utils";
+  import { branchCompetitionUser, teamUpranks } from "@/common/api";
+  import { bgColors } from "./const";
 
   export default {
-    name: 'sage',
-    components: { tagGroup, synopsis, groupItem, fabGroup, scrollBox, pageSj, DiyPopup },
+    name: "sage",
+    components: {
+      tagGroup,
+      synopsis,
+      groupItem,
+      fabGroup,
+      scrollBox,
+      pageSj,
+      DiyPopup,
+    },
     data() {
       return {
         show: false,
         index: 0,
-        menuType: '1',
-        matchId: '', //比赛id
+        menuType: "1",
+        matchId: "", //比赛id
         cardList: [],
 
         current: 1,
@@ -65,119 +73,124 @@
         headMsg: {},
 
         totalList: [],
-      }
+      };
     },
     computed: {
       newBg() {
-        const { menuType, headMsg } = this
-        const data = { ...bgColors[menuType], ...headMsg }
-        return data
+        const { menuType, headMsg } = this;
+        const data = { ...bgColors[menuType], ...headMsg };
+        return data;
       },
     },
     onShow() {
-      const { englishName, matchName, id, title, menuType } = getCurPage() || {}
+      const { englishName, matchName, id, title, menuType } =
+        getCurPage() || {};
       this.headMsg = {
-        title: matchName || '',
-        eTitle: englishName || '',
-      }
-      this.totalList = this.$store.state.totalList
-      console.log(1992, this.totalList)
-      this.matchId = id
-      this.menuType = menuType || 0
-      this.title = title || ''
-      uni.setNavigationBarTitle({ title: this.title })
-      this.initInfo()
+        title: matchName || "",
+        eTitle: englishName || "",
+      };
+      this.totalList = this.$store.state.totalList;
+      console.log(1992, this.totalList);
+      this.matchId = id;
+      this.menuType = menuType || 0;
+      this.title = title || "";
+      uni.setNavigationBarTitle({ title: this.title });
+      this.initInfo();
     },
     methods: {
       initInfo(form = {}) {
-        this.cardList = []
-        this.noConcat = false
-        this.current = 1
-        this.getInfo(form)
+        this.cardList = [];
+        this.noConcat = false;
+        this.current = 1;
+        this.getInfo(form);
       },
       getInfo(form = {}) {
-        const { menuType, current, matchId } = this
+        const { menuType, current, matchId } = this;
         const params = {
           current,
           organizeTypeSonMatchId: matchId,
           size: 10,
           ...form,
-        }
-        console.log('我是竞赛组队赛选参数：', JSON.stringify(params))
+        };
+        console.log("我是竞赛组队赛选参数：", JSON.stringify(params));
         branchCompetitionUser(params).then((res) => {
-          const { data: nData } = res[1]
-          const { data, code } = nData
+          const { data: nData } = res[1];
+          const { data, code } = nData;
           if (code === 200) {
-            const { current, pages, records, searchCount, total } = data
+            const { current, pages, records, searchCount, total } = data;
             if (records && records.length) {
-              this.cardList = [...this.cardList, ...records]
+              this.cardList = [...this.cardList, ...records];
               if (records.length < 10) {
-                this.noConcat = true
+                this.noConcat = true;
               } else {
-                this.current += 1
+                this.current += 1;
               }
             } else {
-              this.noConcat = true
+              this.noConcat = true;
             }
           }
-        })
+        });
       },
       teamUpranks(item) {
-        const { matchId } = this
+        const { matchId } = this;
         const params = {
           master: item.id,
           organizeTypeSonMatchId: matchId || 0,
-        }
+        };
         teamUpranks(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, msg, success } = nData
+            const { data: nData } = res[1];
+            const { code, data, msg, success } = nData;
             if (code === 200) {
               if (success) {
-                uni.showToast({ title: msg })
+                uni.showToast({ title: msg });
               } else {
-                uni.showToast({ title: msg, icon: 'none' })
+                uni.showToast({ title: msg, icon: "none" });
               }
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
           })
           .catch((err) => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       },
       clickBuoy(item) {
         // this.type = type || 1;
-        this.teamUpranks(item)
+        this.teamUpranks(item);
         // this.open();
       },
       changeTag(form) {
-        this.initInfo(form)
+        this.initInfo(form);
       },
       // 触底
       lower() {
-        if (this.noConcat) return
-        this.getInfo()
+        if (this.noConcat) return;
+        this.getInfo();
       },
       open() {
-        this.$refs.popup.show()
+        this.$refs.popup.show();
       },
       close(flag) {
-        this.$refs.popup.hide()
+        this.$refs.popup.hide();
         if (flag) {
           if (this.type == 1) {
-            uni.navigateTo({ url: joinUrl('/pages/userInfo/index', { type: 'edit' }) })
+            uni.navigateTo({
+              url: joinUrl("/pages/userInfo/index", { type: "edit" }),
+            });
           } else {
-            uni.navigateTo({ url: joinUrl('/pages/userComplete/index', { type: 'edit' }) })
+            uni.navigateTo({
+              url: joinUrl("/pages/userComplete/index", { type: "edit" }),
+            });
           }
         }
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
-  @import url('/static/fonts/iconfont.css');
+  @import url("/static/fonts/iconfont.css");
   $color: #b3b3b4;
   .page_box {
     display: flex;

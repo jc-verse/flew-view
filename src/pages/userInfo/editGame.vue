@@ -1,5 +1,10 @@
 <template>
-  <DiyPopup @popupclosed="popupclosed" ref="diyPopup" popupTitle="经历" :styles="{ top: 'auto' }">
+  <DiyPopup
+    @popupclosed="popupclosed"
+    ref="diyPopup"
+    popupTitle="经历"
+    :styles="{ top: 'auto' }"
+  >
     <slot>
       <div class="custom add">
         亮出你比赛经历吧
@@ -37,12 +42,12 @@
   </DiyPopup>
 </template>
 <script>
-  import formItem from '@/components/forms/formItem'
-  import formItemBox from '@/components/forms/formItemBox'
-  import DiyPopup from '@/components/diyPopup'
-  import { imgUrl } from '@/common/http'
+  import formItem from "@/components/forms/formItem";
+  import formItemBox from "@/components/forms/formItemBox";
+  import DiyPopup from "@/components/diyPopup";
+  import { imgUrl } from "@/common/http";
   export default {
-    name: 'editGame',
+    name: "editGame",
     props: {
       formData: {
         type: Object,
@@ -50,7 +55,7 @@
       },
       className: {
         type: String,
-        default: '',
+        default: "",
       },
     },
     components: {
@@ -62,73 +67,94 @@
       return {
         matchlist: [
           {
-            label: '比赛名称',
-            code: 'name',
-            id: '',
+            label: "比赛名称",
+            code: "name",
+            id: "",
             required: true,
-            params: { ph: '请填写比赛名称', genre: 'input', type: 'text', max: 20 },
+            params: {
+              ph: "请填写比赛名称",
+              genre: "input",
+              type: "text",
+              max: 20,
+            },
           },
           {
-            label: '比赛时间',
-            code: 'time',
-            id: '',
+            label: "比赛时间",
+            code: "time",
+            id: "",
             required: false,
-            params: { ph: '请填写比赛时间', genre: 'date', type: 'text', max: 20, fields: 'month' },
+            params: {
+              ph: "请填写比赛时间",
+              genre: "date",
+              type: "text",
+              max: 20,
+              fields: "month",
+            },
           },
           {
-            label: '获得奖项',
-            code: 'wonAwards',
-            id: '',
+            label: "获得奖项",
+            code: "wonAwards",
+            id: "",
             required: false,
-            params: { ph: '请填写获得奖项', genre: 'input', type: 'text', max: 30 },
+            params: {
+              ph: "请填写获得奖项",
+              genre: "input",
+              type: "text",
+              max: 30,
+            },
           },
           {
-            label: '上传认证',
-            code: 'authUrl',
-            id: '',
+            label: "上传认证",
+            code: "authUrl",
+            id: "",
             required: false,
-            params: { ph: '请填写真实姓名', genre: 'upload', type: 'text', max: 20 },
+            params: {
+              ph: "请填写真实姓名",
+              genre: "upload",
+              type: "text",
+              max: 20,
+            },
           },
         ],
-        forms: { name: '', time: '', wonAwards: '', authUrl: '' },
-      }
+        forms: { name: "", time: "", wonAwards: "", authUrl: "" },
+      };
     },
     computed: {
       imgUrl() {
-        return `${imgUrl}${this.forms.authUrl}`
+        return `${imgUrl}${this.forms.authUrl}`;
       },
     },
     methods: {
       show() {
-        this.$refs.diyPopup.show()
+        this.$refs.diyPopup.show();
       },
       changeFn({ data, code }) {
-        this.forms[code] = data
+        this.forms[code] = data;
       },
       deleteImg() {
-        this.forms.authUrl = ''
+        this.forms.authUrl = "";
       },
       popupclosed(flag) {
         if (flag && !!this.forms.name) {
-          const _this = this
-          const createTime = new Date().getTime()
-          const { forms, className } = this
-          this.$emit('editGameFn', {
-            data: { ...forms, uid: '', createTime },
+          const _this = this;
+          const createTime = new Date().getTime();
+          const { forms, className } = this;
+          this.$emit("editGameFn", {
+            data: { ...forms, uid: "", createTime },
             code: className,
-            type: 'add',
-          })
-          this.forms = { name: '', time: '', wonAwards: '', authUrl: '' }
+            type: "add",
+          });
+          this.forms = { name: "", time: "", wonAwards: "", authUrl: "" };
         }
       },
     },
     watch: {
       formData(val, old) {
-        this.forms = val
-        console.log(222, val, old)
+        this.forms = val;
+        console.log(222, val, old);
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -7,15 +7,18 @@
     :range="item.list"
   >
     <view class="tag_item">
-      <span>{{ itemVal.label || '' }}</span>
-      <span class="iconfont iconxiala icon_item" :class="[down ? 'icon_active' : '']"></span>
+      <span>{{ itemVal.label || "" }}</span>
+      <span
+        class="iconfont iconxiala icon_item"
+        :class="[down ? 'icon_active' : '']"
+      ></span>
     </view>
   </picker>
 </template>
 
 <script>
   export default {
-    name: 'tag_item',
+    name: "tag_item",
     props: {
       item: { type: Object, default: () => ({}) },
     },
@@ -23,38 +26,38 @@
       return {
         index: 0,
         down: true,
-      }
+      };
     },
     computed: {
       itemVal() {
-        const { item, index } = this
-        return item.list[index] || {}
+        const { item, index } = this;
+        return item.list[index] || {};
       },
     },
     methods: {
       onchange: function (e) {
-        const { item, index } = this
-        const { id, code } = item
-        this.index = e.detail.value
-        this.$emit('changeItem', id, code, item.list[e.detail.value])
+        const { item, index } = this;
+        const { id, code } = item;
+        this.index = e.detail.value;
+        this.$emit("changeItem", id, code, item.list[e.detail.value]);
         // this.clickD(false)
       },
       clickD(falg) {
-        this.down = !this.down
+        this.down = !this.down;
       },
     },
     watch: {
-      'item.list': {
+      "item.list": {
         handler(val, oldVal) {
           if (this.item.id == 2) {
-            const { item, index } = this
-            this.index = 0
-            this.$emit('changeItem', item.id, item.code, '')
+            const { item, index } = this;
+            this.index = 0;
+            this.$emit("changeItem", item.id, item.code, "");
           }
         },
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

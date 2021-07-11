@@ -17,9 +17,9 @@
   </div>
 </template>
 <script>
-  import scrollBox from '@/components/scrollBox'
+  import scrollBox from "@/components/scrollBox";
   export default {
-    name: 'navTab',
+    name: "navTab",
     components: { scrollBox },
     props: {
       list: {
@@ -34,14 +34,14 @@
     data() {
       return {
         // index: 0
-      }
+      };
     },
     methods: {
       clickItem(item, index) {
-        this.$emit('clickItme', item, index)
+        this.$emit("clickItme", item, index);
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

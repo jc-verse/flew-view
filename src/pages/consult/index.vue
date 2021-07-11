@@ -1,8 +1,15 @@
 <template>
   <page-sj>
     <div class="consult" style="overflow: hidden">
-      <search @change="changeVal" :pValue="searchVal" :propertys="{ maxlength: '10' }" />
-      <tag-group @changeValue="changeTag" :showList="[1, 2, 3, 5, 6, 4]"></tag-group>
+      <search
+        @change="changeVal"
+        :pValue="searchVal"
+        :propertys="{ maxlength: '10' }"
+      />
+      <tag-group
+        @changeValue="changeTag"
+        :showList="[1, 2, 3, 5, 6, 4]"
+      ></tag-group>
       <scroll-box :num="2" @lower="lower">
         <div class="group_info_list">
           <div class="list_tip" v-show="searchVal"
@@ -17,7 +24,7 @@
               @clickBuoy="clickBuoy"
               @clickItem="clickItem(item)"
             />
-            <div class="loading">{{ !noConcat ? '加载中...' : '到底了' }}</div>
+            <div class="loading">{{ !noConcat ? "加载中..." : "到底了" }}</div>
           </template>
           <template v-else>
             <div class="noList"> 暂无咨询记录！ </div>
@@ -30,140 +37,146 @@
 </template>
 
 <script>
-  import groupItem from './groupItem'
-  import search from '@/components/forms/search'
-  import scrollBox from '@/components/scrollBox'
-  import pageSj from '@/components/pageSjNew'
-  import tagGroup from '@/components/forms/tagGroup'
-  import fabGroup from '@/components/fabGroup'
-  import { consultingList, consultingApplyService } from '@/common/api'
-  import { filterForm } from '@/common/utils'
+  import groupItem from "./groupItem";
+  import search from "@/components/forms/search";
+  import scrollBox from "@/components/scrollBox";
+  import pageSj from "@/components/pageSjNew";
+  import tagGroup from "@/components/forms/tagGroup";
+  import fabGroup from "@/components/fabGroup";
+  import { consultingList, consultingApplyService } from "@/common/api";
+  import { filterForm } from "@/common/utils";
 
   export default {
-    name: 'consult',
+    name: "consult",
     components: { tagGroup, scrollBox, fabGroup, search, groupItem, pageSj },
     data() {
       return {
-        searchVal: '',
+        searchVal: "",
         cardList: [],
 
         current: 1,
         size: 10,
         noConcat: false,
-        userId: '',
+        userId: "",
         loading: false,
-      }
+      };
     },
     onLoad() {
-      this.initForm()
-      this.userId = uni.getStorageSync('userId')
+      this.initForm();
+      this.userId = uni.getStorageSync("userId");
     },
     methods: {
       initForm(form = {}) {
-        this.current = 1
-        this.size = 10
-        this.cardList = []
-        this.noConcat = false
-        this.getInfo(form)
+        this.current = 1;
+        this.size = 10;
+        this.cardList = [];
+        this.noConcat = false;
+        this.getInfo(form);
       },
       changeVal(val) {
         if (this.searchVal != val) {
-          this.searchVal = val
-          this.initForm()
+          this.searchVal = val;
+          this.initForm();
         }
       },
       getInfo(form = {}) {
-        this.throttle(true)
-        const { current, size, searchVal } = this
-        const schoolName = (form.schoolName || '').replace(/\s*/g, '')
-        const params = filterForm({ current, size, ...form, schoolName, nikeName: searchVal })
+        this.throttle(true);
+        const { current, size, searchVal } = this;
+        const schoolName = (form.schoolName || "").replace(/\s*/g, "");
+        const params = filterForm({
+          current,
+          size,
+          ...form,
+          schoolName,
+          nikeName: searchVal,
+        });
         consultingList(params)
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data } = nData || {}
+            const { data: nData } = res[1];
+            const { code, data } = nData || {};
             if (code === 200) {
-              const { current, pages, records, searchCount, total } = data
+              const { current, pages, records, searchCount, total } = data;
               if (records && records.length) {
-                const arr = [...this.cardList, ...records]
-                const indexArr = arr.map((item) => item.id)
-                const newArr = [...new Set(indexArr)]
-                this.cardList = arr.filter((item) => newArr.includes(item.id))
+                const arr = [...this.cardList, ...records];
+                const indexArr = arr.map((item) => item.id);
+                const newArr = [...new Set(indexArr)];
+                this.cardList = arr.filter((item) => newArr.includes(item.id));
                 if (records.length < 10 && records) {
-                  this.noConcat = true
+                  this.noConcat = true;
                 } else {
-                  this.current += 1
+                  this.current += 1;
                 }
               } else {
-                this.noConcat = true
+                this.noConcat = true;
               }
             }
             this.$nextTick(() => {
-              this.throttle(false)
-            })
+              this.throttle(false);
+            });
           })
           .catch((err) => {
-            this.throttle(false)
-          })
+            this.throttle(false);
+          });
       },
       // 节流
       throttle(flag) {
         if (flag) {
-          this.loading = true
-          uni.showLoading()
+          this.loading = true;
+          uni.showLoading();
         } else {
-          this.loading = false
-          uni.hideLoading()
+          this.loading = false;
+          uni.hideLoading();
         }
       },
       consultingApplyService(id) {
-        if (this.loading) return
-        this.throttle(true)
+        if (this.loading) return;
+        this.throttle(true);
         consultingApplyService({ serviceUserId: id })
           .then((res) => {
-            const { data: nData } = res[1]
-            const { code, data, success, msg } = nData || {}
-            this.throttle(false)
+            const { data: nData } = res[1];
+            const { code, data, success, msg } = nData || {};
+            this.throttle(false);
             if (code === 200 && success) {
-              uni.showToast({ title: '申请成功！' })
+              uni.showToast({ title: "申请成功！" });
             } else {
-              uni.showToast({ title: msg, icon: 'none' })
+              uni.showToast({ title: msg, icon: "none" });
             }
 
-            this.initForm()
+            this.initForm();
           })
           .catch((err) => {
-            console.log(err)
-            this.throttle(false)
-          })
+            console.log(err);
+            this.throttle(false);
+          });
       },
       lower() {
-        if (this.noConcat) return
-        this.getInfo()
+        if (this.noConcat) return;
+        this.getInfo();
       },
       changeTag(form) {
-        this.initForm(form)
+        this.initForm(form);
       },
       // 点击卡片Btn
       clickBuoy(type, data) {
-        const { id } = data
+        const { id } = data;
         switch (type) {
           case 1: // 申请服务
-            this.consultingApplyService(id)
-            break
+            this.consultingApplyService(id);
+            break;
           // case 2: // 评价
           //   console.log('评价')
           // break;
 
           default:
-            break
+            break;
         }
       },
       clickItem(item) {
-        uni.setStorage({ key: 'helpInfo', data: item })
-        uni.navigateTo({ url: '/pages/consultDetail/index' })
+        uni.setStorage({ key: "helpInfo", data: item });
+        uni.navigateTo({ url: "/pages/consultDetail/index" });
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
