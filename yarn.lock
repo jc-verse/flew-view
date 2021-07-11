@@ -918,10 +918,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@dcloudio/types@*":
-  version "2.0.28"
-  resolved "https://registry.npm.taobao.org/@dcloudio/types/download/@dcloudio/types-2.0.28.tgz#898a46145bc8d00dbfe6f75f05de9f1b9c40a66f"
-  integrity sha1-iYpGFFvI0A2/5vdfBd6fG5xApm8=
+"@dcloudio/types@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@dcloudio/types/-/types-2.3.2.tgz#8c4c7e22ad650588935d07754c1f1552d86b7a97"
+  integrity sha512-ZyAkqPwlPtXtGcf7qYkB/iX4nER/JcNeCXR2VPqXxBmagE8wjRYtkKjso1YUsFyDIoaNBBY1CtzV3iKa6oREeg==
 
 "@dcloudio/uni-app-plus@^2.0.0-31820210406002":
   version "2.0.0-31820210406002"
@@ -8418,10 +8418,10 @@ mini-css-extract-plugin@^0.9.0:
     schema-utils "^1.0.0"
     webpack-sources "^1.1.0"
 
-mini-types@*:
-  version "0.1.5"
-  resolved "https://registry.npm.taobao.org/mini-types/download/mini-types-0.1.5.tgz#1881f7cb1a63bc398d97bf9788c2e3840d307404"
-  integrity sha1-GIH3yxpjvDmNl7+XiMLjhA0wdAQ=
+mini-types@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/mini-types/-/mini-types-0.1.7.tgz#36d5ea2cf18653b16f5d1a02c8d9b329c727d20a"
+  integrity sha512-aSoVvrIr/O9tbzFjSCeKr/T53Hu+un+FXkfWPfGcb/q8eAHXX1CDgSHv8l0GtFTlfHzznmn4hbRGB3UTWmZ3fA==
 
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
@@ -12471,6 +12471,11 @@ vm-browserify@^1.0.1:
   resolved "https://registry.npm.taobao.org/vm-browserify/download/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha1-eGQcSIuObKkadfUR56OzKobl3aA=
 
+vue-class-component@^7.2.6:
+  version "7.2.6"
+  resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-7.2.6.tgz#8471e037b8e4762f5a464686e19e5afc708502e4"
+  integrity sha512-+eaQXVrAm/LldalI272PpDe3+i4mPis0ORiMYxF6Ae4hyuCh15W8Idet7wPUEs4N4YptgFHGys4UrgNQOMyO6w==
+
 vue-eslint-parser@^7.6.0:
   version "7.6.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.6.0.tgz#01ea1a2932f581ff244336565d712801f8f72561"
@@ -12507,6 +12512,11 @@ vue-loader@^15.6.4, vue-loader@^15.9.2:
     loader-utils "^1.1.0"
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
+
+vue-property-decorator@^9.1.2:
+  version "9.1.2"
+  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-9.1.2.tgz#266a2eac61ba6527e2e68a6933cfb98fddab5457"
+  integrity sha512-xYA8MkZynPBGd/w5QFJ2d/NM0z/YeegMqYTphy7NJQXbZcuU6FC6AOdUAcy4SXP+YnkerC6AfH+ldg7PDk9ESQ==
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.3"
