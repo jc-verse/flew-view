@@ -10,7 +10,7 @@
         "selectedIconPath": "static/tabbar/home.png",
         "text": "组件"
 	},{
-		"pagePath": "pages/stem/index",
+		"pagePath": "pages/competition/index",
         "iconPath": "static/tabbar/home-outline.png",
         "selectedIconPath": "static/tabbar/home.png",
         "text": "组件"
@@ -22,8 +22,9 @@
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "视界 | Reach",
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#575dff",
+				"backgroundColor": "#f1f3f5",
 				"app-plus": {
 					"titleNView": {
 						"buttons": [{
@@ -41,7 +42,7 @@
 			"style": {
 				"navigationBarTitleText": "视界 | Reach",
 				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#ffffff",
+				"navigationBarBackgroundColor": "#575dff",
 				"app-plus": {
 					"titleNView": {
 						"buttons": [{
