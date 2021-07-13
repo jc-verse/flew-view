@@ -64,6 +64,7 @@ button::after {
   padding: 8px 14px;
 
   display: flex;
+
   align-items: center;
   background-color: white;
   border-radius: 12px;
@@ -76,4 +77,13 @@ button::after {
     width: 39px;
     height: 29px;
   }
+
+  &:hover {
+    background: adjust-color(white, $lightness: -10%);
+  }
+}
+.competitions-wrapper {
+  margin-top: 12px;
+  display: flex;
+  overflow-y: scroll;
 }

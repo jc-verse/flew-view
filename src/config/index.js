@@ -12,6 +12,7 @@
 const config = {
   // 服务域名
   apiUrl: 'https://dev.sjreach.cn/server',
+  contentApi: 'http://104.46.234.244:1337',
   // 图片服务: 七牛云资源链接
   imageUrl: 'https://prod.qiniucdns.sjreach.cn/',
   // 公钥
