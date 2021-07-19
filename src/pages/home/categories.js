@@ -1,4 +1,5 @@
-import categoryFinanceImg from '@/static/illustration/category_finance.png'
+import config from '@/config'
+const categoryFinanceImg = config.contentApi + '/uploads/category_finance_9cc5bb4488.png'
 
 const categories = [
   {

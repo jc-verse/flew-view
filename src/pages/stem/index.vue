@@ -61,7 +61,7 @@
   import { tabList, cardList, memus } from './const'
   import { joinUrl, getCurPage } from '@/common/utils'
 
-  import { teamTypeBranchList, teamTypeCompetition } from '@/common/api'
+  import { teamTypeBranchList } from '@/common/api'
   import { imgUrl } from '@/common/http'
   export default {
     name: 'competition',
@@ -139,8 +139,7 @@
           organizeTypeSonId: id || tabs[tabIndex].id,
           size,
           keyword: searchValue || '',
-        }
-        teamTypeCompetition(params)
+        }(params)
           .then((res) => {
             const { data: nData } = res[1]
             const { data, code } = nData || {}

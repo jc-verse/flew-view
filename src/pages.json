@@ -14,6 +14,11 @@
         "iconPath": "static/tabbar/home-outline.png",
         "selectedIconPath": "static/tabbar/home.png",
         "text": "组件"
+	},{
+		"pagePath": "pages/profile/index",
+        "iconPath": "static/tabbar/home-outline.png",
+        "selectedIconPath": "static/tabbar/home.png",
+        "text": "我的"
 	}]
 	},
 	"pages": [
@@ -61,6 +66,25 @@
 				"navigationBarTitleText": "竞赛组队",
 				"navigationBarTextStyle": "black",
 				"navigationBarBackgroundColor": "#ffffff",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSize": "22px",
+							"color": "#FFFFFF",
+							"background": "#ffffff"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/profile/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#575dff",
 				"app-plus": {
 					"bounce": "vertical",
 					"titleNView": {

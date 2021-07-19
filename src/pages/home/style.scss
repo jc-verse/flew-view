@@ -83,7 +83,10 @@ button::after {
   }
 }
 .competitions-wrapper {
-  margin-top: 12px;
   display: flex;
   overflow-y: scroll;
+}
+
+.section__content {
+  padding: 12px 0;
 }

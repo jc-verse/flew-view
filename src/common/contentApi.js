@@ -29,4 +29,12 @@ const contentApi = (url, options) => {
   })
 }
 
+export const getCompetitionEntries = (data) => {
+  return contentApi('/competitions', { data, method: 'GET' })
+}
+
+export const getArticleEntries = (data) => {
+  return contentApi('/articles', { data, method: 'GET' })
+}
+
 export default contentApi

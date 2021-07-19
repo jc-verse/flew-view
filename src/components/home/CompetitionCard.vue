@@ -3,20 +3,20 @@
     <image
       mode="aspectFit"
       class="competition-card__image"
-      :src="config.contentApi + '/uploads/logo_fb8c1bb3fc.png'"
+      :src="config.contentApi + data.logo_img.url"
     />
     <div class="competition-card__texts">
-      <text class="competition-card__title">全美演讲与辩论联盟</text>
+      <text class="competition-card__title">{{ data.Name }}</text>
       <div class="competition-card__type-wrapper">
         <image
           mode="aspectFit"
           style="width: 13px; height: 15.27px"
           :src="config.contentApi + '/uploads/cube_outline_457c994251.png'"
         />
-        <text class="competition-card__type">辩论</text>
+        <text class="competition-card__type">{{ data.competition_type.Name }}</text>
       </div>
 
-      <text class="competition-card__description">National Speech and Debate Association</text>
+      <text class="competition-card__description">{{ data.english_name }}</text>
     </div>
   </div>
 </template>
@@ -24,6 +24,9 @@
 <script>
   import config from '@/config'
   export default {
+    props: {
+      data: Object,
+    },
     data() {
       return {
         config,

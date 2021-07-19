@@ -2,9 +2,9 @@
 //
 
 $gradient-main-100: linear-gradient(180deg, #575dff 0%, #4d3afe 100%);
-$gradient-purple-100: gradient(180deg, #948ff3 0%, #6670cc 100%);
-$gradient-orange-100: gradient(180deg, #daab9a 0%, #e7754d 100%);
-$gradient-green-100: gradient(180deg, #9fffd1 0%, #4bc289 100%);
+$gradient-purple-100: linear-gradient(180deg, #948ff3 0%, #6670cc 100%);
+$gradient-orange-100: linear-gradient(180deg, #daab9a 0%, #e7754d 100%);
+$gradient-green-100: linear-gradient(180deg, #9fffd1 0%, #4bc289 100%);
 $color-primary: #4f3fff;
 $tag-orange-bg: #fedec7;
 $tag-orange-text: #ff9b25;
