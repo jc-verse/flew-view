@@ -6,7 +6,7 @@
 
 <script>
   import { ossUploadImg } from '@/common/api';
-  
+
   export default {
     name: 'upload',
     props: ['statu'],

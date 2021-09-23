@@ -15,35 +15,25 @@
   </scroll-view>
 </template>
 
-<script>
-  export default {
-    name: 'scrollBox',
-    data() {
-      return {
-        topNum: 0,
-        scrollTop: 0,
-        old: { scrollTop: 0 },
-      };
-    },
-    props: {
-      num: {
-        type: Number,
-        default: 0,
-      },
-      lowerNum: {
-        type: Number,
-        default: 50,
-      },
-    },
-    computed: {
-      customBarH() {
-        const { topNum, num } = this;
+<script lang="ts">
+  import { Component, Prop, Vue } from 'vue-property-decorator';
 
-        return topNum
-          ? `calc(100vh - ${topNum * 2 + 8 + num}rpx)`
-          : `calc(100vh - ${num}rpx)`;
-      },
-    },
+  @Component
+  class scrollBox extends Vue {
+    name = 'scrollBox';
+    topNum = 0;
+    scrollTop = 0;
+    old = { scrollTop: 0 };
+    @Prop({ default: 0 }) num!: number;
+    @Prop({ default: 50 }) lowerNum!: number;
+
+    get customBarH() {
+      const { topNum, num } = this;
+      return topNum
+        ? `calc(100vh - ${topNum * 2 + 8 + num}rpx)`
+        : `calc(100vh - ${num}rpx)`;
+    }
+
     mounted() {
       this.createSelectorQuery()
         .select('#scrollBox')
@@ -65,30 +55,30 @@
           this.topNum += customBar;
         },
       });
-    },
-    methods: {
-      upper() {
-        // console.log(e)
-      },
-      lower() {
-        this.$emit('lower');
-      },
-      scroll(e) {
-        this.$emit('scroll', e);
-        this.old.scrollTop = e.detail.scrollTop;
-      },
-      goTop: function () {
-        this.scrollTop = this.old.scrollTop;
-        this.$nextTick(function () {
-          this.scrollTop = 0;
-        });
-        uni.showToast({
-          icon: 'none',
-          title: '纵向滚动 scrollTop 值已被修改为 0',
-        });
-      },
-    },
-  };
+    }
+    upper() {
+      // console.log(e)
+    }
+    lower() {
+      this.$emit('lower');
+    }
+    scroll(e) {
+      this.$emit('scroll', e);
+      this.old.scrollTop = e.detail.scrollTop;
+    }
+    goTop() {
+      this.scrollTop = this.old.scrollTop;
+      this.$nextTick(function () {
+        this.scrollTop = 0;
+      });
+      uni.showToast({
+        icon: 'none',
+        title: '纵向滚动 scrollTop 值已被修改为 0',
+      });
+    }
+  }
+
+  export default scrollBox;
 </script>
 
 <style lang="scss" scoped>

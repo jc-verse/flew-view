@@ -13,7 +13,7 @@
           class="user fab"
           v-for="(item, ind) in newList"
           :key="ind"
-          @click.stop="clickFn(ind, item)"
+          @click.stop="handleClick(ind)"
         >
           <i v-if="item.icon" :class="['iconfont', 'icon_item', item.icon]"></i>
         </div>
@@ -23,64 +23,51 @@
   </movable-area>
 </template>
 
-<script>
+<script lang="ts">
+  import { Component, Prop, Vue } from 'vue-property-decorator';
   import { isLogin, toLogin } from '@/common/utils';
-  export default {
-    props: {
-      shows: {
-        type: Array,
-        default: () => [1, 2],
-      },
-    },
-    data() {
-      return {
-        list: [
-          { icon: 'iconuser', id: 1 },
-          { icon: 'iconzhuye', id: 2 },
-          { icon: 'iconkefu', id: 4, name: '联系客服' },
-          { icon: 'icontuichu1', id: 3, name: '注销' },
-        ],
-        isLogin: true,
-      };
-    },
-    computed: {
-      newList() {
-        const shows = this.shows;
-        return this.list.filter((item) => {
-          if (isLogin()) {
-            return shows.includes(item.id);
-          } else {
-            return shows.includes(item.id) && ![1, 3].includes(item.id);
-          }
-        });
-      },
-    },
-    methods: {
-      toLogin,
-      clickFn(ind, item) {
-        this.$emit('clickItem', item);
-        switch (item.id) {
-          case 1:
-            if (isLogin()) {
-              uni.navigateTo({ url: '/pages/mine/index' }); // 我的
-            } else {
-              this.$emit('noLogin');
-            }
-            break;
-          case 2:
-            uni.navigateTo({ url: '/pages/home/index' });
-            break;
-          case 3:
-            this.$emit('unLogin');
-            break;
-          case 4:
-            this.$emit('QRPopup');
-            break;
+
+  @Component
+  class fabGroup extends Vue {
+    @Prop({ default: [0, 1] }) shows!: number[];
+
+    list = [
+      { icon: 'iconuser' },
+      { icon: 'iconzhuye' },
+      { icon: 'iconkefu', name: '联系客服' },
+      { icon: 'icontuichu1', name: '注销' },
+    ];
+
+    get newList() {
+      return this.list.filter(
+        (_, ind) =>
+          this.shows.includes(ind) && (isLogin() || ![0, 2].includes(ind)),
+      );
+    }
+
+    clickHandlers = [
+      () => {
+        if (isLogin()) {
+          uni.navigateTo({ url: '/pages/mine/index' }); // 我的
+        } else {
+          this.$emit('noLogin');
         }
       },
-    },
-  };
+      () => uni.navigateTo({ url: '/pages/home/index' }),
+      () => this.$emit('QRPopup'),
+      () => this.$emit('unLogin'),
+    ];
+
+    toLogin = toLogin;
+
+    handleClick(ind: number) {
+      this.$emit('clickItem', this.list[ind]);
+      this.clickHandlers[ind]();
+    }
+  }
+  export default fabGroup;
 </script>
+
 <style lang="scss" scoped>
   @import url('/static/fonts/iconfont.css');
 

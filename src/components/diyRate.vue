@@ -27,87 +27,83 @@
   </DiyPopup>
 </template>
 
-<script>
+<script lang="ts">
+  import { Component, Prop, Vue } from 'vue-property-decorator';
   import Rate from '@/components/cards/rate';
   import DiyPopup from '@/components/diyPopup';
-  export default {
-    name: 'group_item',
-    components: { DiyPopup, Rate },
-    props: {
-      rateData: {
-        type: Object,
-        default: () => ({}),
-      },
-      readonly: {
-        type: Boolean,
-        default: false,
-      },
-      title: {
-        type: String,
-        default: '评价',
-      },
-      headList: {
-        type: Array,
-        default: () => [
-          { title: '知识水平', value: '', code: 'dimension1' },
-          { title: '理解程度', value: '', code: 'dimension2' },
-          { title: '讲课态度', value: '', code: 'dimension3' },
-          { title: '授课效率', value: '', code: 'dimension4' },
-        ],
-      },
-    },
 
-    data() {
-      return {
-        type: 8,
-        rateForm: {
+  type dimension = {
+    title: string;
+    value: string;
+    code: string;
+  };
+
+  @Component({
+    components: { DiyPopup, Rate },
+  })
+  export default class diyRate extends Vue {
+    name = 'group_item';
+    @Prop({ default: {} }) rateData!: Object;
+    @Prop({ default: false }) readonly!: boolean;
+    @Prop({ default: '评价' }) title!: string;
+    @Prop({
+      default: [
+        { title: '知识水平', value: '', code: 'dimension1' },
+        { title: '理解程度', value: '', code: 'dimension2' },
+        { title: '讲课态度', value: '', code: 'dimension3' },
+        { title: '授课效率', value: '', code: 'dimension4' },
+      ],
+    })
+    headList!: dimension[];
+
+    type = 8;
+    rateForm = {
+      dimension1: 3,
+      dimension2: 3,
+      dimension3: 3,
+      dimension4: 3,
+    };
+    rateHeads: dimension[] = [];
+    count = 0;
+    get newRate() {
+      const { rateForm, rateData } = this;
+      return Object.keys(rateData).length ? rateData : rateForm;
+    }
+
+    created() {
+      this.rateHeads = [...this.headList];
+    }
+
+    mounted() {
+      // this.$refs.popup.show()
+    }
+
+    changeRate(e, code: string) {
+      this.rateForm[code] = e.value;
+    }
+
+    popupclosed(flag: boolean) {
+      console.log(883, flag);
+      if (flag) {
+        const { rateForm } = this;
+        this.$emit('confirmRate', rateForm);
+        this.rateForm = {
           dimension1: 3,
           dimension2: 3,
           dimension3: 3,
           dimension4: 3,
-        },
-        rateHeads: [],
-        count: 0,
-      };
-    },
-    computed: {
-      newRate() {
-        const { rateForm, rateData } = this;
-        return Object.keys(rateData).length ? rateData : rateForm;
-      },
-    },
-    created() {
-      this.rateHeads = [...this.headList];
-    },
-    mounted() {
-      // this.$refs.popup.show()
-    },
-    methods: {
-      changeRate(e, code) {
-        this.rateForm[code] = e.value;
-      },
-      popupclosed(flag) {
-        console.log(883, flag);
-        if (flag === true) {
-          const { rateForm } = this;
-          this.$emit('confirmRate', rateForm);
-          this.rateForm = {
-            dimension1: 3,
-            dimension2: 3,
-            dimension3: 3,
-            dimension4: 3,
-          };
-          this.count += 1;
-          this.$nextTick(() => {
-            this.count = 0;
-          });
-        }
-      },
-      show() {
-        this.$refs.popup.show();
-      },
-    },
-  };
+        };
+        this.count += 1;
+        this.$nextTick(() => {
+          this.count = 0;
+        });
+      }
+    }
+
+    show() {
+      this.$refs.popup.show();
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

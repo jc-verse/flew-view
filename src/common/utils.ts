@@ -4,21 +4,16 @@ import store from '@/store';
  * url: String;
  * data: Object;
  */
-export const joinUrl = (url, data = {}) => {
+export const joinUrl = (
+  url: string,
+  data: { [key: string]: Object | string | undefined } = {},
+) => {
   const keys = Object.keys(data);
   const newUrl = keys.reduce((url, key) => {
-    let u = url;
-    if (!data[key]) {
-      return u;
-    }
-    const flag = data[key] instanceof Object;
-    if (/\?/.test(url)) {
-      u += `&${key}=${flag ? JSON.stringify(data[key]) : data[key]}`;
-      return u;
-    } else {
-      u += `?${key}=${flag ? JSON.stringify(data[key]) : data[key]}`;
-      return u;
-    }
+    if (!data[key]) return url;
+    return `${url}${/\?/.test(url) ? '&' : '?'}${key}=${
+      data[key] instanceof Object ? JSON.stringify(data[key]) : data[key]
+    }`;
   }, url);
   return newUrl;
 };
@@ -39,7 +34,14 @@ export const getCurPageRoute = () => {
 };
 
 // 希望参加比赛的反向组成 - 定制
-export const analysisFn = (deepList, items) => {
+export const analysisFn = (
+  deepList: any[],
+  items: {
+    organizeTypeId: string;
+    organizeTypeSon: string;
+    organizeTypeSonMatchId: string;
+  },
+) => {
   const arr = [];
   arr[0] = deepList.find((item) => {
     const flag = item.id === items.organizeTypeId;
@@ -59,7 +61,7 @@ export const analysisFn = (deepList, items) => {
   return arr;
 };
 // 改装数据方便联动select 使用
-export const deepChange = (data) => {
+export const deepChange = (data: any[]) => {
   return data.map((item) => {
     const obj = {};
     for (const key in item) {
@@ -127,7 +129,7 @@ export function toLogin() {
 }
 
 // 时间转换格式
-export function formatDate(time, formatStr) {
+export function formatDate(time: string, formatStr: string) {
   if (!time) {
     return '';
   }
@@ -142,7 +144,7 @@ export function formatDate(time, formatStr) {
   let m = date.getMinutes();
   let s = date.getSeconds();
   formatStr = formatStr || 'YYYY-MM-DD H:m:s';
-  return formatStr.replace(/YYYY|MM|DD|H|m|s/gi, function (matches) {
+  return formatStr.replace(/YYYY|MM|DD|H|m|s/gi, (matches) => {
     return {
       YYYY: Y,
       MM: M,
@@ -154,12 +156,12 @@ export function formatDate(time, formatStr) {
   });
 }
 // 复制
-export const copy = (value) => {
+export const copy = (value: string) => {
   uni.setClipboardData({
     data: value, // 要复制的文字
-    success: function (res) {
+    success: () => {
       uni.getClipboardData({
-        success: function (res) {
+        success: () => {
           uni.showToast({ title: '复制成功' });
         },
       });

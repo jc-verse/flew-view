@@ -1,12 +1,10 @@
-<script>
-  // import { joinUrl } from '@/common/utils'
-  export default {
-    globalData: {
-      // totalList: [],// 希望参加的比赛
-      // userData: {} //用户信息
-    },
+<script lang="ts">
+  import Vue from 'vue';
 
-    onLaunch: function () {
+  export default class App extends Vue {
+    mpType: string = 'app';
+
+    onLaunch() {
       console.log('App Launch');
       // 小程序更新版本时引导客户冷重启小程序
       if (wx && wx.canIUse('getUpdateManager')) {
@@ -41,8 +39,9 @@
           }
         });
       }
-    },
-    onShow: function () {
+    }
+
+    onShow() {
       console.log('App Show');
       uni.hideTabBar({
         //这里是为了不那么唐突
@@ -51,14 +50,12 @@
           console.debug('隐藏成功');
         },
       });
-    },
-    onHide: function () {
+    }
+
+    onHide() {
       console.log('App Hide');
-    },
-    // methods: {
-    // 	joinUrl
-    // }
-  };
+    }
+  }
 </script>
 
 <style lang="scss">

@@ -14,28 +14,21 @@
   </scroll-view>
 </template>
 
-<script>
-  export default {
-    name: 'pageSjNew',
-    data() {
-      return {
-        topNum: 0,
-        scrollTop: 0,
-        old: { scrollTop: 0 },
-      };
-    },
-    props: {
-      styles: {
-        type: Object,
-        default: () => ({ background: '' }),
-      },
-    },
-    computed: {
-      customBarH() {
-        const { topNum } = this;
-        return topNum ? `calc(100vh - ${topNum * 2}rpx)` : '100vh';
-      },
-    },
+<script lang="ts">
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+
+  @Component
+  class pageSjNew extends Vue {
+    name = 'pageSjNew';
+    topNum = 0;
+    scrollTop = 0;
+    old = { scrollTop: 0 };
+    @Prop({ default: { background: '' } }) styles!: { background: string };
+
+    get customBarH() {
+      const { topNum } = this;
+      return topNum ? `calc(100vh - ${topNum * 2}rpx)` : '100vh';
+    }
     mounted() {
       // this.createSelectorQuery().select('#pageSjNew').boundingClientRect(res=>{
       //   // 获取当前dom 到顶部的距离
@@ -54,30 +47,30 @@
           this.topNum += customBar;
         },
       });
-    },
-    methods: {
-      upper(e) {
-        console.log(e);
-      },
-      lower(e) {
-        console.log(e);
-      },
-      scroll(e) {
-        this.$emit('scroll', e);
-        this.old.scrollTop = e.detail.scrollTop;
-      },
-      goTop: function (e) {
-        this.scrollTop = this.old.scrollTop;
-        this.$nextTick(function () {
-          this.scrollTop = 0;
-        });
-        uni.showToast({
-          icon: 'none',
-          title: '纵向滚动 scrollTop 值已被修改为 0',
-        });
-      },
-    },
-  };
+    }
+    upper(e) {
+      console.log(e);
+    }
+    lower(e) {
+      console.log(e);
+    }
+    scroll(e) {
+      this.$emit('scroll', e);
+      this.old.scrollTop = e.detail.scrollTop;
+    }
+    goTop(e) {
+      this.scrollTop = this.old.scrollTop;
+      this.$nextTick(function () {
+        this.scrollTop = 0;
+      });
+      uni.showToast({
+        icon: 'none',
+        title: '纵向滚动 scrollTop 值已被修改为 0',
+      });
+    }
+  }
+
+  export default pageSjNew;
 </script>
 
 <style lang="scss" scoped>

@@ -36,64 +36,37 @@
   </view>
 </template>
 
-<script>
-  /**
-   *
-   * @description uni-data-picker
-   * @tutorial https://uniapp.dcloud.net.cn/uniCloud/uni-data-picker
-   * @property {String} popup-title 弹出窗口标题
-   * @property {String|DBFieldString} field 查询字段，多个字段用 `,` 分割
-   * @event {Function} popupshow 弹出的选择窗口打开时触发此事件
-   * @event {Function} popuphide 弹出的选择窗口关闭时触发此事件
-   */
-  export default {
-    name: 'diyPopup',
-    props: {
-      options: {
-        type: [Object, Array],
-        default() {
-          return {};
-        },
-      },
-      popupTitle: {
-        type: String,
-        default: '请选择',
-      },
-      styles: {
-        type: Object,
-        default: () => ({
-          top: '20%',
-        }),
-      },
-      noUp: {
-        type: Boolean,
-        default: false,
-      },
-    },
-    data() {
-      return {
-        isOpened: false,
-        inputSelected: [],
-      };
-    },
-    created() {},
-    methods: {
-      show() {
-        this.isOpened = true;
-        this.$emit('popupopened');
-      },
-      hide(flag) {
-        this.isOpened = false;
-        this.$emit('popupclosed', flag);
-      },
-      handleInput() {
-        this.show();
-      },
-      handleClose(bol) {
-        this.hide(bol);
-      },
-    },
-  };
+<script lang="ts">
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+
+  @Component
+  class diyPopup extends Vue {
+    name = 'diyPopup';
+    @Prop({ default: {} }) options!: [Object, any[]];
+    @Prop({ default: '请选择' }) popupTitle!: string;
+    @Prop({ default: { top: '20%' } }) styles!: Object;
+    @Prop({ default: false }) noUp!: boolean;
+
+    isOpened = false;
+    inputSelected = [];
+
+    show() {
+      this.isOpened = true;
+      this.$emit('popupopened');
+    }
+    hide(flag: boolean) {
+      this.isOpened = false;
+      this.$emit('popupclosed', flag);
+    }
+    handleInput() {
+      this.show();
+    }
+    handleClose(bol: boolean) {
+      this.hide(bol);
+    }
+  }
+
+  export default diyPopup;
 </script>
 
 <style scoped lang="scss">

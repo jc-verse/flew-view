@@ -10,8 +10,20 @@ module.exports = {
     plus: 'readonly',
     wx: 'readonly',
   },
-  extends: ['plugin:vue/essential', 'eslint:recommended'],
+  extends: [
+    'plugin:vue/essential',
+    'plugin:@typescript-eslint/recommended',
+    'eslint:recommended',
+    '@vue/typescript',
+  ],
+  plugins: ['@typescript-eslint'],
   parserOptions: {
     parser: 'babel-eslint',
+  },
+  parserOptions: {
+    parser: "@typescript-eslint/parser",
+    ecmaVersion: 2020,
+    sourceType: "module",
+    extraFileExtensions: [".vue"],
   },
 }

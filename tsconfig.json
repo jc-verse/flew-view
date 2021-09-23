@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "paths": { 
+    "paths": {
       "@/*": ["*"]
     },
     "target": "esnext",
@@ -16,7 +16,12 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "resolveJsonModule": true,
-    "types": ["node", "@dcloudio/types", "mini-types", "miniprogram-api-typings"],
+    "types": [
+      "node",
+      "@dcloudio/types",
+      "mini-types",
+      "miniprogram-api-typings"
+    ],
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
     "experimentalDecorators": true
   },

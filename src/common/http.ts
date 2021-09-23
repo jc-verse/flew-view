@@ -20,7 +20,7 @@ const headerOptions = {
   },
 };
 // 请求数据拦截
-const dataFn = (url, data) => {
+const dataFn = (url: string, data: any) => {
   const noJMList = [
     '/app/oss/upload',
     '/app/user-info/update-business-card-info',
@@ -28,7 +28,7 @@ const dataFn = (url, data) => {
   return noJMList.includes(url) ? data : jseFnEncrypt(data || '');
 };
 
-export const httpAPI = (url, options) => {
+export const httpAPI = (url: string, options) => {
   const { data: qData, header = {}, method, token } = options;
   const newToken = uni.getStorageSync('token') || token;
   console.log(1234343, url, token, uni.getStorageSync('token'), qData);
@@ -57,7 +57,7 @@ export const httpAPI = (url, options) => {
 //   '/app/consulting/apply-service',
 // ]
 //  拦截特殊状态
-function interceptor(code, msg) {
+const interceptor = (code: number, msg: string) => {
   switch (code) {
     case 20011: //是登陆已过期
       if (isLogin()) {
@@ -76,9 +76,9 @@ function interceptor(code, msg) {
       setStorage({ toUserInfoUrl: '/pages/userComplete/index' });
       break;
   }
-}
+};
 
-export const httpJson = (fileName) => {
+export const httpJson = (fileName: string) => {
   return uni
     .request({
       url: `${imgUrl}${fileName}`, //json数据地址
